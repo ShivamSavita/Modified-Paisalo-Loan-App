@@ -18,4 +18,5 @@
     <color name="red">#FF0000</color>
     <color name="green">#52D600</color>
     <color name="dull_green">#42BD00</color>
+    <color name="dull_red">#E6848E</color>
 </resources>

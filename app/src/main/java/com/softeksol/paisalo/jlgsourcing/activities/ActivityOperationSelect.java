@@ -55,9 +55,6 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 invalidateOptionsMenu(); //Creates call to onPrepareOptionsMenu()
             }
 
-            /*
-             * Called when a drawer has settled in a completely open state
-             */
             public void onDrawerOpened(View drawerView)
             {
                 Log.d("drawerToggle", "Drawer opened");
