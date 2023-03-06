@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_language">Language / भाषा</string>
+    <string name="action_language_english">English</string>
+    <string name="action_language_hindi">हिंदी</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_activity_login">Sign in</string>
+    <string name="loan_financing">Loan Financing</string>
+
+    <string name="loan_home">Home</string>
+    <string name="share_deviceID">Share Device ID</string>
+    <string name="loan_application">Loan Applications</string>
+    <string name="loan_application_submit">Submit Loan App</string>
+    <string name="loan_application_submit_kyc">Submit KYC</string>
+    <string name="loan_submitted_apps">Submitted Files</string>
+    <string name="loan_application_ficode">Fi Code</string>
+    <string name="upload_kyc_and_document">Upload KYC &amp; Document</string>
+    <string name="document_remarks">Remarks</string>
+    <string name="document_name">Document Name</string>
+
+    <string name="home_welcome">Welcome to Sourcing App</string>
+    <string name="home_menu_desc">Tap top-left menu icon to access Menu</string>
+
+    <string name="borrower">Borrower</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_update_options">Update Options</string>
+    <string name="action_submit_kyc">Submit KYC</string>
+
+    <string name="login_username">User Name</string>
+    <string name="login_password">Password</string>
+    <string name="login_sign_in">Sign In</string>
+
+    <string name="aadhar_id">Aadhar ID</string>
+    <string name="loan_amount">Loan Amount</string>
+    <string name="loan_duration">Loan Duration (Months)</string>
+    <string name="loan_purpose">Loan Purpose</string>
+    <string name="business_details">Business Detail</string>
+
+    <string name="loan_creator">Creator</string>
+    <string name="manager_select_title">Select Manager</string>
+
+    <!-- Aadhar Stings -->
+    <string name="aadhar_name">Name</string>
+    <string name="aadhar_age">Age</string>
+    <string name="aadhar_dob">Date of Birth</string>
+    <string name="aadhar_father_spouse">Guardian</string>
+    <string name="aadhar_address">Address</string>
+    <string name="aadhar_address1">Address1</string>
+    <string name="aadhar_address2">Address2</string>
+    <string name="aadhar_address3">Address3</string>
+    <string name="aadhar_city">City</string>
+    <string name="aadhar_state">State</string>
+    <string name="aadhar_pin">Pin</string>
+    <string name="aadhar_gender">Gender</string>
+
+
+    <string name="applicant_bank_ifsc">Bank IFSC</string>
+    <string name="applicant_bank_account_type">Bank Account Type</string>
+    <string name="applicant_bank_account_number">Bank Account Number</string>
+    <string name="applicant_bank_account_date">Bank Account Opening Date</string>
+
+    <string name="applicant_name">Applicant Name</string>
+    <string name="applicant_father_spouse">Father / Spouse</string>
+    <string name="applicant_address">Address</string>
+    <string name="applicant_mobile">Mobile</string>
+    <string name="applicant_monthly_income">Monthly Income</string>
+    <string name="applicant_future_income">Future Income</string>
+    <string name="applicant_caste">Caste</string>
+    <string name="applicant_religion">Religion</string>
+    <string name="applicant_marital_status">Marital Status</string>
+    <string name="applicant_dependents">No. of Depenent(s) (Adult)</string>
+    <string name="applicant_children">Child(ren)</string>
+    <string name="applicant_school_going_children">School Going Child(ren)</string>
+    <string name="applicant_child_monthly_spends">Monthly Spends on Child(ren)</string>
+    <string name="applicant_pan">Permanent Account No (PAN)</string>
+    <string name="applicant_pan_name">Name as on Permanent Account No (PAN)</string>
+    <string name="applicant_voter">Voter ID</string>
+    <string name="applicant_driving_license">Driving License</string>
+    <string name="applicant_present_residence_owner">Present House Owner</string>
+    <string name="applicant_house_rent">House Rent (Thousand)</string>
+    <string name="applicant_residence_duration">Residing for (Years)</string>
+
+    <string name="applicant_family_earning_member">Earning Member Type</string>
+    <string name="applicant_family_members">No. of Family Members</string>
+    <string name="applicant_family_income_monthly">Monthly Income</string>
+    <string name="applicant_family_occupation">Occupation</string>
+    <string name="applicant_family_occupation_employer_type">Employer Type</string>
+    <string name="applicant_family_occupation_service_employer">Employer Name</string>
+    <string name="applicant_family_occupation_business_type">Business Type</string>
+    <string name="applicant_family_business_owner_shop">Shop Owner Type</string>
+    <string name="applicant_family_occupation_agriculture_land_ownership">Land Ownership</string>
+    <string name="applicant_family_occupation_agriculture_land_type">Land Type</string>
+    <string name="applicant_family_occupation_agriculture_land_area">Land Area</string>
+    <string name="applicant_family_occupation_other">Other (specify)</string>
+
+    <string name="rupees">Rupees(s)</string>
+    <string name="acres">Acre(s)</string>
+
+    <!--Esigning Activity -->
+    <string name="manager_name">Manager Name</string>
+    <string name="manager_code">Manager Code</string>
+    <string name="manager_area_code">Area Code</string>
+    <string name="manager_area_name">Area</string>
+
+    <!--Esigning Activity -->
+
+    <string name="loan_detail_download_doc">Download Document</string>
+
+    <!--Guarantor -->
+    <string name="guarantor_title">Guarantor</string>
+    <string name="guarantor_title_select">Select Guarantor</string>
+
+    <string name="state_name">State Name</string>
+
+    <string name="caption_add">Add</string>
+    <string name="caption_update">Update</string>
+    <string name="caption_delete">Delete</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="collect">Collect</string>
+
+    <string name="reload_data">Reload Data</string>
+    <string name="old_borrower_re_ekyc">Old Borrower Re-eKyc</string>
+
+    <string name="action_send_db_backup">Send DB Backup</string>
+    <string name="action_restore_backup">Restore DB</string>
+    <string name="address_different_from_aadhar">Is current address different from Aadhar</string>
+    <string name="paid_by_borrower">Borrower</string>
+    <string name="paid_by_fm">Field M.</string>
+
+    <string name="mother">Mother</string>
+    <string name="father">Father</string>
+    <string name="bank_cif">Bank CIF</string>
+
+    <string name="bank_customerID">Bank Customer ID</string>
+    <string name="capture_photo_kyc">Capture Photo</string>
+    <string name="upload_photo_kyc">Upload Photo</string>
+    <string name="lump_sum_amount">Lump Sum Amount</string>
+    <string name="fixed_amount">Fixed Amount</string>
+    <string name="title_activity_collection_details">Collection Details for the date</string>
+    <string name="collection_details">Collection Details</string>
+    <string name="total">Total</string>
+    <string name="case_code">Case Code</string>
+    <string name="pre_closure_amount">Pre-Closure Amount</string>
+    <string name="pre_close_case">Case Pre-Closure</string>
+    <string name="select_operation">Select an Operation</string>
+
+    <string name="total_income">Total Income Monthly(Personal+Family)</string>
+    <string name="total_expense">Total Expense Monthly(Personal+Family)</string>
+
+
+
+    <string name="loan_detail">Loan Detail</string>
+    <string name="loan_detail_case_location">Case Location</string>
+    <string name="loan_detail_request_disb">Request Disbursement</string>
+    <string name="loan_detail_doc_download_success">Document downloaded successfully</string>
+    <string name="loan_detail_doc_download_failed">Document downloaded failed. Please try again</string>
+
+
+
+    <!--Esigning Activity -->
+    <string name="e_signing">E-Signing</string>
+    <string name="e_sign">eSign</string>
+    <string name="e_sign_name">Name</string>
+    <string name="e_sign_as">eSign As</string>
+    <string name="e_sign_father">Guardian</string>
+    <string name="e_sign_take">Take Signature</string>
+    <string name="e_sign_i_agree">I hereby agree to authenticate myself using Aadhaar through NSDL e-Gov eSign Services,
+        and also confirm to affix my Signature (generated through eSign DSC) on the above Loan Documents.
+    </string>
+    <string name="e_kyc_i_agree">I hereby agree to authenticate myself using Aadhaar through eKYC Service, and also
+        confirm to let it be used for my KYC.
+    </string>
+
+    <string name="consent_1">I hereby authorize NSDL e-Gov on behalf of Paisalo Digital Limited to-\n
+        1. Use my Aadhaar details for Loan Document eSignature and authenticate my identity through the Aadhaar
+        Authentication system (Aadhaar based e-KYC services of UIDAI) in accordance with the provisions of the Aadhar
+        (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016 and the allied rules and
+        regulations notified thereunder and for no other purpose.\n
+        2. Authenticate my Aadhaar through OTP or Biometric for authenticating my identity through the Aadhaar
+        Authentication system for obtaining my e-KYC through Aadhaar based e-KYC services of UIDAI and use my Photo and
+        Demographic details (Name, Gender, Date of Birth and Address) for Loan Document eSignature.\n
+        3. I understand that Security and confidentiality of personal identity data provided, for the purpose of Aadhaar
+        based authentication is ensured by NSDL e-Gov and the data will be stored by NSDL e-Gov till such time as
+        mentioned in guidelines from UIDAI from time to time.
+        4. I have understood that the system of downloading the copy of loan document for my record from the link
+        provided by the company through email or SMS post e-signing of the loan document. I shall download the copy of
+        loan documents as per my convenience at later stage.
+    </string>
+    <string name="consent_2">I hereby authorize NSDL e-Gov on behalf of Paisalo Digital Limited to-
+        <br/>
+        <ol>
+            <li>Use my Aadhaar details for <b>Loan Document eSignature</b> and authenticate my identity through the
+                Aadhaar Authentication system (Aadhaar based e-KYC services of UIDAI) in accordance with the provisions
+                of the Aadhar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016 and
+                the allied rules and regulations notified thereunder and for no other purpose.
+            </li>
+            <li>Authenticate my Aadhaar through OTP or Biometric for authenticating my identity through the Aadhaar
+                Authentication system for obtaining my e-KYC through Aadhaar based e-KYC services of UIDAI and use my
+                Photo and Demographic details (Name, Gender, Date of Birth and Address) for <b>Loan Document
+                    eSignature</b>.
+            </li>
+            <li>I understand that Security and confidentiality of personal identity data provided, for the purpose of
+                Aadhaar based authentication is ensured by NSDL e-Gov and the data will be stored by NSDL e-Gov till
+                such time as mentioned in guidelines from UIDAI from time to time.
+            </li>
+            <li>I have understood that the system of downloading the copy of loan document for my record from the link
+                provided by the company through email or SMS post e-signing of the loan document. I shall download the
+                copy of loan documents as per my convenience at later stage.
+            </li>
+        </ol>
+    </string>
+
+    <array name="banktypedata">
+        <item>SBI</item>
+        <item>BOB</item>
+        <item>UCO</item>
+    </array>
+
+    <array name="loanduration">
+        <item>"12"</item>
+        <item>"18"</item>
+        <item>"24"</item>
+
+    </array>
+
+</resources>

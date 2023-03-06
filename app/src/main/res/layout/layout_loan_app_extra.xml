@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_future_income" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraIncomeFuture"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_dependents" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraDependentAdults"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_children" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraChildren"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_school_going_children" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraChildrenSchooling"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_child_monthly_spends" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraChildrenSpending"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_family_earning_member" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraEarningMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_family_income_monthly" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraIncome"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applicant_family_occupation" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_bggrey1"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/spinLoanAppExtraOccupationType"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" /></LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+        <include
+            android:id="@+id/lyLoanAppExtraIncomeService"
+            layout="@layout/layout_loan_app_extra_income_service" />
+
+        <include
+            android:id="@+id/lyLoanAppExtraIncomeBusiness"
+            layout="@layout/layout_loan_app_extra_income_business" />
+
+        <include
+            android:id="@+id/lyLoanAppExtraIncomeAgri"
+            layout="@layout/layout_loan_app_extra_income_agriculture" />
+
+        <include
+            android:id="@+id/lyLoanAppExtraIncomeOther"
+            layout="@layout/layout_loan_app_extra_income_other" />
+
+
+    </LinearLayout>
+</ScrollView>

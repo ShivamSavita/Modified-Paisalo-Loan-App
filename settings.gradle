@@ -1,0 +1,3 @@
+rootProject.name='JLGSourcing'
+include ':app'
+include ':mupdf-viewer-library'

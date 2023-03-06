@@ -1,0 +1,1141 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_6dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llTopupDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_fi_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/loan_application_ficode" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llTopupCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/chkTopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_12dp"
+                android:text="Topup" />
+
+            <SearchView
+                android:id="@+id/svTopupCaseNumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                android:inputType="textCapCharacters"
+                android:queryHint="Old Case Number" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopupDetail">
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilUidAadhar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/imgViewScanQR"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/imgViewScanQR"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietAadhar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="@string/aadhar_id"
+                            android:inputType="number"
+                            android:maxLength="12"
+                            android:textSize="15dp" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/imgViewScanQR"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="Crop"
+                    android:src="@drawable/ic_qr_code"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/tilUidAadhar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tilUidAadhar" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilUidName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidAadhar">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidAadhar">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                            android:hint="@string/aadhar_name"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="75"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"-->
+                <ImageView
+                    android:id="@+id/imgViewAadharPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Picture"
+                    android:src="@drawable/take_photograph"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight=".5"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidName" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilUidAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/tilUidDob"
+                    app:layout_constraintHorizontal_weight=".1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidName">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+
+                        app:layout_constraintEnd_toStartOf="@+id/tilUidDob"
+                        app:layout_constraintHorizontal_weight=".1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidName">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="@string/aadhar_age"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilUidDob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@id/imgViewAadharPhoto"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintHorizontal_weight=".3"
+                    app:layout_constraintStart_toEndOf="@+id/tilUidAge"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidName">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:padding="4dp"
+                                app:boxBackgroundColor="#FFF"
+                                app:boxStrokeColor="#FFF"
+                                app:boxStrokeWidth="0dp"
+                                app:boxStrokeWidthFocused="0dp"
+                                app:layout_constraintEnd_toStartOf="@id/imgViewAadharPhoto"
+                                app:layout_constraintHorizontal_chainStyle="spread"
+                                app:layout_constraintHorizontal_weight="1"
+                                app:layout_constraintStart_toEndOf="@+id/tilUidAge"
+                                app:layout_constraintTop_toBottomOf="@id/tilUidName">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tietDob"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:hint="@string/aadhar_dob"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imgViewCal"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/calendar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tilUidName" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/llUidGender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/scada_regular"
+                            android:text="@string/aadhar_gender"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_bggrey">
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/acspGender"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilUidGuardian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/llUidGender">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/llUidGender">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietGuardian"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                            android:hint="@string/aadhar_father_spouse"
+                            android:inputType="textCapCharacters"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilCurrentAddress1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidGuardian">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidGuardian">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietAddress1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
+                            android:hint="@string/aadhar_address1"
+                            android:inputType="textCapWords"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilCurrentAddress2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress1">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietAddress2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
+                            android:hint="@string/aadhar_address2"
+
+                            android:inputType="textCapWords"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilCurrentAddress3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietAddress3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
+                            android:hint="@string/aadhar_address3"
+                            android:inputType="textCapWords"
+
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilCurrentCity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/tilCurrentPinCode"
+                    app:layout_constraintHorizontal_weight=".6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress3">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/tilCurrentPinCode"
+                        app:layout_constraintHorizontal_weight=".6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                            android:hint="@string/aadhar_city"
+
+                            android:inputType="textCapCharacters"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilCurrentPinCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight=".4"
+                    app:layout_constraintStart_toEndOf="@+id/tilCurrentCity"
+                    app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress3">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight=".4"
+                        app:layout_constraintStart_toEndOf="@+id/tilCurrentCity"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietPinCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="@string/aadhar_pin"
+
+                            android:inputType="number"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/llUidState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilCurrentPinCode">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentPinCode">
+
+                        <TextView
+                            android:id="@+id/tvAadharState"
+                            style="@style/InputLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/scada_regular"
+                            android:text="State"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_bggrey">
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/acspAadharState"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilMobile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/llUidState">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/llUidState">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="0123456789/-"
+                            android:hint="@string/applicant_mobile"
+                            android:inputType="phone"
+
+                            android:maxLength="10"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilVoter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/voterIdCheckSign"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilMobile">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilMobile">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietVoter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                            android:hint="@string/applicant_voter"
+                            android:inputType="textCapCharacters"
+
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/voterIdCheckSign"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/check_sign_ic"
+                    app:layout_constraintBottom_toBottomOf="@+id/tilVoter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tilVoter" />
+
+                <TextView
+                    android:id="@+id/tilVoterId_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="-5dp"
+                    android:textColor="@color/dull_green"
+                    android:textSize="15dp"
+
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilVoter" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tilPAN"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/panCheckSign"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilVoterId_Name">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilVoter">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietPAN"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                            android:hint="@string/applicant_pan"
+                            android:inputType="textCapCharacters"
+
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/panCheckSign"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/check_sign_ic"
+                    app:layout_constraintBottom_toBottomOf="@+id/tilPAN"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tilPAN" />
+
+                <TextView
+                    android:id="@+id/tilPAN_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="-5dp"
+                    android:textColor="@color/dull_green"
+                    android:textSize="15dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilPAN" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_DrivingLicence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietDrivingLlicense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                            android:hint="@string/applicant_driving_license"
+
+                            android:inputType="textCapCharacters"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_MotherFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView_DrivingLicence">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietMotherFName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                            android:hint="Mother First Name"
+
+                            android:inputType="textCapCharacters"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView_MotherFirstName">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_MotherMiddelName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView_MotherFirstName">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="4dp"
+                            app:boxBackgroundColor="#FFF"
+                            app:boxStrokeColor="#FFF"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietIncomeMonthly"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                                android:hint="Mother Middel Name"
+
+                                android:inputType="textCapCharacters"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_MotherLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView_MotherFirstName">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="4dp"
+                            app:boxBackgroundColor="#FFF"
+                            app:boxStrokeColor="#FFF"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietMotherLName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                                android:hint="Mother Last Name"
+
+                                android:inputType="textCapCharacters"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_FatherFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietFatherFName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                            android:hint="Father First Name"
+
+                            android:inputType="textCapCharacters"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView_FatherFirstName">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_FatherMiddelName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView_MotherFirstName">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="4dp"
+                            app:boxBackgroundColor="#FFF"
+                            app:boxStrokeColor="#FFF"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietFatherMName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                                android:hint="Father Middel Name"
+
+                                android:inputType="textCapCharacters"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_FatherLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView_MotherFirstName">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="4dp"
+                            app:boxBackgroundColor="#FFF"
+                            app:boxStrokeColor="#FFF"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietFatherLName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
+                                android:hint="Father Last Name"
+
+                                android:inputType="textCapCharacters"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/BtnSaveKYCData"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+                <!--    <androidx.cardview.widget.CardView-->
+                <!--        android:id="@+id/totalIncome"-->
+                <!--        android:layout_width="match_parent"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_margin="@dimen/spacing_medium"-->
+                <!--        app:cardCornerRadius="@dimen/spacing_middle"-->
+                <!--        app:cardElevation="5dp"-->
+                <!--        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--        app:layout_constraintStart_toStartOf="parent"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/cardView_DrivingLicence">-->
+                <!--    <com.google.android.material.textfield.TextInputLayout-->
+                <!--        android:id="@+id/textInputLayout"-->
+                <!--        android:layout_width="match_parent"-->
+                <!--        android:layout_height="50dp"-->
+                <!--        android:padding="4dp"        app:boxBackgroundColor="#FFF"-->
+                <!--        app:boxStrokeColor="#FFF"-->
+                <!--        app:boxStrokeWidth="0dp"-->
+                <!--        app:boxStrokeWidthFocused="0dp"-->
+                <!--        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--        app:layout_constraintHorizontal_weight=".6"-->
+                <!--        app:layout_constraintStart_toStartOf="parent"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/cardView_DrivingLicence">-->
+
+                <!--        <com.google.android.material.textfield.TextInputEditText-->
+                <!--            android:id="@+id/tietIncome"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:background="@color/white"-->
+                <!--            android:textSize="15dp"-->
+
+                <!--            android:digits="0123456789 "-->
+                <!--            android:hint="@string/total_income"-->
+                <!--            android:inputType="number" />-->
+                <!--    </com.google.android.material.textfield.TextInputLayout>-->
+                <!--    </androidx.cardview.widget.CardView>-->
+
+
+                <!--    <androidx.cardview.widget.CardView-->
+                <!--        android:id="@+id/cardViewTotalExpence"-->
+                <!--        android:layout_width="match_parent"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_margin="@dimen/spacing_medium"-->
+                <!--        app:cardCornerRadius="@dimen/spacing_middle"-->
+                <!--        app:cardElevation="5dp"-->
+                <!--        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--        app:layout_constraintStart_toStartOf="parent"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/totalIncome">-->
+
+                <!--        <com.google.android.material.textfield.TextInputLayout-->
+                <!--            android:id="@+id/textInputLayout2"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="50dp"-->
+                <!--            android:padding="4dp"-->
+                <!--            app:boxBackgroundColor="#FFF"-->
+                <!--            app:boxStrokeColor="#FFF"-->
+                <!--            app:boxStrokeWidth="0dp"-->
+                <!--            app:boxStrokeWidthFocused="0dp"-->
+                <!--            app:layout_constraintEnd_toEndOf="parent"-->
+                <!--            app:layout_constraintHorizontal_weight=".4"-->
+                <!--            app:layout_constraintStart_toStartOf="parent"-->
+                <!--            app:layout_constraintTop_toBottomOf="@+id/totalIncome">-->
+
+
+                <!--            <com.google.android.material.textfield.TextInputEditText-->
+                <!--                android:id="@+id/tietExpence"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:digits="0123456789 "-->
+                <!--                android:background="@color/white"-->
+                <!--                android:textSize="15dp"-->
+
+                <!--                android:hint="@string/total_expense"-->
+                <!--                android:inputType="number" />-->
+                <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+                <!--    </androidx.cardview.widget.CardView>-->
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
