@@ -652,7 +652,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrower.voterid = Utils.getNotNullText(tietVoterId);
         borrowerExtra.save();
         borrower.fiExtra=borrowerExtra;
-
+        borrower.save();
         Log.d("TAG", "getDataFromView: "+bankName);
         borrower.BankName= bankName;
 
@@ -1249,6 +1249,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                                 intent.putExtra("manager", manager);
+                                                intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
 
                                             }
@@ -1286,6 +1287,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                                 intent.putExtra("manager", manager);
+                                                intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
                                             }
                                         });
@@ -1305,6 +1307,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                         intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                         intent.putExtra("manager", manager);
+                                        intent.putExtra("borrower", borrower);
                                         startActivity(intent);
                                     }
                                 }

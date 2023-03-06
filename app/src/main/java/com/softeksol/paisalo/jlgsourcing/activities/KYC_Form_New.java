@@ -39,6 +39,7 @@ String MotherMName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_kyc_form_new);
         i=getIntent();
         FatherFName=i.getStringExtra("FatherFName");
         FatherLName=i.getStringExtra("FatherLName");
@@ -46,8 +47,8 @@ String MotherMName;
         MotherFName=i.getStringExtra("MotherFName");
         MotherLName=i.getStringExtra("MotherLName");
         MotherMName=i.getStringExtra("MotherMName");
-        setContentView(R.layout.activity_kyc_form_new);
         manager = (Manager) i.getSerializableExtra("manager");
+        borrower = (Borrower) i.getSerializableExtra("borrower");
         tietAgricultureIncome=findViewById(R.id.tietAgricultureIncome);
         tietFutureIncome=findViewById(R.id.tietFutureIncome);
         tietExpenseMonthly=findViewById(R.id.tietExpenseMonthly);
@@ -61,8 +62,7 @@ String MotherMName;
         acspBusinessDetail=findViewById(R.id.acspBusinessDetail);
         earningMemberTypeSpin=findViewById(R.id.earningMemberTypeSpin);
         acspLoanAppFinanceLoanAmount=findViewById(R.id.acspLoanAppFinanceLoanAmount);
-        BtnSaveKYCData=findViewById(R.id.BtnSaveKYCData);
-        Log.d("TAG", "onCreate: "+manager.AreaName);
+        BtnSaveKYCData=findViewById(R.id.BtnFinalSaveKYCData);
         Log.d("TAG", "onCreate: "+FatherFName);
         Log.d("TAG", "onCreate: "+FatherLName);
         Log.d("TAG", "onCreate: "+FatherMName);
@@ -110,20 +110,37 @@ String MotherMName;
     }
 
     private void getDataFromView() {
+//
+//        borrower.fiExtra.AGRICULTURAL_INCOME = Utils.getNotNullText(tietAgricultureIncome);
+//        borrower.fiExtra.FutureIncome=Utils.getNotNullInt(tietFutureIncome);
+//        borrower.fiExtra.ANNUAL_INCOME= String.valueOf(Integer.parseInt(Utils.getNotNullText(tietIncomeMonthly))*12);
+//        borrower.Income=Integer.parseInt(tietIncomeMonthly.getText().toString().trim())*12;
+////        borrower.fiExtra.OTHER_THAN_AGRICULTURAL_INCOME=Utils.getNotNullText(tietOtherIncome);
+////        borrower.fiExtra.FamMonthlyIncome=Utils.getNotNullInt(EditEarningMemberIncome);
+////        borrower.fiExtra.FamIncomeSource=Utils.getSpinnerStringValue(earningMemberTypeSpin);
+//        borrower.BankName=Utils.getSpinnerStringValue(loanbanktype);
+////        borrower.fiExtra.OCCUPATION_TYPE=Utils.getSpinnerStringValue(acspOccupation);
+//        borrower.Loan_Duration=loanDuration.getSelectedItem().toString();
+//        borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
+//        borrower.Business_Detail=Utils.getSpinnerStringValue(acspBusinessDetail);
+//        borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
+        borrower.Income= Integer.parseInt(tietIncomeMonthly.getText().toString().trim());
+try{
+    Log.d("TAG", "getDataFromView: "+ borrower.Latitude);
+    Log.d("TAG", "getDataFromView: "+ borrower.Longitude);
+    Log.d("TAG", "getDataFromView: "+ borrower.Gender);
+    Log.d("TAG", "getDataFromView: "+ borrower.p_state);
+    Log.d("TAG", "getDataFromView: "+ borrower.P_ph3);
+    Log.d("TAG", "getDataFromView: "+ borrower.PanNO);
+    Log.d("TAG", "getDataFromView: "+ borrower.drivinglic);
+    Log.d("TAG", "getDataFromView: "+ borrower.voterid);
+    Log.d("TAG", "getDataFromView: "+ borrower.Income);
 
-        borrower.fiExtra.AGRICULTURAL_INCOME = Utils.getNotNullText(tietAgricultureIncome);
-        borrower.fiExtra.FutureIncome=Utils.getNotNullInt(tietFutureIncome);
-        borrower.fiExtra.ANNUAL_INCOME= String.valueOf(Integer.parseInt(Utils.getNotNullText(tietIncomeMonthly))*12);
-        borrower.Expense=Integer.parseInt(Utils.getNotNullText(tietIncomeMonthly))*12;
-        borrower.fiExtra.OTHER_THAN_AGRICULTURAL_INCOME=Utils.getNotNullText(tietOtherIncome);
-        borrower.fiExtra.FamMonthlyIncome=Utils.getNotNullInt(EditEarningMemberIncome);
-        borrower.fiExtra.FamIncomeSource=Utils.getSpinnerStringValue(earningMemberTypeSpin);
-        borrower.BankName=Utils.getSpinnerStringValue(loanbanktype);
-        borrower.fiExtra.OCCUPATION_TYPE=Utils.getSpinnerStringValue(acspOccupation);
-        borrower.Loan_Duration=Utils.getSpinnerStringValue(loanDuration);
-        borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
-        borrower.Business_Detail=Utils.getSpinnerStringValue(acspBusinessDetail);
-        borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
+
+
+}catch (Exception e){
+
+}
 
     }
 }
