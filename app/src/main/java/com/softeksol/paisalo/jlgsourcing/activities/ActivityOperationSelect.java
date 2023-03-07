@@ -68,7 +68,9 @@ public class ActivityOperationSelect extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        // to make the Navigation drawer icon always appear on the action bar
+
+        // to make the Navigation d
+        //rawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         List<OperationItem> operationItems = new ArrayList<>();
