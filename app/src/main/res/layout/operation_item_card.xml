@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_columnWeight="1"
-        android:layout_margin="8dp"
+        android:layout_margin="10dp"
 
         android:layout_weight="1"
         android:elevation="15dp"
@@ -24,16 +24,14 @@
             android:id="@+id/kyc_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/imageModeules"
-                android:layout_width="49dp"
-                android:layout_height="49dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_weight="3"
                 android:src="@drawable/kyc_ic" />
 
@@ -44,8 +42,19 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="KYC"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16dp" />
+                android:fontFamily="@font/scada_bold"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/module_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Check mandatory process of identifying and verifying."
+                android:fontFamily="@font/scada_regular"
+                android:textColor="#6C6B6B"
+                android:textSize="10dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

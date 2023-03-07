@@ -41,6 +41,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
     private AdapterListManager adapterListManager;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +70,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
 
-        // to make the Navigation d
-        //rawer icon always appear on the action bar
+        // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         List<OperationItem> operationItems = new ArrayList<>();
@@ -155,6 +155,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 Log.d("failure", String.valueOf(statusCode) + "\n" + (new String(responseBody, StandardCharsets.UTF_8)));
             }
         };
+
         RequestParams params = new RequestParams();
         params.add("UserId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         params.add("IMEINO", IglPreferences.getPrefString(this, SEILIGL.DEVICE_IMEI, "0"));

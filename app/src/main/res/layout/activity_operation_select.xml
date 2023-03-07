@@ -17,16 +17,17 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
             android:layout_width="0dp"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.smarteist.autoimageslider.SliderView
+                android:layout_margin="5dp"
                 android:id="@+id/slider"
                 android:background="@drawable/banner_one"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="200dp"
                 android:layout_centerInParent="true"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
@@ -49,7 +50,7 @@
                 android:src="@drawable/banner_one" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
+       <!-- <androidx.cardview.widget.CardView
             android:id="@+id/cardView4"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -73,42 +74,31 @@
                 android:textSize="16dp"
                 tools:layout_editor_absoluteX="139dp"
                 tools:layout_editor_absoluteY="256dp" />
-        </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>-->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView5"
+        <LinearLayout
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="-15dp"
-            android:backgroundTint="#F3F3F3"
-            android:layout_marginEnd="25dp"
-            android:foreground="@drawable/card_bg_grey_and_primary"
-            app:cardElevation="15dp"
-            app:layout_constraintEnd_toEndOf="@+id/cardView4"
-            app:layout_constraintStart_toStartOf="@+id/cardView4"
-            app:layout_constraintTop_toBottomOf="@+id/cardView4">
-
-            <LinearLayout
+            android:layout_marginTop="20dp"
+            android:padding="6dp"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+            <GridView
+                android:layout_margin="5dp"
+                android:id="@+id/lvcOpSelect"
+                android:numColumns="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:padding="6dp"
-                android:orientation="vertical">
-                <GridView
-                    android:layout_margin="5dp"
-                    android:id="@+id/lvcOpSelect"
-                    android:numColumns="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                </GridView>
+            </GridView>
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

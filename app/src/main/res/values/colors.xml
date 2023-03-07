@@ -19,4 +19,13 @@
     <color name="green">#52D600</color>
     <color name="dull_green">#42BD00</color>
     <color name="dull_red">#E6848E</color>
+
+    <color name="kyc_color">#E0D6BF</color>
+    <color name="loan_color">#C1E0E4</color>
+    <color name="collection_color">#C1C3C3</color>
+    <color name="esign_color">#C9CD9D</color>
+
+
+
+
 </resources>
