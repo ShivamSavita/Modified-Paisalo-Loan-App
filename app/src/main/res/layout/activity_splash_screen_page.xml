@@ -44,15 +44,17 @@
 
     </LinearLayout>
     <TextView
+        android:padding="10dp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/scada_bold"
-        android:text="Welcome"
+        android:text="Welcome to Paisalo Digital"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="32dp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"/>
 
     <TextView

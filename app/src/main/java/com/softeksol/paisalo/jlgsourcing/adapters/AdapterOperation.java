@@ -55,7 +55,7 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
                 holder.textView.setText(operationItem.getOprationName());
                 holder.operationItem = operationItem;
                 if (operationItem.getOprationName().equals("KYC")){
-                    holder.imageView.setImageResource(R.drawable.kyc_icon);
+                    holder.imageView.setImageResource(R.drawable.kycicon);
                     holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.kyc_color));
                     holder.module_desc.setText("Check mandatory process of identifying and verifying.");
                 }else if (operationItem.getOprationName().equals("Application Form")){

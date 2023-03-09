@@ -1,7 +1,9 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.smarteist.autoimageslider.SliderView;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -41,13 +44,18 @@ public class ActivityOperationSelect extends AppCompatActivity {
     private AdapterListManager adapterListManager;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-
+    SliderView sliderView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
-
+        sliderView = findViewById(R.id.slider);
+        sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+       // sliderView.setSliderAdapter(adapter);
+        sliderView.setScrollTimeInSec(3);
+        sliderView.setAutoCycle(true);
+        sliderView.startAutoCycle();
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close){
             public void onDrawerClosed(View view)
             {
@@ -73,6 +81,10 @@ public class ActivityOperationSelect extends AppCompatActivity {
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
+        getSupportActionBar().setElevation(0.0f);
+        getSupportActionBar().setTitle(Html.fromHtml("<center><font color=\"black\">" + getString(R.string.app_name) + "</font></center>"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+
         List<OperationItem> operationItems = new ArrayList<>();
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("S")) {
             operationItems.add(new OperationItem(1, "KYC", R.color.colorMenuKyc, "POSDB", "Getmappedfo"));
@@ -117,7 +129,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 Log.d("CheckSizeList",managers.size()+"");
 
                 SQLite.delete().from(Manager.class).query();
-                for (Manager manager : managers) {
+                for (Manager manager : managers){
                     manager.insert();
                 }
 

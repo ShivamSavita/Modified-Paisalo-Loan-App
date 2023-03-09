@@ -28,7 +28,7 @@ public class SplashScreenPage extends AppCompatActivity {
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
             }
-        }, 1500);
+        }, 1700);
 
 
     }

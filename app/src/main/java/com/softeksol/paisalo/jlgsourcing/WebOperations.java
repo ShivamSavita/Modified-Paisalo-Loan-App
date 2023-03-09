@@ -135,10 +135,10 @@ public class WebOperations {
         }
         client.addHeader("Content-Encoding", "gzip,deflate,compress");
         client.addHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
-//        client.addHeader("imeino", "354690572942373");
+//      client.addHeader("imeino", "354690572942373");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-//        client.addHeader("devid", "dcf5ed225bca6228");
+//      client.addHeader("devid", "dcf5ed225bca6228");
        //client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
         //client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, ""));
         client.addHeader("dbname", "SBIPDL_TEST");

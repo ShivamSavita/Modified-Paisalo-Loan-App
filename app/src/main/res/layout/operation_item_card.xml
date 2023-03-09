@@ -40,11 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:singleLine="true"
                 android:text="KYC"
                 android:fontFamily="@font/scada_bold"
                 android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/module_desc"

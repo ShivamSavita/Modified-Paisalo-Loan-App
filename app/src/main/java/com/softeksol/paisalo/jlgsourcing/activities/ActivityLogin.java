@@ -821,7 +821,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 handlePermissionException();
             }
         });
-
     }
 
     private void getDeviceID() {
@@ -878,7 +877,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             }
                     }catch (Exception e)
         {
-            Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
 
         }
              deviceId = lastThreeChars + //we make this look like a valid IMEI
