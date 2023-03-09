@@ -30,6 +30,10 @@
                 layout="@layout/layout_loan_app_extra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <include
+                layout="@layout/personal_data_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
