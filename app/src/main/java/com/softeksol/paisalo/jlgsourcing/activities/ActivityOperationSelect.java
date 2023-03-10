@@ -52,7 +52,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         drawerLayout = findViewById(R.id.my_drawer_layout);
         sliderView = findViewById(R.id.slider);
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
-       // sliderView.setSliderAdapter(adapter);
+       //sliderView.setSliderAdapter(adapter);
         sliderView.setScrollTimeInSec(3);
         sliderView.setAutoCycle(true);
         sliderView.startAutoCycle();
