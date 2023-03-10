@@ -10,6 +10,7 @@ public class OperationItem implements Serializable {
     private String urlEndpoint;
 
     public OperationItem() {
+
     }
 
     public OperationItem(int id, String oprationName, int optionColor) {

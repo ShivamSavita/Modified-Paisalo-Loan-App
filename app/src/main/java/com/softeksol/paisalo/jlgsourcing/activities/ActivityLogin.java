@@ -293,7 +293,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                             }
                                             //updateManager( managers);
                                             Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
-//                            Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
+              //Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -327,7 +327,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         //tilUserName.setErrorEnabled(true);
         userName.setError("Must be 10 Characters to share Device ID");
 
-       password = (EditText) findViewById(R.id.etLoginPassword);
+        password = (EditText) findViewById(R.id.etLoginPassword);
         //tilPassowrd.setErrorEnabled(true);
         password.setError("Min 5 chars required");
 
@@ -753,10 +753,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     private void showSettingsDialog() {
         // we are displaying an alert dialog for permissions
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityLogin.this);
-
         // below line is the title for our alert dialog.
         builder.setTitle("Need Permissions");
-
         // below line is our message for our dialog
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
         builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
@@ -780,9 +778,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
 
     private void permissionCheck() {
-
-
-
         String[] permissions = {
                 Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
         String rationale = "Please provide permission so that app can work smoothly ...";
@@ -826,7 +821,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 handlePermissionException();
             }
         });
-
     }
 
     private void getDeviceID() {
@@ -873,7 +867,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     public void getDeviceIMEI() {
 
 //        deviceId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-        String lastThreeChars = "";
+          String lastThreeChars = "";
 
         try {
             if (UserName.trim().length() > 3) {
@@ -883,7 +877,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             }
                     }catch (Exception e)
         {
-            Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
 
         }
              deviceId = lastThreeChars + //we make this look like a valid IMEI

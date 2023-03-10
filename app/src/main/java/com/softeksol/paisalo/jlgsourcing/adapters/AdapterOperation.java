@@ -1,11 +1,13 @@
 package com.softeksol.paisalo.jlgsourcing.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -27,6 +29,7 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
         this.StateArrayList = values;
     }
 
+    @SuppressLint("ResourceAsColor")
     public View getCustomView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -36,9 +39,10 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
         if (view == null) {
             holder = new OperationViewHolder();
             view = inflater.inflate(R.layout.operation_item_card, null);
-
-            holder.textView = (TextView) view.findViewById(R.id.module_name);
-            holder.imageView = (ImageView) view.findViewById(R.id.imageModeules);
+            holder.textView = view.findViewById(R.id.module_name);
+            holder.module_desc = view.findViewById(R.id.module_desc);
+            holder.imageView = view.findViewById(R.id.imageModeules);
+            holder.kyc_card = view.findViewById(R.id.kyc_card);
             view.setTag(holder);
         } else {
             holder = (OperationViewHolder) view.getTag();
@@ -51,19 +55,21 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
                 holder.textView.setText(operationItem.getOprationName());
                 holder.operationItem = operationItem;
                 if (operationItem.getOprationName().equals("KYC")){
-                    holder.imageView.setImageResource(R.drawable.kyc_ic);
-
+                    holder.imageView.setImageResource(R.drawable.kycicon);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.kyc_color));
+                    holder.module_desc.setText("Check mandatory process of identifying and verifying.");
                 }else if (operationItem.getOprationName().equals("Application Form")){
-                    holder.imageView.setImageResource(R.drawable.application_form_ic);
-
+                    holder.imageView.setImageResource(R.drawable.loanapp_icon);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.loan_color));
+                    holder.module_desc.setText("Fill all information about Borrower.");
                 }else if (operationItem.getOprationName().equals("Collection")){
-                    holder.imageView.setImageResource(R.drawable.collection_ic);
-
+                    holder.imageView.setImageResource(R.drawable.collection_icon);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.collection_color));
+                    holder.module_desc.setText("For EMI collection department.");
                 }else if (operationItem.getOprationName().equals("E-Sign")){
-                    holder.imageView.setImageResource(R.drawable.esign_ic
-
-                    );
-
+                    holder.imageView.setImageResource(R.drawable.esign_ic);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.esign_color));
+                    holder.module_desc.setText("Digital verification by Finger Print with Aadhaar.");
                 }
             }
         }
@@ -78,8 +84,9 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
     }
 
     class OperationViewHolder {
-        private TextView textView;
+        private TextView textView,module_desc;
         private ImageView imageView;
+        private LinearLayout kyc_card;
         private OperationItem operationItem;
     }
 }
