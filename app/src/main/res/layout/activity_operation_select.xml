@@ -44,13 +44,12 @@
                     app:sliderIndicatorAnimationDuration="600"
                     app:sliderIndicatorEnabled="true"
                     app:sliderIndicatorGravity="center_horizontal|bottom"
-                    app:sliderIndicatorMargin="15dp"
                     app:sliderIndicatorOrientation="horizontal"
                     app:sliderIndicatorPadding="3dp"
-                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorRadius="2.4dp"
                     app:sliderIndicatorSelectedColor="#5A5A5A"
                     app:sliderIndicatorUnselectedColor="#BCB8B8"
-                    app:sliderScrollTimeInSec="1" />
+                    app:sliderScrollTimeInSec="3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
