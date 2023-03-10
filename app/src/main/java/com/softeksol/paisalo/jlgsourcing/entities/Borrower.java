@@ -1466,13 +1466,13 @@ public class Borrower extends BaseModel implements Serializable {
         this.IsNameVerify = borrowerDTO.IsNameVerify;
 
         this.save();
-
-        if (borrowerDTO.fiExtra == null)
-            this.fiExtra = new BorrowerExtra();
-        else
-            this.fiExtra = new BorrowerExtra(borrowerDTO.fiExtra);
-        this.associateExtra(this.fiExtra);
-        this.fiExtra.save();
+//
+//        if (borrowerDTO.fiExtra == null)
+//            this.fiExtra = new BorrowerExtra();
+//        else
+//            this.fiExtra = new BorrowerExtra(borrowerDTO.fiExtra);
+//        this.associateExtra(this.fiExtra);
+//        this.fiExtra.save();
 
         if (borrowerDTO.fiExtraBank == null)
             this.fiExtraBank = new BorrowerExtraBank();

@@ -267,6 +267,14 @@ public class Utils {
         return retValue;
     }
 
+
+    public static String getSpinnerStringValueDesc(Spinner spinner) {
+        String retValue = null;
+        if (spinner.getSelectedItem() != null)
+            retValue = ((RangeCategory) spinner.getSelectedItem()).DescriptionEn;
+        return retValue;
+    }
+
     public static int getSpinnerIntegerValue(Spinner spinner) {
         int retValue = 0;
         //if(spinner.getVisibility()==View.VISIBLE)

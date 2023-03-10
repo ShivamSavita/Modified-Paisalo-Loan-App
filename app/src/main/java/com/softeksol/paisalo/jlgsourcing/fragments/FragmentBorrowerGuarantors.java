@@ -177,7 +177,7 @@ public class FragmentBorrowerGuarantors extends AbsFragment implements View.OnCl
         if (BuildConfig.APPLICATION_ID.equals("com.softeksol.paisalo.jlgsourcing")) {
             name = "Guarantors";
         } else {
-            name = "Nominees";
+            name = "Guarantors";
         }
         return name;
     }

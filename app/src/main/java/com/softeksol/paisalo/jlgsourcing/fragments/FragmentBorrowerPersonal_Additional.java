@@ -319,10 +319,10 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.OTHER_THAN_AGRICULTURAL_INCOME=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinOTHER_THAN_AGRICULTURAL_INCOME));
         borrowerExtra.VISUALLY_IMPAIRED_YN=((Spinner) view.findViewById(R.id.spinVisuallyImpaired)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG=((Spinner) view.findViewById(R.id.spinSpecialSocialCategory)).getSelectedItem().toString();
+        borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) view.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) view.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
         borrowerExtra.MARITAL_STATUS=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinMARITAL_STATUS));
         borrowerExtra.RESERVATN_CATEGORY=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinRESERVATN_CATEGORY));
-        borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) view.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.OCCUPATION_TYPE=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinOCCUPATION_TYPE));
 
         borrowerExtra.SOC_ATTR_3_LAND_HOLD=((EditText) view.findViewById(R.id.editLandHold)).getText().toString();

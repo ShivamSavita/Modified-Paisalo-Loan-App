@@ -121,7 +121,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private CheckBox chkTvTopup;
-    private AppCompatSpinner acspGender, acspAadharState;
+    private AppCompatSpinner acspGender, acspAadharState,acspRelationship;
     private TextInputEditText tietAadharId, tietName, tietAge, tietDob, tietGuardian,
             tietAddress1, tietAddress2, tietAddress3, tietCity, tietPinCode, tietMobile,
             tietDrivingLic, tietPanNo, tietVoterId, tietMotherMName,tietMotherFName,tietMotherLName, tietFatherMName,tietFatherFName,tietFatherLName;
@@ -232,7 +232,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         myCalendar = Calendar.getInstance();
         myCalendar.setTime(new Date());
+        acspRelationship = findViewById(R.id.acspRelationship);
+        ArrayList<RangeCategory> relationSips = new ArrayList<>();
+        relationSips.add(new RangeCategory("Husband", ""));
+        relationSips.add(new RangeCategory("Father", ""));
 
+        acspRelationship.setAdapter(new AdapterListRange(this, relationSips, false));
         //acspRelationship.setVisibility(View.GONE);
         //findViewById(R.id.llUidRelationship).setVisibility(View.GONE);
 
@@ -567,6 +572,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 
 
+        if (borrower.RelationWBorrower != null) {
+            Utils.setSpinnerPosition(acspRelationship, borrower.RelationWBorrower, false);
+        }
         if (borrower.p_state != null) {
             Utils.setSpinnerPosition(acspAadharState, borrower.p_state);
         }
@@ -624,13 +632,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             imgViewScanQR.setVisibility(View.GONE);
             showSubmitBorrowerMenuItem = false;
             invalidateOptionsMenu();
-            showScanDocs();
+//            showScanDocs();
         }
     }
 
     private void getDataFromView(View v) {
         GpsTracker gpsTracker=new GpsTracker(ActivityBorrowerKyc.this);
-        borrowerExtra=new BorrowerExtra(tietMotherFName.getText().toString(),tietMotherLName.getText().toString(), tietMotherMName.getText().toString(), tietFatherFName.getText().toString(), tietFatherLName.getText().toString(), tietFatherMName.getText().toString());
         borrower.aadharid = Utils.getNotNullText(tietAadharId);
         borrower.setNames(Utils.getNotNullText(tietName));
         borrower.Age = Utils.getNotNullInt(tietAge);
@@ -652,11 +659,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrower.voterid = Utils.getNotNullText(tietVoterId);
         borrowerExtra.save();
         borrower.fiExtra=borrowerExtra;
-
-        Log.d("TAG", "getDataFromView: "+bankName);
+        borrower.save();
         borrower.BankName= bankName;
 
-//     editor.putString("Name",)
         editor.clear();
         editor.apply();
         editor.putString("Adhaar",tietAadharId.getText().toString());
@@ -1249,6 +1254,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                                 intent.putExtra("manager", manager);
+                                                intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
 
                                             }
@@ -1267,9 +1273,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     }
                                 }
                             }else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
-                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
-                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
-                                }else{
+//                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
+//                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
+//                                }else{
                                     if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])){
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
                                         builder.setTitle("Caution!!");
@@ -1286,6 +1292,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                                 intent.putExtra("manager", manager);
+                                                intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
                                             }
                                         });
@@ -1305,9 +1312,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                         intent.putExtra("MotherMName",tietMotherMName.getText().toString());
                                         intent.putExtra("manager", manager);
+                                        intent.putExtra("borrower", borrower);
                                         startActivity(intent);
                                     }
-                                }
+//                                }
                             }
 
 
@@ -1590,7 +1598,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-
         progressDialog.setIndeterminate(false);
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -1624,7 +1631,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         voterIdCheckSign.setEnabled(false);
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
-
                         tilVoterId_Name.setText("Card Holder Name Not Found");
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         voterIdCheckSign.setEnabled(true);
@@ -1740,7 +1746,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 documentStore.updateStatus = true;
                 documentStore.update();
                 (new File(documentStore.imagePath)).delete();
-                showScanDocs();
+//                showScanDocs();
             }
         };
 

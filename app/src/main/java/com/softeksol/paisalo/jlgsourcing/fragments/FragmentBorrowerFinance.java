@@ -13,8 +13,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.loopj.android.http.DataAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -29,6 +31,7 @@ import com.softeksol.paisalo.jlgsourcing.activities.ActivityLoanApplication;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.BankData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 
@@ -51,12 +54,17 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     View v;
     private long borrowerId;
     private OnFragmentBorrowerFinanceInteractionListener mListener;
+
+    private BorrowerFamilyExpenses expense;
+
     private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaFinanceDuration, rlaSchemeType;
     private EditText etIFSC, etBaoDtate, etBankAccount, etCIF;
     private ActivityLoanApplication activity;
     private Borrower borrower;
     private Spinner spinnerPurpose, spinnerLoanAmount, spinnerLoanDuration, spinnerBankAcType, spinnerSchemeType;
     //private TextWatcher IFSCTextWatcher;
+    private TextInputEditText tietRent, tietFooding, tietEducation, tietHealth, tietTravelling, tietEntertainment, tietOthers;
+    private AppCompatSpinner acspHomeType, acspHomeRoofType, acspToiletType, acspLiveingWithSpouse;
 
 
     public FragmentBorrowerFinance() {
@@ -137,7 +145,23 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
         spinnerSchemeType = (Spinner) v.findViewById(R.id.spinLoanAppFinanceScheme);
         spinnerSchemeType.setAdapter(rlaSchemeType);
+        tietRent = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesRent);
+        tietFooding = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesFood);
+        tietEducation = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesEducation);
+        tietHealth = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesHealth);
+        tietTravelling = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesTravelling);
+        tietEntertainment = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesEntertainment);
+        tietOthers = (TextInputEditText) v.findViewById(R.id.tietFamilyExpensesOthers);
 
+        acspHomeType = (AppCompatSpinner) v.findViewById(R.id.acspHomeType);
+        acspHomeRoofType = (AppCompatSpinner) v.findViewById(R.id.acspHomeRoofType);
+        acspToiletType = (AppCompatSpinner) v.findViewById(R.id.acspToiletType);
+        acspLiveingWithSpouse = (AppCompatSpinner) v.findViewById(R.id.acspLivigWithSpouse);
+
+        acspHomeType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("house-type"), false));
+        acspHomeRoofType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("house-roof-type"), false));
+        acspToiletType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("toilet-type"), false));
+        acspLiveingWithSpouse.setAdapter(new AdapterListRange(this.getContext(), Utils.getList(1, 6, 1, 1, "Year(s)"), true));
 
         etIFSC = (EditText) v.findViewById(R.id.etLoanAppFinanceBankIfsc);
 //        etCIF = (EditText) v.findViewById(R.id.bankCIF);
@@ -152,6 +176,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         // etBaoDtate=(EditText) v.findViewById(R.id.etLoanAppFinanceBankAcOpenDate);
         // etBaoDtate.setOnClickListener(this);
         borrower = activity.getBorrower();
+        expense=borrower.getFiFamilyExpenses();
         setDataToView(v);
         //etIFSC.addTextChangedListener(IFSCTextWatcher);
 
@@ -179,8 +204,13 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
+
         borrower = activity.getBorrower();
-        setDataToView(requireView());
+        expense = activity.getBorrower().getFiFamilyExpenses();
+        if (expense == null) {
+            expense = new BorrowerFamilyExpenses();
+        }
+        setDataToView(getView());
     }
 
     @Override
@@ -208,6 +238,26 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName)).setText(Utils.NullIf(borrower.BankName, ""));
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch)).setText(Utils.NullIf(borrower.Bank_Address, ""));
         //((EditText) v.findViewById(R.id.etLoanAppFinanceBankAcOpenDate)).setText(DateUtils.getFormatedDate(borrower.BankAcOpenDt,"dd-MMM-yyyy"));
+
+        tietRent.setText(String.valueOf(expense.getRent()));
+        tietFooding.setText(String.valueOf(expense.getFooding()));
+        tietEducation.setText(String.valueOf(expense.getEducation()));
+        tietHealth.setText(String.valueOf(expense.getHealth()));
+        tietTravelling.setText(String.valueOf(expense.getTravelling()));
+        tietEntertainment.setText(String.valueOf(expense.getEducation()));
+        tietOthers.setText(String.valueOf(expense.getOthers()));
+        Utils.setOnFocuseSelect(tietRent, "0");
+        Utils.setOnFocuseSelect(tietFooding, "0");
+        Utils.setOnFocuseSelect(tietEducation, "0");
+        Utils.setOnFocuseSelect(tietHealth, "0");
+        Utils.setOnFocuseSelect(tietTravelling, "0");
+        Utils.setOnFocuseSelect(tietEntertainment, "0");
+        Utils.setOnFocuseSelect(tietOthers, "0");
+
+        Utils.setSpinnerPosition(acspHomeType, expense.getHomeType());
+        Utils.setSpinnerPosition(acspHomeRoofType, expense.getHomeRoofType());
+        Utils.setSpinnerPosition(acspToiletType, expense.getToiletType());
+        Utils.setSpinnerPosition(acspLiveingWithSpouse, expense.getLivingWSpouse());
     }
 
     private void getDataFromView(View v) {
@@ -222,6 +272,23 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.BankName = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName));
             borrower.Bank_Address = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch));
             borrower.T_ph3 = Utils.getSpinnerStringValue(spinnerSchemeType);
+
+            expense.setRent(Utils.getNotNullInt(tietRent));
+            expense.setFooding(Utils.getNotNullInt(tietFooding));
+            expense.setEducation(Utils.getNotNullInt(tietEducation));
+            expense.setHealth(Utils.getNotNullInt(tietHealth));
+            expense.setTravelling(Utils.getNotNullInt(tietTravelling));
+            expense.setEntertainment(Utils.getNotNullInt(tietEntertainment));
+            expense.setOthers(Utils.getNotNullInt(tietOthers));
+
+            expense.setHomeType(Utils.getSpinnerStringValue(acspHomeType));
+            expense.setHomeRoofType(Utils.getSpinnerStringValue(acspHomeRoofType));
+            expense.setToiletType(Utils.getSpinnerStringValue(acspToiletType));
+            expense.setLivingWSpouse(Utils.getSpinnerStringValue(acspLiveingWithSpouse));
+
+            activity.getBorrower().associateBorrowerFamilyExpenses(expense);
+            expense.save();
+            borrower.save();
             //borrower.Business_Detail = borrower.Loan_Reason;
             //borrower.BankAcOpenDt=DateUtils.getParsedDate(((EditText)v.findViewById(R.id.etLoanAppFinanceBankAcOpenDate)).getText().toString(),"dd-MMM-yyyy");
         }
