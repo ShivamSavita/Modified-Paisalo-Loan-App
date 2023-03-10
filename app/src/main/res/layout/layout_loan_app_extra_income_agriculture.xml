@@ -82,7 +82,7 @@
                 android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applicant_family_occupation_agriculture_land_area" />
+                android:text="Land Hold (Acres)" />
 
             <LinearLayout
                 android:layout_width="match_parent"
