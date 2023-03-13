@@ -3,25 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
     <LinearLayout
-        android:background="#FFFCFC"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:textAlignment="center"
+        <LinearLayout
             android:gravity="center"
-            android:id="@+id/tvSelectWithRefreshTitle"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="@string/manager_select_title"
-            android:textAppearance="@android:style/TextAppearance.Large" />
+            android:layout_height="45dp">
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/tvSelectWithRefreshTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/scada_bold"
+                android:text="@string/manager_select_title" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/lvSelectWithRefresh"
@@ -39,5 +38,4 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_popup_sync" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

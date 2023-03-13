@@ -4,20 +4,28 @@
     android:orientation="horizontal"
     android:layout_margin="@dimen/margin_6dp"
     android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="@drawable/backcard"
     android:layout_height="wrap_content">
 
     <TextView
+        android:textSize="16dp"
+        android:fontFamily="@font/scada_regular"
         android:id="@+id/tvRunningLoanLenderName"
         android:text="Lender name"
         android:gravity="center_horizontal"
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
+        android:textColor="@color/defaultTextColor"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanLenderType"
         app:layout_constraintHorizontal_weight=".65"
         android:text="Lender Type"
@@ -29,6 +37,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanLenderIsMFI"
         app:layout_constraintHorizontal_weight=".35"
         android:text="Is MFI"
@@ -41,6 +52,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanReason"
         android:text="Reason for Loan"
         android:gravity="center"
@@ -52,6 +66,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanLonee"
         android:text="Lonee"
         style="@style/Base.TextAppearance.AppCompat.Medium"
@@ -62,6 +79,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanAmount"
         android:text="Loan Amount"
         android:gravity="end"
@@ -73,6 +93,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanEMI"
         android:text="Loan EMI"
         style="@style/Base.TextAppearance.AppCompat.Medium"
@@ -83,6 +106,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textSize="14dp"
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/tvRunningLoanBalance"
         android:text="Balance"
         android:gravity="end"

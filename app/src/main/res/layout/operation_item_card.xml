@@ -12,9 +12,9 @@
         android:layout_margin="10dp"
 
         android:layout_weight="1"
-        android:elevation="15dp"
-        app:cardCornerRadius="7dp"
-        app:cardElevation="5dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

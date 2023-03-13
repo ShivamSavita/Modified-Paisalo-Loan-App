@@ -9,9 +9,6 @@ import com.softeksol.paisalo.jlgsourcing.WebOperations;
 
 import cz.msebera.android.httpclient.Header;
 
-/**
- * Created by sachindra on 11/25/2016.
- */
 public abstract class DataAsyncResponseHandler extends AsyncHttpResponseHandler {
     private ProgressDialog progressDialog = null;
     private ProgressBar progressBar = null;
