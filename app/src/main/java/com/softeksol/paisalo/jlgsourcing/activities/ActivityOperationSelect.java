@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.smarteist.autoimageslider.SliderView;
+import com.softeksol.paisalo.ESign.adapters.SliderAdapter;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -45,16 +46,34 @@ public class ActivityOperationSelect extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
     SliderView sliderView;
+    SliderAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
         sliderView = findViewById(R.id.slider);
+
+        int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
+         adapter = new SliderAdapter(this, myImageList);
+
+        // below method is used to set auto cycle direction in left to
+        // right direction you can change according to requirement.
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
-       //sliderView.setSliderAdapter(adapter);
+
+        // below method is used to
+        // setadapter to sliderview.
+        sliderView.setSliderAdapter(adapter);
+
+        // below method is use to set
+        // scroll time in seconds.
         sliderView.setScrollTimeInSec(3);
+
+        // to set it scrollable automatically
+        // we use below method.
         sliderView.setAutoCycle(true);
+
+        // to start autocycle below method is used.
         sliderView.startAutoCycle();
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close){
             public void onDrawerClosed(View view)

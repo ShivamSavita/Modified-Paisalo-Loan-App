@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
@@ -150,10 +152,20 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
-
-
+    CardView cardView_SpouseFirstName;
+    LinearLayout linearLayout433;
+    CheckBox isMarriedCheckBox;
+    TextView textView35;
 
     Button BtnNextOnFirstKyc;
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,6 +200,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "    Borrower KYC");
 
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 //        ArrayList<RangeCategory> genders = new ArrayList<>();
 //        genders.add(new RangeCategory("Female", "Gender"));
@@ -220,7 +233,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 genders.add(new RangeCategory("Female", "Gender"));
                 genders.add(new RangeCategory("Transgender", "Gender"));
         }*/
+        cardView_SpouseFirstName = findViewById(R.id.cardView_SpouseFirstName);
+        textView35 = findViewById(R.id.textView35);
+        textView35.setVisibility(View.GONE);
+        cardView_SpouseFirstName.setVisibility(View.GONE);
+        linearLayout433 = findViewById(R.id.linearLayout433);
+        linearLayout433.setVisibility(View.GONE);
         panCheckSign = findViewById(R.id.panCheckSign);
+        isMarriedCheckBox = findViewById(R.id.isMarriedCheckBox);
         voterIdCheckSign = findViewById(R.id.voterIdCheckSign);
         acspGender = findViewById(R.id.acspGender);
         tilPAN_Name = findViewById(R.id.tilPAN_Name);
@@ -284,6 +304,15 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 boolean validationStatus = validateCaseCode(newText);
                 svOldCase.setBackgroundResource(validationStatus ? android.R.color.transparent : R.color.colorLightRed);
                 return validationStatus;
+            }
+        });
+
+        isMarriedCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linearLayout433.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
+                cardView_SpouseFirstName.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
+                textView35.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
             }
         });
 
@@ -703,29 +732,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
         return str;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_kyc_submit_cancel, menu);
-        MenuItem mnuItemSubmitBorrower = menu.findItem(R.id.action_submit_kyc);
-        mnuItemSubmitBorrower.setVisible(showSubmitBorrowerMenuItem);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean reVal = true;
-        switch (item.getItemId()) {
-            case R.id.action_submit_kyc:
 
-                break;
-            case R.id.action_cancel:
-                finish();
-                break;
-            default:
-                reVal = super.onOptionsItemSelected(item);
-        }
-        return reVal;
-    }
+
 
     @Override
     public void onClick(View view) {

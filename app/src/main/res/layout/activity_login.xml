@@ -191,7 +191,7 @@
             android:imeOptions="actionGo"
             android:hint="******"
             android:drawablePadding="10dp"
-            android:inputType="textPassword"
+            android:inputType="numberPassword"
             android:backgroundTint="@color/white"
             android:textSize="18dp" />
 
