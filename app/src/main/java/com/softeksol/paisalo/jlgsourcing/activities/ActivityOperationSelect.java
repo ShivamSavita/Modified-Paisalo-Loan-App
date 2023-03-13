@@ -56,25 +56,12 @@ public class ActivityOperationSelect extends AppCompatActivity {
 
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
          adapter = new SliderAdapter(this, myImageList);
-
-        // below method is used to set auto cycle direction in left to
-        // right direction you can change according to requirement.
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
-
-        // below method is used to
-        // setadapter to sliderview.
         sliderView.setSliderAdapter(adapter);
-
-        // below method is use to set
-        // scroll time in seconds.
         sliderView.setScrollTimeInSec(3);
-
-        // to set it scrollable automatically
-        // we use below method.
         sliderView.setAutoCycle(true);
-
-        // to start autocycle below method is used.
         sliderView.startAutoCycle();
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close){
             public void onDrawerClosed(View view)
             {

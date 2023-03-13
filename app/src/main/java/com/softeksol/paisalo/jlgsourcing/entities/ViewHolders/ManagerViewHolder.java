@@ -1,5 +1,6 @@
 package com.softeksol.paisalo.jlgsourcing.entities.ViewHolders;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -11,5 +12,6 @@ public class ManagerViewHolder {
     public TextView tvManagerCreator;
     public TextView tvManagerArea;
     public TextView tvManagerAreaCode;
+    public LinearLayout linearLayout_list;
 
 }
