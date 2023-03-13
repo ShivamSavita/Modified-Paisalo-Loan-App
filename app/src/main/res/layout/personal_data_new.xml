@@ -111,127 +111,164 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Special Ability"
+           />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Special Ability"
-                    android:textSize="14dp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/spinner_bggrey1">
+
+              >
 
                     <Spinner
                         android:id="@+id/spinSpecialAbility"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="50dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Special Social Category"
+    />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Special Social Category"
-                    android:textSize="14dp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/spinner_bggrey1">
+                    >
 
                     <Spinner
                         android:id="@+id/spinSpecialSocialCategory"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="50dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+        android:text="Educational Code"
+        />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Educational Code"
-                    android:textSize="14dp" />
+
 
                 <EditText
+                    android:paddingStart="8dp"
                     android:id="@+id/editEducationalCode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:background="@color/white"
+                    android:layout_height="50dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+        android:text="PAN applied"
+       />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="PAN applied"
-                    android:textSize="14dp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey1">
 
                     <Spinner
                         android:id="@+id/spinFORM60_PAN_APPLIED_YN"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="50dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -273,60 +310,76 @@
 
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Is borrower blind?"
+            />
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Is borrower blind?"
-                    android:textSize="14dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey1">
 
                     <Spinner
                         android:id="@+id/spinVisuallyImpaired"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="50dp" />
                 </LinearLayout>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Form60 Transaction Date"
+   />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Form60 Transaction Date"
-                    android:textSize="14dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -335,15 +388,18 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:paddingStart="8dp"
                         android:id="@+id/editFORM60_TNX_DT"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
                         android:inputType="date" />
 
                     <ImageView
                         android:id="@+id/imgViewCal"
                         android:layout_width="40dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_height="40dp"
                         android:src="@drawable/calendar"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -351,25 +407,33 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Form60 Submission Date"
+         />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Form60 Submission Date"
-                    android:textSize="14dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -377,9 +441,11 @@
                     android:layout_gravity="center">
 
                     <EditText
+                        android:paddingStart="8dp"
                         android:id="@+id/editFORM60_SUBMISSIONDATE"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
+                        android:background="@color/white"
                         android:layout_weight="1"
                         android:inputType="date" />
 
@@ -387,6 +453,7 @@
                         android:id="@+id/imgViewCal2"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/calendar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tilUidName" />
@@ -927,30 +994,40 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Years in Business"
+     />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="Years in Business"
-                    android:textSize="14dp" />
+
 
                 <EditText
+                    android:paddingStart="8dp"
                     android:id="@+id/editYearsInBusiness"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_height="50dp"
                     android:inputType="number" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

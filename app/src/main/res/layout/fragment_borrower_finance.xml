@@ -32,9 +32,12 @@
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="0dp"
+                android:background="#DDDDDD"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
                 android:text="Expense Details"
+                android:fontFamily="@font/scada_regular"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"

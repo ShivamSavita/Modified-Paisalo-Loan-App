@@ -12,277 +12,381 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses in Rent" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesRent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses in Rent"
+                    android:background="@color/white"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses for Food" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"          
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesFood"
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses for Food"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses for Education" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesEducation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses for Education"
-                    android:inputType="number" />
+                    android:background="@color/white"
+                        android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses for Health" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesHealth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses for Health"
-                    android:inputType="number" />
+android:background="@color/white"                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses for Travelling" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesTravelling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses for Travelling"
-                    android:inputType="number" />
+android:background="@color/white"                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Expenses for Entertainment" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesEntertainment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Expenses for Entertainment"
-                    android:inputType="number" />
+android:background="@color/white"                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Any Other Expenses" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                 <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="8dp"
                     android:id="@+id/tietFamilyExpensesOthers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Any Other Expenses"
-                    android:inputType="number" />
+android:background="@color/white"                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="#DDDDDD"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/scada_regular"
             android:text="House Detail"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="House Type"
+           />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+   
 
-                <TextView
-                    style="@style/InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="House Type"
-                    android:textSize="14dp" />
+        
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/spinner_bggrey1">
+         
+   >
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/acspHomeType"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                        android:layout_height="50dp"
+                          />
                 </LinearLayout>
-            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Roof Type"
+            />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Roof Type"
-                    android:textSize="14dp" />
+ 
+              
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/spinner_bggrey1">
+        >
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/acspHomeRoofType"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                        android:layout_height="50dp"
+                          />
                 </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/scada_regular"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Personal Toilet"
+         />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Personal Toilet"
-                    android:textSize="14dp" />
+         
+               
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/spinner_bggrey1">
+                  
+                   >
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/acspToiletType"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                        android:layout_height="50dp"
+                          />
                 </LinearLayout>
-            </LinearLayout>
+            
         </androidx.cardview.widget.CardView>
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+                    android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
             android:visibility="gone"
-            app:cardElevation="5dp">
+           app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -307,7 +411,7 @@
                         android:id="@+id/acspLivigWithSpouse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                          />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -4,18 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!--Image we will display is our slider view-->
-    <ImageView
-        android:id="@+id/myimage"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        android:layout_margin="@dimen/margin_6dp"
         android:layout_width="0dp"
-
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/app_name"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/myimage"
+            android:layout_width="match_parent"
+                android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
+    <!--Image we will display is our slider view-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
