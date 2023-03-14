@@ -81,6 +81,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
     private DatePickerDialog.OnDateSetListener dateSetListner;
     private Bitmap bitmap;
     private String ImageString;
+    Button BtnSaveKYCData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,8 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
         guarantor = getGuarantor(guarantor_id, borrower_id);
 
         btnAdd = findViewById(R.id.btnGuarantorAdd);
+        BtnSaveKYCData = findViewById(R.id.BtnSaveKYCData);
+        BtnSaveKYCData.setVisibility(View.GONE);
         btnUpdate = findViewById(R.id.btnGuarantorUpdate);
         btnUpdate.setOnClickListener(this);
         btnDelete = findViewById(R.id.btnGuarantorDelete);
