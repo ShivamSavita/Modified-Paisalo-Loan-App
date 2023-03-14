@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     android:layout_margin="8dp"
     app:cardCornerRadius="6dp"
+    app:cardElevation="@dimen/margin_3dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -16,6 +17,7 @@
 
 
         <TextView
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +31,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:textColor="@color/defaultTextColor"
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerFather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerName" />
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/itemLayoutCustomerFiId"
             app:layout_constraintBottom_toBottomOf="@id/itemLayoutCustomerFather"
             app:layout_constraintEnd_toStartOf="@id/itemLayoutCustomerEkyc"
@@ -67,6 +72,8 @@
             android:visibility="visible" />
 
         <TextView
+            android:textColor="@color/defaultTextColor"
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerMobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +95,7 @@
                 android:visibility="invisible"/>-->
 
         <TextView
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerCreator"
             app:layout_constraintBottom_toBottomOf="@id/itemLayoutCustomerMobile"
             app:layout_constraintEnd_toStartOf="@id/itemLayoutCustomerEkyc"
@@ -99,6 +107,9 @@
             android:visibility="visible" />
 
         <TextView
+            android:layout_marginTop="5dp"
+            android:textColor="@color/defaultTextColor"
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
