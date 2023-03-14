@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    android:layout_margin="8dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="@dimen/margin_3dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+<androidx.cardview.widget.CardView
+    android:layout_margin="5dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="@dimen/margin_3dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/mainCardBG"
-
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
         android:padding="@dimen/margin_3dp">
 
 
         <TextView
-            android:fontFamily="@font/scada_regular"
+            android:fontFamily="@font/scada_bold"
             android:id="@+id/itemLayoutCustomerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/applicant_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:textColor="@color/black"
+            android:fontFamily="@font/scada_regular"
+            android:id="@+id/itemLayoutCustomerFather1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Guardian"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerName" />
         <TextView
             android:textColor="@color/defaultTextColor"
             android:fontFamily="@font/scada_regular"
@@ -39,10 +56,10 @@
             android:layout_marginStart="5dp"
             android:text="@string/applicant_father_spouse"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerName" />
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerFather1" />
 
         <ImageButton
             android:id="@+id/itemLayoutCustomerEkyc"
@@ -59,6 +76,7 @@
             app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerName" />
 
         <TextView
+            android:fontFamily="@font/scada_bold"
             android:textColor="@color/black"
             android:id="@+id/itemLayoutCustomerFiId"
             app:layout_constraintBottom_toBottomOf="@id/itemLayoutCustomerFather"
@@ -68,9 +86,22 @@
             android:paddingStart="15dp"
             android:text="Fi Code"
             style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:visibility="visible" />
 
+        <TextView
+            android:textColor="@color/black"
+            android:fontFamily="@font/scada_regular"
+            android:id="@+id/itemLayoutCustomerMobile1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Mobile"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerFather" />
         <TextView
             android:textColor="@color/defaultTextColor"
             android:fontFamily="@font/scada_regular"
@@ -80,10 +111,10 @@
             android:layout_marginStart="5dp"
             android:text="@string/applicant_mobile"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerFather" />
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerMobile1" />
 
         <!--<TextView
                 android:id="@+id/itemLayoutCustomer"
@@ -103,11 +134,23 @@
             android:layout_height="wrap_content"
             android:text="@string/loan_creator"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:visibility="visible" />
 
         <TextView
-            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/scada_regular"
+            android:id="@+id/itemLayoutCustomerAddress1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Address"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerMobile" />
+        <TextView
             android:textColor="@color/defaultTextColor"
             android:fontFamily="@font/scada_regular"
             android:id="@+id/itemLayoutCustomerAddress"
@@ -117,11 +160,13 @@
             android:layout_marginBottom="8dp"
             android:text="@string/applicant_address"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerMobile" />
+            app:layout_constraintTop_toBottomOf="@id/itemLayoutCustomerAddress1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

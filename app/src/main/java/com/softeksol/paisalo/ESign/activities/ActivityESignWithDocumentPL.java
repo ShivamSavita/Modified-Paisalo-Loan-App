@@ -411,6 +411,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                     jo.put("GrNo", eSigner.GrNo);
                     jo.put("TxnID", jsonObject.get("TxnID"));
                     jo.put("isAccepted", whichButton == DialogInterface.BUTTON_POSITIVE);
+
                     /*if(whichButton == DialogInterface.BUTTON_NEGATIVE){
                         eSigner.ESignSucceed="BLK";
                     }*/
@@ -499,7 +500,5 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             }
         });
     }
-
-    ;
 
 }

@@ -285,7 +285,7 @@ DocumentStore extends BaseModel {
                 documentStore.imageTag = EnumImageTags.Guarantor.getImageTag();
                 documentStore.fieldname = EnumFieldName.Guarantor.getFieldName();
                 documentStore.apiRelativePath = EnumApiPath.GuarantorApiJson.getApiPath();
-            } else {
+            }else{
                 documentStore.imageTag = EnumImageTags.Documents.getImageTag();
                 documentStore.fieldname = EnumFieldName.Documents.getFieldName();
                 documentStore.apiRelativePath = EnumApiPath.DocumentApi.getApiPath();

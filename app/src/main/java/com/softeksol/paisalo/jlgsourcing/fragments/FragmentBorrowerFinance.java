@@ -116,7 +116,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                     SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("loan_amt")).queryList(), false);
         }
 
-        rlaFinanceDuration = new AdapterListRange(this.getContext(), Utils.getList(4, 8, 1, 3, "Months"), true);
+          rlaFinanceDuration = new AdapterListRange(this.getContext(), Utils.getList(4, 8, 1, 3, "Months"), true);
         //rlaFinanceDuration = new AdapterListRange(this.getContext(), Utils.getList(5, 6, 1, 3, "Months"), true);
     }
 

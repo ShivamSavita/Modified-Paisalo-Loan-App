@@ -207,7 +207,7 @@
         android:textColor="@color/defaultTextColor"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/scada_regular"
-        android:text="Password must be atleast 5 character"
+        android:text="Password must be at least 5 character"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

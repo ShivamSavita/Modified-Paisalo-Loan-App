@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_overAll"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,6 +32,8 @@
 
 
             <LinearLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -53,8 +55,8 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:src="@drawable/userprofile"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"/>
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"/>
                         <TextView
                             android:id="@+id/itemLayoutCustomerName"
                             android:layout_width="wrap_content"
@@ -91,9 +93,10 @@
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"/>
                             <TextView
-                                android:id="@+id/itemLayoutCustomerFather"
+                                android:layout_marginTop="5dp"
                                 android:textColor="@color/black"
-                                android:fontFamily="@font/scada_regular"
+                                android:fontFamily="@font/scada_bold"
+                                android:text="Fi Code"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
@@ -105,12 +108,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
+                                android:id="@+id/itemLayoutCustomerFather"
                                 android:textColor="@color/black"
-                                android:fontFamily="@font/scada_bold"
-                                android:text="Fi Code"
+                                android:fontFamily="@font/scada_regular"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
+
+
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/itemLayoutCustomerFiId"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/scada_regular"
@@ -138,12 +144,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <TextView
-                                android:id="@+id/itemLayoutCustomerMobile"
+                                android:layout_marginTop="5dp"
                                 android:textColor="@color/black"
-                                android:fontFamily="@font/scada_regular"
+                                android:fontFamily="@font/scada_bold"
+                                android:text="@string/loan_creator"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -152,12 +158,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
+                                android:id="@+id/itemLayoutCustomerMobile"
                                 android:textColor="@color/black"
-                                android:fontFamily="@font/scada_bold"
-                                android:text="@string/loan_creator"
+                                android:fontFamily="@font/scada_regular"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
+
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/itemLayoutCustomerCreator"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/scada_regular"
@@ -175,12 +183,17 @@
 
 
                 <TextView
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/black"
                     android:text="@string/applicant_address"
                     android:fontFamily="@font/scada_bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_marginTop="1dp"
                     android:id="@+id/itemLayoutCustomerAddress"
                     android:textColor="@color/black"
