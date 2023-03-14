@@ -275,7 +275,6 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
         chkCurrentAddressDifferent.setChecked(isCurrentAddressVisible);
 
         tietBusinessDetail.setText(Utils.getNotNullString(borrower.Business_Detail));
-        ;
         tietLoanReason.setText(Utils.getNotNullString(borrower.Loan_Reason));
         tieBankAcNo.setText(Utils.getNotNullString(borrower.bank_ac_no));
         tietLoanAMount.setText(Utils.getNotNullString(borrower.Loan_Amt));

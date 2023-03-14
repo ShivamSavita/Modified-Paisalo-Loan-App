@@ -15,7 +15,7 @@
 
             <LinearLayout
 
-                android:padding="5dp"
+                android:padding="10dp"
                 android:background="@drawable/backcard"
                 android:id="@+id/linearLayoutOne"
                 android:orientation="vertical"
@@ -34,18 +34,19 @@
 
                     <ImageView
                         android:id="@+id/imgViewAadharPhoto"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:src="@drawable/user_profile" />
 
                     <TextView
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/scada_regular"
                         android:text="DDDDDD"
                         android:id="@+id/tvAadharName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
                         android:textStyle="bold" />
 
 
@@ -666,7 +667,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/loCurrentAddress"
                 android:layout_width="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:descendantFocusability="beforeDescendants"
@@ -679,8 +680,9 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCurrentAddress1"
+                    android:background="@drawable/spinner_bggrey"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -690,49 +692,61 @@
                         android:id="@+id/tietCurrentAddress1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:layout_marginLeft="5dp"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
                         android:hint="@string/aadhar_address1"
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_bggrey"
                     android:id="@+id/tilCurrentAddress2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress1">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:layout_marginLeft="5dp"
                         android:id="@+id/tietCurrentAddress2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
                         android:hint="@string/aadhar_address2"
+                        android:background="@null"
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
                     android:id="@+id/tilCurrentAddress3"
+                    android:background="@drawable/spinner_bggrey"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:layout_marginLeft="5dp"
                         android:id="@+id/tietCurrentAddress3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
                         android:hint="@string/aadhar_address3"
+                        android:background="@null"
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_bggrey"
                     android:id="@+id/tilCurrentCity"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     app:layout_constraintEnd_toStartOf="@+id/tilCurrentPinCode"
                     app:layout_constraintHorizontal_weight=".6"
                     app:layout_constraintStart_toStartOf="parent"
@@ -744,13 +758,18 @@
                         android:layout_height="wrap_content"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                         android:hint="@string/aadhar_city"
+                        android:background="@null"
+                        android:layout_marginLeft="5dp"
                         android:inputType="textCapCharacters" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/spinner_bggrey"
                     android:id="@+id/tilCurrentPinCode"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight=".4"
                     app:layout_constraintStart_toEndOf="@+id/tilCurrentCity"
@@ -761,6 +780,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/aadhar_pin"
+                        android:layout_marginLeft="5dp"
+                        android:background="@null"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
