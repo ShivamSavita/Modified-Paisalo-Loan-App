@@ -177,13 +177,11 @@ public class FragmentCollection extends AbsCollectionFragment {
                 lvc.setItemsCanFocus(false);
                 lvc.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 lvc.setAdapter(new AdapterInstallment(getContext(), R.layout.layout_item_installment, installments));
-
                 lvc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
                         //System.out.println("clicked" + position);
-
                         Installment installment = (Installment) parent.getItemAtPosition(position);
                         installment.setSelected(!installment.isSelected());
                         CheckBox chb = (CheckBox) view.findViewById(R.id.cbItemInstallmentSelected);

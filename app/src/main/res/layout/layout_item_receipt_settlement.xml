@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_margin="8dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="@dimen/margin_3dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="@dimen/margin_6dp"
@@ -6,6 +15,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:fontFamily="@font/scada_regular"
         android:id="@+id/itemLayoutSettleName"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -14,10 +24,12 @@
         android:layout_height="wrap_content"
         android:text="@string/applicant_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:visibility="visible" />
 
     <TextView
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/itemLayoutSettleCaseCode"
         app:layout_constraintTop_toBottomOf="@id/itemLayoutSettleName"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,10 +37,12 @@
         android:layout_height="wrap_content"
         android:text="Case Code"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
     <TextView
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/itemLayoutSettleDate"
         app:layout_constraintBottom_toBottomOf="@id/itemLayoutSettleCaseCode"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +50,12 @@
         android:layout_height="wrap_content"
         android:text="Receipt Date"
         android:gravity="end"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
     <TextView
+        android:fontFamily="@font/scada_regular"
+        android:textColor="@color/defaultTextColor"
         android:id="@+id/itemLayoutSettleMobile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/itemLayoutSettleCaseCode"
@@ -47,10 +63,11 @@
         android:layout_height="wrap_content"
         android:text="@string/applicant_mobile"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
     <TextView
+        android:fontFamily="@font/scada_regular"
         android:id="@+id/itemLayoutSettleAmount"
         app:layout_constraintBottom_toBottomOf="@id/itemLayoutSettleMobile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +76,10 @@
         android:text="Amount"
         android:gravity="end"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>
