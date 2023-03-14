@@ -74,7 +74,7 @@
     <string name="applicant_religion">Religion</string>
     <string name="applicant_marital_status">Marital Status</string>
     <string name="applicant_dependents">No. of Depenent(s) (Adult)</string>
-    <string name="applicant_children">Child(ren)</string>
+    <string name="applicant_children">Children</string>
     <string name="applicant_school_going_children">School Going Children</string>
     <string name="applicant_child_monthly_spends">Monthly Spends on Children</string>
     <string name="applicant_pan">Permanent Account No (PAN)</string>

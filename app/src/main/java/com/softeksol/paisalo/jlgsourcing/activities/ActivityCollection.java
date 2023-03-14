@@ -55,12 +55,19 @@ public class ActivityCollection extends AppCompatActivity {
     private AbsCollectionFragment fragSettlement = null;
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_viewpager);
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         absFragments = new ArrayList<>();
 
         // Create the adapter that will return a fragment for each of the three

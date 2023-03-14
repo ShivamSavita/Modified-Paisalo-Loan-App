@@ -37,7 +37,7 @@
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:visibility="gone"
             android:layout_below="@+id/appbar"
             android:background="@color/white"
             android:scrollIndicators="bottom"

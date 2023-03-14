@@ -149,7 +149,7 @@
                     android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgViewScanQR" />
+                    app:layout_constraintTop_toBottomOf="@+id/tilUidAadhar" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tilUidName"
@@ -829,7 +829,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView24">
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -840,8 +839,19 @@
                         app:boxStrokeWidthFocused="0dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/llUidState">
+                        app:layout_constraintTop_toTopOf="@+id/tilMobile">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:paddingStart="8dp"
+                            android:textSize="15dp"
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -1064,31 +1074,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView_DrivingLicence" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="4dp"
-                    app:boxBackgroundColor="#FFF"
-                    app:boxStrokeColor="#FFF"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tilMobile">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietMobile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:digits="0123456789/-"
-                        android:inputType="phone"
-                        android:maxLength="10"
-                        android:paddingStart="8dp"
-                        android:textSize="15dp"
-                        tools:layout_editor_absoluteX="13dp"
-                        tools:layout_editor_absoluteY="974dp" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView_MotherFirstName"

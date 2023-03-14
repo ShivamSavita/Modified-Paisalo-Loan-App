@@ -7,7 +7,9 @@
     <TextView
         android:id="@+id/tvListItemSingle"
         android:layout_width="match_parent"
-        android:textSize="24sp"
+        android:textSize="21sp"
+        android:fontFamily="@font/scada_regular"
+
         android:layout_height="wrap_content" />
 
 </LinearLayout>

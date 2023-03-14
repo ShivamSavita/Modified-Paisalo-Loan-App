@@ -126,7 +126,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     private AppCompatSpinner acspGender, acspAadharState,acspRelationship;
     private TextInputEditText tietAadharId, tietName, tietAge, tietDob, tietGuardian,
             tietAddress1, tietAddress2, tietAddress3, tietCity, tietPinCode, tietMobile,
-            tietDrivingLic, tietPanNo, tietVoterId, tietMotherMName,tietMotherFName,tietMotherLName, tietFatherMName,tietFatherFName,tietFatherLName;
+            tietDrivingLic, tietPanNo, tietVoterId, tietMotherMName,tietMotherFName,tietMotherLName, tietFatherMName,tietFatherFName,tietFatherLName
+            ,tietSpouseLName,tietSpouseMName,tietSpouseFName;
     private SearchView svOldCase;
     private TextView textViewFiDetails,tilPAN_Name,tilVoterId_Name;
     private TextWatcher ageTextWatcher;
@@ -233,7 +234,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 genders.add(new RangeCategory("Female", "Gender"));
                 genders.add(new RangeCategory("Transgender", "Gender"));
         }*/
+
         cardView_SpouseFirstName = findViewById(R.id.cardView_SpouseFirstName);
+        tietSpouseLName = findViewById(R.id.tietSpouseLName);
+        tietSpouseMName = findViewById(R.id.tietSpouseMName);
+        tietSpouseFName = findViewById(R.id.tietSpouseFName);
         textView35 = findViewById(R.id.textView35);
         textView35.setVisibility(View.GONE);
         cardView_SpouseFirstName.setVisibility(View.GONE);
@@ -1262,6 +1267,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                                if (isMarriedCheckBox.isChecked()){
+                                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
+                                                }
+
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1300,6 +1311,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                                if (isMarriedCheckBox.isChecked()){
+                                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
+                                                }
+
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1320,6 +1337,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                         intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                         intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        if (isMarriedCheckBox.isChecked()){
+                                            intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                            intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                            intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
+                                        }
+
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);

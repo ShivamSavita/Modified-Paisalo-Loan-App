@@ -75,13 +75,13 @@
         android:fontFamily="@font/scada_regular"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Land Hold (Acres)" />
+        android:text="Land Hold (Acers)" />
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="5dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"        app:cardElevation="2dp"
-
+        android:layout_marginBottom="8dp"
+        app:cardElevation="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout

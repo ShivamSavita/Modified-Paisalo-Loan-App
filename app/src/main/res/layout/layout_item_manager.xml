@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:fontFamily="@font/scada_regular"
+        android:textSize="13sp"
         android:text="@string/manager_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -24,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_code"
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -39,6 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loan_creator"
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -53,6 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_area_name"
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -60,6 +68,8 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/fab_margin"
             android:text="("
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -67,12 +77,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_area_code"
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=")"
+            android:fontFamily="@font/scada_regular"
+            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>

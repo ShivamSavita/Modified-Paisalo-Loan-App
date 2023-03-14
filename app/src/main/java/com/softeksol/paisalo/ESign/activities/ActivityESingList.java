@@ -152,10 +152,17 @@ public class ActivityESingList extends AppCompatActivity {
 //    }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esing_list);
         getSupportActionBar().setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ")" + " / ");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         esignType = getIntent().getIntExtra(ESIGN_TYPE_TAG, 1);
         Log.d("TAG", "onCreate: "+esignType);

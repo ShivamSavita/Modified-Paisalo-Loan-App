@@ -48,12 +48,8 @@ Button BtnSaveKYCData;
 Borrower borrower;
 private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaEarningMember, rlaSchemeType ,rlsOccupation,rlaBussiness;
 Intent i;
-String FatherFName;
-String FatherLName;
-String FatherMName;
-String MotherFName;
-String MotherLName;
-String MotherMName;
+String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMName,SpouseLName,SpouseMName,SpouseFName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +61,9 @@ String MotherMName;
         MotherFName=i.getStringExtra("MotherFName");
         MotherLName=i.getStringExtra("MotherLName");
         MotherMName=i.getStringExtra("MotherMName");
+        SpouseLName=i.getStringExtra("SpouseLName");
+        SpouseMName=i.getStringExtra("SpouseMName");
+        SpouseFName=i.getStringExtra("SpouseFName");
         manager = (Manager) i.getSerializableExtra("manager");
         borrower = (Borrower) i.getSerializableExtra("borrower");
         tietAgricultureIncome=findViewById(R.id.tietAgricultureIncome);
@@ -87,6 +86,9 @@ String MotherMName;
         Log.d("TAG", "onCreate: "+MotherFName);
         Log.d("TAG", "onCreate: "+MotherLName);
         Log.d("TAG", "onCreate: "+MotherMName);
+        Log.d("TAG", "onCreate: "+SpouseLName);
+        Log.d("TAG", "onCreate: "+SpouseMName);
+        Log.d("TAG", "onCreate: "+SpouseFName);
 //        borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(KYC_Form_New.this, SEILIGL.USER_ID, ""));
 
         rlaSchemeType = new AdapterListRange(this,
@@ -175,7 +177,7 @@ String MotherMName;
                                     borrower.save();
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
-                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag);
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName);
 
                                     borrower.fiExtra=borrowerExtra;
                                     borrower.save();
