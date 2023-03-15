@@ -217,7 +217,8 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
                                         }
                                     };
 
-//                                    (new WebOperations()).postEntity(KYC_Form_New.this, "posfi", "updatefi", WebOperations.convertToJson(borrower), dataAsyncResponseHandlerUpdateFI);
+                                    (new WebOperations()).postEntity(KYC_Form_New.this, "posfi", "updatefi", WebOperations.convertToJson(borrower), dataAsyncResponseHandlerUpdateFI);
+
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(KYC_Form_New.this);
                                     builder.setTitle("Borrower KYC");
@@ -278,6 +279,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
         borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
+        borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
 
 
 

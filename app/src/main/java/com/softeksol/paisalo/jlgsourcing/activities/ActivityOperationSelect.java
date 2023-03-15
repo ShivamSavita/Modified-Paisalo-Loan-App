@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,6 +53,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
+
         sliderView = findViewById(R.id.slider);
 
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
@@ -81,6 +83,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
         actionBarDrawerToggle.syncState();
 
 
@@ -120,6 +123,10 @@ public class ActivityOperationSelect extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
 
     private void updateManagers(final OperationItem operationItem) {
         //if (WebOperations.checkSession(this)) {

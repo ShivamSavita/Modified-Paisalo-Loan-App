@@ -54,7 +54,8 @@ import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TA
  * Use the {@link FragmentKycScanning#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListener, CameraUtils.OnCameraCaptureUpdate {
+public class
+FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListener, CameraUtils.OnCameraCaptureUpdate {
     private OnListFragmentKycScanInteractionListener mListener;
     private List<DocumentStore> documentStores = new ArrayList<>();
     private AdapterListDocuments adapterListDocuments;

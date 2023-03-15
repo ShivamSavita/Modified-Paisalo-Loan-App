@@ -693,8 +693,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrower.voterid = Utils.getNotNullText(tietVoterId);
         borrowerExtra.save();
         borrower.fiExtra=borrowerExtra;
-        borrower.save();
         borrower.BankName= bankName;
+
+        borrower.save();
 
         editor.clear();
         editor.apply();

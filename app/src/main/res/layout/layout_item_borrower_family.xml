@@ -23,7 +23,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:padding="4dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:layout_height="match_parent">
 
             <TextView
@@ -33,6 +34,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="Borrower Name"
+                android:textColor="@color/colorPrimary"
+
+                android:fontFamily="@font/scada_bold"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -41,10 +46,13 @@
                 android:id="@+id/tvFamilyGenderAge"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="0dp"
+                android:textColor="@color/defaultTextColor"
                 android:layout_height="wrap_content"
                 android:text="Gender Age"
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvFamilyHealth"
-                app:layout_constraintHorizontal_weight=".35"
+                app:layout_constraintHorizontal_weight=".5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFamilyName" />
 
@@ -55,8 +63,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="Health"
+                android:textColor="@color/defaultTextColor"
+
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight=".65"
+                app:layout_constraintHorizontal_weight=".5"
                 app:layout_constraintStart_toEndOf="@id/tvFamilyGenderAge"
                 app:layout_constraintTop_toTopOf="@id/tvFamilyGenderAge" />
 
@@ -66,8 +78,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Education"
+                android:textColor="@color/defaultTextColor"
+
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvFamilySchoolType"
-                app:layout_constraintHorizontal_weight=".45"
+                app:layout_constraintHorizontal_weight=".5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFamilyHealth" />
 
@@ -77,9 +93,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
+                android:textColor="@color/defaultTextColor"
+
                 android:text="Education Type"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight=".55"
+                app:layout_constraintHorizontal_weight=".5"
                 app:layout_constraintStart_toEndOf="@id/tvFamilyEducation"
                 app:layout_constraintTop_toTopOf="@id/tvFamilyEducation" />
 
@@ -89,6 +109,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Business"
+                android:textColor="@color/defaultTextColor"
+
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvFamilyBusinessType"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFamilyEducation" />
@@ -99,7 +123,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 android:text="Business Type"
+                android:textColor="@color/defaultTextColor"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvFamilyBusiness"
                 app:layout_constraintTop_toTopOf="@id/tvFamilyBusiness" />
@@ -110,6 +138,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Relationship"
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
+
+                android:textColor="@color/defaultTextColor"
                 app:layout_constraintEnd_toStartOf="@+id/tvFamilyIncome"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFamilyBusiness" />
@@ -120,9 +152,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_6dp"
+                android:fontFamily="@font/scada_regular"
                 android:gravity="end"
                 android:text="Income"
+                android:textColor="@color/defaultTextColor"
+
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvFamilyIncomeType"
+
                 app:layout_constraintStart_toEndOf="@id/tvFamilyRelationship"
                 app:layout_constraintTop_toTopOf="@id/tvFamilyRelationship" />
 
@@ -133,6 +170,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="Cash Flow"
+                android:textColor="@color/defaultTextColor"
+
+                android:fontFamily="@font/scada_regular"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvFamilyIncome"
                 app:layout_constraintTop_toTopOf="@id/tvFamilyRelationship" />

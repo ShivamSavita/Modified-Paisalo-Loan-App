@@ -1,121 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_margin="@dimen/margin_6dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="15dp"
-    android:background="@drawable/backcard"
     android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:layout_margin="5dp"
+        app:cardElevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                  android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+             android:orientation="vertical"
+                android:layout_weight="1">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lender Name"
+        android:textColor="@color/defaultTextColor"
+        android:gravity="center"
+        android:fontFamily="@font/scada_bold"
+        android:textSize="11dp"/>
 
     <TextView
-        android:textSize="16dp"
+        android:textSize="12dp"
         android:fontFamily="@font/scada_regular"
         android:id="@+id/tvRunningLoanLenderName"
         android:text="Lender name"
         android:gravity="center_horizontal"
         style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:textColor="@color/defaultTextColor"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+</LinearLayout>
+                <View
+                    android:id="@+id/divider8"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/listDivider" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lender Type"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanLenderType"
+                        android:text="Lender Type"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLenderName"
+                        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanLenderIsMFI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+</LinearLayout>
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanLenderType"
-        app:layout_constraintHorizontal_weight=".65"
-        android:text="Lender Type"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLenderName"
-        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanLenderIsMFI"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanLenderIsMFI"
-        app:layout_constraintHorizontal_weight=".35"
-        android:text="Is MFI"
-        android:gravity="end"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@id/tvRunningLoanLenderType"
-        app:layout_constraintTop_toTopOf="@id/tvRunningLoanLenderType"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanReason"
-        android:text="Reason for Loan"
-        android:gravity="center"
-        style="@style/Base.TextAppearance.AppCompat.Small"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLenderIsMFI"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Reason for Loan"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:textSize="12dp"
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanLonee"
-        android:text="Lonee"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanReason"
-        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanReason"
+                        android:text="Reason for Loan"
+                        android:gravity="center"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLenderIsMFI"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:id="@+id/divider6"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanAmount"
-        android:text="Loan Amount"
-        android:gravity="end"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@id/tvRunningLoanLonee"
-        app:layout_constraintTop_toTopOf="@id/tvRunningLoanLonee"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanEMI"
-        android:text="Loan EMI"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLonee"
-        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanBalance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:textSize="14dp"
-        android:fontFamily="@font/scada_regular"
-        android:textColor="@color/defaultTextColor"
-        android:id="@+id/tvRunningLoanBalance"
-        android:text="Balance"
-        android:gravity="end"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@id/tvRunningLoanEMI"
-        app:layout_constraintTop_toTopOf="@id/tvRunningLoanEMI"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Is MFI"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanLenderIsMFI"
+                        app:layout_constraintHorizontal_weight=".35"
+                        android:text="Is MFI"
+
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toEndOf="@id/tvRunningLoanLenderType"
+                        app:layout_constraintTop_toTopOf="@id/tvRunningLoanLenderType"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lonee"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanLonee"
+                        android:text="Lonee"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanReason"
+                        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Loan Amount"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanAmount"
+                        android:text="Loan Amount"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toEndOf="@id/tvRunningLoanLonee"
+                        app:layout_constraintTop_toTopOf="@id/tvRunningLoanLonee"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Loan EMI"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanEMI"
+                        android:text="Loan EMI"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRunningLoanLonee"
+                        app:layout_constraintEnd_toStartOf="@+id/tvRunningLoanBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Balance"
+                        android:textColor="@color/defaultTextColor"
+                        android:gravity="center"
+                        android:fontFamily="@font/scada_bold"
+                        android:textSize="11dp"/>
+                    <TextView
+                        android:gravity="center"
+
+                        android:textSize="12dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:textColor="@color/defaultTextColor"
+                        android:id="@+id/tvRunningLoanBalance"
+                        android:text="Balance"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        app:layout_constraintStart_toEndOf="@id/tvRunningLoanEMI"
+                        app:layout_constraintTop_toTopOf="@id/tvRunningLoanEMI"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
