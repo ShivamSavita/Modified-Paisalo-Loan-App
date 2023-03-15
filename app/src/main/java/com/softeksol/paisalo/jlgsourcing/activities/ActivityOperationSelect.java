@@ -81,6 +81,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
         actionBarDrawerToggle.syncState();
 
 
