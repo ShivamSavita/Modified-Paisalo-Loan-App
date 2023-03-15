@@ -712,7 +712,7 @@ public class ActivityFinancing extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
                     String jsonString = new String(responseBody);
-                    //Log.d("Pending FI List", jsonString);
+                    Log.d("Pending FI List", jsonString);
                     Type listType = new TypeToken<List<PendingFi>>() {
                     }.getType();
                     pendingFis = WebOperations.convertToObjectArray(jsonString, listType);
@@ -758,15 +758,16 @@ public class ActivityFinancing extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
                     String jsonString = new String(responseBody);
+                    Log.d("Borrower from JSON ", jsonString);
                     jsonString = jsonString
                             .replace("{\"Fi", ",\"fi").replace(",\"Fi", ",\"fi");
 
-                    //Log.d("Borrower from JSON ", jsonString);
                     BorrowerDTO borrowerDto = WebOperations.convertToObject(jsonString, BorrowerDTO.class);
                     //Log.d("Borrower from DTO ", borrowerDto.toString());
                     //borrower=borrowerDto.getBorrower();
                     //borrower=Borrower.getBorrower(borrower.Code,borrower.Creator);
                     borrower = new Borrower(borrowerDto);
+                    borrower.save();
                     fetchUploadedGuarantor(borrower);
                 }
             }
@@ -792,6 +793,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
+                Log.d("TAG", "onSuccess: "+jsonString);
                 jsonString = jsonString.replace("FiCode", "FICode");
 
                 Type listType = new TypeToken<List<DocumentStoreDTO>>() {
@@ -823,7 +825,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
-                //Log.d("Guarantor Json", jsonString);
+                Log.d("Guarantor Json", jsonString);
 
                 //jsonString=jsonString.replace("FiCode","FICode");
 

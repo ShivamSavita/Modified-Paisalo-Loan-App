@@ -177,7 +177,7 @@
         confirm to let it be used for my KYC.
     </string>
 
-    <string name="consent_1">I hereby authorize NSDL e-Gov on behalf of Paisalo Digital Limited to-\n
+    <string name="consent_1"><b>I hereby authorize NSDL e-Gov on behalf of Paisalo Digital Limited to-</b>\n
         1. Use my Aadhaar details for Loan Document eSignature and authenticate my identity through the Aadhaar
         Authentication system (Aadhaar based e-KYC services of UIDAI) in accordance with the provisions of the Aadhar
         (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016 and the allied rules and

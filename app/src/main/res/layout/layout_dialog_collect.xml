@@ -60,7 +60,7 @@
             android:padding="2dp"
             android:background="@drawable/spinner_bggrey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBox">
@@ -69,6 +69,7 @@
                 android:fontFamily="@font/scada_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:digits="0123456789"
                 android:hint="UTR No."
                 android:textSize="14dp"
@@ -82,7 +83,7 @@
             android:padding="2dp"
             android:background="@drawable/spinner_bggrey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBox">
@@ -91,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:digits="0123456789"
+                android:background="@null"
                 android:fontFamily="@font/scada_regular"
                 android:hint="Receipt No."
                 android:textSize="14dp"

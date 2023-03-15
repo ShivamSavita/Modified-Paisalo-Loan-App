@@ -159,9 +159,17 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
             }else{
                         borrower.Oth_Prop_Det = null;
                         borrower.save();
+                        borrower.associateExtraBank(borrower.fiExtraBank);
+                        borrower.fiExtraBank.save();
+//                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                        borrower.fiFamExpenses = null;
+                        borrower.fiExtra = null;
+                        borrower.fiExtraBank.setMotherName(MotherFName);
+                        borrower.fiExtraBank.setFatherName(FatherFName);
+                        String occCode = Utils.getSpinnerStringValue(acspOccupation);
+                        borrower.fiExtraBank.setCkycOccupationCode(occCode);
 
-                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-                        borrowerDTO.fiFamExpenses = null;
+
 
                         AsyncResponseHandler dataAsyncResponseHandler = new AsyncResponseHandler(this, "Loan Financing\nSubmittiong Loan Application", "Submitting Borrower Information") {
                             @Override
@@ -175,10 +183,19 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
                                     borrower.updateFiCode(FiCode, borrower.Tag);
                                     borrower.Oth_Prop_Det = null;
                                     borrower.save();
+
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
                                     BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName);
-
+                                    Log.d("TAG", "onCreate: "+FatherFName);
+                                    Log.d("TAG", "onCreate: "+FatherLName);
+                                    Log.d("TAG", "onCreate: "+FatherMName);
+                                    Log.d("TAG", "onCreate: "+MotherFName);
+                                    Log.d("TAG", "onCreate: "+MotherLName);
+                                    Log.d("TAG", "onCreate: "+MotherMName);
+                                    Log.d("TAG", "onCreate: "+SpouseLName);
+                                    Log.d("TAG", "onCreate: "+SpouseMName);
+                                    Log.d("TAG", "onCreate: "+SpouseFName);
                                     borrower.fiExtra=borrowerExtra;
                                     borrower.save();
                                     borrower.fiExtra.save();
@@ -258,7 +275,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
 
 
                         //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
-                        String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
+                        String borrowerJsonString = WebOperations.convertToJson(borrower);
                         //Log.d("Borrower Json", borrowerJsonString);
                         Log.d("TAG", "updateBorrower: "+borrowerJsonString);
                 (new WebOperations()).postEntity(getApplicationContext(), "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
@@ -280,6 +297,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
+        borrower.Approved=null;
 
 
 

@@ -247,6 +247,7 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         super.onResume();
         borrower = activity.getBorrower();
         borrowerExtra = borrower.getBorrowerExtra();
+        Log.d("TAG", "onResume: "+borrower.F_lname+"////////"+borrowerExtra.FATHER_LAST_NAME);
         if (borrowerExtra == null) {
             borrowerExtra = new BorrowerExtra();
             activity.getBorrower().associateExtra(borrowerExtra);

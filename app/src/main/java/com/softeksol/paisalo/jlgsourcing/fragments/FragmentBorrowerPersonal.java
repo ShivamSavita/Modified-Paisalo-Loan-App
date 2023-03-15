@@ -3,6 +3,7 @@ package com.softeksol.paisalo.jlgsourcing.fragments;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -268,6 +269,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         super.onResume();
         borrower = activity.getBorrower();
         borrowerExtra = borrower.getBorrowerExtra();
+
         if (borrowerExtra == null) {
             borrowerExtra = new BorrowerExtra();
             activity.getBorrower().associateExtra(borrowerExtra);
@@ -283,7 +285,8 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     }
 
     private void setDataToView(View v) {
-
+        Log.d("TAG", "setDataToView: "+borrower.F_fname+" "+borrower.F_mname+" "+borrower.F_lname);
+        Log.d("TAG", "setDataToView: "+borrower.fiExtra.FATHER_FIRST_NAME+" "+borrower.fiExtra.FATHER_MIDDLE_NAME+" "+borrower.F_lname);
 
         int spinnerPositionVisuallyImpaired= VISUALLY_IMPAIRED_YN.getPosition(borrowerExtra.VISUALLY_IMPAIRED_YN);
         ((Spinner)v.findViewById(R.id.spinVisuallyImpaired)).setSelection(spinnerPositionVisuallyImpaired);
@@ -346,15 +349,15 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
 
     private void getDataFromView(View v) {
         borrower.Income = Integer.parseInt(Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly)));
-        borrower.Cast = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste));
-        borrower.Religion = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion));
-        borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
-        borrower.House_Owner = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner));
+            borrower.Cast = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste));
+            borrower.Religion = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion));
+            borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
+            borrower.House_Owner = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner));
         borrower.Live_In_Present_Place = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceDuration));
         if (((RangeCategory) ((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner)).getSelectedItem()).DescriptionEn.equals("Other")) {
-            borrower.Rent_of_House = Utils.getSpinnerIntegerValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentHouseRent));
+                borrower.Rent_of_House = Utils.getSpinnerIntegerValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentHouseRent));
         } else {
-            borrower.Rent_of_House = 0;
+             borrower.Rent_of_House = 0;
         }
         borrower.FAmily_member = Utils.getSpinnerIntegerValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalFamilyMembers));
 
@@ -394,6 +397,13 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.FORM60_TNX_DT=((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).getText().toString();
         borrowerExtra.FORM60_SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
         borrowerExtra.FORM60SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
+        borrowerExtra.FATHER_FIRST_NAME="hsdhjsdjh";
+        borrowerExtra.FATHER_MIDDLE_NAME="hsdhjsdjh";
+        borrowerExtra.FATHER_LAST_NAME="hsdhjsdjh";
+        borrowerExtra.MOTHER_FIRST_NAME="hsdhjsdjh";
+        borrowerExtra.MOTHER_LAST_NAME="hsdhjsdjh";
+        borrowerExtra.MOTHER_MIDDLE_NAME="hsdhjsdjh";
+        borrowerExtra.SPOUSE_FIRST_NAME="hsdhjsdjh";
         borrowerExtra.save();
     }
 
