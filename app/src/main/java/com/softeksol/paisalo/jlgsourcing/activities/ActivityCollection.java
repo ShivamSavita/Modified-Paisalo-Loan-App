@@ -43,7 +43,8 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ActivityCollection extends AppCompatActivity {
+public class
+ActivityCollection extends AppCompatActivity {
 
     private AdapterCollectionFragmentPager fragmentPagerAdapter;
     private ViewPager mViewPager;

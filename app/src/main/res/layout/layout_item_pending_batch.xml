@@ -10,7 +10,6 @@
         android:id="@+id/tvLlPendingBatchDate"
         android:layout_weight=".5"
         android:text="Batch Date"
-        android:fontFamily="@font/scada_regular"
         android:textSize="13sp"
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
@@ -22,7 +21,6 @@
         android:layout_weight=".1" />
 
     <TextView
-        android:fontFamily="@font/scada_regular"
         android:id="@+id/tvLlPendingBatchAmount"
         android:layout_weight=".4"
         android:text="Batch Amt"
