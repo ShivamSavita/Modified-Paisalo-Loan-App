@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="10dp"
     android:descendantFocusability="blocksDescendants">
 
     <TextView
@@ -10,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:fontFamily="@font/scada_regular"
-        android:textSize="13sp"
         android:text="@string/manager_name"
+        android:fontFamily="@font/scada_bold"
+        android:textSize="14dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -22,15 +23,17 @@
         android:layout_alignParentEnd="true">
 
         <TextView
+            android:textSize="@dimen/margin_12dp"
             android:id="@+id/tvLayoutManagerCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_code"
             android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:textSize="@dimen/margin_12dp"
+            android:fontFamily="@font/scada_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_3dp"
@@ -39,12 +42,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:textSize="@dimen/margin_12dp"
             android:id="@+id/tvLayoutManagerCreator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loan_creator"
-            android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -55,38 +57,38 @@
         android:layout_below="@+id/tvLayoutManagerName">
 
         <TextView
+            android:textColor="@color/defaultTextColor"
+            android:textSize="@dimen/margin_12dp"
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/tvLayoutManagerAreaName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_area_name"
-            android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:textColor="@color/defaultTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/fab_margin"
             android:text="("
-            android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:textColor="@color/defaultTextColor"
+            android:textSize="@dimen/margin_12dp"
+            android:fontFamily="@font/scada_regular"
             android:id="@+id/tvLayoutManagerAreaCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/manager_area_code"
-            android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
+            android:textColor="@color/defaultTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=")"
-            android:fontFamily="@font/scada_regular"
-            android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
