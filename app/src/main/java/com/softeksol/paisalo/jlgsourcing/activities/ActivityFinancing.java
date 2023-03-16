@@ -50,6 +50,8 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Aadhar;
 import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
@@ -498,7 +500,7 @@ public class ActivityFinancing extends AppCompatActivity
 
     private void submitLoanApplication(Borrower borrowerToSubmit) {
         final Context context = this;
-        final Borrower borrower = Borrower.getBorrower(borrowerToSubmit.FiID);
+        final Borrower borrower = Borrower.getBorrower(borrowerToSubmit.Code);
         if (borrower.UserID == null)
             borrower.UserID = IglPreferences.getPrefString(ActivityFinancing.this, SEILIGL.USER_ID, "");
 
@@ -767,6 +769,10 @@ public class ActivityFinancing extends AppCompatActivity
                     //borrower=borrowerDto.getBorrower();
                     //borrower=Borrower.getBorrower(borrower.Code,borrower.Creator);
                     borrower = new Borrower(borrowerDto);
+                    BorrowerExtra borrowerExtra=new BorrowerExtra(borrowerDto.fiExtra);
+                    borrowerExtra.save();
+                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(borrowerDto.fiExtraBank);
+                    borrowerExtraBank.save();
                     borrower.save();
                     fetchUploadedGuarantor(borrower);
                 }

@@ -347,7 +347,7 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.FATHER_FIRST_NAME=((EditText) view.findViewById(R.id.editFather_FIRST_NAME)).getText().toString();
         borrowerExtra.FATHER_MIDDLE_NAME=((EditText) view.findViewById(R.id.editFATHER_MIDDLE_NAME)).getText().toString();
         borrowerExtra.FATHER_LAST_NAME=((EditText) view.findViewById(R.id.editFATHER_LAST_NAME)).getText().toString();
-        borrowerExtra.Years_In_Business=((EditText) view.findViewById(R.id.editYearsInBusiness)).getText().toString();
+        borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) view.findViewById(R.id.editYearsInBusiness)).getText().toString());
         Log.d("TAG", "getDataFromView: yha tk chal rha h 1");
         borrowerExtra.save();
 

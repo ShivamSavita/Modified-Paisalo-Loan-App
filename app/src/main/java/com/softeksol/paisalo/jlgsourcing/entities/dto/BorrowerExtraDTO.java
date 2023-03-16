@@ -141,7 +141,7 @@ public class BorrowerExtraDTO {
     private String FATHER_LAST_NAME;
 
     @Expose
-    private String years_in_business;
+    private int Years_in_business;
 
 
 
@@ -585,12 +585,12 @@ public class BorrowerExtraDTO {
         this.FATHER_LAST_NAME = FATHER_LAST_NAME;
     }
 
-    public String getYears_in_business() {
-        return years_in_business;
+    public int getYears_in_business() {
+        return Years_in_business;
     }
 
-    public void setYears_in_business(String years_in_business) {
-        this.years_in_business = years_in_business;
+    public void setYears_in_business(int years_in_business) {
+        this.Years_in_business = years_in_business;
     }
 
     @Override
@@ -652,6 +652,7 @@ public class BorrowerExtraDTO {
                 ", FATHER_FIRST_NAME='"+FATHER_FIRST_NAME+'\''+
         ", FATHER_MIDDLE_NAME='"+FATHER_MIDDLE_NAME+'\''+
                 ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
+                ", Years_in_business='"+ Years_in_business +'\''+
                 '}';
     }
 }

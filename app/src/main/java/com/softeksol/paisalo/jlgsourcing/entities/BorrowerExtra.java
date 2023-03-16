@@ -261,7 +261,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
 
     @Expose
     @Column
-    public String Years_In_Business;
+    public int Years_In_Business;
 
     public BorrowerExtra(long Code, String creator, int futureIncome, String agricultureIncome, String otherIncome, String earningMemberType, int earningMemberIncome, String tietMotherFName, String tietMotherLName, String tietMotherMName, String tietFatherFName, String tietFatherLName, String tietFatherMName, String tag,String SpouseLName,String SpouseMName,String SpouseFName) {
         this.Code=Code;
@@ -345,7 +345,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
                 ", FATHER_FIRST_NAME='"+FATHER_FIRST_NAME+'\''+
                 ", FATHER_MIDDLE_NAME='"+FATHER_MIDDLE_NAME+'\''+
                 ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
-                ", years_in_business='"+Years_In_Business+'\''+
+                ", Years_in_business='"+Years_In_Business+'\''+
         '}';
     }
 

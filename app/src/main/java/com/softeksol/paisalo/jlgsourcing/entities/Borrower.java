@@ -597,6 +597,15 @@ public class Borrower extends BaseModel implements Serializable {
         return fiExtra;
     }
 
+
+    public BorrowerExtra getBorrowerExtraByFI(long code) {
+        fiExtra = SQLite.select()
+                .from(BorrowerExtra.class)
+                .where(BorrowerExtra_Table.Code.eq(code))
+                .querySingle();
+        return fiExtra;
+    }
+
     public void associateExtra(BorrowerExtra borrowerExtra) {
         borrowerExtra.Code = this.Code;
         borrowerExtra.Creator = this.Creator;
@@ -628,19 +637,19 @@ public class Borrower extends BaseModel implements Serializable {
 
         Borrower borrower = SQLite.select()
                 .from(Borrower.class)
-                .where(Borrower_Table.FiID.eq(borrowerID))
+                .where(Borrower_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiExtra = SQLite.select()
                 .from(BorrowerExtra.class)
-                .where(BorrowerExtra_Table.FiID.eq(borrowerID))
+                .where(BorrowerExtra_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiExtraBank = SQLite.select()
                 .from(BorrowerExtraBank.class)
-                .where(BorrowerExtraBank_Table.FiID.eq(borrowerID))
+                .where(BorrowerExtraBank_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiFamExpenses = SQLite.select()
                 .from(BorrowerFamilyExpenses.class)
-                .where(BorrowerFamilyExpenses_Table.FiID.eq(borrowerID))
+                .where(BorrowerFamilyExpenses_Table.Code.eq(borrowerID))
                 .querySingle();
         return borrower;
     }

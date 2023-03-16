@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
@@ -38,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.RequestParams;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
@@ -59,6 +61,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
+import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OldFIById;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
@@ -111,7 +114,7 @@ import java.time.ZonedDateTime;
 public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnClickListener,AdapterRecViewListDocuments.ItemListener, CameraUtils.OnCameraCaptureUpdate { //, CameraUtils.OnCameraCaptureUpdate
 
     private final AppCompatActivity activity = this;
-
+    AdapterListRange rlaMarritalStatus;
     private Borrower borrower;
     private BorrowerExtra borrowerExtra;
     private DocumentStore documentStore;
@@ -155,12 +158,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
     CardView cardView_SpouseFirstName;
     LinearLayout linearLayout433;
-    CheckBox isMarriedCheckBox;
+
     TextView textView35;
 
     Button BtnNextOnFirstKyc;
 
-
+    Spinner spinnerMarritalStatus;
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -195,7 +198,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         //borrower.fi
         borrower.isAadharVerified = "N";
-
+        rlaMarritalStatus = new AdapterListRange(this,
+                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("marrital_status")).queryList(), false);
+         spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
+        spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
         Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
@@ -245,7 +251,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         linearLayout433 = findViewById(R.id.linearLayout433);
         linearLayout433.setVisibility(View.GONE);
         panCheckSign = findViewById(R.id.panCheckSign);
-        isMarriedCheckBox = findViewById(R.id.isMarriedCheckBox);
+
         voterIdCheckSign = findViewById(R.id.voterIdCheckSign);
         acspGender = findViewById(R.id.acspGender);
         tilPAN_Name = findViewById(R.id.tilPAN_Name);
@@ -311,15 +317,34 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 return validationStatus;
             }
         });
-
-        isMarriedCheckBox.setOnClickListener(new View.OnClickListener() {
+        spinnerMarritalStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                linearLayout433.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
-                cardView_SpouseFirstName.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
-                textView35.setVisibility(isMarriedCheckBox.isChecked() ? View.VISIBLE : View.GONE);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                RangeCategory rangeCategory;
+                adapterView.getId();
+                rangeCategory = (RangeCategory) adapterView.getSelectedItem();
+
+                Spinner spinnerMaritalStatus = (Spinner) findViewById(R.id.spinMARITAL_STATUS);
+                ;
+                if (rangeCategory.RangeCode.equals("Unmarried")) {
+                    linearLayout433.setVisibility(View.GONE);
+                    cardView_SpouseFirstName.setVisibility(View.GONE);
+                    textView35.setVisibility(View.GONE);
+                } else {
+                    linearLayout433.setVisibility(View.VISIBLE);
+                    cardView_SpouseFirstName.setVisibility(View.VISIBLE);
+                    textView35.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+
+
 
         chkTvTopup = findViewById(R.id.chkTopup);
         chkTvTopup.setChecked(false);
@@ -335,26 +360,26 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         });
 
         tietAadharId = findViewById(R.id.tietAadhar);
-        aadharTextChangeListner = new MyTextWatcher(tietAadharId) {
-            @Override
-            public void validate(EditText editText, String text) {
-                String aadharId = editText.getText().toString();
-                if (validateControls(editText, text)) {
-                    llTopupCode.setVisibility(View.VISIBLE);
-                    Borrower borrower1 = Borrower.getBorrower(aadharId);
-                    if (borrower1 != null) {
-                        borrower = borrower1;
-                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
-                        aadharNumberentry=false;
-                    } else {
-                        fetchAadharDetails(aadharId);
-                    }
-                } else {
-                    llTopupCode.setVisibility(View.INVISIBLE);
-                }
-            }
-        };
-        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        aadharTextChangeListner = new MyTextWatcher(tietAadharId) {
+//            @Override
+//            public void validate(EditText editText, String text) {
+//                String aadharId = editText.getText().toString();
+//                if (validateControls(editText, text)) {
+//                    llTopupCode.setVisibility(View.VISIBLE);
+//                    Borrower borrower1 = Borrower.getBorrower(aadharId);
+//                    if (borrower1 != null) {
+//                        borrower = borrower1;
+//                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
+//                        aadharNumberentry=false;
+//                    } else {
+//                        fetchAadharDetails(aadharId);
+//                    }
+//                } else {
+//                    llTopupCode.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        };
 
         tietAge = findViewById(R.id.tietAge);
         tietAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -414,6 +439,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             }
         });
         ImageView imageView = ((ImageView) findViewById(R.id.imgViewAadharPhoto));
+        imageView.setVisibility(View.GONE);
         imageView.setOnClickListener(this);
         imgViewScanQR = (ImageView) findViewById(R.id.imgViewScanQR);
         imgViewScanQR.setOnClickListener(this);
@@ -580,9 +606,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 return;
             }
         }
-        tietAadharId.removeTextChangedListener(aadharTextChangeListner);
+//        tietAadharId.removeTextChangedListener(aadharTextChangeListner);
         tietAadharId.setText(borrower.aadharid);
-        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        tietAadharId.addTextChangedListener(aadharTextChangeListner);
 
 
         tietName.setText(borrower.getBorrowerName());
@@ -627,9 +653,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             acspGender.setEnabled(false);
 //            acspAadharState.setEnabled(false);
             if (borrower.P_Add1.trim().length() > 0) tietAddress1.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add2.trim(), "").trim().length() > 2)
                 tietAddress2.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add3.trim(), "").trim().length() > 2)
                 tietAddress3.setEnabled(false);
             if (Utils.NullIf(borrower.P_city, "").trim().length() > 0) tietCity.setEnabled(false);
             if (Utils.NullIf(borrower.p_pin, 0) > 0) tietPinCode.setEnabled(false);
@@ -644,9 +670,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             acspGender.setEnabled(false);
 //            acspAadharState.setEnabled(false);
             if (borrower.P_Add1.trim().length() > 0) tietAddress1.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 2)
                 tietAddress2.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 2)
                 tietAddress3.setEnabled(false);
             if (Utils.NullIf(borrower.P_city, "").trim().length() > 0) tietCity.setEnabled(false);
             if (Utils.NullIf(borrower.p_pin, 0) > 0) tietPinCode.setEnabled(false);
@@ -691,6 +717,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrower.PanNO = Utils.getNotNullText(tietPanNo);
         borrower.drivinglic = Utils.getNotNullText(tietDrivingLic);
         borrower.voterid = Utils.getNotNullText(tietVoterId);
+        borrower.IsNameVerify=isNameMatched;
+        borrower.isAdhaarEntry=isAdhaarEntry;
+        borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
         borrowerExtra.save();
         borrower.fiExtra=null;
         borrower.BankName= bankName;
@@ -1234,8 +1263,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
                         borrower.Oth_Prop_Det = null;
                         borrower.save();
-//                        borrower.associateExtraBank(borrower.fiExtraBank);
-//                        borrower.fiExtraBank.save();
+                        borrower.associateExtraBank(borrower.fiExtraBank);
+                        borrower.fiExtraBank.save();
 
                         BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
                         borrowerDTO.fiFamExpenses = null;
@@ -1268,11 +1297,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                                if (isMarriedCheckBox.isChecked()){
+
                                                     intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
                                                     intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                                     intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-                                                }
+
 
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
@@ -1312,11 +1341,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                                if (isMarriedCheckBox.isChecked()){
+
                                                     intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
                                                     intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                                     intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-                                                }
+
 
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
@@ -1338,11 +1367,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                         intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                         intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                        if (isMarriedCheckBox.isChecked()){
+
                                             intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
                                             intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                             intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-                                        }
+
 
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);

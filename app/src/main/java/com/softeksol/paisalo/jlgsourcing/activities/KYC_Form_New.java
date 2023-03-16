@@ -159,16 +159,15 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
             }else{
                         borrower.Oth_Prop_Det = null;
                         borrower.save();
-                        borrower.associateExtraBank(borrower.fiExtraBank);
-                        borrower.fiExtraBank.save();
+                borrower.fiExtraBank.setMotherName(MotherFName);
+                borrower.fiExtraBank.setFatherName(FatherFName);
+                String occCode = Utils.getSpinnerStringValue(acspOccupation);
+                borrower.fiExtraBank.setCkycOccupationCode(occCode);
+                borrower.associateExtraBank(borrower.fiExtraBank);
+                borrower.fiExtraBank.save();
 //                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-                        borrower.fiFamExpenses = null;
-                        borrower.fiExtra = null;
-                        borrower.fiExtraBank.setMotherName(MotherFName);
-                        borrower.fiExtraBank.setFatherName(FatherFName);
-                        String occCode = Utils.getSpinnerStringValue(acspOccupation);
-                        borrower.fiExtraBank.setCkycOccupationCode(occCode);
-
+                borrower.fiFamExpenses = null;
+                borrower.fiExtra = null;
 
 
                         AsyncResponseHandler dataAsyncResponseHandler = new AsyncResponseHandler(this, "Loan Financing\nSubmittiong Loan Application", "Submitting Borrower Information") {
@@ -239,6 +238,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(KYC_Form_New.this);
                                     builder.setTitle("Borrower KYC");
+                                    builder.setCancelable(false);
                                     builder.setMessage("KYC Saved with " + manager.Creator + " / " + FiCode + "\nPlease capture / scan documents");
                                     builder.setPositiveButton("Want to E-Sign", new DialogInterface.OnClickListener() {
                                         @Override
@@ -249,11 +249,15 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
                                             intent.putExtra(Global.OPTION_ITEM, operationItem);
                                             intent.putExtra("Title", operationItem.getOprationName());
                                             startActivity(intent);
+                                            finish();
                                         }
                                     });
                                     builder.setNegativeButton("Done", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
+                                            startActivity(new Intent(KYC_Form_New.this,ActivityOperationSelect.class));
+                                            finish();
+
                                         }
                                     });
                                     builder.create().show();
@@ -297,6 +301,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
+
         borrower.Approved=null;
 
 

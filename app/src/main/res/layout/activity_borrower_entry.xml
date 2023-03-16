@@ -176,7 +176,6 @@
                         app:layout_constraintTop_toBottomOf="@id/tilUidAadhar">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:paddingStart="8dp"
                             android:id="@+id/tietName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -184,6 +183,7 @@
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                             android:inputType="textCapCharacters"
                             android:maxLength="75"
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -284,15 +284,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                   >
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_weight="1"
-
                             android:layout_height="wrap_content"
-                            >
+
+                            android:layout_weight="1">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
@@ -312,8 +310,8 @@
                                     android:id="@+id/tietDob"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingStart="8dp"
                                     android:background="@color/white"
+                                    android:paddingStart="8dp"
                                     android:textSize="15dp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -323,8 +321,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                         >
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/imgViewCal"
@@ -435,8 +432,8 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                            android:paddingStart="8dp"
                             android:inputType="textCapCharacters"
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -500,8 +497,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
-                    android:text="Address 1"
                     android:fontFamily="@font/scada_regular"
+                    android:text="Address 1"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -550,8 +547,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
-                    android:text="Address 2"
                     android:fontFamily="@font/scada_regular"
+                    android:text="Address 2"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -587,9 +584,9 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-,"
-                            android:paddingStart="8dp"
-
                             android:inputType="textCapWords"
+
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -600,8 +597,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/scada_regular"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scada_regular"
                     android:text="Address 3"
                     android:textColor="@color/black"
                     android:textSize="15dp"
@@ -693,9 +690,9 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                            android:paddingStart="8dp"
-
                             android:inputType="textCapCharacters"
+
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -706,8 +703,8 @@
 
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Pincode"
                     android:fontFamily="@font/scada_regular"
+                    android:text="Pincode"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintBottom_toTopOf="@+id/tilCurrentPinCode"
@@ -745,9 +742,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:paddingStart="8dp"
-
                             android:inputType="number"
+
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -759,8 +756,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
-                    android:text="State"
                     android:fontFamily="@font/scada_regular"
+                    android:text="State"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -811,10 +808,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Mobile"
-                    android:fontFamily="@font/scada_regular"
-                    android:textColor="@color/black"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scada_regular"
+                    android:text="Mobile"
+                    android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llUidState" />
@@ -831,6 +828,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView24">
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -852,8 +850,7 @@
                             android:inputType="phone"
                             android:maxLength="10"
                             android:paddingStart="8dp"
-                            android:textSize="15dp"
-                            />
+                            android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -864,9 +861,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scada_regular"
                     android:text="Voter ID"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/scada_regular"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tilMobile" />
@@ -952,9 +949,9 @@
                     android:id="@+id/tilPAN"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="7dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
                     app:layout_constraintEnd_toStartOf="@+id/panCheckSign"
                     app:layout_constraintStart_toStartOf="parent"
@@ -1054,9 +1051,9 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                            android:paddingStart="8dp"
-
                             android:inputType="textCapCharacters"
+
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -1068,14 +1065,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:fontFamily="@font/scada_regular"
                     android:text="Mother First Name"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/scada_regular"
 
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView_DrivingLicence" />
-
 
 
                 <androidx.cardview.widget.CardView
@@ -1107,9 +1103,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:paddingStart="8dp"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
                             android:inputType="textCapCharacters"
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -1128,9 +1124,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="3dp"
+                        android:layout_weight="1"
 
-                        android:layout_weight="1">
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/textView29"
@@ -1151,8 +1147,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"                            android:layout_weight="1"
+                            android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1190,19 +1187,19 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
 
                         android:layout_width="match_parent"
-                        android:padding="3dp"
-
                         android:layout_height="match_parent"
 
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/textView30"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:text="Mother Last Name"
                             android:fontFamily="@font/scada_regular"
+                            android:text="Mother Last Name"
 
                             android:textColor="@color/black"
                             android:textSize="15dp"
@@ -1214,8 +1211,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"                            android:layout_weight="1"
+                            android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1268,10 +1266,10 @@
                     android:id="@+id/cardView_FatherFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="7dp"
-                    app:cardElevation="3dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView31">
@@ -1337,8 +1335,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"                            android:layout_weight="1"
+                            android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1396,8 +1395,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:layout_marginBottom="5dp"
                             android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
@@ -1513,38 +1512,82 @@
                 <!--    </androidx.cardview.widget.CardView>-->
 
 
-                <CheckBox
-                    android:id="@+id/isMarriedCheckBox"
+                <!--                <CheckBox-->
+                <!--                    android:id="@+id/isMarriedCheckBox"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="2dp"-->
+                <!--                    android:text="Is married?"-->
+                <!--                    android:textSize="15dp"-->
+                <!--                    android:fontFamily="@font/scada_regular"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />-->
+
+                <TextView
+                    android:id="@+id/textView40"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="Is married?"
-                    android:textSize="15dp"
+                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/scada_regular"
+                    android:padding="4dp"
+                    android:text="@string/applicant_marital_status"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView40">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_bggrey1">
+
+                            <Spinner
+                                android:id="@+id/spinLoanAppPersonalMarritalStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/textView35"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scada_regular"
                     android:text="Spouse First Name"
                     android:textColor="@color/black"
                     android:textSize="15dp"
-                    android:fontFamily="@font/scada_regular"
-                    android:layout_marginTop="5dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/isMarriedCheckBox" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView12" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView_SpouseFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="7dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -1568,9 +1611,9 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                            android:paddingStart="8dp"
-
                             android:inputType="textCapCharacters"
+
+                            android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
@@ -1585,24 +1628,23 @@
                     app:layout_constraintTop_toBottomOf="@+id/cardView_SpouseFirstName">
 
 
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:padding="3dp"
-
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+
+                        android:layout_weight="1"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/textView36"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:text="Spouse Middle Name"
                             android:layout_marginTop="5dp"
+                            android:fontFamily="@font/scada_regular"
+                            android:text="Spouse Middle Name"
                             android:textColor="@color/black"
                             android:textSize="15dp"
-                            android:fontFamily="@font/scada_regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -1611,8 +1653,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"                            android:layout_weight="1"
+                            android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1650,18 +1693,18 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="3dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/textView37"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:text="Spouse Last Name"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/black"
                             android:fontFamily="@font/scada_regular"
+                            android:text="Spouse Last Name"
+                            android:textColor="@color/black"
                             android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -1671,8 +1714,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"                            android:layout_weight="1"
+                            android:layout_weight="1"
                             app:cardCornerRadius="7dp"
                             app:cardElevation="3dp"
                             app:layout_constraintBottom_toBottomOf="parent"

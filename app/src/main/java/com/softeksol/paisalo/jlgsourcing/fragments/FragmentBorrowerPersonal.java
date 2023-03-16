@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -86,8 +87,8 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
             borrowerId = getArguments().getLong(Global.BORROWER_TAG, 0);
         }
         activity = (ActivityLoanApplication) getActivity();
-        items.add("YES");
         items.add("NO");
+        items.add("YES");
 
         rlaCaste = new AdapterListRange(this.getContext(),
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("caste")).queryList(), false);
@@ -149,8 +150,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         spinnerCaste.setAdapter(rlaCaste);
         Spinner spinnerReligion = (Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion);
         spinnerReligion.setAdapter(rlaReligion);
-        Spinner spinnerMarritalStatus = (Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus);
-        spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
         Spinner spinnerHouseOwner = (Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner);
         spinnerHouseOwner.setAdapter(rlaOwner);
         spinnerHouseOwner.setOnItemSelectedListener(this);
@@ -268,7 +267,8 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     public void onResume() {
         super.onResume();
         borrower = activity.getBorrower();
-        borrowerExtra = borrower.getBorrowerExtra();
+;
+        borrowerExtra = borrower.getBorrowerExtraByFI(borrower.Code);
 
         if (borrowerExtra == null) {
             borrowerExtra = new BorrowerExtra();
@@ -285,8 +285,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     }
 
     private void setDataToView(View v) {
-        Log.d("TAG", "setDataToView: "+borrower.F_fname+" "+borrower.F_mname+" "+borrower.F_lname);
-        Log.d("TAG", "setDataToView: "+borrower.fiExtra.FATHER_FIRST_NAME+" "+borrower.fiExtra.FATHER_MIDDLE_NAME+" "+borrower.F_lname);
 
         int spinnerPositionVisuallyImpaired= VISUALLY_IMPAIRED_YN.getPosition(borrowerExtra.VISUALLY_IMPAIRED_YN);
         ((Spinner)v.findViewById(R.id.spinVisuallyImpaired)).setSelection(spinnerPositionVisuallyImpaired);
@@ -309,7 +307,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly), borrower.Income);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste), borrower.Cast);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion), borrower.Religion);
-        Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus), borrower.isMarried);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner), borrower.House_Owner);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentHouseRent), borrower.Rent_of_House);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceDuration), borrower.Live_In_Present_Place);
@@ -341,17 +338,36 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         ((EditText) v.findViewById(R.id.etLoanAppExtraOtherIncomeOther)).setText(borrowerExtra.FamOtherIncomeType);
         ((EditText) v.findViewById(R.id.editMailId)).setText(borrowerExtra.EMAIL_ID);
         ((EditText) v.findViewById(R.id.editPlaceOfBirth)).setText(borrowerExtra.PLACE_OF_BIRTH);
-        ((EditText) v.findViewById(R.id.editYearsInBusiness)).setText(borrowerExtra.Years_In_Business);
+        Log.d("TAG", "setDataToView: "+borrowerExtra.Years_In_Business);
+        ((EditText) v.findViewById(R.id.editYearsInBusiness)).setText(String.valueOf(borrowerExtra.Years_In_Business));
         ((EditText) v.findViewById(R.id.editEducationalCode)).setText(borrowerExtra.EDUCATION_CODE);
         ((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).setText(borrowerExtra.FORM60_TNX_DT);
         ((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).setText(borrowerExtra.FORM60_SUBMISSIONDATE);
+
+
+
+        ((TextView) v.findViewById(R.id.FatherFirstName)).setText(borrowerExtra.FATHER_FIRST_NAME);
+        ((TextView) v.findViewById(R.id.FatherMiddelName)).setText(borrowerExtra.FATHER_MIDDLE_NAME);
+        ((TextView) v.findViewById(R.id.FatherLastName)).setText(borrowerExtra.FATHER_LAST_NAME);
+        ((TextView) v.findViewById(R.id.MotherFirstName)).setText(borrowerExtra.MOTHER_FIRST_NAME);
+        ((TextView) v.findViewById(R.id.MotherMiddelName)).setText(borrowerExtra.MOTHER_MIDDLE_NAME);
+        ((TextView) v.findViewById(R.id.MotherLastName)).setText(borrowerExtra.MOTHER_LAST_NAME);
+        ((TextView) v.findViewById(R.id.SpouseFirstName)).setText(borrowerExtra.SPOUSE_FIRST_NAME);
+        ((TextView) v.findViewById(R.id.SpouseMiddelName)).setText(borrowerExtra.SPOUSE_MIDDLE_NAME);
+        ((TextView) v.findViewById(R.id.SpouseLastName)).setText(borrowerExtra.SPOUSE_LAST_NAME);
+
+
+
+
+
+
+
     }
 
     private void getDataFromView(View v) {
         borrower.Income = Integer.parseInt(Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly)));
             borrower.Cast = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste));
             borrower.Religion = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion));
-            borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
             borrower.House_Owner = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner));
         borrower.Live_In_Present_Place = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceDuration));
         if (((RangeCategory) ((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner)).getSelectedItem()).DescriptionEn.equals("Other")) {
@@ -392,18 +408,20 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG=((Spinner) v.findViewById(R.id.spinSpecialSocialCategory)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) v.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
-        borrowerExtra.Years_In_Business=((EditText) v.findViewById(R.id.editYearsInBusiness)).getText().toString();
+        borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) v.findViewById(R.id.editYearsInBusiness)).getText().toString());
         borrowerExtra.EDUCATION_CODE=((EditText) v.findViewById(R.id.editEducationalCode)).getText().toString();
         borrowerExtra.FORM60_TNX_DT=((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).getText().toString();
         borrowerExtra.FORM60_SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
         borrowerExtra.FORM60SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
-        borrowerExtra.FATHER_FIRST_NAME="hsdhjsdjh";
-        borrowerExtra.FATHER_MIDDLE_NAME="hsdhjsdjh";
-        borrowerExtra.FATHER_LAST_NAME="hsdhjsdjh";
-        borrowerExtra.MOTHER_FIRST_NAME="hsdhjsdjh";
-        borrowerExtra.MOTHER_LAST_NAME="hsdhjsdjh";
-        borrowerExtra.MOTHER_MIDDLE_NAME="hsdhjsdjh";
-        borrowerExtra.SPOUSE_FIRST_NAME="hsdhjsdjh";
+        borrowerExtra.FATHER_FIRST_NAME=((TextView)v.findViewById(R.id.FatherFirstName)).getText().toString();
+        borrowerExtra.FATHER_MIDDLE_NAME=((TextView)v.findViewById(R.id.FatherMiddelName)).getText().toString();
+        borrowerExtra.FATHER_LAST_NAME=((TextView)v.findViewById(R.id.FatherLastName)).getText().toString();
+        borrowerExtra.MOTHER_FIRST_NAME=((TextView)v.findViewById(R.id.MotherFirstName)).getText().toString();
+        borrowerExtra.MOTHER_MIDDLE_NAME=((TextView)v.findViewById(R.id.MotherMiddelName)).getText().toString();
+        borrowerExtra.MOTHER_LAST_NAME=((TextView)v.findViewById(R.id.MotherLastName)).getText().toString();
+        borrowerExtra.SPOUSE_FIRST_NAME=((TextView)v.findViewById(R.id.SpouseFirstName)).getText().toString();
+        borrowerExtra.SPOUSE_MIDDLE_NAME=((TextView)v.findViewById(R.id.SpouseMiddelName)).getText().toString();
+        borrowerExtra.SPOUSE_LAST_NAME=((TextView)v.findViewById(R.id.SpouseLastName)).getText().toString();
         borrowerExtra.save();
     }
 
