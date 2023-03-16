@@ -16,7 +16,7 @@
             <LinearLayout
 
                 android:padding="10dp"
-                android:background="@drawable/backcard"
+                android:background="@drawable/aadhar_gradient"
                 android:id="@+id/linearLayoutOne"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -267,7 +267,7 @@
 
             <LinearLayout
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backcard"
+                android:background="@drawable/aadhar_gradient"
                 android:id="@+id/linearLayoutTwo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
