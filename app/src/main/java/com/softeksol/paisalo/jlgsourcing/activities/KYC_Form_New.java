@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -50,6 +53,8 @@ private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaEarningM
 Intent i;
 String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMName,SpouseLName,SpouseMName,SpouseFName;
 
+TextView textViewTotalAnnualIncome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         acspBusinessDetail=findViewById(R.id.acspBusinessDetail);
         earningMemberTypeSpin=findViewById(R.id.earningMemberTypeSpin);
         acspLoanAppFinanceLoanAmount=findViewById(R.id.acspLoanAppFinanceLoanAmount);
+        textViewTotalAnnualIncome=findViewById(R.id.textViewTotalAnnualIncome);
         BtnSaveKYCData=findViewById(R.id.BtnFinalSaveKYCData);
         Log.d("TAG", "onCreate: "+FatherFName);
         Log.d("TAG", "onCreate: "+FatherLName);
@@ -121,6 +127,121 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         acspOccupation.setAdapter(rlsOccupation);
         earningMemberTypeSpin.setAdapter(rlaEarningMember);
 
+            tietIncomeMonthly.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            tietAgricultureIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            tietFutureIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            tietOtherIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            EditEarningMemberIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
 
         BtnSaveKYCData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,8 +278,9 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
                 EditEarningMemberIncome.setError("Please Enter "+Utils.getSpinnerStringValue(earningMemberTypeSpin)+"'s Income");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please Enter "+Utils.getSpinnerStringValue(earningMemberTypeSpin)+"'s Income");
             }else{
-                        borrower.Oth_Prop_Det = null;
-                        borrower.save();
+
+                borrower.Oth_Prop_Det = null;
+                borrower.save();
                 borrower.fiExtraBank.setMotherName(MotherFName);
                 borrower.fiExtraBank.setFatherName(FatherFName);
                 String occCode = Utils.getSpinnerStringValue(acspOccupation);
@@ -168,6 +290,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
 //                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
                 borrower.fiFamExpenses = null;
                 borrower.fiExtra = null;
+
 
 
                         AsyncResponseHandler dataAsyncResponseHandler = new AsyncResponseHandler(this, "Loan Financing\nSubmittiong Loan Application", "Submitting Borrower Information") {
@@ -185,7 +308,7 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
 
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
-                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName);
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName);
                                     Log.d("TAG", "onCreate: "+FatherFName);
                                     Log.d("TAG", "onCreate: "+FatherLName);
                                     Log.d("TAG", "onCreate: "+FatherMName);
@@ -301,7 +424,6 @@ String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMNam
         borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
-
         borrower.Approved=null;
 
 

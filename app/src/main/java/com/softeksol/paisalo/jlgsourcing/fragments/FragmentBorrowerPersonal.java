@@ -457,10 +457,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
             case R.id.spinLoanAppExtraChildren:
                 rangeCategory = (RangeCategory) adapterView.getSelectedItem();
                 Spinner spinnerSchoolingChildren = (Spinner) getView().findViewById(R.id.spinLoanAppExtraChildrenSchooling);
-                ;
                 Spinner spinnerMonthlySpendOnChildren = (Spinner) getView().findViewById(R.id.spinLoanAppExtraChildrenSpending);
-                ;
-
                 if (Integer.parseInt(rangeCategory.RangeCode) > 0) {
                     //Log.d("Children","Schooling Children");
                     rlaSchoolingChildren = new AdapterListRange(this.getContext(), Utils.getList(0, Integer.parseInt(rangeCategory.RangeCode), 1, 1, null), false);

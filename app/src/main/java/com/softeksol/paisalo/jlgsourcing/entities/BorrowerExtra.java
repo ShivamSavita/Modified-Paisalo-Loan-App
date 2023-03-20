@@ -263,7 +263,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
     @Column
     public int Years_In_Business;
 
-    public BorrowerExtra(long Code, String creator, int futureIncome, String agricultureIncome, String otherIncome, String earningMemberType, int earningMemberIncome, String tietMotherFName, String tietMotherLName, String tietMotherMName, String tietFatherFName, String tietFatherLName, String tietFatherMName, String tag,String SpouseLName,String SpouseMName,String SpouseFName) {
+    public BorrowerExtra(long Code, String creator,int incomeMonthly, int futureIncome, String agricultureIncome, String otherIncome, String earningMemberType, int earningMemberIncome, String tietMotherFName, String tietMotherLName, String tietMotherMName, String tietFatherFName, String tietFatherLName, String tietFatherMName, String tag,String SpouseLName,String SpouseMName,String SpouseFName) {
         this.Code=Code;
         this.Creator=creator;
         this.FutureIncome=futureIncome;
@@ -281,6 +281,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
         this.SPOUSE_FIRST_NAME=SpouseFName;
         this.SPOUSE_MIDDLE_NAME=SpouseMName;
         this.SPOUSE_LAST_NAME=SpouseLName;
+        this.ANNUAL_INCOME=(futureIncome+(incomeMonthly*12)+agricultureIncome+otherIncome);
     }
 
     public BorrowerExtra(){}
