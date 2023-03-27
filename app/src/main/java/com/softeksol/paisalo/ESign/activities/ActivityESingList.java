@@ -209,6 +209,7 @@ public class ActivityESingList extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, File file) {
                 if (statusCode == 200) {
                     Utils.showSnakbar(findViewById(android.R.id.content), R.string.loan_detail_doc_download_success);
+                    Log.d("TAG", "onSuccess: "+file.getPath());
                     eSigner.docPath = file.getPath();
                     Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
                     intent.putExtra(Global.ESIGNER_TAG, eSigner);

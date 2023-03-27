@@ -1,6 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.entities.dto;
 
 import com.google.gson.annotations.Expose;
+import com.raizlabs.android.dbflow.annotation.Column;
 
 /**
  * Created by sachindra on 2016-10-04.
@@ -143,7 +144,29 @@ public class BorrowerExtraDTO {
     @Expose
     private int Years_in_business;
 
+    @Expose
+    @Column
+    public int PensionIncome;
 
+    @Expose
+    @Column
+    public int InterestIncome;
+
+    public int getPensionIncome() {
+        return PensionIncome;
+    }
+
+    public void setPensionIncome(int pensionIncome) {
+        PensionIncome = pensionIncome;
+    }
+
+    public int getInterestIncome() {
+        return InterestIncome;
+    }
+
+    public void setInterestIncome(int interestIncome) {
+        InterestIncome = interestIncome;
+    }
 
     public long getCode() {
         return Code;
@@ -653,6 +676,8 @@ public class BorrowerExtraDTO {
         ", FATHER_MIDDLE_NAME='"+FATHER_MIDDLE_NAME+'\''+
                 ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
                 ", Years_in_business='"+ Years_in_business +'\''+
+                ", InterestIncome='"+ InterestIncome +'\''+
+                ", PensionIncome='"+ PensionIncome +'\''+
                 '}';
     }
 }

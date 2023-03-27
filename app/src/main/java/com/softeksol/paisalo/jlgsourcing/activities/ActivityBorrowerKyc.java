@@ -1145,14 +1145,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         try{
             if (decodedData.get(9-inc).equals("")||decodedData.get(9-inc).equals(null)){
-                tietAddress2.setEnabled(false);
+                tietAddress2.setEnabled(true);
             }else{
 
                 borrower.P_Add1 = decodedData.get(9-inc);
                 borrower.P_add2 = decodedData.get(14-inc);
             }
         }catch (Exception e){
-            tietAddress2.setEnabled(false);
+            tietAddress2.setEnabled(true);
         }
 
 
@@ -1277,6 +1277,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                             if (tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)){
                                 if (tilVoterId_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("")){
+                                    Utils.alert(this, "Please Verify the Voter Id");
                                     Toast.makeText(activity, "Please Verify the Voter Id", Toast.LENGTH_SHORT).show();
                                 }else{
                                     if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]))
@@ -1319,13 +1320,28 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                                     }else{
                                         isNameMatched="1";
+                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
+                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
+                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
+                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
+                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
+                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
+                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
 
+                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
+
+
+                                        intent.putExtra("manager", manager);
+                                        intent.putExtra("borrower", borrower);
+                                        startActivity(intent);
                                     }
                                 }
                             }else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
-//                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
-//                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
-//                                }else{
+                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
+                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
+                                }else{
                                     if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])){
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
                                         builder.setTitle("Caution!!");
@@ -1377,7 +1393,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);
                                     }
-//                                }
+                                }
                             }
 
 

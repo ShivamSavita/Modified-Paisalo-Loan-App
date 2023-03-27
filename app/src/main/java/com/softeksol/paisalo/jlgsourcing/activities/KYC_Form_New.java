@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +28,7 @@ import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
@@ -44,7 +46,7 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 
 public class KYC_Form_New extends AppCompatActivity {
-TextInputEditText tietAgricultureIncome,tietFutureIncome,tietExpenseMonthly,tietIncomeMonthly,tietOtherIncome,EditEarningMemberIncome;
+TextInputEditText tietAgricultureIncome,tietFutureIncome,tietExpenseMonthly,tietIncomeMonthly,tietOtherIncome,EditEarningMemberIncome,tietPensionIncome,tietInterestIncome;
 Spinner loanbanktype,loanDuration,acspOccupation,acspLoanReason,acspBusinessDetail,earningMemberTypeSpin,acspLoanAppFinanceLoanAmount;
     private Manager manager;
 Button BtnSaveKYCData;
@@ -76,6 +78,8 @@ TextView textViewTotalAnnualIncome;
         tietExpenseMonthly=findViewById(R.id.tietExpenseMonthly);
         tietIncomeMonthly=findViewById(R.id.tietIncomeMonthly);
         tietOtherIncome=findViewById(R.id.tietOtherIncome);
+        tietInterestIncome=findViewById(R.id.tietInterestIncome);
+        tietPensionIncome=findViewById(R.id.tietPensionIncome);
         EditEarningMemberIncome=findViewById(R.id.EditEarningMemberIncome);
         loanbanktype=findViewById(R.id.loanbanktype);
         loanDuration=findViewById(R.id.loanDuration);
@@ -137,7 +141,7 @@ TextView textViewTotalAnnualIncome;
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
 
-                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
                         textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
                         textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
                     }catch (Exception e){
@@ -160,7 +164,7 @@ TextView textViewTotalAnnualIncome;
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
 
-                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
                         textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
                         textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
                     }catch (Exception e){
@@ -183,7 +187,7 @@ TextView textViewTotalAnnualIncome;
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
 
-                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
                         textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
                         textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
                     }catch (Exception e){
@@ -206,7 +210,7 @@ TextView textViewTotalAnnualIncome;
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
 
-                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
                         textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
                         textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
                     }catch (Exception e){
@@ -229,7 +233,53 @@ TextView textViewTotalAnnualIncome;
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
 
-                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString()));
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        tietPensionIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
+                        textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
+                        textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        tietInterestIncome.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+
+                        int totalAnnualIncome=Integer.parseInt(EditEarningMemberIncome.getText().toString())+Integer.parseInt(tietAgricultureIncome.getText().toString())+Integer.parseInt(tietFutureIncome.getText().toString())+Integer.parseInt(tietOtherIncome.getText().toString())+(12*Integer.parseInt(tietIncomeMonthly.getText().toString())+Integer.parseInt(tietPensionIncome.getText().toString())+Integer.parseInt(tietInterestIncome.getText().toString()));
                         textViewTotalAnnualIncome.setText("Your Total Annual Income: "+String.valueOf(totalAnnualIncome)+" /-");
                         textViewTotalAnnualIncome.setVisibility(View.VISIBLE);
                     }catch (Exception e){
@@ -277,7 +327,15 @@ TextView textViewTotalAnnualIncome;
             }else if(EditEarningMemberIncome.getText().toString().trim().equals("") && !Utils.getSpinnerStringValue(earningMemberTypeSpin).equals("None")){
                 EditEarningMemberIncome.setError("Please Enter "+Utils.getSpinnerStringValue(earningMemberTypeSpin)+"'s Income");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please Enter "+Utils.getSpinnerStringValue(earningMemberTypeSpin)+"'s Income");
-            }else{
+            } else if(tietPensionIncome.getText().toString().trim().equals("")){
+                tietPensionIncome.setError("Please Enter Pension Income");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Pension Income");
+            }
+             else if(tietInterestIncome.getText().toString().trim().equals("")){
+                tietInterestIncome.setError("Please Enter Interest Income");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Interest Income");
+            }
+            else{
 
                 borrower.Oth_Prop_Det = null;
                 borrower.save();
@@ -287,9 +345,16 @@ TextView textViewTotalAnnualIncome;
                 borrower.fiExtraBank.setCkycOccupationCode(occCode);
                 borrower.associateExtraBank(borrower.fiExtraBank);
                 borrower.fiExtraBank.save();
+                BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                borrowerDTO.fiFamExpenses = null;
+                borrowerDTO.fiExtra = null;
+                Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank.getActivityType());
+                Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank.getCode());
+                Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank);
+                Log.d("TAG", "onSuccess1: "+WebOperations.convertToJson(borrower.fiExtraBank));
 //                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-                borrower.fiFamExpenses = null;
-                borrower.fiExtra = null;
+//                borrower.fiFamExpenses = null;
+//                borrower.fiExtra = null;
 
 
 
@@ -308,7 +373,7 @@ TextView textViewTotalAnnualIncome;
 
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
-                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName);
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,Utils.getNotNullInt(tietPensionIncome),Utils.getNotNullInt(tietInterestIncome));
                                     Log.d("TAG", "onCreate: "+FatherFName);
                                     Log.d("TAG", "onCreate: "+FatherLName);
                                     Log.d("TAG", "onCreate: "+FatherMName);
@@ -318,11 +383,17 @@ TextView textViewTotalAnnualIncome;
                                     Log.d("TAG", "onCreate: "+SpouseLName);
                                     Log.d("TAG", "onCreate: "+SpouseMName);
                                     Log.d("TAG", "onCreate: "+SpouseFName);
-                                    borrower.fiExtra=borrowerExtra;
-                                    borrower.save();
-                                    borrower.fiExtra.save();
-                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.fiExtra));
+//                                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG,FiCode);
 
+//                                    borrower.associateExtraBank(borrowerExtraBank);
+
+                                    borrower.fiExtra=borrowerExtra;
+                                    borrower.fiExtra.save();
+//                                    borrower.associateExtraBank(borrower.fiExtraBank);
+//                                    borrower.fiExtraBank.save();
+                                    borrower.save();
+                                    Log.d("TAG", "onSuccess: "+borrower.fiExtra);
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.fiExtraBank));
                                     Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
 
                                     AsyncResponseHandler dataAsyncResponseHandlerUpdateFI = new AsyncResponseHandler(KYC_Form_New.this, "Loan Financing\nSubmittiong Loan Application","Submitting Borrower Information") {
@@ -355,13 +426,13 @@ TextView textViewTotalAnnualIncome;
                                             super.onFailure(statusCode, headers, responseBody, error);
                                         }
                                     };
-
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
                                     (new WebOperations()).postEntity(KYC_Form_New.this, "posfi", "updatefi", WebOperations.convertToJson(borrower), dataAsyncResponseHandlerUpdateFI);
 
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(KYC_Form_New.this);
                                     builder.setTitle("Borrower KYC");
-                                    builder.setCancelable(false);
+                                    builder.setCancelable(true);
                                     builder.setMessage("KYC Saved with " + manager.Creator + " / " + FiCode + "\nPlease capture / scan documents");
                                     builder.setPositiveButton("Want to E-Sign", new DialogInterface.OnClickListener() {
                                         @Override
@@ -402,7 +473,7 @@ TextView textViewTotalAnnualIncome;
 
 
                         //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
-                        String borrowerJsonString = WebOperations.convertToJson(borrower);
+                        String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
                         //Log.d("Borrower Json", borrowerJsonString);
                         Log.d("TAG", "updateBorrower: "+borrowerJsonString);
                 (new WebOperations()).postEntity(getApplicationContext(), "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);

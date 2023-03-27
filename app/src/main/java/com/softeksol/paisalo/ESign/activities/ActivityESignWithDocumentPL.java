@@ -144,10 +144,18 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: "+data);
+
         if (requestCode == APK_ESIGN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 String eSignResponse = data.getStringExtra("signedResponse");
-                sendESign(eSignResponse);
+                if (eSignResponse.trim().equals("Something went wrong during Esign Processing. Please contact administrator"))
+                {
+                    Utils.alert(ActivityESignWithDocumentPL.this,"Something went wrong during Esign Processing. Please contact administrator(NSDL)");
+                }else{
+                    sendESign(eSignResponse);
+                }
+
 
             } else {
                 Toast.makeText(getBaseContext(),
@@ -273,7 +281,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-                    //Log.d("Final Esing Response", new String(responseBody));
+                    Log.d("Final Esing Response", new String(responseBody));
                     try {
                         JSONObject jsonObject = new JSONObject(new String(responseBody));
                         if (jsonObject.getBoolean("isSuccess")) {
@@ -289,7 +297,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                //Log.d("Failed ESign Response", new String(responseBody));
+                Log.d("Failed ESign Response", new String(responseBody));
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     if (!jsonObject.getBoolean("isSuccess")) {

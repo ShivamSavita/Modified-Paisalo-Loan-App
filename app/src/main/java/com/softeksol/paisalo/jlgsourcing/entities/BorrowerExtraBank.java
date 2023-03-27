@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.entities;
 
+import androidx.annotation.NonNull;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ModelContainer;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -94,12 +96,63 @@ public class BorrowerExtraBank extends BaseModel implements Serializable {
     @Column
     long FiID;
 
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "BorrowerExtraBank{" +
+                "Code=" + Code +
+                ", Tag='" + Tag + '\'' +
+                ", Creator='" + Creator + '\'' +
+                ", nbfcBorrowerTransKey='" + nbfcBorrowerTransKey + '\'' +
+                ", bankBorrowerTransKey='" + bankBorrowerTransKey + '\'' +
+                ", loanType='" + loanType + '\'' +
+                ", tenureOfBusinessResidential=" + tenureOfBusinessResidential +
+                ", tradeExperince=" + tradeExperince +
+                ", skillCertified='" + skillCertified + '\'' +
+                ", establishmentCertificate='" + establishmentCertificate + '\'' +
+                ", activityType='" + activityType + '\'' +
+                ", ITRfiling='" + ITRfiling + '\'' +
+                ", bankCif='" + bankCif + '\'' +
+                ", bankAssessedLoanAmount=" + bankAssessedLoanAmount +
+                ", bankTenure=" + bankTenure +
+                ", bankRateOfInterest=" + bankRateOfInterest +
+                ", educationStatus='" + educationStatus + '\'' +
+                ", signatureThumb='" + signatureThumb + '\'' +
+                ", workStatus='" + workStatus + '\'' +
+                ", workLocation='" + workLocation + '\'' +
+                ", motherName='" + motherName + '\'' +
+                ", fatherName='" + fatherName + '\'' +
+                ", ckycNumber='" + ckycNumber + '\'' +
+                ", ckycOccupationCode='" + ckycOccupationCode + '\'' +
+                ", id=" + id +
+                ", FiID=" + FiID +
+                '}';
+    }
+
     public BorrowerExtraBank() {
     }
 
-    public BorrowerExtraBank(String creator, String tag) {
+    public BorrowerExtraBank(String creator, String tag,long fiCode) {
+        this.Code = fiCode;
         this.Tag = tag;
         this.Creator = creator;
+    }
+
+
+    public BorrowerExtraBank(String creator, String tag) {
+
+        this.Tag = tag;
+        this.Creator = creator;
+    }
+
+
+    public BorrowerExtraBank(long fiCode, String creator, String motherFName, String fatherFName, String occCode) {
+        this.Code=fiCode;
+        this.Creator=creator;
+        this.motherName=motherFName;
+        this.fatherName=fatherFName;
+        this.ckycOccupationCode=occCode;
     }
 
 

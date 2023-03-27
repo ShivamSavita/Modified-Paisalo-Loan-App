@@ -52,19 +52,19 @@ public class BorrowerFamilyExpenses extends BaseModel implements Serializable {
 
     @Expose
     @Column
-    private String HomeType;
+    private String HomeType="NA";
 
     @Expose
     @Column
-    private String HomeRoofType;
+    private String HomeRoofType="NA";
 
     @Expose
     @Column
-    private String ToiletType;
+    private String ToiletType="NA";
 
     @Expose
     @Column
-    private String LivingWSpouse;
+    private String LivingWSpouse="NA";
 
     @Column
     @PrimaryKey(autoincrement = true)
