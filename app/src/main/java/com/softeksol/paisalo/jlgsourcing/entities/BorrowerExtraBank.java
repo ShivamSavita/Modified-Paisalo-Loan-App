@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.entities;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -394,7 +396,12 @@ public class BorrowerExtraBank extends BaseModel implements Serializable {
     }
 
     public BorrowerExtraBank(BorrowerExtraBankDTO extraBankDTO) {
-        this.setActivityType(extraBankDTO.getActivityType());
+        Log.d("TAG", "BorrowerExtraBank: "+extraBankDTO);
+        try{
+            this.setActivityType(extraBankDTO.getActivityType()==null?"Other":extraBankDTO.getActivityType());
+        }catch (Exception e){
+            this.setActivityType("others");
+        }
         this.setBankAssessedLoanAmount(extraBankDTO.getBankAssessedLoanAmount());
         this.setBankBorrowerTransKey(extraBankDTO.getBankBorrowerTransKey());
         this.setBankCif(extraBankDTO.getBankCif());

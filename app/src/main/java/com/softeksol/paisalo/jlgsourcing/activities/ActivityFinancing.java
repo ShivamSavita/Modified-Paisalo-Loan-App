@@ -764,14 +764,18 @@ public class ActivityFinancing extends AppCompatActivity
                     jsonString = jsonString
                             .replace("{\"Fi", ",\"fi").replace(",\"Fi", ",\"fi");
 
-                    BorrowerDTO borrowerDto = WebOperations.convertToObject(jsonString, BorrowerDTO.class);
-                    //Log.d("Borrower from DTO ", borrowerDto.toString());
+                    BorrowerDTO borrowerDto =new BorrowerDTO();
+                    borrowerDto= WebOperations.convertToObject(jsonString, BorrowerDTO.class);
+
+                    Log.d("Borrower from DTO ", borrowerDto.toString());
+                    Log.d("Borrower from DTO1 ", borrowerDto.fiExtraBankBo.toString());
                     //borrower=borrowerDto.getBorrower();
                     //borrower=Borrower.getBorrower(borrower.Code,borrower.Creator);
                     borrower = new Borrower(borrowerDto);
                     BorrowerExtra borrowerExtra=new BorrowerExtra(borrowerDto.fiExtra);
                     borrowerExtra.save();
-                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(borrowerDto.fiExtraBank);
+                    Log.d("TAG", "onSuccess: yha ana chahiye"+borrowerDto.fiExtraBankBo);
+                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(borrowerDto.fiExtraBankBo);
                     borrowerExtraBank.save();
                     borrower.save();
                     fetchUploadedGuarantor(borrower);

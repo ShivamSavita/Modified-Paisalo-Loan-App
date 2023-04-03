@@ -1473,20 +1473,13 @@ public class Borrower extends BaseModel implements Serializable {
         this.voterid = borrowerDTO.VoterID;
         this.isAdhaarEntry = borrowerDTO.isAdhaarEntry;
         this.IsNameVerify = borrowerDTO.IsNameVerify;
-
         this.save();
-//
-//        if (borrowerDTO.fiExtra == null)
-//            this.fiExtra = new BorrowerExtra();
-//        else
-//            this.fiExtra = new BorrowerExtra(borrowerDTO.fiExtra);
-//        this.associateExtra(this.fiExtra);
-//        this.fiExtra.save();
 
-        if (borrowerDTO.fiExtraBank == null)
+
+        if (borrowerDTO.fiExtraBankBo == null)
             this.fiExtraBank = new BorrowerExtraBank();
         else
-            this.fiExtraBank = new BorrowerExtraBank(borrowerDTO.fiExtraBank);
+            this.fiExtraBank = new BorrowerExtraBank(borrowerDTO.fiExtraBankBo);
         this.associateExtraBank(this.fiExtraBank);
         this.fiExtraBank.save();
 

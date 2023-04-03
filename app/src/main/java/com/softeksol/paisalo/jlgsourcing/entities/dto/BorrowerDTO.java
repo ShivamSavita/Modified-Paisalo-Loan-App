@@ -392,8 +392,7 @@ public class BorrowerDTO {
     public BorrowerExtraDTO fiExtra;
 
     @Expose
-    @SerializedName("FiExtraBankBo")
-    public BorrowerExtraBankDTO fiExtraBank;
+    public BorrowerExtraBankDTO fiExtraBankBo;
 
     @Expose
     public BorrowerFamilyExpenses fiFamExpenses;
@@ -550,11 +549,11 @@ public class BorrowerDTO {
 
         BorrowerExtraBank borrowerExtraBank = borrower.getBorrowerExtraBank();
         if (borrowerExtraBank == null) {
-            this.fiExtraBank = null;
+            this.fiExtraBankBo = null;
         } else {
-            this.fiExtraBank = borrowerExtraBank.getExtraBankDTO();
-            if (this.fiExtraBank.getBankCif() == null || this.fiExtraBank.getBankCif().equals(""))
-                this.fiExtraBank.setBankCif("Pend");
+            this.fiExtraBankBo = borrowerExtraBank.getExtraBankDTO();
+            if (this.fiExtraBankBo.getBankCif() == null || this.fiExtraBankBo.getBankCif().equals(""))
+                this.fiExtraBankBo.setBankCif("Pend");
         }
 
         BorrowerExtra borrowerExtra = borrower.getBorrowerExtra();
@@ -711,6 +710,7 @@ public class BorrowerDTO {
                 ", AMRemarks='" + AMRemarks + '\'' +
                 ", KYCUUID='" + KYCUUID + '\'' +
                 ", fiExtra=" + fiExtra +
+                ", fiExtraBank=" + fiExtraBankBo +
                 ", fiFamExpenses=" + fiFamExpenses +
                 ", fiFamLoans=" + fiFamLoans +
                 '}';
