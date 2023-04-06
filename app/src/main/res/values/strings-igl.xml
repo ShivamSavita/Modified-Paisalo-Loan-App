@@ -35,51 +35,53 @@
     <string name="login_password">Password</string>
     <string name="login_sign_in">Sign In</string>
 
-    <string name="aadhar_id">Aadhar ID</string>
-    <string name="loan_amount">Loan Amount</string>
-    <string name="loan_duration">Loan Duration (Months)</string>
-    <string name="loan_purpose">Loan Purpose</string>
-    <string name="business_details">Business Detail</string>
+    <string name="aadhar_id">Aadhar ID<font color='red'>*</font></string>
+    <string name="loan_amount">Loan Amount<font color='red'>*</font></string>
+    <string name="loan_duration">Loan Duration (Months)<font color='red'>*</font></string>
+    <string name="loan_purpose">Loan Purpose<font color='red'>*</font></string>
+    <string name="business_details">Business Detail<font color='red'>*</font></string>
 
     <string name="loan_creator">Creator</string>
     <string name="manager_select_title">Select Manager</string>
 
     <!-- Aadhar Stings -->
-    <string name="aadhar_name">Name</string>
-    <string name="aadhar_age">Age</string>
-    <string name="aadhar_dob">Date of Birth</string>
-    <string name="aadhar_father_spouse">Guardian</string>
-    <string name="aadhar_address">Address</string>
-    <string name="aadhar_address1">Address1</string>
+    <string name="aadhar_name">Name<font color='red'>*</font></string>
+    <string name="aadhar_age">Age<font color='red'>*</font></string>
+    <string name="aadhar_dob">Date of Birth<font color='red'>*</font></string>
+    <string name="aadhar_father_spouse">Guardian<font color='red'>*</font></string>
+    <string name="aadhar_address">Address<font color='red'>*</font></string>
+    <string name="aadhar_address1">Address1<font color='red'>*</font></string>
     <string name="aadhar_address2">Address2</string>
     <string name="aadhar_address3">Address3</string>
-    <string name="aadhar_city">City</string>
-    <string name="aadhar_state">State</string>
-    <string name="aadhar_pin">Pin</string>
-    <string name="aadhar_gender">Gender</string>
+    <string name="aadhar_city">City<font color='red'>*</font></string>
+    <string name="aadhar_state">State<font color='red'>*</font></string>
+    <string name="aadhar_pin">Pin<font color='red'>*</font></string>
+    <string name="aadhar_gender">Gender<font color='red'>*</font></string>
+    <string name="relationshioWithBorrower">Relationship with Borrower<font color='red'>*</font></string>
 
 
-    <string name="applicant_bank_ifsc">Bank IFSC</string>
-    <string name="applicant_bank_account_type">Bank Account Type</string>
-    <string name="applicant_bank_account_number">Bank Account Number</string>
+    <string name="applicant_bank_ifsc">Bank IFSC<font color='red'>*</font></string>
+    <string name="applicant_bank_account_type">Bank Account Type<font color='red'>*</font></string>
+    <string name="applicant_bank_account_number">Bank Account Number<font color='red'>*</font></string>
     <string name="applicant_bank_account_date">Bank Account Opening Date</string>
 
-    <string name="applicant_name">Applicant Name</string>
-    <string name="applicant_father_spouse">Father / Spouse</string>
-    <string name="applicant_address">Address</string>
-    <string name="applicant_mobile">Mobile</string>
-    <string name="applicant_monthly_income">Monthly Income</string>
+    <string name="applicant_name">Applicant Name<font color='red'>*</font></string>
+    <string name="applicant_father_spouse">Father / Spouse<font color='red'>*</font></string>
+    <string name="applicant_address">Address<font color='red'>*</font></string>
+    <string name="applicant_mobile">Mobile<font color='red'>*</font></string>
+    <string name="applicant_monthly_income">Monthly Income<font color='red'>*</font></string>
     <string name="applicant_future_income">Future Income</string>
     <string name="applicant_caste">Caste</string>
     <string name="applicant_religion">Religion</string>
-    <string name="applicant_marital_status">Marital Status</string>
+    <string name="applicant_marital_status">Marital Status<font color='red'>*</font></string>
     <string name="applicant_dependents">No. of Depenent(s) (Adult)</string>
     <string name="applicant_children">Children</string>
     <string name="applicant_school_going_children">School Going Children</string>
     <string name="applicant_child_monthly_spends">Monthly Spends on Children</string>
-    <string name="applicant_pan">Permanent Account No (PAN)</string>
+    <string name="applicant_pan">Permanent Account No (PAN)<font color='red'>*</font></string>
     <string name="applicant_pan_name">Name as on Permanent Account No (PAN)</string>
-    <string name="applicant_voter">Voter ID</string>
+    <string name="applicant_voter">Voter ID<font color='red'>*</font></string>
+    <string name="Guardian">Guardian<font color='red'>*</font></string>
     <string name="applicant_driving_license">Driving License</string>
     <string name="applicant_present_residence_owner">Present House Owner</string>
     <string name="applicant_house_rent">House Rent (Thousand)</string>
@@ -87,8 +89,8 @@
 
     <string name="applicant_family_earning_member">Earning Member Type</string>
     <string name="applicant_family_members">No. of Family Members</string>
-    <string name="applicant_family_income_monthly">Monthly Income</string>
-    <string name="applicant_family_occupation">Occupation</string>
+    <string name="applicant_family_income_monthly">Monthly Income<font color='red'>*</font></string>
+    <string name="applicant_family_occupation">Occupation<font color='red'>*</font></string>
     <string name="applicant_family_occupation_employer_type">Employer Type</string>
     <string name="applicant_family_occupation_service_employer">Employer Name</string>
     <string name="applicant_family_occupation_business_type">Business Type</string>
@@ -115,7 +117,7 @@
     <string name="guarantor_title">Guarantor</string>
     <string name="guarantor_title_select">Select Guarantor</string>
 
-    <string name="state_name">State Name</string>
+    <string name="state_name">State Name<font color='red'>*</font></string>
 
     <string name="caption_add">Add</string>
     <string name="caption_update">Update</string>

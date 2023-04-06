@@ -5,4 +5,13 @@
     <string name="nav_close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mother_first_name">Mother First Name<font color='red'>*</font></string>
+    <string name="father_first_name">Father First Name<font color='red'>*</font></string>
+    <string name="spouse_first_name">Spouse First Name<font color='red'>*</font></string>
+    <string name="expense_monthly">Expense(monthly)<font color='red'>*</font></string>
+    <string name="future_income">Future Income(Annual)</string>
+    <string name="agriculture_income">Agriculture Income(Annual)</string>
+    <string name="earning_member_type">Earning Member Type<font color='red'>*</font></string>
+    <string name="select_bank">Select Bank<font color='red'>*</font></string>
+    <string name="loan_duration_month">Loan Duration(month)<font color='red'>*</font></string>
 </resources>

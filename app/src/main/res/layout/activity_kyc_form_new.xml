@@ -54,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Income(monthly)"
+                        android:hint="@string/applicant_monthly_income"
                         android:inputType="number"
                         android:textSize="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Expense(monthly)"
+                        android:hint="@string/expense_monthly"
 
                         android:inputType="number"
                         android:textSize="15dp" />
@@ -144,7 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Future Income"
+                        android:hint="@string/future_income"
 
                         android:inputType="number"
                         android:textSize="15dp" />
@@ -181,7 +181,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Agriculture Income"
+                        android:hint="@string/agriculture_income"
 
                         android:inputType="number"
                         android:textSize="15dp" />
@@ -352,7 +352,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Earning Member Type"
+                        android:text="@string/earning_member_type"
                         style="@style/InputLabel" />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -631,7 +631,7 @@
                         android:fontFamily="@font/scada_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Loan Duration(month)"
+                        android:text="@string/loan_duration_month"
                         style="@style/InputLabel" />
                     <LinearLayout
                         android:layout_margin="@dimen/margin_3dp"
@@ -673,7 +673,7 @@
                         android:fontFamily="@font/scada_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Bank"
+                        android:text="@string/select_bank"
                         style="@style/InputLabel" />
                     <LinearLayout
                         android:layout_margin="@dimen/margin_3dp"

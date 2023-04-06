@@ -89,7 +89,7 @@
                          <TextView
                              android:textColor="@color/black"
                              android:fontFamily="@font/scada_bold"
-                             android:text="@string/applicant_father_spouse"
+                             android:text="Father/Spouse"
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"/>
                             <TextView
@@ -140,7 +140,7 @@
                             <TextView
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/scada_bold"
-                                android:text="@string/applicant_mobile"
+                                android:text="Mobile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <TextView
@@ -187,7 +187,7 @@
                     android:paddingRight="10dp"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/black"
-                    android:text="@string/applicant_address"
+                    android:text="Address"
                     android:fontFamily="@font/scada_bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

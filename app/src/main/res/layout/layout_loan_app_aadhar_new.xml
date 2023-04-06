@@ -87,7 +87,7 @@
                                     android:gravity="left"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/aadhar_id"
+                                    android:text="Aadhaar ID"
                                     android:textColor="@color/defaultTextColor"
                                     android:textSize="14dp"
                                     android:visibility="visible" />
@@ -119,7 +119,7 @@
                                 android:gravity="left"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/aadhar_gender"
+                                android:text="Gender"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="14dp" />
 
@@ -145,7 +145,7 @@
                                 android:textColor="@color/defaultTextColor"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/aadhar_father_spouse" />
+                                android:text="Guardian" />
 
                             <TextView
                                 android:textColor="@color/defaultTextColor"
@@ -190,7 +190,7 @@
                                 android:gravity="left"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/aadhar_age"
+                                android:text="Age"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="14dp" />
 
@@ -217,7 +217,7 @@
                                 android:fontFamily="@font/scada_regular"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/aadhar_dob"
+                                android:text="Date of Birth"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="14dp" />
 
@@ -245,7 +245,7 @@
                                 android:textColor="@color/defaultTextColor"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/applicant_mobile" />
+                                android:text="Mobile" />
 
                             <TextView
                                 android:textSize="15dp"
@@ -298,7 +298,7 @@
                                 android:fontFamily="@font/scada_regular"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/applicant_pan"
+                                android:text="PAN number"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="12dp"
                                 android:gravity="left"
@@ -320,7 +320,7 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/loan_purpose"
+                                android:text="Loan Purpose"
                                 android:gravity="left"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="12dp" />
@@ -382,7 +382,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/aadhar_address"
+                        android:text="Address"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="12dp" />
 
