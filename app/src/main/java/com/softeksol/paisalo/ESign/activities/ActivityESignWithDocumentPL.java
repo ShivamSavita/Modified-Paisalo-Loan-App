@@ -144,17 +144,27 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("TAG", "onActivityResult: "+data);
+        Log.d("TAG", "onActivityResult: "+resultCode);
+        Log.d("TAG", "onActivityResult: "+resultCode);
+        Log.d("TAG", "onActivityResult:APK_ESIGN_REQUEST_CODE "+APK_ESIGN_REQUEST_CODE);
+
 
         if (requestCode == APK_ESIGN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                String eSignResponse = data.getStringExtra("signedResponse");
-                if (eSignResponse.trim().equals("Something went wrong during Esign Processing. Please contact administrator"))
-                {
+                try {
+                    String eSignResponse = data.getStringExtra("signedResponse");
+                    Log.d("TAG", "onActivityResult: "+eSignResponse);
+                    if (eSignResponse.trim().equals("Something went wrong during Esign Processing. Please contact administrator"))
+                    {
+                        Utils.alert(ActivityESignWithDocumentPL.this,"Something went wrong during Esign Processing. Please contact administrator(NSDL)");
+                    }else{
+                        sendESign(eSignResponse);
+                    }
+                }catch (Exception e){
                     Utils.alert(ActivityESignWithDocumentPL.this,"Something went wrong during Esign Processing. Please contact administrator(NSDL)");
-                }else{
-                    sendESign(eSignResponse);
+
                 }
+
 
 
             } else {
@@ -232,6 +242,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).
                         appStartIntent.putExtra("returnUrl", responseUrl); // your package name where esign response failure/success will be sent.
                         startActivityForResult(appStartIntent, APK_ESIGN_REQUEST_CODE);
+
+
                     } catch (JSONException je) {
                         je.printStackTrace();
                     }
@@ -266,7 +278,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         }
         eSingParms.Concent = consent;
 
-        //Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
+        Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
         if (esignType == 1) {
             (new WebOperations()).postEntityESign(this, "docsESignPvn", "signdoc", WebOperations.convertToJson(eSingParms), asyncResponseHandler);
         } else {
@@ -281,7 +293,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-                    Log.d("Final Esing Response", new String(responseBody));
                     try {
                         JSONObject jsonObject = new JSONObject(new String(responseBody));
                         if (jsonObject.getBoolean("isSuccess")) {
@@ -289,7 +300,9 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         } else {
                             Utils.alert(ActivityESignWithDocumentPL.this, jsonObject.getString("ErrMsg"));
                         }
-                    } catch (JSONException je) {
+                    } catch (Exception je) {
+                        Utils.alert(ActivityESignWithDocumentPL.this, "Something went wrong in ESigning OR response is not correct");
+
                         je.printStackTrace();
                     }
                 }
@@ -297,7 +310,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("Failed ESign Response", new String(responseBody));
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     if (!jsonObject.getBoolean("isSuccess")) {
@@ -305,6 +317,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                     }
                 } catch (JSONException je) {
                     je.printStackTrace();
+                    Utils.alert(ActivityESignWithDocumentPL.this, "Failed ESign Response");
+
                 }
             }
         };
@@ -322,6 +336,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
     private void showAadharDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ") ");
+
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View alertLayout = layoutInflater.inflate(R.layout.layout_aadhar_consent, null);

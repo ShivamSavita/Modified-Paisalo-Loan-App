@@ -1,11 +1,14 @@
 package com.softeksol.paisalo.jlgsourcing.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 import com.loopj.android.http.DataAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -34,12 +38,17 @@ import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -65,8 +74,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     //private TextWatcher IFSCTextWatcher;
     private TextInputEditText tietRent, tietFooding, tietEducation, tietHealth, tietTravelling, tietEntertainment, tietOthers;
     private AppCompatSpinner acspHomeType, acspHomeRoofType, acspToiletType, acspLiveingWithSpouse;
-
-
+    TextView tilBankAccountName;
+    Button checkBankAccountNuber;
     public FragmentBorrowerFinance() {
         // Required empty public constructor
     }
@@ -132,7 +141,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         activity.setNavOnClikListner(imgViewLeft);
         ImageView imgViewRight = (ImageView) v.findViewById(R.id.btnNavRight);
         activity.setNavOnClikListner(imgViewRight);
-
+        checkBankAccountNuber=v.findViewById(R.id.checkBankAccountNuber);
+        tilBankAccountName=v.findViewById(R.id.tilBankAccountName);
         spinnerPurpose = (Spinner) v.findViewById(R.id.spinLoanAppFinancePurposePrimary);
         spinnerPurpose.setAdapter(rlaBankType);
         spinnerBankAcType = (Spinner) v.findViewById(R.id.spinLoanAppFinanceAccountType);
@@ -179,10 +189,71 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         expense=borrower.getFiFamilyExpenses();
         setDataToView(v);
         //etIFSC.addTextChangedListener(IFSCTextWatcher);
+        checkBankAccountNuber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!etBankAccount.getText().toString().equals("") && !etIFSC.getText().toString().equals("")){
+                    cardValidate(etBankAccount.getText().toString().trim(),etIFSC.getText().toString().trim());
+                }else{
+                    Toast.makeText(getContext(), "Please enter account number and IFCS code Properly", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return v;
     }
+    private void cardValidate(String id,String bankIfsc) {
 
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setTitle("Fetching Details");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,bankIfsc));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                    try {
+                        tilBankAccountName.setVisibility(View.VISIBLE);
+
+                        tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
+                        checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                        checkBankAccountNuber.setEnabled(false);
+                    }catch (Exception e){
+                        tilBankAccountName.setVisibility(View.VISIBLE);
+                        tilBankAccountName.setText("Card Holder Name Not Found");
+                        checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                        checkBankAccountNuber.setEnabled(true);
+
+                    }
+                    progressDialog.cancel();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                tilBankAccountName.setText(t.getMessage());
+                    progressDialog.cancel();
+                    checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+
+
+
+            }
+        });
+    }
+    private JsonObject getJsonOfString(String id, String bankIfsc) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type","bankaccount");
+        jsonObject.addProperty("txtnumber",id);
+        jsonObject.addProperty("ifsc",bankIfsc);
+        jsonObject.addProperty("userdob","");
+        return  jsonObject;
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -222,6 +293,18 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
 
     private void setDataToView(View v) {
+        try {
+            if (borrower.House_Owner.equals("Self")){
+                tietRent.setText("0");
+                tietRent.setEnabled(false);
+            }else {
+                tietRent.setText(String.valueOf(expense.getRent()));
+            }
+        }catch (Exception e){
+            tietRent.setText(String.valueOf(expense.getRent()));
+
+        }
+
         Utils.setSpinnerPosition(spinnerLoanAmount, borrower.Loan_Amt);
         //Commented for E-Vehicle
         spinnerLoanAmount.setEnabled(borrower.Loan_Amt < 10);
@@ -239,7 +322,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch)).setText(Utils.NullIf(borrower.Bank_Address, ""));
         //((EditText) v.findViewById(R.id.etLoanAppFinanceBankAcOpenDate)).setText(DateUtils.getFormatedDate(borrower.BankAcOpenDt,"dd-MMM-yyyy"));
 
-        tietRent.setText(String.valueOf(expense.getRent()));
+
         tietFooding.setText(String.valueOf(expense.getFooding()));
         tietEducation.setText(String.valueOf(expense.getEducation()));
         tietHealth.setText(String.valueOf(expense.getHealth()));

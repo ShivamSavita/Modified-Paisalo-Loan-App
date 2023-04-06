@@ -52,10 +52,11 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     private ActivityLoanApplication activity;
     private Borrower borrower;
     private AdapterListRange rlaEarningMember, rlaEarningMemberOccupation, rlaEarningMemberIncome, rlaEMployerType, rlaShopOwner, rla0to9;
-    private AdapterListRange rlaOtherAgriLandOwnership, rlaOtherBusinessType, rla0to11, rlaOtherAgriLandType, rlaPurposeType, rlaSchoolingChildren;
+    private AdapterListRange rlaOtherAgriLandOwnership, rlaOtherBusinessType, rla0to11, rlaOtherAgriLandType, rlaPurposeType, rlaSchoolingChildren,rlaLoanAppExtraDependentAdults,rlaChildren;
     private BorrowerExtra borrowerExtra;
     ArrayList<String> items=new ArrayList<String>();
-    private ArrayAdapter<String> SOC_ATTR_4_SPL_ABLD,SOC_ATTR_5_SPL_SOC_CTG,VISUALLY_IMPAIRED_YN,FORM60_PAN_APPLIED_YN;
+    ArrayList<String> itemsForEducationalCode=new ArrayList<String>();
+    private ArrayAdapter<String> SOC_ATTR_4_SPL_ABLD,SOC_ATTR_5_SPL_SOC_CTG,VISUALLY_IMPAIRED_YN,FORM60_PAN_APPLIED_YN,spinEducationalCodeAdapter;
     private ImageView imgViewCal,ImgViewCal2;
     String newDate;
 
@@ -89,6 +90,11 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         activity = (ActivityLoanApplication) getActivity();
         items.add("NO");
         items.add("YES");
+
+        itemsForEducationalCode.add("10th");
+        itemsForEducationalCode.add("12th");
+        itemsForEducationalCode.add("GRADUATE");
+        itemsForEducationalCode.add("POST GRADUATE");
 
         rlaCaste = new AdapterListRange(this.getContext(),
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("caste")).queryList(), false);
@@ -125,7 +131,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("loan_purpose"))
                         .orderBy(RangeCategory_Table.SortOrder, true).queryList(), true);
 
-        rla0to11 = new AdapterListRange(this.getContext(), Utils.getList(1, 11, 1, 1, getString(R.string.acres)), true);
+        rla0to11 = new AdapterListRange(this.getContext(), Utils.getList(0, 11, 1, 1, getString(R.string.acres)), true);
         rla0to9 = new AdapterListRange(this.getContext(), Utils.getList(0, 9, 1, 1, null), false);
     }
 
@@ -170,10 +176,20 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         Spinner spinFORM60_PAN_APPLIED_YN=v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN);
         FORM60_PAN_APPLIED_YN = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_card_orange,R.id.text_cname, items);
         spinFORM60_PAN_APPLIED_YN.setAdapter(FORM60_PAN_APPLIED_YN);
+
+
+
+        Spinner spinEducationalCode=v.findViewById(R.id.spinEducationalCode);
+
+        spinEducationalCodeAdapter = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_card_orange,R.id.text_cname, itemsForEducationalCode);
+        spinEducationalCode.setAdapter(spinEducationalCodeAdapter);
+
+
         Spinner spinnerIncomeFuture = (Spinner) v.findViewById(R.id.spinLoanAppExtraIncomeFuture);
         spinnerIncomeFuture.setAdapter(rlaIncome);
         Spinner spinnerFamilyMembers = (Spinner) v.findViewById(R.id.spinLoanAppPersonalFamilyMembers);
         spinnerFamilyMembers.setAdapter(rla0to9);
+        spinnerFamilyMembers.setOnItemSelectedListener(this);
         Spinner spinnerDependentAdults = (Spinner) v.findViewById(R.id.spinLoanAppExtraDependentAdults);
         spinnerDependentAdults.setAdapter(rla0to9);
         Spinner spinnerChildren = (Spinner) v.findViewById(R.id.spinLoanAppExtraChildren);
@@ -293,12 +309,25 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         int spinnerPositionSpecialCategory= SOC_ATTR_5_SPL_SOC_CTG.getPosition(borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG);
         ((Spinner)v.findViewById(R.id.spinSpecialSocialCategory)).setSelection(spinnerPositionSpecialCategory);
 
-
+        if (borrower.PanNO.length()>0){
+            ((Spinner)v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).setVisibility(View.GONE);
+        }
         int spinnerPositionPANApplied= FORM60_PAN_APPLIED_YN.getPosition(borrowerExtra.FORM60_PAN_APPLIED_YN);
         ((Spinner)v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).setSelection(spinnerPositionPANApplied);
 
         int spinnerPositionSpecialAbility= SOC_ATTR_4_SPL_ABLD.getPosition(borrowerExtra.SOC_ATTR_4_SPL_ABLD);
         ((Spinner)v.findViewById(R.id.spinSpecialAbility)).setSelection(spinnerPositionSpecialAbility);
+
+
+        try{
+            int spinnerPositionEducation= spinEducationalCodeAdapter.getPosition(borrowerExtra.EDUCATION_CODE);
+
+            ((Spinner)v.findViewById(R.id.spinEducationalCode)).setSelection(spinnerPositionEducation);
+        }catch (Exception e){
+            ((Spinner)v.findViewById(R.id.spinEducationalCode)).setSelection(1);
+
+        }
+
 
 
 
@@ -340,7 +369,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         ((EditText) v.findViewById(R.id.editPlaceOfBirth)).setText(borrowerExtra.PLACE_OF_BIRTH);
         Log.d("TAG", "setDataToView: "+borrowerExtra.Years_In_Business);
         ((EditText) v.findViewById(R.id.editYearsInBusiness)).setText(String.valueOf(borrowerExtra.Years_In_Business));
-        ((EditText) v.findViewById(R.id.editEducationalCode)).setText(borrowerExtra.EDUCATION_CODE);
         ((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).setText(borrowerExtra.FORM60_TNX_DT);
         ((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).setText(borrowerExtra.FORM60_SUBMISSIONDATE);
 
@@ -409,7 +437,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) v.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
         borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) v.findViewById(R.id.editYearsInBusiness)).getText().toString());
-        borrowerExtra.EDUCATION_CODE=((EditText) v.findViewById(R.id.editEducationalCode)).getText().toString();
+        borrowerExtra.EDUCATION_CODE=((Spinner) v.findViewById(R.id.spinEducationalCode)).getSelectedItem().toString();
         borrowerExtra.FORM60_TNX_DT=((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).getText().toString();
         borrowerExtra.FORM60_SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
         borrowerExtra.FORM60SUBMISSIONDATE=((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).getText().toString();
@@ -471,6 +499,35 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
                     spinnerMonthlySpendOnChildren.setVisibility(View.GONE);
                 }
                 break;
+
+                case R.id.spinLoanAppPersonalFamilyMembers:
+                rangeCategory = (RangeCategory) adapterView.getSelectedItem();
+                Spinner spinnerSchoolGoingChildren = (Spinner) getView().findViewById(R.id.spinLoanAppExtraChildrenSchooling);
+                Spinner spinnerMonthSpendOnChildren = (Spinner) getView().findViewById(R.id.spinLoanAppExtraChildren);
+                Spinner spinLoanAppExtraDependentAdults = (Spinner) getView().findViewById(R.id.spinLoanAppExtraDependentAdults);
+                if (Integer.parseInt(rangeCategory.RangeCode) > 0) {
+                    Log.d("Children","Schooling Children");
+                    rlaSchoolingChildren = new AdapterListRange(this.getContext(), Utils.getList(0, Integer.parseInt(rangeCategory.RangeCode), 1, 1, null), false);
+                    rlaChildren = new AdapterListRange(this.getContext(), Utils.getList(0, Integer.parseInt(rangeCategory.RangeCode), 1, 1, null), false);
+                    rlaLoanAppExtraDependentAdults = new AdapterListRange(this.getContext(), Utils.getList(0, Integer.parseInt(rangeCategory.RangeCode), 1, 1, null), false);
+                    spinnerSchoolGoingChildren.setAdapter(rlaSchoolingChildren);
+                    spinnerMonthSpendOnChildren.setAdapter(rlaChildren);
+                    spinLoanAppExtraDependentAdults.setAdapter(rlaLoanAppExtraDependentAdults);
+                    rlaSchoolingChildren.notifyDataSetChanged();
+                    rlaChildren.notifyDataSetChanged();
+                    rlaLoanAppExtraDependentAdults.notifyDataSetChanged();
+                    Utils.setSpinnerPosition(spinnerSchoolGoingChildren, borrowerExtra.SchoolingChildren);
+                    spinLoanAppExtraDependentAdults.setVisibility(View.VISIBLE);
+                    spinnerSchoolGoingChildren.setVisibility(View.VISIBLE);
+                    spinnerMonthSpendOnChildren.setVisibility(View.VISIBLE);
+                } else {
+                    spinnerMonthSpendOnChildren.setVisibility(View.GONE);
+                    spinnerSchoolGoingChildren.setVisibility(View.GONE);
+                    spinLoanAppExtraDependentAdults.setVisibility(View.GONE);
+                }
+                break;
+
+
         }
 
     }
