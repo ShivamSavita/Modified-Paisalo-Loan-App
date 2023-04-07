@@ -593,7 +593,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 panCheckSign.setEnabled(true);
                 panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-
+                tilPAN_Name.setText("");
             }
 
             @Override
@@ -613,6 +613,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 dLCheckSign.setEnabled(true);
                 dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                tilDL_Name.setText("");
 
             }
 
@@ -635,6 +636,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 voterIdCheckSign.setEnabled(true);
                 voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                tilVoterId_Name.setText("");
 
             }
 
@@ -1352,12 +1354,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-
-                                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-
+                                                intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                                intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                                intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1381,18 +1380,16 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                         intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                         intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-
                                         intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
                                         intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                         intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);
                                     }
 //                                }
-                            }else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
+                            }
+                            else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
 //                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
 //                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
 //                                }else{
@@ -1411,12 +1408,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("MotherFName",tietMotherFName.getText().toString());
                                                 intent.putExtra("MotherLName",tietMotherLName.getText().toString());
                                                 intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-
-                                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-
+                                                intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
+                                                intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
+                                                intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1448,8 +1442,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         startActivity(intent);
                                     }
 //                                }
-                            }else  {
-                                if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) &&!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])){
+                            }
+                            else{if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])
+                                        ||!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])
+                                        ||!tilPAN_Name.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])){
                                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
                                     builder.setTitle("Caution!!");
                                     builder.setMessage("want to save  data without PAN card Name, Voter ID holder Name and Aadhaar Name matching");
