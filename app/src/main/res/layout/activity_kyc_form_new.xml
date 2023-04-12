@@ -231,7 +231,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Pension Income"
+                        android:hint="Pension Income(Annual)"
 
                         android:inputType="number"
                         android:textSize="15dp" />
@@ -267,7 +267,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Interest Income"
+                        android:hint="Interest Income(Annual)"
 
                         android:inputType="number"
                         android:textSize="15dp" />
@@ -308,7 +308,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:background="@color/white"
-                    android:hint="Other Income"
+                    android:hint="Other Income(Annual)"
                     android:inputType="number"
                     android:textSize="15dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -456,12 +456,15 @@
                         android:text="@string/loan_amount"
                         style="@style/InputLabel" />
                     <LinearLayout
-                        android:background="@drawable/spinner_bggrey"
                         android:layout_margin="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <androidx.appcompat.widget.AppCompatSpinner
+                        <EditText
                             android:id="@+id/acspLoanAppFinanceLoanAmount"
+                            android:background="@color/white"
+                            android:maxLength="6"
+                            android:hint="Enter Loan Amount"
+                            android:inputType="number"
                             android:layout_marginStart="@dimen/input_label_horizontal_spacing"
                             android:layout_width="match_parent"
                             android:textSize="15dp"

@@ -2,7 +2,6 @@ package com.softeksol.paisalo.dealers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +9,7 @@ import android.widget.LinearLayout;
 
 import com.softeksol.paisalo.jlgsourcing.R;
 
-public class DealerOnBoard extends AppCompatActivity {
-
+public class OEM_Onboarding extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -20,13 +18,12 @@ public class DealerOnBoard extends AppCompatActivity {
     }
 
     LinearLayout layout_basicDetails,layout_BusinessDetails,layout_BankDetails;
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delear_on_board);
+        setContentView(R.layout.activity_oem_onboarding);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Dealer OnBoard");
+        getSupportActionBar().setTitle("OEM OnBoard");
         layout_basicDetails=findViewById(R.id.layout_basic_details);
         layout_BusinessDetails=findViewById(R.id.layout_BusinessDetails);
         layout_BankDetails=findViewById(R.id.layout_BankDetails);

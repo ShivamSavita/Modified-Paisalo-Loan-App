@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +48,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class KYC_Form_New extends AppCompatActivity {
 TextInputEditText tietAgricultureIncome,tietFutureIncome,tietExpenseMonthly,tietIncomeMonthly,tietOtherIncome,EditEarningMemberIncome,tietPensionIncome,tietInterestIncome;
-Spinner loanbanktype,loanDuration,acspOccupation,acspLoanReason,acspBusinessDetail,earningMemberTypeSpin,acspLoanAppFinanceLoanAmount;
+Spinner loanbanktype,loanDuration,acspOccupation,acspLoanReason,acspBusinessDetail,earningMemberTypeSpin;
+EditText acspLoanAppFinanceLoanAmount;
     private Manager manager;
 Button BtnSaveKYCData;
 Borrower borrower;
@@ -126,7 +128,6 @@ TextView textViewTotalAnnualIncome;
 
         loanbanktype.setAdapter(rlaBankType);
         acspLoanReason.setAdapter(rlaPurposeType);
-        acspLoanAppFinanceLoanAmount.setAdapter(rlaLoanAmount);
         acspBusinessDetail.setAdapter(rlaBussiness);
         acspOccupation.setAdapter(rlsOccupation);
         earningMemberTypeSpin.setAdapter(rlaEarningMember);
@@ -334,6 +335,12 @@ TextView textViewTotalAnnualIncome;
              else if(tietInterestIncome.getText().toString().trim().equals("")){
                 tietInterestIncome.setError("Please Enter Interest Income");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Interest Income");
+            } else if(acspLoanAppFinanceLoanAmount.getText().toString().trim().equals("")){
+                acspLoanAppFinanceLoanAmount.setError("Please Enter Loan Amount");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Loan Amount");
+            } else if(Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())>300000 ||Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())<5000){
+                acspLoanAppFinanceLoanAmount.setError("Please Enter Loan Amount Less than 3 lacks and Greater than 5 thousand");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Loan Amount Less than 3 lacks and Greater than 5 thousand");
             }
             else{
 
@@ -352,11 +359,6 @@ TextView textViewTotalAnnualIncome;
                 Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank.getCode());
                 Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank);
                 Log.d("TAG", "onSuccess1: "+WebOperations.convertToJson(borrower.fiExtraBank));
-//                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-//                borrower.fiFamExpenses = null;
-//                borrower.fiExtra = null;
-
-
 
                         AsyncResponseHandler dataAsyncResponseHandler = new AsyncResponseHandler(this, "Loan Financing\nSubmittiong Loan Application", "Submitting Borrower Information") {
                             @Override
@@ -449,7 +451,9 @@ TextView textViewTotalAnnualIncome;
                                     builder.setNegativeButton("Done", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            startActivity(new Intent(KYC_Form_New.this,ActivityOperationSelect.class));
+                                            Intent intent=new Intent(KYC_Form_New.this,ActivityOperationSelect.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
                                             finish();
 
                                         }
@@ -492,7 +496,7 @@ TextView textViewTotalAnnualIncome;
         borrower.Business_Detail=Utils.getSpinnerStringValue(acspBusinessDetail);
         borrower.Loan_Duration=loanDuration.getSelectedItem().toString().trim();
         borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
-        borrower.Loan_Amt=Utils.getSpinnerIntegerValue(acspLoanAppFinanceLoanAmount);
+        borrower.Loan_Amt=Utils.getNotNullInt(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.Approved=null;

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softeksol.paisalo.dealers.Dealer_Branch_Open">
+
+    <LinearLayout
+        android:id="@+id/layout_basic_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/scada_bold"
+            android:text="Open Branch"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietBankCIF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:capitalize="characters"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/."
+                    android:hint="Branch Name"
+                    android:inputType="textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:paddingLeft="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Val_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:capitalize="characters"
+                    android:hint="Branch Address" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="1"
+                        style="@style/InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/scada_regular"
+                        android:text="Geo Tagging"
+                        android:textColor="@color/black" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey">
+
+                        <EditText
+                            android:hint="Lattitude"
+                            android:background="@color/white"
+                            android:id="@+id/acspAadharCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey">
+
+                        <EditText
+                            android:id="@+id/acspAadharDistrict"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@color/white"
+                            android:hint="Longitude"
+                            android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/scada_regular"
+                        android:text="Select Dealer"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnSaveBasic"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

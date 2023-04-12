@@ -79,14 +79,18 @@
                     tools:ignore="MissingConstraints">
 
                     <GridView
-                        android:id="@+id/lvcOpSelect"
+                        android:id="@+id/lvcOpSelectDealer"
                         android:layout_width="match_parent"
-                        android:layout_height="550dp"
+                        android:layout_height="420dp"
                         android:layout_margin="5dp"
                         android:numColumns="2"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        tools:listitem="@layout/operation_item_card"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
+
+
+
 
                     </GridView>
 

@@ -37,6 +37,24 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.dealers.OEM_Onboarding"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.Dealer_Branch_Open"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.Dealer_CheckList"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.OpenImage"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.Dealer_Dashboard"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.DealerOnBoard"
+            android:exported="false" />
+        <activity
             android:name=".activities.KYC_Form_New"
             android:exported="false" />
         <activity

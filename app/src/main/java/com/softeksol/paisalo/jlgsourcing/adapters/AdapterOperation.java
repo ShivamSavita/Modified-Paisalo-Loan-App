@@ -70,6 +70,22 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
                     holder.imageView.setImageResource(R.drawable.esign_ic);
                     holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.esign_color));
                     holder.module_desc.setText("Digital verification by Finger Print with Aadhaar.");
+                }else if (operationItem.getOprationName().equals("VH Module")){
+                    holder.imageView.setImageResource(R.drawable.dealer_ic);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.vh_color));
+                    holder.module_desc.setText("Dealers Pages like On Boarding Document Upload etc.");
+                }else if (operationItem.getOprationName().equals("OEM OnBoard")){
+                    holder.imageView.setImageResource(R.drawable.oem_ic);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.esign_color));
+                    holder.module_desc.setText("Working with OEM data and Their Products");
+                }else if (operationItem.getOprationName().equals("Dealer OnBoard")){
+                    holder.imageView.setImageResource(R.drawable.dealeronboard_ic);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.vh_color));
+                    holder.module_desc.setText("Generating new Dealers and assigning branches to them");
+                }else if (operationItem.getOprationName().equals("Dealer Checklist")){
+                    holder.imageView.setImageResource(R.drawable.dealercheclist_ic);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.kyc_color));
+                    holder.module_desc.setText("Uploading Documents and files in this module");
                 }
             }
         }

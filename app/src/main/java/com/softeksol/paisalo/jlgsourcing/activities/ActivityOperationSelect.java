@@ -17,12 +17,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.smarteist.autoimageslider.SliderView;
 import com.softeksol.paisalo.ESign.adapters.SliderAdapter;
+import com.softeksol.paisalo.dealers.Dealer_Dashboard;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -111,14 +113,24 @@ public class ActivityOperationSelect extends AppCompatActivity {
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
             operationItems.add(new OperationItem(6, "E-Sign", R.color.colorMenuPremature, "POSDB", "Getmappedfo"));
         }
+        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
+            operationItems.add(new OperationItem(7, "VH Module", R.color.colorMenuPremature, "", ""));
+        }
 
         GridView lv = (GridView) findViewById(R.id.lvcOpSelect);
+
         lv.setAdapter(new AdapterOperation(ActivityOperationSelect.this, operationItems));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OperationItem operationItem = (OperationItem) parent.getAdapter().getItem(position);
-                updateManagers(operationItem);
+                if (operationItem.getId()==7){
+                   Intent intent = new Intent(ActivityOperationSelect.this, Dealer_Dashboard.class);
+                   startActivity(intent);
+                }else {
+                    updateManagers(operationItem);
+                }
+
             }
         });
     }

@@ -301,68 +301,46 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     }
 
     private void setDataToView(View v) {
-
         int spinnerPositionVisuallyImpaired= VISUALLY_IMPAIRED_YN.getPosition(borrowerExtra.VISUALLY_IMPAIRED_YN);
         ((Spinner)v.findViewById(R.id.spinVisuallyImpaired)).setSelection(spinnerPositionVisuallyImpaired);
-
-
         int spinnerPositionSpecialCategory= SOC_ATTR_5_SPL_SOC_CTG.getPosition(borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG);
         ((Spinner)v.findViewById(R.id.spinSpecialSocialCategory)).setSelection(spinnerPositionSpecialCategory);
-
         if (borrower.PanNO.length()>0){
             ((Spinner)v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).setVisibility(View.GONE);
         }
         int spinnerPositionPANApplied= FORM60_PAN_APPLIED_YN.getPosition(borrowerExtra.FORM60_PAN_APPLIED_YN);
         ((Spinner)v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).setSelection(spinnerPositionPANApplied);
-
         int spinnerPositionSpecialAbility= SOC_ATTR_4_SPL_ABLD.getPosition(borrowerExtra.SOC_ATTR_4_SPL_ABLD);
         ((Spinner)v.findViewById(R.id.spinSpecialAbility)).setSelection(spinnerPositionSpecialAbility);
-
-
         try{
             int spinnerPositionEducation= spinEducationalCodeAdapter.getPosition(borrowerExtra.EDUCATION_CODE);
-
             ((Spinner)v.findViewById(R.id.spinEducationalCode)).setSelection(spinnerPositionEducation);
         }catch (Exception e){
             ((Spinner)v.findViewById(R.id.spinEducationalCode)).setSelection(1);
-
         }
-
-
-
-
-
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly), borrower.Income);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste), borrower.Cast);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion), borrower.Religion);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner), borrower.House_Owner);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentHouseRent), borrower.Rent_of_House);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceDuration), borrower.Live_In_Present_Place);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppPersonalFamilyMembers), borrower.FAmily_member);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraIncomeFuture), borrowerExtra.FutureIncome);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraDependentAdults), borrowerExtra.OtherDependents);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraChildren), borrowerExtra.NoOfChildren);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraChildrenSchooling), borrowerExtra.SchoolingChildren);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraChildrenSpending), borrowerExtra.SpendOnChildren);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraEarningMember), borrowerExtra.FamIncomeSource);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraIncome), borrowerExtra.FamMonthlyIncome);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraOccupationType), borrowerExtra.FamOccupation);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraEmployerType), borrowerExtra.FamJobCompType);
         ((EditText) v.findViewById(R.id.etLoanAppExtraEmployerName)).setText(borrowerExtra.FamJobCompName);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraShopOwner), borrowerExtra.FamBusinessShopType);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraBusinessType), borrowerExtra.FamBusinessType);
-
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraAgricultureLandOwner), borrowerExtra.FamAgriLandOwner);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraAgricultureLandType), borrowerExtra.FamAgriLandType);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraAgricultureArea), borrowerExtra.FamAgriLandArea);
         Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraAgricultureArea), borrowerExtra.FamAgriLandArea);
-
         //Utils.setSpinnerPosition((Spinner) v.findViewById(R.id.spinLoanAppExtraOtherIncomeType),borrowerExtra.FamOtherIncomeType);
         ((EditText) v.findViewById(R.id.etLoanAppExtraOtherIncomeOther)).setText(borrowerExtra.FamOtherIncomeType);
         ((EditText) v.findViewById(R.id.editMailId)).setText(borrowerExtra.EMAIL_ID);
@@ -371,9 +349,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         ((EditText) v.findViewById(R.id.editYearsInBusiness)).setText(String.valueOf(borrowerExtra.Years_In_Business));
         ((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).setText(borrowerExtra.FORM60_TNX_DT);
         ((EditText) v.findViewById(R.id.editFORM60_SUBMISSIONDATE)).setText(borrowerExtra.FORM60_SUBMISSIONDATE);
-
-
-
         ((TextView) v.findViewById(R.id.FatherFirstName)).setText(borrowerExtra.FATHER_FIRST_NAME);
         ((TextView) v.findViewById(R.id.FatherMiddelName)).setText(borrowerExtra.FATHER_MIDDLE_NAME);
         ((TextView) v.findViewById(R.id.FatherLastName)).setText(borrowerExtra.FATHER_LAST_NAME);
@@ -383,12 +358,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         ((TextView) v.findViewById(R.id.SpouseFirstName)).setText(borrowerExtra.SPOUSE_FIRST_NAME);
         ((TextView) v.findViewById(R.id.SpouseMiddelName)).setText(borrowerExtra.SPOUSE_MIDDLE_NAME);
         ((TextView) v.findViewById(R.id.SpouseLastName)).setText(borrowerExtra.SPOUSE_LAST_NAME);
-
-
-
-
-
-
 
     }
 
@@ -435,7 +404,11 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.VISUALLY_IMPAIRED_YN=((Spinner) v.findViewById(R.id.spinVisuallyImpaired)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG=((Spinner) v.findViewById(R.id.spinSpecialSocialCategory)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) v.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
-        borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
+                try{
+                    borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
+                }catch (Exception e){
+                    borrowerExtra.FORM60_PAN_APPLIED_YN="NO";
+                }
         borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) v.findViewById(R.id.editYearsInBusiness)).getText().toString());
         borrowerExtra.EDUCATION_CODE=((Spinner) v.findViewById(R.id.spinEducationalCode)).getSelectedItem().toString();
         borrowerExtra.FORM60_TNX_DT=((EditText) v.findViewById(R.id.editFORM60_TNX_DT)).getText().toString();
