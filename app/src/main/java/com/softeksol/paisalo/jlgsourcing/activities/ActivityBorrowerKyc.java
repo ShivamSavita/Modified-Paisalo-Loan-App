@@ -270,6 +270,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         ArrayList<RangeCategory> relationSips = new ArrayList<>();
         relationSips.add(new RangeCategory("Husband", ""));
         relationSips.add(new RangeCategory("Father", ""));
+        relationSips.add(new RangeCategory("Mother", ""));
 
         acspRelationship.setAdapter(new AdapterListRange(this, relationSips, false));
         //acspRelationship.setVisibility(View.GONE);

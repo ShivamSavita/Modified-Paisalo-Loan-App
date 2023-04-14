@@ -23,7 +23,7 @@ public class OEM_Onboarding extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oem_onboarding);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("OEM OnBoard");
+        getSupportActionBar().setTitle("OEM On-Board");
         layout_basicDetails=findViewById(R.id.layout_basic_details);
         layout_BusinessDetails=findViewById(R.id.layout_BusinessDetails);
         layout_BankDetails=findViewById(R.id.layout_BankDetails);

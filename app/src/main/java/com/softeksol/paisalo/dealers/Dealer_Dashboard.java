@@ -56,7 +56,7 @@ public class Dealer_Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dealer_dashboard);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("VH Dashboard");
+        getSupportActionBar().setTitle("ABF Dashboard");
         sliderView = findViewById(R.id.slider);
 
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
@@ -111,7 +111,7 @@ public class Dealer_Dashboard extends AppCompatActivity {
                     case 2:
                         ArrayList<String> menuOptions = new ArrayList<>();
                         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("L")) {
-                            menuOptions.add("OnBoarding");
+                            menuOptions.add("On-boarding");
                         }
                         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("E")) {
                             menuOptions.add("Branch Open");

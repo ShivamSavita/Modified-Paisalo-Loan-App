@@ -26,7 +26,7 @@ public class DealerOnBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delear_on_board);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Dealer OnBoard");
+        getSupportActionBar().setTitle("Dealer On-Board");
         layout_basicDetails=findViewById(R.id.layout_basic_details);
         layout_BusinessDetails=findViewById(R.id.layout_BusinessDetails);
         layout_BankDetails=findViewById(R.id.layout_BankDetails);

@@ -70,7 +70,7 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
                     holder.imageView.setImageResource(R.drawable.esign_ic);
                     holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.esign_color));
                     holder.module_desc.setText("Digital verification by Finger Print with Aadhaar.");
-                }else if (operationItem.getOprationName().equals("VH Module")){
+                }else if (operationItem.getOprationName().equals("ABF Module")){
                     holder.imageView.setImageResource(R.drawable.dealer_ic);
                     holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.vh_color));
                     holder.module_desc.setText("Dealers Pages like On Boarding Document Upload etc.");
