@@ -476,6 +476,7 @@ public class CrifScore extends AppCompatActivity {
        jsonObject.addProperty("creator",creator);
        jsonObject.addProperty("pancard",eSignerborower.PanNO);
        jsonObject.addProperty("voter_id",eSignerborower.VoterID);
+       jsonObject.addProperty("driving_license_no",eSignerborower.drivinglic);
        jsonObject.addProperty("BrCode",eSignerborower.FoCode);
        jsonObject.addProperty("GrpCode",eSignerborower.CityCode);
        jsonObject.addProperty("AadharID",eSignerborower.AadharNo);

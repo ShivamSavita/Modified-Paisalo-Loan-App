@@ -56,7 +56,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     private BorrowerExtra borrowerExtra;
     ArrayList<String> items=new ArrayList<String>();
     ArrayList<String> itemsForEducationalCode=new ArrayList<String>();
-    private ArrayAdapter<String> SOC_ATTR_4_SPL_ABLD,SOC_ATTR_5_SPL_SOC_CTG,VISUALLY_IMPAIRED_YN,FORM60_PAN_APPLIED_YN,spinEducationalCodeAdapter;
+    private ArrayAdapter<String> SOC_ATTR_4_SPL_ABLD,SOC_ATTR_5_SPL_SOC_CTG,VISUALLY_IMPAIRED_YN,borrowerHandicap,FORM60_PAN_APPLIED_YN,spinEducationalCodeAdapter;
     private ImageView imgViewCal,ImgViewCal2;
     String newDate;
 
@@ -173,6 +173,9 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         Spinner spinVISUALLY_IMPAIRED_YN=v.findViewById(R.id.spinVisuallyImpaired);
         VISUALLY_IMPAIRED_YN = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_card_orange,R.id.text_cname, items);
         spinVISUALLY_IMPAIRED_YN.setAdapter(VISUALLY_IMPAIRED_YN);
+        Spinner spinBorrowerHandicap=v.findViewById(R.id.spinBorrowerHandicap);
+        borrowerHandicap = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_card_orange,R.id.text_cname, items);
+        spinBorrowerHandicap.setAdapter(borrowerHandicap);
         Spinner spinFORM60_PAN_APPLIED_YN=v.findViewById(R.id.spinFORM60_PAN_APPLIED_YN);
         FORM60_PAN_APPLIED_YN = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_card_orange,R.id.text_cname, items);
         spinFORM60_PAN_APPLIED_YN.setAdapter(FORM60_PAN_APPLIED_YN);
@@ -283,7 +286,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     public void onResume() {
         super.onResume();
         borrower = activity.getBorrower();
-;
         borrowerExtra = borrower.getBorrowerExtraByFI(borrower.Code);
 
         if (borrowerExtra == null) {
@@ -303,6 +305,8 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     private void setDataToView(View v) {
         int spinnerPositionVisuallyImpaired= VISUALLY_IMPAIRED_YN.getPosition(borrowerExtra.VISUALLY_IMPAIRED_YN);
         ((Spinner)v.findViewById(R.id.spinVisuallyImpaired)).setSelection(spinnerPositionVisuallyImpaired);
+        int spinnerPositionBorrowerHandicap= borrowerHandicap.getPosition(borrowerExtra.IsBorrowerHandicap);
+        ((Spinner)v.findViewById(R.id.spinBorrowerHandicap)).setSelection(spinnerPositionBorrowerHandicap);
         int spinnerPositionSpecialCategory= SOC_ATTR_5_SPL_SOC_CTG.getPosition(borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG);
         ((Spinner)v.findViewById(R.id.spinSpecialSocialCategory)).setSelection(spinnerPositionSpecialCategory);
         if (borrower.PanNO.length()>0){
@@ -402,6 +406,12 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.EMAIL_ID = Utils.getNotNullText((EditText) v.findViewById(R.id.editMailId));
         borrowerExtra.PLACE_OF_BIRTH = Utils.getNotNullText((EditText) v.findViewById(R.id.editPlaceOfBirth));
         borrowerExtra.VISUALLY_IMPAIRED_YN=((Spinner) v.findViewById(R.id.spinVisuallyImpaired)).getSelectedItem().toString();
+        try {
+            borrowerExtra.IsBorrowerHandicap=((Spinner) v.findViewById(R.id.spinBorrowerHandicap)).getSelectedItem().toString();
+        }catch (Exception e){
+            borrowerExtra.IsBorrowerHandicap="NO";
+
+        }
         borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG=((Spinner) v.findViewById(R.id.spinSpecialSocialCategory)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) v.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
                 try{

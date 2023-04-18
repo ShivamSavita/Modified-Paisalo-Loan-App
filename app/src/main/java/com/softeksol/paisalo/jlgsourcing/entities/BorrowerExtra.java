@@ -271,6 +271,10 @@ public class BorrowerExtra extends BaseModel implements Serializable {
     @Column
     public int InterestIncome;
 
+     @Expose
+    @Column
+    public String IsBorrowerHandicap;
+
 
 
 
@@ -362,6 +366,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
                 ", Years_in_business='"+Years_In_Business+'\''+
                 ", InterestIncome='"+InterestIncome+'\''+
                 ", PensionIncome='"+PensionIncome+'\''+
+                ", IsBorrowerHandicap='"+IsBorrowerHandicap+'\''+
         '}';
     }
 
@@ -426,6 +431,9 @@ public class BorrowerExtra extends BaseModel implements Serializable {
        borrowerExtraDTO.setFATHER_MIDDLE_NAME(this.FATHER_MIDDLE_NAME);
                borrowerExtraDTO.setFATHER_LAST_NAME(this.FATHER_LAST_NAME);
         borrowerExtraDTO.setYears_in_business(this.Years_In_Business);
+        borrowerExtraDTO.setPensionIncome(this.PensionIncome);
+        borrowerExtraDTO.setInterestIncome(this.InterestIncome);
+        borrowerExtraDTO.setIsBorrowerHandicap(this.IsBorrowerHandicap);
 
         return borrowerExtraDTO;
     }
@@ -490,6 +498,7 @@ public class BorrowerExtra extends BaseModel implements Serializable {
         this.Years_In_Business=borrowerExtraDTO.getYears_in_business();
         this.PensionIncome= borrowerExtraDTO.getPensionIncome();
         this.InterestIncome= borrowerExtraDTO.getInterestIncome();
+        this.IsBorrowerHandicap= borrowerExtraDTO.getIsBorrowerHandicap();
 
     }
 }

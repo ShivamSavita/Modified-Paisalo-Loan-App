@@ -290,87 +290,105 @@
 
                         <LinearLayout
                             android:orientation="vertical"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <TextView
-                                android:fontFamily="@font/scada_regular"
+
+
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="PAN number"
-                                android:textColor="@color/defaultTextColor"
-                                android:textSize="12dp"
-                                android:gravity="left"
-                                android:visibility="visible" />
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:fontFamily="@font/scada_regular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="PAN number"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/defaultTextColor"
+                                    android:textSize="12dp"
+                                    android:gravity="left"
+                                    android:visibility="visible" />
+                                <TextView
+                                    android:fontFamily="@font/scada_regular"
+                                    android:layout_weight="1"
+
+                                    android:gravity="left"
+                                    android:id="@+id/tietLoanAppAadharApplicantPan"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="12"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
 
 
                             <TextView
-                                android:fontFamily="@font/scada_regular"
-
-                                android:layout_marginTop="5dp"
-                                android:gravity="left"
                                 android:layout_width="match_parent"
+                                android:layout_weight="1"
+
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/scada_regular"
+                                android:gravity="left"
                                 android:text="@string/applicant_driving_license"
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="12dp" />
+                                <TextView
+                                    android:fontFamily="@font/scada_regular"
+                                    android:layout_weight="1"
+
+                                    android:gravity="left"
+                                    android:id="@+id/tietLoanAppAadharApplicantDrivingLicense"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
 
                             <TextView
-                                android:layout_marginTop="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Loan Purpose"
-                                android:gravity="left"
+                                android:layout_weight="1"
+
                                 android:textColor="@color/defaultTextColor"
                                 android:textSize="12dp" />
 
+                                <TextView
+                                    android:fontFamily="@font/scada_regular"
+                                    android:layout_weight="1"
+
+                                    android:id="@+id/tietLoanAppAadharLoanReason"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
 
 
                         </LinearLayout>
 
 
 
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_weight="1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:fontFamily="@font/scada_regular"
-
-                                android:gravity="left"
-                                android:id="@+id/tietLoanAppAadharApplicantPan"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLength="12"
-                                android:textSize="13dp"
-                                android:textStyle="bold"
-                                android:visibility="visible" />
-
-                            <TextView
-                                android:fontFamily="@font/scada_regular"
-                                android:layout_marginTop="18dp"
-                                android:gravity="left"
-                                android:id="@+id/tietLoanAppAadharApplicantDrivingLicense"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:fontFamily="@font/scada_regular"
-
-                                android:layout_marginTop="5dp"
-                                android:id="@+id/tietLoanAppAadharLoanReason"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="left"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
 
 
 

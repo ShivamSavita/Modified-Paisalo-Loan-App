@@ -152,6 +152,10 @@ public class BorrowerExtraDTO {
     @Column
     public int InterestIncome;
 
+    @Expose
+    @Column
+    public String IsBorrowerHandicap;
+
     public int getPensionIncome() {
         return PensionIncome;
     }
@@ -616,6 +620,15 @@ public class BorrowerExtraDTO {
         this.Years_in_business = years_in_business;
     }
 
+
+    public String getIsBorrowerHandicap() {
+        return IsBorrowerHandicap;
+    }
+
+    public void setIsBorrowerHandicap(String isBorrowerHandicap) {
+        IsBorrowerHandicap = isBorrowerHandicap;
+    }
+
     @Override
     public String toString() {
         return "BorrowerExtraDTO{" +
@@ -678,6 +691,7 @@ public class BorrowerExtraDTO {
                 ", Years_in_business='"+ Years_in_business +'\''+
                 ", InterestIncome='"+ InterestIncome +'\''+
                 ", PensionIncome='"+ PensionIncome +'\''+
+                ", IsBorrowerHandicap='"+ IsBorrowerHandicap +'\''+
                 '}';
     }
 }

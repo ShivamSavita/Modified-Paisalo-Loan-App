@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/layout_basic_details"
                 android:orientation="vertical"
                 android:padding="15dp"
@@ -787,7 +787,7 @@
             <!-- Bank Details Layout-->
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/layout_BankDetails"
                 android:padding="15dp"
                 android:orientation="vertical"
@@ -985,8 +985,70 @@
 
 
                 </androidx.cardview.widget.CardView>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:orientation="horizontal"
+                 android:gravity="center_vertical"
+                 android:layout_height="wrap_content">
+
+                 <TextView
+                     android:layout_marginTop="5dp"
+                     android:layout_weight="1"
+                     android:fontFamily="@font/scada_bold"
+                     android:text="Signature Here"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"/>
+                 <Button
+                     android:id="@+id/clearSignatureBtn"
+                     android:elevation="10dp"
+                     android:layout_width="wrap_content"
+                     android:text="Clear"
+                     android:textColor="@color/white"
+                     android:backgroundTint="@color/colorPrimary"
+                     android:layout_height="40dp"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintTop_toTopOf="parent" />
+             </LinearLayout>
 
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey">
+
+
+                        <com.kyanogen.signatureview.SignatureView
+                            android:id="@+id/signatureView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="260dp"
+                            app:backgroundColor="#E4E4E4"
+                            app:enableSignature="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:penColor="#000000"
+                            app:penSize="3dp" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
 
 
                 <Button

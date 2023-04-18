@@ -725,7 +725,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 tietDob.setEnabled(false);
             }
             acspGender.setEnabled(false);
-//            acspAadharState.setEnabled(false);
+//          acspAadharState.setEnabled(false);
             if (borrower.P_Add1.trim().length() > 0) tietAddress1.setEnabled(false);
             if (Utils.NullIf(borrower.P_add2, "").trim().length() > 2)
                 tietAddress2.setEnabled(false);

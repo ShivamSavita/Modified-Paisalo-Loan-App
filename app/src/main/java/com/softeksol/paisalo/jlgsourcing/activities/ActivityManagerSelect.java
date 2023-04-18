@@ -71,7 +71,7 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         setContentView(R.layout.layout_select_with_refresh);
         intent=getIntent();
         operationItem = (OperationItem) getIntent().getSerializableExtra(Global.OPTION_ITEM);
-        getSupportActionBar().setTitle(intent.getStringExtra("Title"));
+        getSupportActionBar().setTitle("Select Manager");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //FloatingActionButton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabSelectWithRefresh);

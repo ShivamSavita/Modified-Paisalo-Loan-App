@@ -68,7 +68,7 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         if (Integer.parseInt(Utils.NullIf(mValues.get(position).SEL, "0")) > 0) {
             holder.mainCardBG.setBackgroundColor(context.getResources().getColor(R.color.colorLightGreen));
         } else {
-            holder.mainCardBG.setBackgroundColor(context.getResources().getColor(R.color.zxing_transparent));
+            holder.mainCardBG.setBackgroundColor(context.getResources().getColor(com.google.zxing.client.android.R.color.zxing_transparent));
         }
 //        Log.d("checkStatus",mValues.get(position).BorrLoanAppSignStatus + "");
 //        Log.d("checkApproved",holder.mItem.Approved + "");

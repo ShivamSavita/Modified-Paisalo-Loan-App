@@ -298,9 +298,11 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 tietRent.setText("0");
                 tietRent.setEnabled(false);
             }else {
+                tietRent.setEnabled(true);
                 tietRent.setText(String.valueOf(expense.getRent()));
             }
         }catch (Exception e){
+            tietRent.setEnabled(true);
             tietRent.setText(String.valueOf(expense.getRent()));
 
         }

@@ -104,6 +104,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             eSignerborower = (ESignBorrower) data.getSerializableExtra("ESIGN_BORROWER");
             esignType = data.getIntExtra(ESIGN_TYPE_TAG, 1);
         }
+        Log.d("TAG GOT THE ESIGNER", "onCreate: "+eSignerborower.drivinglic);
+        Log.d("TAG GOT THE ESIGNER", "onCreate: "+eSignerborower.PanNO);
 
         if (eSigner.docPath != null) {
             fm = getSupportFragmentManager();

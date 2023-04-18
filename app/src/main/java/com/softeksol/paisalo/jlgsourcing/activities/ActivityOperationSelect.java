@@ -1,5 +1,6 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -55,7 +56,11 @@ public class ActivityOperationSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
-
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.plcoding.backgroundlocationtracking","com.plcoding.backgroundlocationtracking.MainActivity"));
+        intent.putExtra("UserName","Shivam");
+        startActivity(intent);
+        startActivity(intent);
         sliderView = findViewById(R.id.slider);
 
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
@@ -113,9 +118,9 @@ public class ActivityOperationSelect extends AppCompatActivity {
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
             operationItems.add(new OperationItem(6, "E-Sign", R.color.colorMenuPremature, "POSDB", "Getmappedfo"));
         }
-        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
-            operationItems.add(new OperationItem(7, "ABF Module", R.color.colorMenuPremature, "", ""));
-        }
+//        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
+//            operationItems.add(new OperationItem(7, "ABF Module", R.color.colorMenuPremature, "", ""));
+//        }
 
         GridView lv = (GridView) findViewById(R.id.lvcOpSelect);
 

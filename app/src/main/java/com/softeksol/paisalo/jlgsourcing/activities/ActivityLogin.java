@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,9 +45,11 @@ import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.softeksol.paisalo.Setup;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.TermAndPolicyPage;
 import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
@@ -98,7 +102,20 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     public static final String ALLOW_COLLECTION = BuildConfig.APPLICATION_ID + ".ALLOW_COLLECTION";
     public static final String IS_ACTUAL = BuildConfig.APPLICATION_ID + ".IS_ACTUAL";
     public static final String APP_UPDATE_URL = BuildConfig.APPLICATION_ID + ".APP_UPDATE_URL";
-
+    public static boolean appInstalledOrNot(@NonNull final Context context, @NonNull final String targetPackage) {
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> pkgAppsList =
+                context.getPackageManager().queryIntentActivities( mainIntent, 0);
+        for (ResolveInfo resolveInfo : pkgAppsList) {
+            Log.d("TAG", "__<>"+resolveInfo.activityInfo.packageName);
+            if (resolveInfo.activityInfo.packageName != null
+                    && resolveInfo.activityInfo.packageName.equals(targetPackage)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +123,17 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         getSupportActionBar().setTitle(getString(R.string.appname) + " (" + BuildConfig.VERSION_NAME + ")");
+        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
+        if(isAppInstalled) {
 
+            Toast.makeText(this, "Installed", Toast.LENGTH_SHORT).show();
+            Log.i("SampleLog", "Application is already installed.");
+        } else {
+
+            Setup setup=new Setup(ActivityLogin.this);
+            setup.run();
+            Log.i("SampleLog", "Application is not currently installed.");
+        }
         if (requestPermissions()){
             getDeviceID();
         }else {
@@ -121,6 +148,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         btnShareDeviceID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 UserName = ((EditText) findViewById(R.id.til_login_username)).getText().toString();
 
                 if ( requestPermissions()){
@@ -491,6 +519,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
         }
         if (view.getId() == R.id.btnLoginBackup) {
+            startActivity(new Intent(this, TermAndPolicyPage.class));
             /*String aadharString="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<PrintLetterBarcodeData uid=\"344347946174\" name=\"Anoop Agarwal\" gender=\"M\" dateOfBirth=\"02-02-1979\" careOf=\"S/O Bal Kishan Agarwal\" building=\"7\" street=\"new avdhesh puri\" landmark=\"karmyogi\" locality=\"kamla nagar\" vtcName=\"Agra\" poName=\"Dayal Bagh\" districtName=\"Agra\" subDistrictName=\"Kiraoli\" stateName=\"Uttar Pradesh\" pincode=\"282005\"/>";
             Document doc= null;
@@ -508,21 +537,21 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             } catch (SAXException e) {
                 e.printStackTrace();
             }*/
-
-            File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/" + "PAISALO_SRC_DB" + "_bkp.db");
-            //File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/test/mobilelending.db");
-            //Log.d("Backup File",newFIle.getAbsolutePath());
-            File DbFile = new File(FlowManager.getContext().getDatabasePath("PAISALO_SRC_DB" + ".db").getPath());
-            //Log.d("Database File",DbFile.getPath());
-            try {
-                Utils.copyFile(DbFile, newFIle);
-                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                intent.setData(Uri.fromFile(newFIle));
-                getApplicationContext().sendBroadcast(intent);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//
+//            File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/" + "PAISALO_SRC_DB" + "_bkp.db");
+//            //File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/test/mobilelending.db");
+//            //Log.d("Backup File",newFIle.getAbsolutePath());
+//            File DbFile = new File(FlowManager.getContext().getDatabasePath("PAISALO_SRC_DB" + ".db").getPath());
+//            //Log.d("Database File",DbFile.getPath());
+//            try {
+//                Utils.copyFile(DbFile, newFIle);
+//                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//                intent.setData(Uri.fromFile(newFIle));
+//                getApplicationContext().sendBroadcast(intent);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         if (view.getId() == R.id.btnLoginShareDeviceId) {
             /*TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
