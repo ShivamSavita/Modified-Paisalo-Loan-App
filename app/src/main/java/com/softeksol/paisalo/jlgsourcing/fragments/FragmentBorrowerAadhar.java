@@ -445,7 +445,7 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
 //        Log.e("CHeckingNewCondition",borrower.getPictureborrower()+"");
         if (borrower != null) {
 
-
+            Log.d("TAG", "showPicture: "+borrower.toString());
 //            if (borrower.getPictureborrower()!=null){
 //                imageView.setImageBitmap(StringToBitmap(borrower.getPictureborrower()));
 //            }
