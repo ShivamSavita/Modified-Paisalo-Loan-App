@@ -11,7 +11,7 @@
             android:gravity="center"
             android:background="#E8E8E8"
             android:layout_width="match_parent"
-            android:layout_height="45dp">
+            android:layout_height="35dp">
             <TextView
                 android:textSize="16dp"
                 android:id="@+id/tvSelectWithRefreshTitle"
@@ -22,7 +22,25 @@
                 android:text="@string/manager_select_title" />
 
         </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:background="#E8E8E8"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <EditText
+            android:paddingLeft="10dp"
+            android:background="@null"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/search_icon"
+            android:textSize="16dp"
+            android:id="@+id/edt_tvSearchGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:hint="Search by Group Code"
+            android:fontFamily="@font/scada_regular" />
 
+        </LinearLayout>
         <ListView
             android:id="@+id/lvSelectWithRefresh"
             android:dividerHeight="0dp"

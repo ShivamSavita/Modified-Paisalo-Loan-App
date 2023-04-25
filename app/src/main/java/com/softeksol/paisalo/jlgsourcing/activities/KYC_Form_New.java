@@ -455,17 +455,14 @@ TextView textViewTotalAnnualIncome;
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
                                             finish();
-
                                         }
                                     });
                                     builder.create().show();
                                 } catch (JSONException jo) {
                                     Log.d("TAG", "onSuccess: "+jo.getMessage());
                                     Utils.showSnakbar(findViewById(android.R.id.content), jo.getMessage());
-
                                 }
                             }
-
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                                 super.onFailure(statusCode, headers, responseBody, error);
@@ -481,7 +478,7 @@ TextView textViewTotalAnnualIncome;
                         //Log.d("Borrower Json", borrowerJsonString);
                         Log.d("TAG", "updateBorrower: "+borrowerJsonString);
                 (new WebOperations()).postEntity(getApplicationContext(), "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
-//                Toast.makeText(this, "Calling save fi api", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(this, "Calling save fi api", Toast.LENGTH_SHORT).show();
 
 
 

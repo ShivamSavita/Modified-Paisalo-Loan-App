@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +19,39 @@ import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.ViewHolders.ManagerViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterListManager extends ArrayAdapter<Manager> {
     Context context;
     int resourecId;
-    List<Manager> managers = null;
+    List<Manager> managers;
+    ArrayList<Manager> arraylist;
 
     public AdapterListManager(Context context, @LayoutRes int resource, @NonNull List<Manager> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resourecId = resource;
         this.managers = objects;
+        this.arraylist= new ArrayList<Manager>();
+        this.arraylist.addAll(managers);
     }
 
+    @Override
+    public int getCount() {
+        return managers.size();
+    }
+
+    @Override
+    public Manager getItem(int position) {
+        return  managers.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
@@ -71,4 +91,22 @@ public class AdapterListManager extends ArrayAdapter<Manager> {
         return v;
     }
 
+    public void filter(String charText) {
+        Log.e("DATA--- ",charText);
+        charText = charText.toLowerCase(Locale.getDefault());
+        managers.clear();
+        if (charText.length() == 0) {
+            managers.addAll(arraylist);
+        } else {
+            for (Manager wp : arraylist) {
+                if (wp.AreaCd.toLowerCase(Locale.getDefault())
+                        .contains(charText) || wp.AreaName.toLowerCase(Locale.getDefault())
+                        .contains(charText) || wp.Creator.toLowerCase(Locale.getDefault())
+                        .contains(charText)) {
+                    managers.add(wp);
+                }
+            }
+        }
+       notifyDataSetChanged();
+    }
 }

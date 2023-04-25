@@ -2,17 +2,21 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 
 import static com.softeksol.paisalo.jlgsourcing.Global.ESIGN_TYPE_TAG;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -57,6 +62,7 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
     private AdapterListManager mla;
     private OperationItem operationItem;
     Intent intent;
+    EditText edt_tvSearchGroup;
     //Manager manager;
 
     @Override
@@ -65,6 +71,7 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         return true;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +84,28 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabSelectWithRefresh);
         fab.setOnClickListener(this);
         ListView listViewFM = (ListView) findViewById(R.id.lvSelectWithRefresh);
+        edt_tvSearchGroup=findViewById(R.id.edt_tvSearchGroup);
+        edt_tvSearchGroup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mla != null) {
+                    mla.getFilter().filter(charSequence);
+                }
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(mla != null) {
+                    String text = edt_tvSearchGroup.getText().toString().toLowerCase(Locale.getDefault());
+                    mla.filter(text);
+                }
+            }
+        });
         mla = new AdapterListManager(this, R.layout.manager_list_card, SQLite.select().from(Manager.class).queryList());
         listViewFM.setAdapter(mla);
         listViewFM.setOnItemClickListener(this);
