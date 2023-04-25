@@ -59,7 +59,6 @@ public class Setup extends Thread {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                    Log.d("TAG", "installApkProgramatically: oooooooooooooooo");
                     Uri fileUri = FileProvider.getUriForFile(m_context, m_context.getApplicationContext().getPackageName() + ".provider", file);
                     Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
                     intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
@@ -70,7 +69,6 @@ public class Setup extends Thread {
 
 
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Log.d("TAG", "installApkProgramatically: NNNNNNNNNNNNN");
 
                     Intent intent1 = new Intent(Intent.ACTION_INSTALL_PACKAGE);
                     uri = FileProvider.getUriForFile(m_context.getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", file);
@@ -84,7 +82,6 @@ public class Setup extends Thread {
                     m_context.startActivity(intent1);
 
                 } else {
-                    Log.d("TAG", "installApkProgramatically: -----------------");
 
                     Intent intent = new Intent(Intent.ACTION_VIEW);
 

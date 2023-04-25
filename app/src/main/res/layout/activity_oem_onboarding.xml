@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/layout_basic_details"
                 android:orientation="vertical"
                 android:padding="15dp"
@@ -48,7 +48,7 @@
                         android:layout_height="45dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietBankCIF"
+                            android:id="@+id/tietOEMName"
                             android:hint="Name"
                             android:inputType="textCapWords"
                             android:capitalize="characters"
@@ -297,7 +297,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <androidx.appcompat.widget.AppCompatSpinner
-
+                                    android:id="@+id/stateSpinnerOEM"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"
                                     android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
@@ -787,7 +787,7 @@
             <!-- Bank Details Layout-->
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/layout_BankDetails"
                 android:padding="15dp"
                 android:orientation="vertical"
@@ -1042,7 +1042,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:penColor="#000000"
-                            app:penSize="3dp" />
+                            app:penSize="2dp" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
