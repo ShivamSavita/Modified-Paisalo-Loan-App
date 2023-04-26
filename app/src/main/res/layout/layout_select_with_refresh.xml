@@ -23,6 +23,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_search"
             android:gravity="center"
             android:background="#E8E8E8"
             android:layout_width="match_parent"

@@ -70,6 +70,7 @@ public class FragmentBorrowerGuarantors extends AbsFragment implements View.OnCl
     private int mColumnCount = 1;
     private List<Guarantor> guarantors;
     private ListView lvGuarantorList;
+    private LinearLayout layout_search;
     private FloatingActionButton fab;
     private ActivityLoanApplication activity;
     //private Borrower borrower;
@@ -102,6 +103,8 @@ public class FragmentBorrowerGuarantors extends AbsFragment implements View.OnCl
         tv.setText(R.string.guarantor_title_select);
         //refreshGuarantors();
         lvGuarantorList = (ListView) v.findViewById(R.id.lvSelectWithRefresh);
+        layout_search = (LinearLayout) v.findViewById(R.id.layout_search);
+        layout_search.setVisibility(View.GONE);
         lvGuarantorList.setAdapter(new AdapterListGuarantor(activity, R.layout.layout_item_loan_app, new ArrayList<Guarantor>()));
         lvGuarantorList.setOnItemClickListener(this);
         fab = (FloatingActionButton) v.findViewById(R.id.fabSelectWithRefresh);
