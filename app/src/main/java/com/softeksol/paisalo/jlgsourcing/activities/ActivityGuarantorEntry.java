@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
+import static com.softeksol.paisalo.jlgsourcing.activities.ActivityBorrowerKyc.bytesToHex;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -51,13 +53,29 @@ import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -65,6 +83,7 @@ import cz.msebera.android.httpclient.Header;
 public class ActivityGuarantorEntry extends AppCompatActivity implements View.OnClickListener, CameraUtils.OnCameraCaptureUpdate {
     private Guarantor guarantor;
     private Borrower borrower;
+    protected String signature,email,mobile;
     private Uri uriPicture;
     private ImageView imageView, imgViewScanQR;
     private Boolean cropState = false;
@@ -82,6 +101,10 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
     private Bitmap bitmap;
     private String ImageString;
     Button BtnSaveKYCData;
+    protected ArrayList<String> decodedData;
+    protected static final byte SEPARATOR_BYTE = (byte)255;
+    protected static final int VTC_INDEX = 15;
+    protected int emailMobilePresent, imageStartIndex, imageEndIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,7 +405,11 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 String scanContent = scanningResult.getContents();
                 String scanFormat = scanningResult.getFormatName();
                 if (scanFormat != null) {
-                    setAadharContent(scanContent);
+                    try {
+                        setAadharContent(scanContent);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -474,45 +501,362 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-    private void setAadharContent(String aadharDataString) {
-        try {
-            AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
-            if (aadharData.Address2 == null) {
-                aadharData.Address2 = aadharData.Address3;
-                aadharData.Address3 = null;
-            } else if (aadharData.Address2.trim().equals("")) {
-                aadharData.Address2 = aadharData.Address3;
-                aadharData.Address3 = null;
-            }
-            if (aadharData.Address1 == null) {
-                aadharData.Address1 = aadharData.Address2;
-                aadharData.Address2 = aadharData.Address3;
-                aadharData.Address3 = null;
-            } else if (aadharData.Address1.trim().equals("")) {
-                aadharData.Address1 = aadharData.Address2;
-                aadharData.Address2 = aadharData.Address3;
-                aadharData.Address3 = null;
-            }
-            guarantor.setIsAadharVerified("Q");
-            guarantor.setName(aadharData.Name);
-            guarantor.setDOB(aadharData.DOB);
-            guarantor.setAge(aadharData.Age);
-            guarantor.setGender(aadharData.Gender);
-            guarantor.setGurName(aadharData.GurName);
-            guarantor.setPerCity(aadharData.City);
-            guarantor.setP_pin(aadharData.Pin);
-            guarantor.setPerAdd1(aadharData.Address1);
-            guarantor.setPerAdd2(aadharData.Address2);
-            guarantor.setPerAdd3(aadharData.Address3);
-            guarantor.setP_StateID(AadharUtils.getStateCode(aadharData.State));
-            if (aadharData.AadharId != null)
-                guarantor.setAadharid(aadharData.AadharId);
-            setDataToView(this.findViewById(android.R.id.content).getRootView());
-        } catch (Exception ex) {
-            Utils.alert(this, ex.getMessage());
+//    private void setAadharContent(String aadharDataString) {
+//        try {
+//            AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
+//            if (aadharData.Address2 == null) {
+//                aadharData.Address2 = aadharData.Address3;
+//                aadharData.Address3 = null;
+//            } else if (aadharData.Address2.trim().equals("")) {
+//                aadharData.Address2 = aadharData.Address3;
+//                aadharData.Address3 = null;
+//            }
+//            if (aadharData.Address1 == null) {
+//                aadharData.Address1 = aadharData.Address2;
+//                aadharData.Address2 = aadharData.Address3;
+//                aadharData.Address3 = null;
+//            } else if (aadharData.Address1.trim().equals("")) {
+//                aadharData.Address1 = aadharData.Address2;
+//                aadharData.Address2 = aadharData.Address3;
+//                aadharData.Address3 = null;
+//            }
+//            guarantor.setIsAadharVerified("Q");
+//            guarantor.setName(aadharData.Name);
+//            guarantor.setDOB(aadharData.DOB);
+//            guarantor.setAge(aadharData.Age);
+//            guarantor.setGender(aadharData.Gender);
+//            guarantor.setGurName(aadharData.GurName);
+//            guarantor.setPerCity(aadharData.City);
+//            guarantor.setP_pin(aadharData.Pin);
+//            guarantor.setPerAdd1(aadharData.Address1);
+//            guarantor.setPerAdd2(aadharData.Address2);
+//            guarantor.setPerAdd3(aadharData.Address3);
+//            guarantor.setP_StateID(AadharUtils.getStateCode(aadharData.State));
+//            if (aadharData.AadharId != null)
+//                guarantor.setAadharid(aadharData.AadharId);
+//            setDataToView(this.findViewById(android.R.id.content).getRootView());
+//        } catch (Exception ex) {
+//            Utils.alert(this, ex.getMessage());
+//        }
+//    }
+private void setAadharContent(String aadharDataString) throws Exception {
+//        try {
+    Log.d("CheckXMLDATA2", "AadharData:->" + aadharDataString);
+    if (aadharDataString.toUpperCase().contains("XML")) {
+
+        Log.d("XML printing", "AadharData:->" + aadharDataString);
+        //AadharData aadharData = AadharUtils.getAadhar(aadharDataString);
+        AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
+
+
+        if (aadharData.Address2 == null) {
+            aadharData.Address2 = aadharData.Address3;
+            aadharData.Address3 = null;
+        } else if (aadharData.Address2.trim().equals("")) {
+            aadharData.Address2 = aadharData.Address3;
+            aadharData.Address3 = null;
         }
+        if (aadharData.Address1 == null) {
+            aadharData.Address1 = aadharData.Address2;
+            aadharData.Address2 = aadharData.Address3;
+            aadharData.Address3 = null;
+        } else if (aadharData.Address1.trim().equals("")) {
+            aadharData.Address1 = aadharData.Address2;
+            aadharData.Address2 = aadharData.Address3;
+            aadharData.Address3 = null;
+        }                    Log.d("TAG", "setAadharContent: done3");
+
+        guarantor.setIsAadharVerified(aadharData.isAadharVerified);
+        guarantor.setName(aadharData.Name);
+        guarantor.setDOB(aadharData.DOB);
+        guarantor.setAge(aadharData.Age);
+        guarantor.setGender(aadharData.Gender);
+        guarantor.setGurName(aadharData.GurName==null?"":aadharData.GurName);
+        guarantor.setPerCity(aadharData.City);
+        guarantor.setP_pin( aadharData.Pin);
+        guarantor.setPerAdd1(aadharData.Address1);
+        guarantor.setPerAdd2(aadharData.Address2);
+        guarantor.setPerAdd3(aadharData.Address3);
+        guarantor.setP_StateID(AadharUtils.getStateCode(aadharData.State));
+        setDataToView(this.findViewById(android.R.id.content).getRootView());
+
+    }  else {
+
+        final BigInteger bigIntScanData = new BigInteger(aadharDataString, 10);
+        Log.e("testbigin======", "AadharData:->" + bigIntScanData);
+        // 2. Convert BigInt to Byte Array
+        final byte byteScanData[] = bigIntScanData.toByteArray();
+
+        // 3. Decompress Byte Array
+        final byte[] decompByteScanData = decompressData(byteScanData);
+
+        // 4. Split the byte array using delimiter
+        List<byte[]> parts = separateData(decompByteScanData);
+        // Throw error if there are no parts
+        Log.e("Parts======11======> ", "part data =====> " + parts.toString());
+        decodeData(parts);
+        decodeSignature(decompByteScanData);
+        decodeMobileEmail(decompByteScanData);
+    }
+//            } catch(Exception ex) {
+//            Utils.alert(this, ex.getMessage());
+//        }
+
+}
+    protected void decodeMobileEmail(byte[] decompressedData){
+        int mobileStartIndex = 0,mobileEndIndex = 0,emailStartIndex = 0,emailEndIndex = 0;
+        switch (emailMobilePresent){
+            case 3:
+                // both email mobile present
+                mobileStartIndex = decompressedData.length - 289; // length -1 -256 -32
+                mobileEndIndex = decompressedData.length - 257; // length -1 -256
+                emailStartIndex = decompressedData.length - 322;// length -1 -256 -32 -1 -32
+                emailEndIndex = decompressedData.length - 290;// length -1 -256 -32 -1
+
+                mobile = bytesToHex (Arrays.copyOfRange(decompressedData,mobileStartIndex,mobileEndIndex+1));
+                email = bytesToHex (Arrays.copyOfRange(decompressedData,emailStartIndex,emailEndIndex+1));
+                // set image end index, it will be used to extract image data
+                imageEndIndex = decompressedData.length - 323;
+                break;
+
+            case 2:
+                // only mobile
+                email = "";
+                mobileStartIndex = decompressedData.length - 289; // length -1 -256 -32
+                mobileEndIndex = decompressedData.length - 257; // length -1 -256
+
+                mobile = bytesToHex (Arrays.copyOfRange(decompressedData,mobileStartIndex,mobileEndIndex+1));
+                // set image end index, it will be used to extract image data
+                imageEndIndex = decompressedData.length - 290;
+
+                break;
+
+            case 1:
+                // only email
+                mobile = "";
+                emailStartIndex = decompressedData.length - 289; // length -1 -256 -32
+                emailEndIndex = decompressedData.length - 257; // length -1 -256
+
+                email = bytesToHex (Arrays.copyOfRange(decompressedData,emailStartIndex,emailEndIndex+1));
+                // set image end index, it will be used to extract image data
+                imageEndIndex = decompressedData.length - 290;
+                break;
+
+            default:
+                // no mobile or email
+                mobile = "";
+                email = "";
+                // set image end index, it will be used to extract image data
+                imageEndIndex = decompressedData.length - 257;
+        }
+
+        Log.e("email mobile======> ","Data=====>"+email +"   "+mobile);
+
+    }
+    protected void decodeSignature(byte[] decompressedData){
+        // extract 256 bytes from the end of the byte array
+        int startIndex = decompressedData.length - 257,
+                noOfBytes = 256;
+        try {
+            signature = new String (decompressedData,startIndex,noOfBytes,"ISO-8859-1");
+            Log.e("signature======>","signature===> "+signature);
+        } catch (UnsupportedEncodingException e) {
+            Log.e("Exception", "Decoding Signature of QRcode, ISO-8859-1 not supported: " + e.toString());
+            // throw new QrCodeException("Decoding Signature of QRcode, ISO-8859-1 not supported",e);
+        }
+
     }
 
+    protected void decodeData(List<byte[]> encodedData) throws ParseException {
+        Iterator<byte[]> i = encodedData.iterator();
+        decodedData = new ArrayList<String>();
+        while(i.hasNext()){
+            decodedData.add(new String(i.next(), StandardCharsets.ISO_8859_1));
+        }
+        // set the value of email/mobile present flag
+        Log.e("Parts======2======> ","part data =====> "+decodedData.toString());
+        //emailMobilePresent = Integer.parseInt(decodedData[0]);
+
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(1));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(2));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(3));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(4));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(5));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(6));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(7));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(8));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(14));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(10));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(11));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(12));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(13));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(14));
+        Log.e("Parts======3======> ","part data =====> "+decodedData.get(15));
+
+        int inc=0;
+        Log.d("TAG", "decodeData: "+decodedData.get(0).startsWith("V")+"/////"+decodedData.get(0));
+        if (decodedData.get(0).startsWith("V")){
+            inc=0;
+        }else {
+            inc=1;
+        }
+        // populate decoded data
+        SimpleDateFormat sdt = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            sdt = new SimpleDateFormat("dd-MM-YYYY");
+
+        }
+        Date result = null;
+        try {
+            result = sdt.parse(decodedData.get(4));
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = formatter.parse(decodedData.get(4-inc));
+
+        Instant instant = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            instant = date.toInstant();
+            ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+            LocalDate givenDate = zone.toLocalDate();
+
+            Period period = Period.between(givenDate, LocalDate.now());
+
+            guarantor.setAge(period.getYears());
+            System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
+        }
+
+        guarantor.setAadharid(decodedData.get(2-inc));
+        guarantor.setGender(decodedData.get(5-inc));
+        if (decodedData.get(13-inc).equals("")||decodedData.get(13-inc).equals(null)){
+        }else{
+            guarantor.setP_StateID( AadharUtils.getStateCode(decodedData.get(13-inc)));
+        }
+        if (decodedData.get(3-inc).equals("")||decodedData.get(3-inc).equals(null)){
+            //tietName.setEnabled(true);
+        }else{
+            guarantor.setName(decodedData.get(3-inc));
+        }
+        if (decodedData.get(4-inc).equals("")||decodedData.get(4-inc).equals(null)){
+            //tietDob.setEnabled(true);
+        }else{
+            guarantor.setDOB(date);
+        }
+        if (decodedData.get(6-inc).equals("")||decodedData.get(6-inc).equals(null)){
+
+        }else{
+            guarantor.setGurName(decodedData.get(6-inc));
+        }
+
+        if (decodedData.get(7-inc).equals("")||decodedData.get(7-inc).equals(null)){
+            // tietCity.setEnabled(true);
+        }else{
+            guarantor.setPerCity(decodedData.get(7-inc));
+        }
+
+        if (decodedData.get(11-inc).equals("")||decodedData.get(11-inc).equals(null)){
+        }else{
+            guarantor.setP_pin(Integer.parseInt(decodedData.get(11-inc)));
+        }
+
+
+        if (decodedData.get(10-inc).equals("")||decodedData.get(10-inc).equals(null)){
+            //  tietAddress3.setEnabled(true);
+        }else{
+           guarantor.setPerAdd3(decodedData.get(10-inc));
+        }
+
+        try{
+            if (decodedData.get(9-inc).equals("")||decodedData.get(9-inc).equals(null)){
+                tietAddress2.setEnabled(true);
+            }else{
+
+                guarantor.setPerAdd1(decodedData.get(9-inc));
+                guarantor.setPerAdd2(decodedData.get(14-inc));
+            }
+        }catch (Exception e){
+            tietAddress2.setEnabled(true);
+        }
+
+
+        //borrower.P_city = decodedData.get(7);
+
+        // borrower.P_Add1 = decodedData.get(9);
+        // borrower.P_add2 = decodedData.get(8);
+        // borrower.P_add3 = decodedData.get(10);
+
+        setDataToView(this.findViewById(android.R.id.content).getRootView());
+        tietAge.setEnabled(false);
+        tietDob.setEnabled(false);
+        acspAadharState.setEnabled(false);
+        acspGender.setEnabled(false);
+
+
+    }
+
+    protected byte[] decompressData(byte[] byteScanData) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(byteScanData.length);
+        ByteArrayInputStream bin = new ByteArrayInputStream(byteScanData);
+        GZIPInputStream gis = null;
+
+        try {
+            gis = new GZIPInputStream(bin);
+        } catch (IOException e) {
+            Log.e("Exception", "Decompressing QRcode, Opening byte stream failed: " + e.toString());
+            // throw new QrCodeException("Error in opening Gzip byte stream while decompressing QRcode",e);
+        }
+
+        int size = 0;
+        byte[] buf = new byte[1024];
+        while (size >= 0) {
+            try {
+                size = gis.read(buf,0,buf.length);
+                if(size > 0){
+                    bos.write(buf,0,size);
+                }
+            } catch (IOException e) {
+                Log.e("Exception", "Decompressing QRcode, writing byte stream failed: " + e.toString());
+                // throw new QrCodeException("Error in writing byte stream while decompressing QRcode",e);
+            }
+        }
+
+        try {
+            gis.close();
+            bin.close();
+        } catch (IOException e) {
+            Log.e("Exception", "Decompressing QRcode, closing byte stream failed: " + e.toString());
+            // throw new QrCodeException("Error in closing byte stream while decompressing QRcode",e);
+        }
+
+        return bos.toByteArray();
+    }
+
+
+    protected List<byte[]> separateData(byte[] source) {
+        List<byte[]> separatedParts = new LinkedList<>();
+        int begin = 0;
+
+        for (int i = 0; i < source.length; i++) {
+            if(source[i] == SEPARATOR_BYTE){
+                // skip if first or last byte is separator
+                if(i != 0 && i != (source.length -1)){
+                    separatedParts.add(Arrays.copyOfRange(source, begin, i));
+                }
+                begin = i + 1;
+                // check if we have got all the parts of text data
+                if(separatedParts.size() == (VTC_INDEX + 1)){
+                    // this is required to extract image data
+                    imageStartIndex = begin;
+                    break;
+                }
+            }
+        }
+        return separatedParts;
+    }
     @Override
     public void cameraCaptureUpdate(Uri uriImage) {
         this.uriPicture = uriImage;

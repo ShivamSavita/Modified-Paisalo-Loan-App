@@ -287,7 +287,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         super.onResume();
         borrower = activity.getBorrower();
         borrowerExtra = borrower.getBorrowerExtraByFI(borrower.Code);
-
+        Log.d("TAG", "onResume: "+borrowerExtra);
         if (borrowerExtra == null) {
             borrowerExtra = new BorrowerExtra();
             activity.getBorrower().associateExtra(borrowerExtra);
@@ -362,7 +362,6 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         ((TextView) v.findViewById(R.id.SpouseFirstName)).setText(borrowerExtra.SPOUSE_FIRST_NAME);
         ((TextView) v.findViewById(R.id.SpouseMiddelName)).setText(borrowerExtra.SPOUSE_MIDDLE_NAME);
         ((TextView) v.findViewById(R.id.SpouseLastName)).setText(borrowerExtra.SPOUSE_LAST_NAME);
-
     }
 
     private void getDataFromView(View v) {

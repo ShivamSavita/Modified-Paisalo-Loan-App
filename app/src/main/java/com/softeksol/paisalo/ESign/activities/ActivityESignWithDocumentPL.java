@@ -104,8 +104,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             eSignerborower = (ESignBorrower) data.getSerializableExtra("ESIGN_BORROWER");
             esignType = data.getIntExtra(ESIGN_TYPE_TAG, 1);
         }
-        Log.d("TAG GOT THE ESIGNER", "onCreate: "+eSignerborower.drivinglic);
-        Log.d("TAG GOT THE ESIGNER", "onCreate: "+eSignerborower.PanNO);
+
 
         if (eSigner.docPath != null) {
             fm = getSupportFragmentManager();
@@ -281,6 +280,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         eSingParms.Concent = consent;
 
         Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
+        Log.d("Esign Req Json",esignType+"");
         if (esignType == 1) {
             (new WebOperations()).postEntityESign(this, "docsESignPvn", "signdoc", WebOperations.convertToJson(eSingParms), asyncResponseHandler);
         } else {

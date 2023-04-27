@@ -123,17 +123,17 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         getSupportActionBar().setTitle(getString(R.string.appname) + " (" + BuildConfig.VERSION_NAME + ")");
-        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
-        if(isAppInstalled) {
-
-            Toast.makeText(this, "Installed", Toast.LENGTH_SHORT).show();
-            Log.i("SampleLog", "Application is already installed.");
-        } else {
-
-            Setup setup=new Setup(ActivityLogin.this);
-            setup.run();
-            Log.i("SampleLog", "Application is not currently installed.");
-        }
+//        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
+//        if(isAppInstalled) {
+//
+//            Toast.makeText(this, "Installed", Toast.LENGTH_SHORT).show();
+//            Log.i("SampleLog", "Application is already installed.");
+//        } else {
+//
+//            Setup setup=new Setup(ActivityLogin.this);
+//            setup.run();
+//            Log.i("SampleLog", "Application is not currently installed.");
+//        }
         if (requestPermissions()){
             getDeviceID();
         }else {
