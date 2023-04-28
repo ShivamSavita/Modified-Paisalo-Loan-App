@@ -785,7 +785,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                //Log.d("eKYC Response", error.getLocalizedMessage());
+                Log.d("eKYC Response", error.getMessage());
             }
 
         };

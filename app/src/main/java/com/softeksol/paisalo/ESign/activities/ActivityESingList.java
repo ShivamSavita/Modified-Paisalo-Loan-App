@@ -25,6 +25,7 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower;
+import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignGuarantor;
 import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
@@ -51,7 +52,7 @@ public class ActivityESingList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (esignType == 0)
+//        if (esignType == 0)
             refreshPendingESign();
     }
     private void refreshPendingESign() {
@@ -77,37 +78,63 @@ public class ActivityESingList extends AppCompatActivity {
                     try {
                         JSONObject jo = new JSONObject(responseString);
                         Type listType;
+//                        if (jo.has("PendingESignFI")) {
+//                            listType = new TypeToken<List<ESignBorrower>>() {
+//                            }.getType();
+//                            List<ESignBorrower> eSignBorrowers = WebOperations.convertToObjectArray(jo.getString("PendingESignFI"), listType);
+//                            adapterListESignBorrower.clear();
+//                            if (esignType == 1) {
+//
+//                                for (ESignBorrower eSignBorrower : eSignBorrowers) {
+//                                                                        eSignBorrower.insert();
+////                                    clientDataDao.insertESignBorrower(eSignBorrower);
+//                                }
+//                                for (ESignBorrower eSignBorrower : eSignBorrowers) {
+//
+//                                    adapterListESignBorrower.addAll(eSignBorrower);
+//                                }
+//
+//                            } else {
+//                                adapterListESignBorrower.addAll(eSignBorrowers);
+//                            }
+//
+//                            adapterListESignBorrower.notifyDataSetChanged();
+//                        }
                         if (jo.has("PendingESignFI")) {
                             listType = new TypeToken<List<ESignBorrower>>() {
                             }.getType();
                             List<ESignBorrower> eSignBorrowers = WebOperations.convertToObjectArray(jo.getString("PendingESignFI"), listType);
                             adapterListESignBorrower.clear();
                             if (esignType == 1) {
-
                                 for (ESignBorrower eSignBorrower : eSignBorrowers) {
-                                                                        eSignBorrower.insert();
-//                                    clientDataDao.insertESignBorrower(eSignBorrower);
+                                    eSignBorrower.insert();
                                 }
-                                for (ESignBorrower eSignBorrower : eSignBorrowers) {
-
-                                    adapterListESignBorrower.addAll(eSignBorrower);
-                                }
-
+                                adapterListESignBorrower.addAll(getESignBorrowers(manager));
                             } else {
                                 adapterListESignBorrower.addAll(eSignBorrowers);
                             }
 
                             adapterListESignBorrower.notifyDataSetChanged();
                         }
+//                        if (jo.has("Guarantors")) {
+//                            listType = new TypeToken<List<ESignGuarantor>>() {
+//                            }.getType();
+//                            List<ESignGuarantor> eSignGuarantors = WebOperations.convertToObjectArray(jo.getString("Guarantors"), listType);
+//
+////                            clientDataDao.insertESignGuarantor(eSignGuarantors);
+//                                                        for (ESignGuarantor eSignGuarantor : eSignGuarantors) {
+//                                                            eSignGuarantor.insert();
+//                                                        }
+//                        }
+
                         if (jo.has("Guarantors")) {
                             listType = new TypeToken<List<ESignGuarantor>>() {
                             }.getType();
                             List<ESignGuarantor> eSignGuarantors = WebOperations.convertToObjectArray(jo.getString("Guarantors"), listType);
 
-//                            clientDataDao.insertESignGuarantor(eSignGuarantors);
-                                                        for (ESignGuarantor eSignGuarantor : eSignGuarantors) {
-                                                            eSignGuarantor.insert();
-                                                        }
+                            for (ESignGuarantor eSignGuarantor : eSignGuarantors) {
+                                eSignGuarantor.insert();
+                            }
                         }
                         //TODO : deletion of completely eSigned fingerprint having no reference with either ESignBorrower or ESignGuarantor
                         Utils.showSnakbar(findViewById(android.R.id.content), "Data Downloaded Successfully");
@@ -156,7 +183,15 @@ public class ActivityESingList extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
+    List<ESignBorrower> getESignBorrowers(Manager manager) {
+        //SQLOperator condition=
+        //Log.d("Manager",manager.toString());
+        return SQLite.select().from(ESignBorrower.class)
+                .where(ESignBorrower_Table.Creator.eq(manager.Creator))
+                .and(ESignBorrower_Table.FoCode.eq(manager.FOCode))
+                .and(ESignBorrower_Table.CityCode.eq(manager.AreaCd))
+                .queryList();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

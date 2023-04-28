@@ -90,6 +90,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     private String deviceId;
     private long deviceImei;
     String UserName;
+    TextView versionText;
      String Password;
 
     public static final String BASE_URL = BuildConfig.APPLICATION_ID + ".BASE_URL";
@@ -141,8 +142,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         }
 
         btnShareDeviceID = findViewById(R.id.btnLoginShareDeviceId);
+        versionText = findViewById(R.id.versionText);
         btnShareDeviceID.setEnabled(false);
         checkBtnShareIDStatus(false);
+
+        versionText.setText("Ver: "+BuildConfig.VERSION_NAME);
 
         btnShareDeviceID.setTextColor(getResources().getColor(R.color.defaultTextColor));
         btnShareDeviceID.setOnClickListener(new View.OnClickListener() {

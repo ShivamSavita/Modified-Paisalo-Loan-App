@@ -91,11 +91,12 @@ android {
         }
 
         SBIColending {
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "1.2"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
             buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')
+            buildConfigField("String", 'DOC_NAME', '"sbicolend_loan_document"')
 //            buildConfigField("String", 'DATABASE_NAME', '"SBIPDL_TEST"')
             buildConfigField("String",'ESIGN_APP','"net.softeksol.seil.esignseil.sbicolending"')
             dimension = 'sourcing'
