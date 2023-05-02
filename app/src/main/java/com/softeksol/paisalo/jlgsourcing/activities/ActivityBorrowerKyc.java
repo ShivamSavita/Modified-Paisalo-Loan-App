@@ -1760,16 +1760,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 break;
 
             case R.id.tietAge:
-                if (text.length() == 0) text = "0";
-                int age = Integer.parseInt(text);
-                if (age < 18) {
+                try {
+                    if (text.length() == 0) text = "0";
+                    int age = Integer.parseInt(text);
+                    if (age < 18) {
+                        editText.setError("Age should be greater than 17");
+                        retVal = false;
+                    } else if (age > 65) {
+                        editText.setError("Age should be less than 66");
+                        retVal = false;
+                    }
+                    tietDob.setEnabled(retVal);
+                }catch (Exception e){
                     editText.setError("Age should be greater than 17");
-                    retVal = false;
-                } else if (age > 65) {
-                    editText.setError("Age should be less than 66");
-                    retVal = false;
                 }
-                tietDob.setEnabled(retVal);
+
 
                 break;
             case R.id.tietAddress1:

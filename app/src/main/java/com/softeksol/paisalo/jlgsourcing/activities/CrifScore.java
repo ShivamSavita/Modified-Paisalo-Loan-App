@@ -26,13 +26,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
+import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower;
 import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
+import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentCollection;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
@@ -65,6 +69,7 @@ public class CrifScore extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Intent i;
+    AdapterListRange rlaBankType;
     String ficode,creator;
     CheckCrifData checkCrifData=new CheckCrifData();
     ESignBorrower eSignerborower;
@@ -166,15 +171,16 @@ public class CrifScore extends AppCompatActivity {
                 "UCO", "BOB","PNB","SBI"
         };
 
+        rlaBankType = new AdapterListRange(this,
+                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("banks")).queryList(), false);
+
 
         spinner = (Spinner) findViewById(R.id.spinSelectBank);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        int spinnerBankPos=adapter.getPosition(sharedPreferences.getString("Bank",""));
-        spinner.setSelection(spinnerBankPos);
+        spinner.setAdapter(rlaBankType);
+        spinner.setSelection(Utils.setSpinnerPosition(spinner,  AadharUtils.getBankCode(eSignerborower.BankName)));
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -481,7 +487,7 @@ public class CrifScore extends AppCompatActivity {
        jsonObject.addProperty("GrpCode",eSignerborower.CityCode);
        jsonObject.addProperty("AadharID",eSignerborower.AadharNo);
        jsonObject.addProperty("Gender",eSignerborower.Gender);
-       jsonObject.addProperty("Bank",sharedPreferences.getString("Bank",""));
+       jsonObject.addProperty("Bank",eSignerborower.BankName);
        jsonObject.addProperty("Income",eSignerborower.Income);
        jsonObject.addProperty("Expense",eSignerborower.Expense);
        jsonObject.addProperty("LoanReason",eSignerborower.Loan_Reason);

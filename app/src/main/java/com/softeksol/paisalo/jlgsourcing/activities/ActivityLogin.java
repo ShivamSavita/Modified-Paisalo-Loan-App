@@ -922,24 +922,24 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     Build.TAGS.length()%10 + Build.TYPE.length()%10 +
                     Build.USER.length()%10 ; //13 digits
 
-        try {
-            File dir = Utils.getFilePath("/", false);
-
-            Log.e("DirectoryDeviceID", dir + "");
-            File file = new File(dir, "." + BuildConfig.ESIGN_APP + ".info");
-            Log.e("FileLocation", file + "");
-            OutputStream out = new FileOutputStream(file);
-            out.write(deviceId.getBytes());
-
-            Log.e("DeviceIDWrite", Arrays.toString(deviceId.getBytes()) + "");
-            Log.e("DeviceIDWrite0", deviceId + "");
-            out.flush();
-            out.close();
-
-            //Utils.writeBytesToFile(deviceId.getBytes(),file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            File dir = Utils.getFilePath("/", false);
+//
+//            Log.e("DirectoryDeviceID", dir + "");
+//            File file = new File(dir, "." + BuildConfig.ESIGN_APP + ".info");
+//            Log.e("FileLocation", file + "");
+//            OutputStream out = new FileOutputStream(file);
+//            out.write(deviceId.getBytes());
+//
+//            Log.e("DeviceIDWrite", Arrays.toString(deviceId.getBytes()) + "");
+//            Log.e("DeviceIDWrite0", deviceId + "");
+//            out.flush();
+//            out.close();
+//
+//            //Utils.writeBytesToFile(deviceId.getBytes(),file);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         IglPreferences.setSharedPref(getBaseContext(), DEVICE_ID, deviceId);
 

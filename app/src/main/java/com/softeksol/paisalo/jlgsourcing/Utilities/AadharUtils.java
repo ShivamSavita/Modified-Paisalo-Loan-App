@@ -577,6 +577,18 @@ public class AadharUtils {
         }
         return stateCode;
     }
+    public static String getBankCode(String bankName) {
+        String stateCode = "";
+        RangeCategory rangeCategory = SQLite.select()
+                .from(RangeCategory.class)
+                .where(RangeCategory_Table.DescriptionEn.eq(bankName))
+//                .and(RangeCategory_Table.DescriptionEn.eq(bankName))
+                .querySingle();
+        if (rangeCategory != null) {
+            stateCode = rangeCategory.RangeCode;
+        }
+        return stateCode;
+    }
 
 
     public static NamedNodeMap getAadharFields(Document document) {

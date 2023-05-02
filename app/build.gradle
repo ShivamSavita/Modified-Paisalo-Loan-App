@@ -91,8 +91,8 @@ android {
         }
 
         SBIColending {
-            versionCode 2
-            versionName "1.2"
+            versionCode 3
+            versionName "1.3"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
             buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')
@@ -127,7 +127,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-}
+}//9654406901
 
 dependencies {
     def androidx_version = "1.2.1"
