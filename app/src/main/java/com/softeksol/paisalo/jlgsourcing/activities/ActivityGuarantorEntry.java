@@ -1011,8 +1011,8 @@ private void setAadharContent(String aadharDataString) throws Exception {
 
                 break;
             case R.id.tietAddress1:
-                if (editText.getText().toString().trim().length() < 6) {
-                    editText.setError("Should be more than 5 Characters");
+                if (editText.getText().toString().trim().length() < 2) {
+                    editText.setError("Should be more than 2 Characters");
                     retVal = false;
                 }
                 break;

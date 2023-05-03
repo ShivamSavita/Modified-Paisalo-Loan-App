@@ -117,9 +117,9 @@ public class ActivityOperationSelect extends AppCompatActivity {
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
             operationItems.add(new OperationItem(6, "E-Sign", R.color.colorMenuPremature, "POSDB", "Getmappedfo"));
         }
-//        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
-//            operationItems.add(new OperationItem(7, "ABF Module", R.color.colorMenuPremature, "", ""));
-//        }
+        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
+            operationItems.add(new OperationItem(7, "ABF Module", R.color.colorMenuPremature, "", ""));
+        }
 
         GridView lv = (GridView) findViewById(R.id.lvcOpSelect);
 

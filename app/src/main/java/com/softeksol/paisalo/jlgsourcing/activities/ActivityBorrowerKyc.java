@@ -573,11 +573,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         voterIdCheckSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tietVoterId.getText().toString().trim().length() == 10) {
+                if (tietVoterId.getText().toString().trim().length() >= 10) {
                     cardValidate(tietVoterId.getText().toString().trim(),"voterid","","");
                 }else {
                     tilVoterId_Name.setVisibility(View.GONE);
-                    tietVoterId.setError("Enter Voter Id");
+                    tietVoterId.setError("Enter valid Voter Id");
                 }
             }
         });
