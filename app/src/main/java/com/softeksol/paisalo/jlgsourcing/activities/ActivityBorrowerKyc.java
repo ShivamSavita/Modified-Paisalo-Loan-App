@@ -103,6 +103,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -1871,12 +1872,30 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                ApiInterface apiInterface1=ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
+
                 if (type.equals("pancard")){
                     try {
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
+                        Log.d("TAG", "onResponse: "+manager.Creator+"///"+IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, "")+"////"+response.body().toString());
+                        JsonObject jsonObject =new JsonObject();
+               //
+//                        Call<ResponseBody> call1=apiInterface1.saveFetchedDocData("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8","",manager.Creator,SEILIGL.USER_ID,response.body().toString(),"pancard");
+
+//                        call1.enqueue(new Callback<ResponseBody>() {
+//                            @Override
+//                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                                Log.d("TAG", "onResponse: "+response.body());
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                                Log.d("TAG", "onFailure: "+t.getMessage());
+//                            }
+//                        });
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");

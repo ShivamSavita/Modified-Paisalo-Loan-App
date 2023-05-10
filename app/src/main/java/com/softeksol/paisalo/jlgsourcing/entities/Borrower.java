@@ -1341,6 +1341,7 @@ public class Borrower extends BaseModel implements Serializable {
                 ", fiFamLoans=" + fiFamLoans +
                 ", fiFamExpenses=" + fiFamExpenses +
                 ", isCurrentAddressDifferent='" + isCurrentAddressDifferent + '\'' +
+                ", IsNameVerify='" + IsNameVerify + '\'' +
                 '}';
     }
 

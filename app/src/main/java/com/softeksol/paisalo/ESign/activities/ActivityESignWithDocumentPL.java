@@ -51,12 +51,18 @@ import com.softeksol.paisalo.jlgsourcing.entities.ESignGuarantor_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class  ActivityESignWithDocumentPL extends AppCompatActivity implements View.OnClickListener {
@@ -240,7 +246,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         Intent appStartIntent = new Intent();
                         appStartIntent.setAction("com.nsdl.egov.esign.rdservice.fp.CAPTURE");
                         appStartIntent.putExtra("msg", xmlString); // msg contains esign request xml from ASP.
-                        appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).
+                        appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).//Possible values PREPROD or PROD (case insensative).
                         appStartIntent.putExtra("returnUrl", responseUrl); // your package name where esign response failure/success will be sent.
                         startActivityForResult(appStartIntent, APK_ESIGN_REQUEST_CODE);
 
@@ -387,6 +393,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                 AppCompatCheckBox consentCheckbox = (AppCompatCheckBox) (alertDialog).findViewById(R.id.chkAadharConsent);
                 processApkESign(textInputEditTextAadhar.getText().toString(), consentCheckbox.getText().toString());
                 //processWebESign(textInputEditTextAadhar.getText().toString(), consentCheckbox.getText().toString());
+
             }
         };
 
@@ -429,30 +436,42 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                 Log.d("Button",""+which);
                 final DialogInterface dlg = dialog;
                 final int whichButton = which;
-                JSONObject jo = new JSONObject();
-                try {
-                    jo.put("CustCode", jsonObject.get("CustCode"));
-                    jo.put("Creator", jsonObject.get("Creator"));
-                    jo.put("GrNo", eSigner.GrNo);
-                    jo.put("TxnID", jsonObject.get("TxnID"));
-                    jo.put("isAccepted", whichButton == DialogInterface.BUTTON_POSITIVE);
+                if (whichButton == DialogInterface.BUTTON_POSITIVE){
+                    ApiInterface apiInterface=ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
+                    try {
+                        Call<ResponseBody> call=apiInterface.postDataForEsignTrack(
+                                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8",jsonObject.get("Creator").toString(),jsonObject.get("Ficode").toString());
+
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.d("TAG", "onResponse: "+response.body());
+
+
+                                JSONObject jo = new JSONObject();
+                                try {
+                                    jo.put("CustCode", jsonObject.get("CustCode"));
+                                    jo.put("Creator", jsonObject.get("Creator"));
+                                    jo.put("GrNo", eSigner.GrNo);
+                                    jo.put("TxnID", jsonObject.get("TxnID"));
+                                    jo.put("isAccepted", whichButton == DialogInterface.BUTTON_POSITIVE);
 
                     /*if(whichButton == DialogInterface.BUTTON_NEGATIVE){
                         eSigner.ESignSucceed="BLK";
                     }*/
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(ActivityESignWithDocumentPL.this, "Sending Esign") {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        //Log.d("Final Esing Response", new String(responseBody));
+                                DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(ActivityESignWithDocumentPL.this, "Sending Esign") {
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                        //Log.d("Final Esing Response", new String(responseBody));
 
-                        if (statusCode == 200 && whichButton == DialogInterface.BUTTON_POSITIVE) {
-                            eSigner.ESignSucceed = "Y";
-                            updateESigner(eSigner);
-                            setResult(RESULT_OK);
+                                        if (statusCode == 200 && whichButton == DialogInterface.BUTTON_POSITIVE) {
+                                            eSigner.ESignSucceed = "Y";
+                                            updateESigner(eSigner);
+                                            setResult(RESULT_OK);
 //                            finish();
 //                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityESignWithDocumentPL.this);
 //                            builder.setTitle("Generate CRIF Score");
@@ -461,13 +480,13 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 //                                @Override
 //                                public void onClick(DialogInterface dialog, int which) {
 
-                                    Intent intent = new Intent(ActivityESignWithDocumentPL.this, CrifScore.class);
-                                    intent.putExtra("FIcode",String.valueOf(eSigner.FiCode));
-                                    intent.putExtra("creator",eSigner.Creator);
-                                    intent.putExtra("ESignerBorower",eSignerborower);
-                                    startActivity(intent);
-                                    dlg.dismiss();
-                                    finish();
+                                            Intent intent = new Intent(ActivityESignWithDocumentPL.this, CrifScore.class);
+                                            intent.putExtra("FIcode",String.valueOf(eSigner.FiCode));
+                                            intent.putExtra("creator",eSigner.Creator);
+                                            intent.putExtra("ESignerBorower",eSignerborower);
+                                            startActivity(intent);
+                                            dlg.dismiss();
+                                            finish();
 
 //                                }
 //                            });
@@ -479,10 +498,25 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 //                                }
 //                            });
 //                            builder.create().show();
-                        }
+                                        }
+                                    }
+                                };
+                                (new WebOperations()).postEntityESignSubmit(ActivityESignWithDocumentPL.this, "docsESignPvn", "AcceptESign", jo.toString(), asyncResponseHandler);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.d("TAG", "onResponse: "+t.getMessage());
+
+                            }
+                        });
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                };
-                (new WebOperations()).postEntityESignSubmit(ActivityESignWithDocumentPL.this, "docsESignPvn", "AcceptESign", jo.toString(), asyncResponseHandler);
+
+
+                }
 
             }
         };

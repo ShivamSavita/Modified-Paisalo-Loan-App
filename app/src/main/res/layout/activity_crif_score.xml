@@ -251,18 +251,30 @@
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/attempsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Only 3 attempt to switch bank"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView281" />
+
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:padding="40dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
+                android:padding="40dp"
                 app:layout_constraintBottom_toTopOf="@+id/textView8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView281" />
+                app:layout_constraintTop_toBottomOf="@+id/attempsTextView"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView8"

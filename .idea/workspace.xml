@@ -9,23 +9,51 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b48e4665-e496-4639-9565-ce86ef18ea24" name="Changes" comment="bank scheme dynamic set in Crif Score page">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/AlgorithmAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/BrandData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/BrandDataList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/BrandResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/PinCodeResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/PostOffice.java" afterDir="false" />
+    <list default="true" id="b48e4665-e496-4639-9565-ce86ef18ea24" name="Changes" comment="validation done in OEM basic detailes">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/OEMListAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/ProductListAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/TabLayoutAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/AddProductBankFrags/AddBankFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/AddProductBankFrags/AddProductFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/OEMDataModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/ProductDataModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Product_Bank_addPage_OEM.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/SelectOEMpage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/rounded_squre_gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_product_bank_add_page_oem.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_select_oempage.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_select_oempage.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_bank.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_product.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_first.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_product__bank_add_page__o_e_m.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_second.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_oem_card.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/product_list_card.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-land/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-w1240dp/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-w600dp/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-w820dp/dimens.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityESignWithDocumentPL.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityESignWithDocumentPL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Dealer_Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Dealer_Dashboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/OEM_Onboarding.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/OEM_Onboarding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityGuarantorEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityGuarantorEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityOperationSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityOperationSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/CrifScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/CrifScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/KYC_Form_New.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/KYC_Form_New.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/dto/BorrowerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/dto/BorrowerDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_crif_score.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_crif_score.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_oem_onboarding.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_oem_onboarding.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,9 +88,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="valueResourceFile" />
+        <option value="Class" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
-        <option value="Class" />
       </list>
     </option>
   </component>
@@ -77,6 +105,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jrt://C:/Program Files/Android/Android Studio/jbr!/java.base/java/lang/Integer.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/.gradle/caches/transforms-3/bd72443796817583641b0f33489866a9/transformed/appcompat-1.4.1/res/values/values.xml" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-28/android.jar!/android/text/SpannableStringBuilder.class" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-32/data/res/values/attrs.xml" root0="SKIP_INSPECTION" />
   </component>
@@ -101,6 +130,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/com.github.smarteist/autoimageslider/1.3.9/e3dbdffbe9d3561090b33663cf91ad33011545b7/autoimageslider-1.3.9-sources.jar!/com/smarteist/autoimageslider/SliderPager.java_SELECTED&quot;: &quot;SliderPager&quot;,
     &quot;android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AbsSpinner.java_SELECTED&quot;: &quot;AbsSpinner&quot;,
+    &quot;android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AdapterView.java_SELECTED&quot;: &quot;AdapterView&quot;,
     &quot;android-custom-viewD:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/java/com/softeksol/paisalo/dealers/Utilities/ZoomImage.java_SELECTED&quot;: &quot;ZoomImage&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
@@ -127,12 +157,18 @@
     <option name="SHOW_DETAILS_PANEL" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.softeksol.paisalo.dealers.Adapters" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\New Customized Sourcing App\Customized_JLGSourcing\JLGSourcing\app\src\main\res\raw" />
       <recent name="D:\New Customized Sourcing App\Customized_JLGSourcing\JLGSourcing\app\src\main\res" />
       <recent name="D:\New Customized Sourcing App\Customized_JLGSourcing\JLGSourcing\app\src\main\java\com\softeksol\paisalo\KotlinLocationTracking" />
       <recent name="D:\New Customized Sourcing App\Customized_JLGSourcing\JLGSourcing\app\src\main\res\drawable" />
       <recent name="D:\New Customized Sourcing App\Customized_JLGSourcing\JLGSourcing\app\src\main\res\layout" />
+    </key>
+    <key name="android.template.1436590464">
+      <recent name="com.softeksol.paisalo.dealers" />
     </key>
     <key name="android.template.1030029898">
       <recent name="com.softeksol.paisalo.jlgsourcing" />
@@ -436,7 +472,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683008112986</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="validation done in OEM basic detailes">
+      <created>1683119514688</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1683119514688</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -505,7 +548,8 @@
     <MESSAGE value="Dealer Module Added" />
     <MESSAGE value="Geo tracking done and also with installation of geo tracking app" />
     <MESSAGE value="bank scheme dynamic set in Crif Score page" />
-    <option name="LAST_COMMIT_MESSAGE" value="bank scheme dynamic set in Crif Score page" />
+    <MESSAGE value="validation done in OEM basic detailes" />
+    <option name="LAST_COMMIT_MESSAGE" value="validation done in OEM basic detailes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

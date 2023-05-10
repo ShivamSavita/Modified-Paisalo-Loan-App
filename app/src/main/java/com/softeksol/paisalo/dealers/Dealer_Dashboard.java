@@ -104,7 +104,7 @@ public class Dealer_Dashboard extends AppCompatActivity {
 
                 switch (operationItem.getId()) {
                     case 1:
-                        Intent intent2 = new Intent(Dealer_Dashboard.this, OEM_Onboarding.class);
+                        Intent intent2 = new Intent(Dealer_Dashboard.this, SelectOEMpage.class);
                         startActivity(intent2);
 
                         break;

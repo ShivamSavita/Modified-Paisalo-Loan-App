@@ -92,15 +92,6 @@ TextView textViewTotalAnnualIncome;
         acspLoanAppFinanceLoanAmount=findViewById(R.id.acspLoanAppFinanceLoanAmount);
         textViewTotalAnnualIncome=findViewById(R.id.textViewTotalAnnualIncome);
         BtnSaveKYCData=findViewById(R.id.BtnFinalSaveKYCData);
-        Log.d("TAG", "onCreate: "+FatherFName);
-        Log.d("TAG", "onCreate: "+FatherLName);
-        Log.d("TAG", "onCreate: "+FatherMName);
-        Log.d("TAG", "onCreate: "+MotherFName);
-        Log.d("TAG", "onCreate: "+MotherLName);
-        Log.d("TAG", "onCreate: "+MotherMName);
-        Log.d("TAG", "onCreate: "+SpouseLName);
-        Log.d("TAG", "onCreate: "+SpouseMName);
-        Log.d("TAG", "onCreate: "+SpouseFName);
 //        borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(KYC_Form_New.this, SEILIGL.USER_ID, ""));
 
         rlaSchemeType = new AdapterListRange(this,

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,6 +77,8 @@ public class CrifScore extends AppCompatActivity {
     ESignBorrower eSignerborower;
     String stateName;
     Spinner spinner;
+    int attempts_left=4;
+    TextView attempsTextView;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -95,6 +99,7 @@ public class CrifScore extends AppCompatActivity {
         editor.apply();
 
         progressBar=findViewById(R.id.circular_determinative_pb);
+        attempsTextView=findViewById(R.id.attempsTextView);
         progressBarsmall=findViewById(R.id.progressBar);
         textView7=findViewById(R.id.textView7);
         textView_valueEmi=findViewById(R.id.textView_valueEmi);
@@ -128,6 +133,27 @@ public class CrifScore extends AppCompatActivity {
             }
         });
         btnSrifScore=findViewById(R.id.btnSrifScore);
+        attempsTextView.setText("Only "+attempts_left+" attempt to switch bank");
+        attempsTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (attempts_left<1){
+                        spinner.setEnabled(false);
+                    }else{
+                        spinner.setEnabled(true);
+                    }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btnSrifScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,8 +212,9 @@ public class CrifScore extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editor.putString("Bank",parent.getSelectedItem().toString());
+                editor.putString("Bank",((RangeCategory) spinner.getSelectedItem()).DescriptionEn);
                 editor.apply();
+
                 btnSrifScore.setText("TRY AGAIN");
                 Log.d("TAG", "onItemSelected: "+sharedPreferences.getString("Bank",""));
             }
@@ -201,12 +228,13 @@ public class CrifScore extends AppCompatActivity {
 
     }
 
-    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi) {
+    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi,String bank) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("Ficode",ficode);
         jsonObject.addProperty("Creator",creator);
         jsonObject.addProperty("Loan_Amt",amount);
         jsonObject.addProperty("Emi",emi);
+        jsonObject.addProperty("Bank",bank);
         Log.e("TAG",jsonObject.toString());
         return jsonObject;
     }
@@ -241,7 +269,7 @@ public class CrifScore extends AppCompatActivity {
                     Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
                 }
             };
-            (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi)), asyncResponseHandler);
+            (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi,sharedPreferences.getString("Bank",""))), asyncResponseHandler);
 
         });
         builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
@@ -325,6 +353,8 @@ public class CrifScore extends AppCompatActivity {
             public void onResponse(Call<ScrifData> call, Response<ScrifData> response) {
                 Log.d("TAG", "onResponse: "+response.body());
                 if(response.body() != null){
+                    attempts_left--;
+                    attempsTextView.setText("Only "+attempts_left+" attempt to switch bank");
                     ScrifData scrifData=response.body();
                     String data=scrifData.getData();
                     if(data == null){
@@ -386,7 +416,7 @@ public class CrifScore extends AppCompatActivity {
                                     textView_valueEmi.setText(emi+" ₹");
                                     btnSrifScoreSave.setVisibility(View.VISIBLE);
                                     btnSrifScore.setVisibility(View.GONE);
-                                    spinner.setEnabled(false);
+//                                    spinner.setEnabled(false);
 
                             }else{
                                 gifImageView.setImageResource(R.drawable.crosssign);
@@ -487,7 +517,7 @@ public class CrifScore extends AppCompatActivity {
        jsonObject.addProperty("GrpCode",eSignerborower.CityCode);
        jsonObject.addProperty("AadharID",eSignerborower.AadharNo);
        jsonObject.addProperty("Gender",eSignerborower.Gender);
-       jsonObject.addProperty("Bank",eSignerborower.BankName);
+       jsonObject.addProperty("Bank",sharedPreferences.getString("Bank",""));
        jsonObject.addProperty("Income",eSignerborower.Income);
        jsonObject.addProperty("Expense",eSignerborower.Expense);
        jsonObject.addProperty("LoanReason",eSignerborower.Loan_Reason);

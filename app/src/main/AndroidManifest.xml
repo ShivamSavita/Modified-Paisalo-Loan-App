@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.softeksol.paisalo.jlgsourcing">
+
     <queries>
         <package android:name="com.plcoding.backgroundlocationtracking" />
     </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -39,11 +41,23 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.dealers.Product_Bank_addPage_OEM"
+            android:exported="false"
+            android:label="@string/title_activity_product_bank_add_page_oem"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.SelectOEMpage"
+            android:exported="false"
+            android:label="@string/title_activity_select_oempage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".TermAndPolicyPage"
             android:exported="false" />
         <activity
             android:name="com.softeksol.paisalo.dealers.OEM_Onboarding"
             android:exported="false" />
+
+
         <activity
             android:name="com.softeksol.paisalo.dealers.Dealer_Branch_Open"
             android:exported="false" />

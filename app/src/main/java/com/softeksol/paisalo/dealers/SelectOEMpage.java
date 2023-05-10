@@ -1,0 +1,95 @@
+package com.softeksol.paisalo.dealers;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
+import android.view.View;
+
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.gson.Gson;
+import com.softeksol.paisalo.dealers.Adapters.OEMListAdapter;
+import com.softeksol.paisalo.dealers.Models.BrandResponse;
+import com.softeksol.paisalo.dealers.Models.OEMDataModel;
+import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.databinding.ActivitySelectOempageBinding;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class SelectOEMpage extends AppCompatActivity {
+
+
+    private ActivitySelectOempageBinding binding;
+    OEMListAdapter adapter;
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivitySelectOempageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("Select OEM");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Want to Create OEM", Snackbar.LENGTH_LONG)
+                        .setAction("YES", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(SelectOEMpage.this,OEM_Onboarding.class));
+                            }
+                        }).show();
+            }
+        });
+        binding.recViewOemList.setLayoutManager(new LinearLayoutManager(this));
+        ApiInterface apiInterface=ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
+        Call<BrandResponse> call=apiInterface.getOEMList("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8");
+        call.enqueue(new Callback<BrandResponse>() {
+            @Override
+            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+
+                Log.d("TAG", "onResponse: "+response.body());
+                BrandResponse brandResponse=response.body();
+                Log.d("TAG", "onResponse: "+brandResponse.getData());
+                Gson gson = new Gson();
+                OEMDataModel[] oemDataModels=gson.fromJson(brandResponse.getData(),OEMDataModel[].class);
+                adapter=new OEMListAdapter(SelectOEMpage.this,oemDataModels);
+                binding.recViewOemList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<BrandResponse> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }
+
+
+}

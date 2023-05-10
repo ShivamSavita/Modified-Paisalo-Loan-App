@@ -48,4 +48,16 @@ Contact Email <i>DELHI@PAISALO.IN</i>
 2. In respect of any failed transactions of any of the Customers, processed through this service, the amount will be refunded after deducting the transaction charges.
 </string>
     <string name="terms_amp_conditions"><i><u>terms &amp; conditions</u></i></string>
+    <string name="title_activity_select_oempage">SelectOEMpage</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_product_bank_add_page_oem">Product_Bank_addPage_OEM</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

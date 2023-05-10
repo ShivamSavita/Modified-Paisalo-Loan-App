@@ -713,6 +713,7 @@ public class BorrowerDTO {
                 ", fiExtraBank=" + fiExtraBankBo +
                 ", fiFamExpenses=" + fiFamExpenses +
                 ", fiFamLoans=" + fiFamLoans +
+                ", IsNameVerify=" + IsNameVerify +
                 '}';
     }
 }
