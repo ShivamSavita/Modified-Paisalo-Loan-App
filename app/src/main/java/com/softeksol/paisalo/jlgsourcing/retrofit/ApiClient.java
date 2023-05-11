@@ -18,7 +18,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
 
 
-    public static Retrofit getClient(String BASE_URL) {
+    public Retrofit getClient(String BASE_URL) {
         if (retrofit==null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -34,6 +34,35 @@ public class ApiClient {
                     .client(httpClient.build())
                     .build();
         }
+        return retrofit;
+    }
+
+
+    public Retrofit getClient2(String BASE_URL) {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.readTimeout(60, TimeUnit.SECONDS);
+        client.writeTimeout(60, TimeUnit.SECONDS);
+        client.connectTimeout(60, TimeUnit.SECONDS);
+        client.addInterceptor(interceptor);
+        client.addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+
+                return chain.proceed(request);
+            }
+        });
+
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client.build())
+                    .build();
+
         return retrofit;
     }
 

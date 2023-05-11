@@ -21,6 +21,7 @@ import com.softeksol.paisalo.dealers.Models.OEMDataModel;
 import com.softeksol.paisalo.dealers.Models.ProductDataModel;
 import com.softeksol.paisalo.dealers.SelectOEMpage;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
@@ -86,7 +87,7 @@ public class AddProductFragment extends Fragment {
         recViewProductList=view.findViewById(R.id.recViewProductList);
         recViewProductList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ApiInterface apiInterface= ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
+        ApiInterface apiInterface=  new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         Call<BrandResponse> call=apiInterface.getProductList("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8",2);
         call.enqueue(new Callback<BrandResponse>() {
             @Override

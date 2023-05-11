@@ -48,8 +48,6 @@ android {
             minifyEnabled false
             //buildConfigField("String", 'BASE_URL', '"http://agra.seil.in:8087/PLServicev82/"')
 //            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
-            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServicev82/"')
-//            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
             //buildConfigField("String", 'BASE_URL', '"https://agra.paisalo.in:8445/PLServiceV82/"')
 //            buildConfigField("String", 'BASE_URL', '"http://kailash.seil.in:8086/PLService/"')
             buildConfigField("String", 'EKYC_FETCH_URL', '"http://agra.seil.in:8085/SeilKycESign/api/KycDataSZenApi/GetEKyc"')
@@ -98,7 +96,21 @@ android {
             versionName "1.4.0"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
-//            buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')
+            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServicev82/"')
+            buildConfigField("String", 'BASE_URL_Esign', '"https://agra.seil.in:8444/ESignSBIAV1/"')
+            buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')
+            buildConfigField("String", 'DOC_NAME', '"sbicolend_loan_document"')
+            buildConfigField("String",'ESIGN_APP','"net.softeksol.seil.esignseil.sbicolending"')
+            dimension = 'sourcing'
+        }
+
+        SBIColendingTest {
+            versionCode 4
+            versionName "Test"
+            applicationId "net.softeksol.seil.groupfin.sbicolending"
+            resValue("string", "appname", "SBI-CoLending")
+            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
+            buildConfigField("String", 'BASE_URL_Esign', '"https://agra.seil.in:8444/ESignSBIAV1Test/"')
             buildConfigField("String", 'DOC_NAME', '"sbicolend_loan_document"')
             buildConfigField("String", 'DATABASE_NAME', '"SBIPDL_TEST"')
             buildConfigField("String",'ESIGN_APP','"net.softeksol.seil.esignseil.sbicolending"')

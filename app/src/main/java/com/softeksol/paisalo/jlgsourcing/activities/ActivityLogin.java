@@ -461,7 +461,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "SBIPDL");
                 }
                 else {
-                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "SBIPDL_TEST");
+//                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "SBIPDL_TEST");
+                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, BuildConfig.DATABASE_NAME);
                 }
 //                else {
 //                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "PNBPDLCOL");

@@ -29,6 +29,7 @@ import com.softeksol.paisalo.dealers.Models.BrandDataList;
 import com.softeksol.paisalo.dealers.Models.BrandResponse;
 import com.softeksol.paisalo.dealers.Models.PinCodeResponse;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
@@ -71,7 +72,7 @@ CheckBox proprietorCheckBox,partnershipCheckBox,privateCheckBox;
         //-------------binding views with id-----------------
         layout_basicDetails=findViewById(R.id.layout_basic_details);
         //-------------binding Bank Details views with id-----------------
-         apiInterface=ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
+         apiInterface=new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
 
         clearSignatureBtn=findViewById(R.id.clearSignatureBtn);
         signatureView=findViewById(R.id.signatureView);

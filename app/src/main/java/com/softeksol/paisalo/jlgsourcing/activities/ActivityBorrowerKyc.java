@@ -107,6 +107,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+
 import static com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff.validateCaseCode;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -1865,27 +1867,26 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
+        ApiInterface apiInterface= new ApiClient().getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (type.equals("pancard")){
-                    try {
+//                    try {
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
-                        Log.d("TAG", "onResponse: "+manager.Creator+"///"+IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, "")+"////"+response.body().toString());
                         sendDataVerification("pancard",response.body().toString());
-                    }catch (Exception e){
-                        tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText("Card Holder Name Not Found");
-                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        panCheckSign.setEnabled(true);
-
-                    }
+//                    }catch (Exception e){
+//                        tilPAN_Name.setVisibility(View.VISIBLE);
+//                        tilPAN_Name.setText("Card Holder Name Not Found");
+//                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+//                        panCheckSign.setEnabled(true);
+//
+//                    }
                     progressDialog.cancel();
                 }else if(type.equals("voterid")){
                     try {
@@ -1948,9 +1949,16 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void sendDataVerification(String doctype,String responsedata){
-        ApiInterface apiInterface1=ApiClient.getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
+        Retrofit apiClient=new ApiClient().getClient2(SEILIGL.NEW_SERVER_BASEURL);
+        ApiInterface apiInter=apiClient.create(ApiInterface.class);
         JsonObject jsonObject =new JsonObject();
-        Call<ResponseBody> call1=apiInterface1.saveFetchedDocData("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8","",manager.Creator,SEILIGL.USER_ID,responsedata,doctype);
+        jsonObject.addProperty("ficode",0);
+        jsonObject.addProperty("creator",manager.Creator);
+        jsonObject.addProperty("userid",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
+        jsonObject.addProperty("response",responsedata);
+        jsonObject.addProperty("DocName",doctype);
+        Log.d("TAG", "sendDataVerification: "+jsonObject);
+        Call<ResponseBody> call1=apiInter.saveFetchedDocData("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8",jsonObject);
         call1.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
