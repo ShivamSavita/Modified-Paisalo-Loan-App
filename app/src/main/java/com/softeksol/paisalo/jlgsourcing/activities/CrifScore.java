@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
@@ -283,7 +284,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void checkCrifScore(){
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfKyc());
         Call<CheckCrifData> call=apiInterface.checkCrifScore(getJsonOfKyc());
         call.enqueue(new Callback<CheckCrifData>() {
@@ -345,8 +346,8 @@ public class CrifScore extends AppCompatActivity {
 
 
     private void getCrifScore(CheckCrifData checkCrifData) {
-        //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        //String address= borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Call<ScrifData> call=apiInterface.getCrifScore(getJSOnOfCheckDataResponse(checkCrifData));
         call.enqueue(new Callback<ScrifData>() {
             @Override

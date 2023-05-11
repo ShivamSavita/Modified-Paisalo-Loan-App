@@ -47,6 +47,8 @@ public class SEILIGL extends Application {
     public static final String BRANCH_CODE = BuildConfig.APPLICATION_ID + ".BRANCH_CODE";
     public static final String CREATOR = BuildConfig.APPLICATION_ID + ".CREATOR";
     public static final String IMEI = BuildConfig.APPLICATION_ID + ".IMEI_NO";
+    public static final String NEW_SERVER_BASEURL ="http://192.168.1.168:8084/";
+    public static final String AGRA_CREDITMATRIX_BASEURL ="https://agra.paisalo.in:8462/creditmatrix/api/";
     private String deviceId;
     private long deviceImei;
 

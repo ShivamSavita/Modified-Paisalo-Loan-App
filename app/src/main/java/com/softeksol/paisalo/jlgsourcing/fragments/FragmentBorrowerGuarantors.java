@@ -133,7 +133,7 @@ public class FragmentBorrowerGuarantors extends AbsFragment implements View.OnCl
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
         AdapterListGuarantor adapterListGuarantor = (AdapterListGuarantor) lvGuarantorList.getAdapter();
         List<Guarantor> guarantors = activity.getBorrower().getFiGuarantors();

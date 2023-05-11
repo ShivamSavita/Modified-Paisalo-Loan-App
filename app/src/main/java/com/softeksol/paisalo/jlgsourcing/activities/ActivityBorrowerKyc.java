@@ -1859,21 +1859,18 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void cardValidate(String id,String type,String bankIfsc,String dob) {
-
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setIndeterminate(false);
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                ApiInterface apiInterface1=ApiClient.getClient("http://192.168.1.168:8084/").create(ApiInterface.class);
-
                 if (type.equals("pancard")){
                     try {
                         tilPAN_Name.setVisibility(View.VISIBLE);
@@ -1881,21 +1878,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
                         Log.d("TAG", "onResponse: "+manager.Creator+"///"+IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, "")+"////"+response.body().toString());
-                        JsonObject jsonObject =new JsonObject();
-               //
-//                        Call<ResponseBody> call1=apiInterface1.saveFetchedDocData("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8","",manager.Creator,SEILIGL.USER_ID,response.body().toString(),"pancard");
-
-//                        call1.enqueue(new Callback<ResponseBody>() {
-//                            @Override
-//                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                Log.d("TAG", "onResponse: "+response.body());
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                                Log.d("TAG", "onFailure: "+t.getMessage());
-//                            }
-//                        });
+                        sendDataVerification("pancard",response.body().toString());
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");
@@ -1907,32 +1890,30 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }else if(type.equals("voterid")){
                     try {
                         tilVoterId_Name.setVisibility(View.VISIBLE);
-
                         tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         voterIdCheckSign.setEnabled(false);
+                        sendDataVerification("voterid",response.body().toString());
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText("Card Holder Name Not Found");
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         voterIdCheckSign.setEnabled(true);
-
                     }
                     progressDialog.cancel();
 
                 }else if(type.equals("drivinglicense")){
                     try {
                         tilDL_Name.setVisibility(View.VISIBLE);
-
                         tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         dLCheckSign.setEnabled(false);
+                        sendDataVerification("drivinglicense",response.body().toString());
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
                         tilDL_Name.setText("Card Holder Name Not Found");
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         dLCheckSign.setEnabled(true);
-
                     }
                     progressDialog.cancel();
 
@@ -1944,7 +1925,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 if (type.equals("pancard")){
                     tilPAN_Name.setText(t.getMessage());
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-
                     progressDialog.cancel();
 
                 }else{
@@ -1965,6 +1945,22 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         jsonObject.addProperty("ifsc",bankIfsc);
         jsonObject.addProperty("userdob",userDOB);
         return  jsonObject;
+    }
+
+    private void sendDataVerification(String doctype,String responsedata){
+        ApiInterface apiInterface1=ApiClient.getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
+        JsonObject jsonObject =new JsonObject();
+        Call<ResponseBody> call1=apiInterface1.saveFetchedDocData("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8","",manager.Creator,SEILIGL.USER_ID,responsedata,doctype);
+        call1.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+            }
+        });
     }
 
     private boolean validateBorrower() {

@@ -54,7 +54,15 @@ public interface ApiInterface {
     Call<ResponseBody> postDataForEsignTrack(@Header("Authorization") String authHeader,@Query("ficode") String ficode,@Query("creator") String creator);
 
     @GET("PFL.ABF.API/api/LiveTrack/CreateDocDataFetch")
-    Call<ResponseBody> saveFetchedDocData(@Header("Authorization") String authHeader,@Body JsonObject jsonObject);
+    Call<ResponseBody> saveFetchedDocData(
+            @Header("Authorization") String authHeader,
+            @Field("ficode") String ficode,
+            @Field("creator") String creator,
+            @Field("userid") String userid,
+            @Field("responsebody") String respose,
+            @Field("DocName") String docname
+
+    );
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
