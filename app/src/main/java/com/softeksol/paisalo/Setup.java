@@ -55,7 +55,7 @@ public class Setup extends Thread {
 
             if (file.exists()) {
 
-                Intent unKnownSourceIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", m_context.getPackageName())));
+//                Intent unKnownSourceIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", m_context.getPackageName())));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 

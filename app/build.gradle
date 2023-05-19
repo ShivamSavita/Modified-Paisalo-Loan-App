@@ -106,7 +106,7 @@ android {
 
         SBIColendingTest {
             versionCode 4
-            versionName "Test"
+            versionName "1.4.0"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
             buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')

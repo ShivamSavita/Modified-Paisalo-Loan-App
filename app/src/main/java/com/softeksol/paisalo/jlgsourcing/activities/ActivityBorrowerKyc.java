@@ -155,7 +155,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     String loanDurationData,stateData,genderData;
     boolean aadharNumberentry=false;
     String isAdhaarEntry ="M";
-    String isNameMatched ="0";
+    String isNameMatched ="1";
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
@@ -206,7 +206,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
          spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
         spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
-        Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "    Borrower KYC");
 
@@ -1347,6 +1346,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            isNameMatched ="0";
                                             Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                             intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1400,6 +1400,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                isNameMatched ="0";
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                                 intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1454,6 +1455,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                isNameMatched ="0";
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                                 intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1512,6 +1514,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                isNameMatched ="0";
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                                 intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1570,6 +1573,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                isNameMatched ="0";
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                                 intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1867,7 +1871,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= new ApiClient().getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
+        ApiInterface apiInterface= new ApiClient().getClient2(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {

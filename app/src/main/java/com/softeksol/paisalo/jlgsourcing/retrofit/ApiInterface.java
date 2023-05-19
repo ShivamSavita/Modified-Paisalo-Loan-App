@@ -58,6 +58,8 @@ public interface ApiInterface {
             @Header("Authorization") String authHeader,@Body JsonObject jsonObject
 
     );
+    @GET("PDL.Mobile.API/api/LiveTrack/GetAppLink")
+    Call<BrandResponse> getAppLinkStatus(@Query("version") String version,@Query("AppName") String AppName,@Query("action") int action);
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

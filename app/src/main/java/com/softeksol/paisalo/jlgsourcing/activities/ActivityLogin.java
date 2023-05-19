@@ -58,6 +58,8 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,6 +149,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         checkBtnShareIDStatus(false);
 
         versionText.setText("Ver: "+BuildConfig.VERSION_NAME);
+
+
 
         btnShareDeviceID.setTextColor(getResources().getColor(R.color.defaultTextColor));
         btnShareDeviceID.setOnClickListener(new View.OnClickListener() {
@@ -464,6 +468,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 //                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "SBIPDL_TEST");
                     IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, BuildConfig.DATABASE_NAME);
                 }
+
 //                else {
 //                    IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, "PNBPDLCOL");
 //                }
