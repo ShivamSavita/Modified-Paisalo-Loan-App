@@ -236,6 +236,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
+
+
                     JSONObject jsonObject;
                     try {
                         jsonObject = new JSONObject(new String(responseBody));
@@ -246,7 +248,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         Intent appStartIntent = new Intent();
                         appStartIntent.setAction("com.nsdl.egov.esign.rdservice.fp.CAPTURE");
                         appStartIntent.putExtra("msg", xmlString); // msg contains esign request xml from ASP.
-                        appStartIntent.putExtra("env", "PREPROD"); //Possible values PREPROD or PROD (case insensative).//Possible values PREPROD or PROD (case insensative).
+                        appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).//Possible values PREPROD or PROD (case insensative).
                         appStartIntent.putExtra("returnUrl", responseUrl); // your package name where esign response failure/success will be sent.
                         startActivityForResult(appStartIntent, APK_ESIGN_REQUEST_CODE);
 
@@ -309,6 +311,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                             Utils.alert(ActivityESignWithDocumentPL.this, jsonObject.getString("ErrMsg"));
                         }
                     } catch (Exception je) {
+                        Log.d("TAG", "onSuccess: catch of success ");
                         Utils.alert(ActivityESignWithDocumentPL.this, "Something went wrong in ESigning OR response is not correct");
 
                         je.printStackTrace();
@@ -320,11 +323,14 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
+                    Log.d("TAG", "onFailure: "+jsonObject);
                     if (!jsonObject.getBoolean("isSuccess")) {
                         Utils.alert(ActivityESignWithDocumentPL.this, jsonObject.getString("ErrMsg"));
                     }
                 } catch (JSONException je) {
                     je.printStackTrace();
+                    Log.d("TAG", "onSuccess: catch of fail ");
+
                     Utils.alert(ActivityESignWithDocumentPL.this, "Failed ESign Response");
 
                 }

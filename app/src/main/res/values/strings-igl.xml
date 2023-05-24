@@ -224,6 +224,12 @@
         <item>UCO</item>
     </array>
 
+
+    <array name="OEMSINType">
+        <item>Empanelled</item>
+        <item>Non-Empanelled</item>
+    </array>
+
     <array name="loanduration">
         <item>"12"</item>
         <item>"18"</item>

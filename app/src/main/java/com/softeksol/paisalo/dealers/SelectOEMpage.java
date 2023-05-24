@@ -71,14 +71,14 @@ public class SelectOEMpage extends AppCompatActivity {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
 
-                Log.d("TAG", "onResponse: "+response.body());
-                BrandResponse brandResponse=response.body();
-                Log.d("TAG", "onResponse: "+brandResponse.getData());
-                Gson gson = new Gson();
-                OEMDataModel[] oemDataModels=gson.fromJson(brandResponse.getData(),OEMDataModel[].class);
-                adapter=new OEMListAdapter(SelectOEMpage.this,oemDataModels);
-                binding.recViewOemList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+//                Log.d("TAG", "onResponse: "+response.body());
+//                BrandResponse brandResponse=response.body();
+//                Log.d("TAG", "onResponse: "+brandResponse.getData());
+//                Gson gson = new Gson();
+//                OEMDataModel[] oemDataModels=gson.fromJson(brandResponse.getData(),OEMDataModel[].class);
+//                adapter=new OEMListAdapter(SelectOEMpage.this,oemDataModels);
+//                binding.recViewOemList.setAdapter(adapter);
+//                adapter.notifyDataSetChanged();
 
             }
 

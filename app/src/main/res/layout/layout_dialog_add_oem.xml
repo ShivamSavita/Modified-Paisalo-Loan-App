@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_3dp">
+
+    <ScrollView
+        android:id="@+id/scrlView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/llNewMemIncomeType"
+            app:layout_constraintEnd_toEndOf="@+id/tilNewMemAge"
+            app:layout_constraintStart_toEndOf="@+id/tilNewMemAge"
+            app:layout_constraintTop_toBottomOf="@+id/llNewMemIncomeType">
+            <TextView
+                android:layout_width="wrap_content"
+                android:padding="2dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/scada_regular"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Name" />
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                android:foreground="@drawable/spinner_bggrey1"
+                android:id="@+id/cardView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNewMemName"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="35dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietOEMName"
+                        android:layout_width="match_parent"
+                        android:paddingStart="8dp"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                        android:textSize="14dp"
+
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:padding="2dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/scada_regular"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Phone" />
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                android:foreground="@drawable/spinner_bggrey1"
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+
+                  <EditText
+                      android:id="@+id/tietOEMPhone"
+                      android:layout_width="match_parent"
+                      android:background="@null"
+                      android:inputType="number"
+                      android:layout_height="40dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:padding="2dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/scada_regular"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Email" />
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                android:foreground="@drawable/spinner_bggrey1"
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+
+                  <EditText
+                      android:id="@+id/tietOEMEmail"
+                      android:layout_width="match_parent"
+                      android:digits="abcdefghijklmnopqrstuvwxyz.@"
+                      android:background="@null"
+                      android:layout_height="40dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+    <TextView
+                android:layout_width="wrap_content"
+                android:padding="2dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/scada_regular"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Adhar No." />
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                android:foreground="@drawable/spinner_bggrey1"
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+
+                  <EditText
+                      android:id="@+id/tietOEMAdhaar"
+                      android:layout_width="match_parent"
+                      android:background="@null"
+                      android:inputType="number"
+                      android:layout_height="40dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView11">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/scada_regular"
+                        android:padding="2dp"
+                        android:text="PAN"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        app:cardElevation="0dp"
+                        android:foreground="@drawable/spinner_bggrey1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView22">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilNewMemAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            app:layout_constraintEnd_toStartOf="@+id/llNewMemGender"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cardView11">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietOEMPan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="8dp"
+                                android:textSize="14dp"
+                                android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:background="@color/white"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:padding="2dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/scada_regular"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Address" />
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                android:foreground="@drawable/spinner_bggrey1"
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+
+                    <EditText
+                        android:id="@+id/tietOEMAddress"
+                        android:layout_width="match_parent"
+                        android:background="@null"
+                        android:layout_height="40dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:padding="3dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/scada_regular"
+                            style="@style/InputLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pincode" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/scada_regular"
+                            style="@style/InputLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="State" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bggrey1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/tietOEMPincode"
+                                android:layout_width="match_parent"
+                                android:background="@null"
+                                android:layout_height="35dp"
+                                android:inputType="number"
+                                /> </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bggrey1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/tietOEMState"
+                                android:background="@null"
+                                android:layout_width="match_parent"
+                                android:inputType="text"
+                                android:layout_height="35dp" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:padding="3dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/scada_regular"
+                            style="@style/InputLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="District" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/scada_regular"
+                            style="@style/InputLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="City" />
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bggrey1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/tietOEMDistrict"
+                                android:background="@null"
+                                android:layout_width="match_parent"
+                                android:inputType="text"
+                                android:layout_height="35dp"
+                            /> </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bggrey1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/tietOEMCity"
+                                android:layout_width="match_parent"
+                                android:background="@null"
+                                android:inputType="text"
+                                android:layout_height="35dp"
+                               /> </LinearLayout>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+
+                    android:id="@+id/acbtnAddmember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/green_button_background"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Add"
+                    android:textColor="@color/white"
+
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

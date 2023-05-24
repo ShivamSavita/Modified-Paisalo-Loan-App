@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
+        android:layout_width="match_parent"
+        android:backgroundTint="#F1F1F1"
+        android:layout_height="80dp"
+        android:elevation="4dp"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="19dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider11">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtNameOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shivam Savita"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phone" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtPhoneOEM"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8081108281"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtEmailOEM"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="shivam@gmail.com"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Adhar No." />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtAdharOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="6085595509930"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PAN" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtPANOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="LHYPS1074C"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Address" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtAddOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="124 B Barasirohi IIT"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pincode" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtPinOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="208216"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="State" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtStateOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Uttar Pradesh"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="District" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtDistrictOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kanpur"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="City" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtCityOEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kanpur Nagar"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:background="?android:attr/listDivider" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/btnDeletOEM"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:src="@android:drawable/ic_menu_delete"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <View
+                android:id="@+id/divider11"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="17dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

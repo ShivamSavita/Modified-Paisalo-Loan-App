@@ -44,15 +44,7 @@ public class SplashScreenPage extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        Retrofit apiClient=new ApiClient().getClient2(SEILIGL.NEW_SERVER_BASEURL);
-        ApiInterface apiInter=apiClient.create(ApiInterface.class);
-        Call<BrandResponse> call=apiInter.getAppLinkStatus(BuildConfig.VERSION_NAME,"S",1);
-        call.enqueue(new Callback<BrandResponse>() {
-            @Override
-            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-                BrandResponse brandResponse=response.body();
-                if (brandResponse.getData().length()<5){
-                    new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
@@ -61,46 +53,63 @@ public class SplashScreenPage extends AppCompatActivity {
                             finish();
                         }
                     }, 1700);
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenPage.this);
-                    // below line is the title for our alert dialog.
-                    builder.setTitle("Need Update");
-                    // below line is our message for our dialog
-                    builder.setMessage("You are using older version of this app kindly update this app");
-                    builder.setPositiveButton("Update", (dialog, which) -> {
-                        // this method is called on click on positive button and on clicking shit button
-                        // we are redirecting our user from our app to the settings page of our app.
-                        dialog.cancel();
-                        String url = brandResponse.getData();
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-
-                    });
-                    builder.setNegativeButton("Cancel", (dialog, which) -> {
-                        // this method is called when user click on negative button.
-                        dialog.cancel();
-                     finish();
-                    });
-                    // below line is used to display our dialog
-                    builder.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BrandResponse> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                        finish();
-                    }
-                }, 1700);
-            }
-        });
+//        Retrofit apiClient=new ApiClient().getClient2(SEILIGL.NEW_SERVER_BASEURL);
+//        ApiInterface apiInter=apiClient.create(ApiInterface.class);
+//        Call<BrandResponse> call=apiInter.getAppLinkStatus(BuildConfig.VERSION_NAME,"S",1);
+//        call.enqueue(new Callback<BrandResponse>() {
+//            @Override
+//            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+//                BrandResponse brandResponse=response.body();
+//                if (brandResponse.getData().length()<5){
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
+//                            startActivity(intent);
+//                            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+//                            finish();
+//                        }
+//                    }, 1700);
+//                }else {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenPage.this);
+//                    // below line is the title for our alert dialog.
+//                    builder.setTitle("Need Update");
+//                    // below line is our message for our dialog
+//                    builder.setMessage("You are using older version of this app kindly update this app");
+//                    builder.setPositiveButton("Update", (dialog, which) -> {
+//                        // this method is called on click on positive button and on clicking shit button
+//                        // we are redirecting our user from our app to the settings page of our app.
+//                        dialog.cancel();
+//                        String url = brandResponse.getData();
+//                        Intent i = new Intent(Intent.ACTION_VIEW);
+//                        i.setData(Uri.parse(url));
+//                        startActivity(i);
+//
+//                    });
+//                    builder.setNegativeButton("Cancel", (dialog, which) -> {
+//                        // this method is called when user click on negative button.
+//                        dialog.cancel();
+//                     finish();
+//                    });
+//                    // below line is used to display our dialog
+//                    builder.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BrandResponse> call, Throwable t) {
+//                Log.d("TAG", "onFailure: "+t.getMessage());
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+//                        finish();
+//                    }
+//                }, 1700);
+//            }
+//        });
 
 
 
