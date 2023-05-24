@@ -312,12 +312,6 @@ RecyclerView RecViewOemPartners;
 
 
 
-//        clearSignatureBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signatureView.clearCanvas();
-//            }
-//        });
 
     }
 
