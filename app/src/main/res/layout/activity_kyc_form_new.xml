@@ -462,7 +462,7 @@
                         <EditText
                             android:id="@+id/acspLoanAppFinanceLoanAmount"
                             android:background="@color/white"
-                            android:maxLength="6"
+                            android:maxLength="7"
                             android:hint="Enter Loan Amount"
                             android:inputType="number"
                             android:layout_marginStart="@dimen/input_label_horizontal_spacing"

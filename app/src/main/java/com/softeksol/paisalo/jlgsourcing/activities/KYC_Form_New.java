@@ -306,6 +306,13 @@ TextView textViewTotalAnnualIncome;
 
     }
     private void  updateBorrower() {
+        int maxLoanAmt=300000;
+        String maxLoanAmtStr="Three lacks";
+        Log.d("TAG", "updateBorrower: "+manager.Creator);
+        if (manager.Creator.toLowerCase().startsWith("vh")){
+            maxLoanAmt=1000000;
+             maxLoanAmtStr="Ten lacks";
+        }
         if (borrower != null) {
             getDataFromView(this.findViewById(android.R.id.content).getRootView());
 
@@ -338,9 +345,9 @@ TextView textViewTotalAnnualIncome;
             } else if(acspLoanAppFinanceLoanAmount.getText().toString().trim().equals("")){
                 acspLoanAppFinanceLoanAmount.setError("Please Enter Loan Amount");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Loan Amount");
-            } else if(Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())>300000 ||Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())<5000){
-                acspLoanAppFinanceLoanAmount.setError("Please Enter Loan Amount Less than 3 lacks and Greater than 5 thousand");
-                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Loan Amount Less than 3 lacks and Greater than 5 thousand");
+            } else if(Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())>maxLoanAmt ||Integer.parseInt(acspLoanAppFinanceLoanAmount.getText().toString().trim())<5000){
+                acspLoanAppFinanceLoanAmount.setError("Please Enter Loan Amount Less than "+maxLoanAmtStr+" and Greater than 5 thousand");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Loan Amount Less than "+maxLoanAmtStr+" and Greater than 5 thousand");
             }
             else{
 
