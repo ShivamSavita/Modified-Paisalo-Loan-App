@@ -138,7 +138,7 @@ public class WebOperations {
 //      client.addHeader("imeino", "354690572942373");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-//        client.addHeader("devid", "0109499585679247");
+//        client.addHeader("devid", "1524794985786243");
        client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
 //        client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, ""));
 //        client.addHeader("dbname", "SBIPDL_TEST");
@@ -165,7 +165,7 @@ public class WebOperations {
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
 //        client.addHeader("dbname", "SBIPDL_TEST");
-//        client.addHeader("devid", "0109499585679247");
+//        client.addHeader("devid", "1524794985786243");
         client.setTimeout(70000);
     }
 
@@ -183,7 +183,7 @@ public class WebOperations {
         headers.add(new BasicHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0")));
 //        headers.add(new BasicHeader("imeino", "354690572942373"));
         headers.add(new BasicHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")));
-//        headers.add(new BasicHeader("devid", "0109499585679247"));
+//        headers.add(new BasicHeader("devid", "1524794985786243"));
         headers.add(new BasicHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, "")));
 //        headers.add(new BasicHeader("dbname", "SBIPDL_TEST"));
         headers.add(new BasicHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, "")));
