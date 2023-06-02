@@ -5,11 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.softeksol.paisalo.dealers.AddProductBankFrags.AddBankFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/recviewOEMBank"
+        />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddBank"
         android:layout_width="wrap_content"

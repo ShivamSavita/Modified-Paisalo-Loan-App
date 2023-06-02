@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softeksol.paisalo.dealers.CreateProductPage">
+
+    <LinearLayout
+        android:id="@+id/layout_BusinessDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/scada_bold"
+            android:text="Create Product"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp" />
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/scada_bold"
+            android:text="Select Vehicle"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <Spinner
+                android:id="@+id/spinnerVehicalType"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical" />
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/scada_bold"
+            android:text="Select Fuel Type"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <Spinner
+                android:id="@+id/spinnerFuelType"
+                android:layout_width="match_parent"
+                android:entries="@array/fuelType"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/scada_bold"
+            android:text="Select Model"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/spacing_medium"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+            <Spinner
+                android:id="@+id/spinnerModelType"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical" />
+        </androidx.cardview.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                android:layout_marginBottom="7dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardElevation="5dp"
+                app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingLeft="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Val_pancard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:background="@color/white"
+                        android:capitalize="characters"
+                        android:hint="Enter BSP" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                android:layout_marginBottom="7dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardElevation="5dp"
+                app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingLeft="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Val_GST"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="number"
+                        android:capitalize="characters"
+                        android:hint="Enter MSP" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnSaveBusinessOEM"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Add Product"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.softeksol.paisalo.dealers;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,14 +20,16 @@ import com.softeksol.paisalo.jlgsourcing.databinding.ActivityProductBankAddPageO
 public class Product_Bank_addPage_OEM extends AppCompatActivity {
 
     private ActivityProductBankAddPageOemBinding binding;
-
+    Intent i;
+    int oemid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityProductBankAddPageOemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        i=getIntent();
+        oemid=i.getIntExtra("OEMid",0);
 
         TabLayout tabs = binding.tabs;
         tabs.addTab(tabs.newTab().setText("Product List"));
@@ -34,7 +37,7 @@ public class Product_Bank_addPage_OEM extends AppCompatActivity {
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        TabLayoutAdapter adapter=new TabLayoutAdapter(this,getSupportFragmentManager(),binding.tabs.getTabCount());
+        TabLayoutAdapter adapter=new TabLayoutAdapter(this,getSupportFragmentManager(),binding.tabs.getTabCount(),oemid);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
 

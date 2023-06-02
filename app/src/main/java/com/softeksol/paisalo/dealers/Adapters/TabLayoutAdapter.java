@@ -15,11 +15,13 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     int mTotalTabs;
+    int OEMid;
 
-    public TabLayoutAdapter(Context context , FragmentManager fragmentManager , int totalTabs) {
+    public TabLayoutAdapter(Context context , FragmentManager fragmentManager , int totalTabs,int OEMid) {
         super(fragmentManager);
         mContext = context;
         mTotalTabs = totalTabs;
+        this.OEMid=OEMid;
     }
 
     @NonNull
@@ -28,9 +30,9 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
         Log.d("asasas" , position + "");
         switch (position) {
             case 0:
-                return new AddProductFragment();
+                return new AddProductFragment(OEMid);
             case 1:
-                return new AddBankFragment();
+                return new AddBankFragment(OEMid);
             default:
                 return null;
 

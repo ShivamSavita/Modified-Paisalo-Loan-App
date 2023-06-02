@@ -230,6 +230,20 @@
         <item>Non-Empanelled</item>
     </array>
 
+    <array name="fuelType">
+        <item>EV</item>
+        <item>CNG</item>
+        <item>Petrol</item>
+        <item>DIESEL</item>
+    </array>
+
+
+    <array name="bankaccount">
+        <item>Saving</item>
+        <item>Current</item>
+
+    </array>
+
     <array name="loanduration">
         <item>"12"</item>
         <item>"18"</item>

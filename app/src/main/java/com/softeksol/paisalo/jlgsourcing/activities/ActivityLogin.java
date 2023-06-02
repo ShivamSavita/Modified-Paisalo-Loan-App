@@ -46,6 +46,8 @@ import com.nabinbhandari.android.permissions.Permissions;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.Setup;
+import com.softeksol.paisalo.dealers.Dealer_Dashboard;
+import com.softeksol.paisalo.dealers.OEM_Onboarding;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -316,7 +318,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                                 updateReloginToken(foImei.getString("RequestUrl"), UserName, Password);
                                             }
                                             //updateManager( managers);
-                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
+//                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
+                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -327,8 +330,10 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                                 updateReloginToken(foImei.getString("RequestUrl"), UserName, Password);
                                             }
                                             //updateManager( managers);
-                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
-              //Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
+//                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
+                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
+
+                                            //Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }

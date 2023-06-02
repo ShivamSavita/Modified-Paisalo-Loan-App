@@ -3,60 +3,52 @@ package com.softeksol.paisalo.dealers;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kyanogen.signatureview.SignatureView;
 
 import com.softeksol.paisalo.dealers.Adapters.AddingOEMListAdapter;
 import com.softeksol.paisalo.dealers.Adapters.AlgorithmAdapter;
+import com.softeksol.paisalo.dealers.Adapters.AllCreatorAdapter;
 import com.softeksol.paisalo.dealers.Models.AddOEMModel;
 import com.softeksol.paisalo.dealers.Models.BrandData;
-import com.softeksol.paisalo.dealers.Models.BrandDataList;
 import com.softeksol.paisalo.dealers.Models.BrandResponse;
+import com.softeksol.paisalo.dealers.Models.CreatorAllResponse;
 import com.softeksol.paisalo.dealers.Models.PinCodeResponse;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
-import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyMember;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
-
-import org.w3c.dom.NameList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class OEM_Onboarding extends AppCompatActivity {
 Button clearSignatureBtn,btnSaveAccount,btnSaveBasic,btnSaveBusiness;
@@ -64,7 +56,7 @@ SignatureView signatureView;
 
 EditText Val_firmpincode,Val_pincode,acspAadharCity,acspAadharDistrict,stateSpinnerOEM;
 TextInputEditText Val_pancard,Val_GST,Val_address,Val_email,tietOEMName,Val_mobile,vehicleType,manufacturer,Account_Number,Val_firmaddress,ifscCode,branchName, firmName;
-Spinner firm_accountType,spinnerBrand;
+Spinner firm_accountType,spinnerBrand,spinnerCreator;
     ApiInterface apiInterface;
 EditText firm_City,firm_District,firm_State,firm_SIN;
     ViewGroup insertPoint;
@@ -84,7 +76,37 @@ RecyclerView RecViewOemPartners;
 
         switch(item.getItemId()){
             case R.id.menu_item:   //this item has your app icon
-                Toast.makeText(this,"Tapped on icon",Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onOptionsItemSelected: "+ new Gson().toJson(addOEMModelArrayList));
+                if (addOEMModelArrayList.size()<1){
+                    Toast.makeText(this, "Please add atleast one OEM", Toast.LENGTH_SHORT).show();
+                }else{
+                    Log.d("TAG", "onOptionsItemSelected: "+saveBasicDetailsInJson());
+                    if (validateOEMBussinessDetails()){
+                        Call<BrandResponse> call=apiInterface.createCreator(SEILIGL.NEW_TOKEN,saveBasicDetailsInJson());
+                        call.enqueue(new Callback<BrandResponse>() {
+                            @Override
+                            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                                Log.d("TAG", "onResponse: "+response.body());
+                                BrandResponse brandResponse=response.body();
+                                if (brandResponse.getStatusCode()==200 ){
+
+                                    Toast.makeText(OEM_Onboarding.this, "OEM Created Succesfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<BrandResponse> call, Throwable t) {
+                                Log.d("TAG", "onFailure: "+t.getMessage());
+                                Toast.makeText(OEM_Onboarding.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+
+                    }
+                }
+
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -96,6 +118,8 @@ RecyclerView RecViewOemPartners;
     }
     LinearLayout layout_basicDetails,layout_BusinessDetails,layout_BankDetails;
     ArrayList<AddOEMModel> addOEMModelArrayList=new ArrayList<>();
+    int brandName;
+    String creatorName="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +149,7 @@ RecyclerView RecViewOemPartners;
         firm_State=findViewById(R.id.firm_State);
         Val_firmpincode=findViewById(R.id.Val_firmpincode);
         spinnerBrand=findViewById(R.id.spinnerBrand);
+        spinnerCreator=findViewById(R.id.spinnerCreator);
         privateCheckBox=findViewById(R.id.privateCheckBox);
         partnershipCheckBox=findViewById(R.id.partnershipCheckBox);
         proprietorCheckBox=findViewById(R.id.proprietorCheckBox);
@@ -138,9 +163,35 @@ RecyclerView RecViewOemPartners;
         adapter.notifyDataSetChanged();
         //-------------binding OEM Basic Details views with id-----------------
 
+        spinnerCreator.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                CreatorAllResponse creatorAllResponse= (CreatorAllResponse) parent.getSelectedItem();
+                creatorName=creatorAllResponse.getCreator();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerBrand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BrandData brandData= (BrandData) parent.getItemAtPosition(position);
+                brandName=brandData.getId();
+                Log.d("TAG", "onItemSelected: "+brandName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 //        tietOEMName=findViewById(R.id.tietOEMName);
-//        Val_mobile=findViewById(R.id.Val_mobile);
-//        Val_email=findViewById(R.id.Val_email);
+        Val_mobile=findViewById(R.id.Val_Mobile);
+        Val_email=findViewById(R.id.Val_EmailOEM);
 //        Val_address=findViewById(R.id.Val_address);
 //        Val_pancard=findViewById(R.id.Val_pancard);
 //        acspAadharCity=findViewById(R.id.acspAadharCity);
@@ -237,7 +288,7 @@ RecyclerView RecViewOemPartners;
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length()>5){
-                    getDistrictState(s.toString().trim(),"firm");
+                    //getDistrictState(s.toString().trim(),"firm");
                 }
             }
 
@@ -246,18 +297,27 @@ RecyclerView RecViewOemPartners;
 
             }
         });
+        Call<List<CreatorAllResponse>> call=apiInterface.getAllCreator();
+        call.enqueue(new Callback<List<CreatorAllResponse>>() {
+            @Override
+            public void onResponse(Call<List<CreatorAllResponse>> call, Response<List<CreatorAllResponse>> response) {
+                List<CreatorAllResponse> creatorAllResponseList=response.body();
+                spinnerCreator.setAdapter(new AllCreatorAdapter(OEM_Onboarding.this,creatorAllResponseList));
+            }
 
-      Call<BrandResponse> brandResponseCall=apiInterface.getBrands("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8");
+            @Override
+            public void onFailure(Call<List<CreatorAllResponse>> call, Throwable t) {
+
+            }
+        });
+      Call<BrandResponse> brandResponseCall=apiInterface.getBrands(SEILIGL.NEW_TOKEN);
       brandResponseCall.enqueue(new Callback<BrandResponse>() {
           @Override
           public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-//              Log.d("TAG", "onResponse: "+response.body());
-//              BrandResponse brandResponse=response.body();
-//              Log.d("TAG", "onResponse: "+brandResponse.getData());
-//              Gson gson = new Gson();
-//              BrandData[] nameList = gson.fromJson(brandResponse.getData(), BrandData[].class);
-//              Log.d("TAG", "onResponse: "+nameList.length);
-//              spinnerBrand.setAdapter(new AlgorithmAdapter(OEM_Onboarding.this,nameList));
+              BrandResponse brandResponse=response.body();
+              Gson gson = new Gson();
+              BrandData[] nameList = gson.fromJson(brandResponse.getData(), BrandData[].class);
+              spinnerBrand.setAdapter(new AlgorithmAdapter(OEM_Onboarding.this,nameList));
 
           }
 
@@ -408,29 +468,52 @@ RecyclerView RecViewOemPartners;
 
         dialog.show();
     }
+
+
+
     private JsonObject saveBasicDetailsInJson() {
         oemDetailsJson=new JsonObject();
-        oemDetailsJson.addProperty(  "name",tietOEMName.getText().toString().trim());
+        oemDetailsJson.addProperty(  "firm_Name",firmName.getText().toString().trim());
+        oemDetailsJson.addProperty(  "firm_Type",firmType);
+        oemDetailsJson.addProperty(  "brand",brandName);
+        oemDetailsJson.addProperty(  "creator",creatorName);
+        oemDetailsJson.addProperty(  "panno",Val_pancard.getText().toString().trim());
+        oemDetailsJson.addProperty(  "gstno",Val_GST.getText().toString().trim());
         oemDetailsJson.addProperty(  "phone",Val_mobile.getText().toString().trim());
         oemDetailsJson.addProperty(  "email",Val_email.getText().toString().trim());
-        oemDetailsJson.addProperty(  "p_Address",Val_address.getText().toString().trim());
-        oemDetailsJson.addProperty(  "panno",Val_pancard.getText().toString().trim());
-        oemDetailsJson.addProperty(  "p_Pincode",Val_pincode.getText().toString().trim());
-        oemDetailsJson.addProperty(  "p_City",acspAadharCity.getText().toString().trim());
-        oemDetailsJson.addProperty(  "p_District",acspAadharDistrict.getText().toString().trim());
-        oemDetailsJson.addProperty(  "p_State",stateSpinnerOEM.getText().toString().trim());
-        oemDetailsJson.addProperty(  "firm_Name",firmName.getText().toString().trim());
-        oemDetailsJson.addProperty(  "firm_Type",firmType.trim());
         oemDetailsJson.addProperty(  "o_Address",Val_firmaddress.getText().toString().trim());
         oemDetailsJson.addProperty(  "o_Pincode",Val_firmpincode.getText().toString().trim());
         oemDetailsJson.addProperty(  "o_City",firm_City.getText().toString().trim());
         oemDetailsJson.addProperty(  "o_District",firm_District.getText().toString().trim());
         oemDetailsJson.addProperty(  "o_State",firm_State.getText().toString().trim());
-        oemDetailsJson.addProperty(  "vehicle_Type","");
-        oemDetailsJson.addProperty(  "manufacturer","");
-        oemDetailsJson.addProperty(  "brand",((BrandData)spinnerBrand.getSelectedItem()).getId());
+        oemDetailsJson.addProperty(  "sinno",firm_SIN.getText().toString().trim());
+        oemDetailsJson.addProperty(  "type",firmType);
+
+        oemDetailsJson.add(  "partnerDetails",getJsonOfOem(addOEMModelArrayList));
+
 
         return oemDetailsJson;
+    }
+
+    private JsonArray getJsonOfOem(ArrayList<AddOEMModel> addOEMModelArrayList) {
+        JsonArray jsonArray=new JsonArray();
+        for (AddOEMModel addOem:addOEMModelArrayList) {
+            JsonObject jsonObject=new JsonObject();
+            jsonObject.addProperty("userid",0);
+            jsonObject.addProperty("userType","");
+            jsonObject.addProperty("name",addOem.getName());
+            jsonObject.addProperty("phone",addOem.getPhone());
+            jsonObject.addProperty("email",addOem.getEmail());
+            jsonObject.addProperty("p_Address",addOem.getP_Address());
+            jsonObject.addProperty("panno",addOem.getPanno());
+            jsonObject.addProperty("aadharno",addOem.getAadharno());
+            jsonObject.addProperty("p_Pincode",addOem.getP_Pincode());
+            jsonObject.addProperty("p_City",addOem.getP_City());
+            jsonObject.addProperty("p_District",addOem.getP_District());
+            jsonObject.addProperty("p_State",addOem.getP_State());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
 
     private boolean validateOEMBussinessDetails() {
@@ -461,7 +544,10 @@ RecyclerView RecViewOemPartners;
         } else if(Val_GST.getText().toString().trim().length()<2){
             Val_GST.setError("Please enter correct GST number");
             return false;
-        }else if(firm_SIN.getText().toString().length()>1){
+        }else if(Val_mobile.getText().toString().trim().length()<10){
+            Val_mobile.setError("Please enter correct Mobile number");
+            return false;
+        }else if(firm_SIN.getText().toString().length()<1){
             firm_SIN.setError("Please enter SIn number");
             return false;
         }else if (((BrandData)spinnerBrand.getSelectedItem()).getId()==0){
@@ -515,7 +601,7 @@ RecyclerView RecViewOemPartners;
     }
 
     private void getDistrictState(String s,String type) {
-        Call<BrandResponse> brandResponseCall=apiInterface.getPINData(Integer.valueOf(s),"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiTWF5IFRodSAwNCAyMDIzIDA1OjAzOjIwIEFNIiwibmJmIjoxNjgzMDkwMjAwLCJleHAiOjE2ODMxNTY4MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.49Kz4R89gT4i7umarNA249zHubU7-_rMvupwg1dE6X8");
+        Call<BrandResponse> brandResponseCall=apiInterface.getPINData(Integer.valueOf(s),SEILIGL.NEW_TOKEN);
         brandResponseCall.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {

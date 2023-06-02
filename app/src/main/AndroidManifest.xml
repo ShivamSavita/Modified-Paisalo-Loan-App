@@ -41,6 +41,12 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.dealers.AddOemBank"
+            android:exported="false" />
+        <activity
+            android:name="com.softeksol.paisalo.dealers.CreateProductPage"
+            android:exported="false" />
+        <activity
             android:name="com.softeksol.paisalo.dealers.Product_Bank_addPage_OEM"
             android:exported="false"
             android:label="@string/title_activity_product_bank_add_page_oem"
@@ -56,8 +62,6 @@
         <activity
             android:name="com.softeksol.paisalo.dealers.OEM_Onboarding"
             android:exported="false" />
-
-
         <activity
             android:name="com.softeksol.paisalo.dealers.Dealer_Branch_Open"
             android:exported="false" />

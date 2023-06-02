@@ -51,7 +51,9 @@ public class OEMListAdapter extends RecyclerView.Adapter<OEMListAdapter.OEMListV
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, Product_Bank_addPage_OEM.class));
+                    Intent i=new Intent(context, Product_Bank_addPage_OEM.class);
+                    i.putExtra("OEMid",oemDataModels[position].getId());
+                    context.startActivity(i);
                 }
             });
     }

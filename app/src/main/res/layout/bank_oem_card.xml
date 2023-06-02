@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@drawable/baseline_home_work_24"
+                        android:src="@drawable/baseline_assured_workload_24"
                         android:layout_width="30dp"
                         android:layout_height="30dp"/>
 
@@ -87,14 +87,14 @@
                             <TextView
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/scada_regular"
-                                android:text="Firm Name"
+                                android:text="Bank Name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <TextView
-                                android:id="@+id/layoutOEMFirm"
+                                android:id="@+id/layoutOEMBank"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/scada_bold"
-                                android:text="Firm"
+                                android:text="Bank"
                                 android:textSize="15dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
@@ -143,7 +143,7 @@
                     <TextView
                         android:textColor="@color/black"
                         android:fontFamily="@font/scada_regular"
-                        android:text="Mobile: "
+                        android:text="Account Number: "
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -156,7 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/layoutOEMMobile"
+                        android:id="@+id/layoutOEMAccountNumber"
                         android:textColor="@color/black"
                         android:fontFamily="@font/scada_bold"
                         android:layout_width="match_parent"
@@ -173,9 +173,52 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/scada_regular"
+                        android:text="IFCS code: "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/layoutOEMifsc"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/scada_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/scada_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:layout_marginTop="5dp"
-                android:id="@+id/layoutOEmAdd"
+                android:id="@+id/layoutOEmBankAdd"
                 android:textColor="@color/black"
                 android:text="Address"
                 android:fontFamily="@font/scada_bold"
