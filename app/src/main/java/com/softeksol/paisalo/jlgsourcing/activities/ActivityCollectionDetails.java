@@ -117,6 +117,7 @@ public class ActivityCollectionDetails extends AppCompatActivity implements View
         Log.d("checkdate",DateUtils.getFormatedDate(myCalendar.getTime(), "yyyy-MM-dd"));
         params.add("CSOCode", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         Log.d("userIdcheck",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
+        Log.d("TAG", "fetchCollectionDetail: "+params);
 
         (new WebOperations()).getEntity(this, "instcollection", "getCSOCollection", params, dataAsyncResponseHandler);
     }

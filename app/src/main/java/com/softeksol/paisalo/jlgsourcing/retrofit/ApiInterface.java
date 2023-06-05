@@ -81,7 +81,30 @@ public interface ApiInterface {
     @GET("PFL.ABF.API/api/Oem/GetBankDetaisByOemId")
     Call<BrandResponse> getBankList(@Header("Authorization") String authHeader,@Query("id") int id);
 
-    @Multipart
+
     @POST("PFL.ABF.API/api/Oem/CreateBankDetails")
-    Call<ResponseBody> uploadBankOemDetails(@Part MultipartBody.Part signatureimage,@Part("Data") RequestBody allOtherData);
+    Call<BrandResponse> uploadBankOemDetails(@Header("Authorization") String authHeader,@Body RequestBody file);
+
+    @GET("PFL.ABF.API/api/Dealer/GetOems")
+    Call<BrandResponse> getOEMbyCreator(@Header("Authorization") String authHeader,@Query("Creator") String creator);
+   @POST("PFL.ABF.API/api/Dealer/CreateDealer")
+    Call<BrandResponse> createDealer(@Header("Authorization") String authHeader,@Body JsonObject jsonObject);
+
+
+   @GET("PFL.ABF.API/api/Dealer/GetDealers")
+    Call<BrandResponse> getAllDealers(@Header("Authorization") String authHeader);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

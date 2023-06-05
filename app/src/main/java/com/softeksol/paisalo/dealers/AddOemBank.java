@@ -1,5 +1,6 @@
 package com.softeksol.paisalo.dealers;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.kyanogen.signatureview.SignatureView;
+import com.softeksol.paisalo.dealers.Models.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
@@ -138,16 +140,43 @@ public class AddOemBank extends AppCompatActivity {
                         fos.close();
                         RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), f);
                        MultipartBody.Part signatureimage = MultipartBody.Part.createFormData("Signature",f.getName(),surveyBody);
-                        RequestBody allOtherData = RequestBody.create(MediaType.parse("multipart/form-data"),getJsonOfData());
-                        Call<ResponseBody> call=apiInterface.uploadBankOemDetails(signatureimage,allOtherData);
-                        call.enqueue(new Callback<ResponseBody>() {
+
+                        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                        builder.addFormDataPart("UserId", String.valueOf(OEMId))
+                        .addFormDataPart("Name",OEMName.getText().toString().trim())
+                        .addFormDataPart("BankName",bankName.getText().toString().trim())
+                        .addFormDataPart("AccountNo",Account_Number.getText().toString().trim())
+                        .addFormDataPart("Ifsc",ifscCode.getText().toString().trim())
+                        .addFormDataPart("Branch",branchName.getText().toString().trim())
+                        .addFormDataPart("AccountType",firm_accountType.getSelectedItem().toString())
+                        .addFormDataPart("UserType","OEM");
+
+                        builder.addFormDataPart("Signature",f.getName(),surveyBody);
+
+//                        RequestBody allOtherData = RequestBody.create(MediaType.parse("multipart/form-data"),getJsonOfData());
+                        RequestBody OEMIdPart = RequestBody.create(MultipartBody.FORM, String.valueOf(OEMId));
+                        RequestBody namePart = RequestBody.create(MultipartBody.FORM,OEMName.getText().toString().trim());
+                        RequestBody bankNamePart = RequestBody.create(MultipartBody.FORM,bankName.getText().toString().trim());
+                        RequestBody accountNumPart = RequestBody.create(MultipartBody.FORM,Account_Number.getText().toString().trim());
+                        RequestBody iFSCPart = RequestBody.create(MultipartBody.FORM,ifscCode.getText().toString().trim());
+                        RequestBody branchNamePart = RequestBody.create(MultipartBody.FORM,branchName.getText().toString().trim());
+                        RequestBody accoutnTyepPart = RequestBody.create(MultipartBody.FORM,firm_accountType.getSelectedItem().toString());
+                        RequestBody accountOpeningDatepart = RequestBody.create(MultipartBody.FORM,accountOpeningDate);
+
+                        RequestBody requestBody = builder.build();
+                        Call<BrandResponse> call=apiInterface.uploadBankOemDetails(SEILIGL.NEW_TOKEN,requestBody);
+
+                        call.enqueue(new Callback<BrandResponse>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                Log.d("TAG", "onResponse: "+response.body());
+                            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                                BrandResponse brandResponse=response.body();
+
+                                Toast.makeText(AddOemBank.this, ""+brandResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                finish();
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<BrandResponse> call, Throwable t) {
                                 Log.d("TAG", "onFailure: "+t.getMessage());
                             }
                         });

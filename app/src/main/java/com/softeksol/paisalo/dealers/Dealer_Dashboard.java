@@ -109,40 +109,42 @@ public class Dealer_Dashboard extends AppCompatActivity {
 
                         break;
                     case 2:
-                        ArrayList<String> menuOptions = new ArrayList<>();
-                        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("L")) {
-                            menuOptions.add("On-boarding");
-                        }
-                        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("E")) {
-                            menuOptions.add("Branch Open");
-                        }
-                        if(menuOptions.size()>0){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                            String[] mOptions = new String[menuOptions.size()];
-                            mOptions = menuOptions.toArray(mOptions);
-                            builder.setItems(mOptions, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which==0){
-                                        Intent intent2 = new Intent(Dealer_Dashboard.this, DealerOnBoard.class);
-                                        startActivity(intent2);
-                                    }else{
-                                        Intent intent2 = new Intent(Dealer_Dashboard.this, Dealer_Branch_Open.class);
-                                        startActivity(intent2);
-
-                                    }
-                                  
-
-                                }
-                            });
-                            builder.create().show();
-                        }else{
-                            Utils.alert(this,"eSign Disabled");
-                        }
+                        Intent intent3 = new Intent(Dealer_Dashboard.this, DealersListPage.class);
+                        startActivity(intent3);
+//                        ArrayList<String> menuOptions = new ArrayList<>();
+//                        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("L")) {
+//                            menuOptions.add("On-boarding");
+//                        }
+//                        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("E")) {
+//                            menuOptions.add("Branch Open");
+//                        }
+//                        if(menuOptions.size()>0){
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                            String[] mOptions = new String[menuOptions.size()];
+//                            mOptions = menuOptions.toArray(mOptions);
+//                            builder.setItems(mOptions, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    if (which==0){
+//                                        Intent intent2 = new Intent(Dealer_Dashboard.this, DealerOnBoard.class);
+//                                        startActivity(intent2);
+//                                    }else{
+//                                        Intent intent2 = new Intent(Dealer_Dashboard.this, Dealer_Branch_Open.class);
+//                                        startActivity(intent2);
+//
+//                                    }
+//
+//
+//                                }
+//                            });
+//                            builder.create().show();
+//                        }else{
+//                            Utils.alert(this,"eSign Disabled");
+//                        }
                         break;
                     case 3:
-                      Intent  intent3 = new Intent(Dealer_Dashboard.this, Dealer_CheckList.class);
-                        startActivity(intent3);
+                      Intent  intent4 = new Intent(Dealer_Dashboard.this, Dealer_CheckList.class);
+                        startActivity(intent4);
 
                         break;
 

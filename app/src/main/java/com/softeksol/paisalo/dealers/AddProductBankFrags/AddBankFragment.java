@@ -74,7 +74,7 @@ public class AddBankFragment extends Fragment {
         apiInterface=  new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
 
         recviewOEMBank.setLayoutManager(new LinearLayoutManager(getContext()));
-        Call<BrandResponse> call= apiInterface.getBankList(SEILIGL.NEW_TOKEN,1009);
+        Call<BrandResponse> call= apiInterface.getBankList(SEILIGL.NEW_TOKEN,OEMid);
         call.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
