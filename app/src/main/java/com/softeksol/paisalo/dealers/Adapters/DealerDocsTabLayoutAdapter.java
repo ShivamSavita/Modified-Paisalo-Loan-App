@@ -10,18 +10,20 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.softeksol.paisalo.dealers.AddProductBankFrags.AddBankFragment;
 import com.softeksol.paisalo.dealers.AddProductBankFrags.AddProductFragment;
+import com.softeksol.paisalo.dealers.dealerDocsFrags.DealerPostDocsFragment;
+import com.softeksol.paisalo.dealers.dealerDocsFrags.DealerPreDocsFragment;
 
-public class TabLayoutAdapter extends FragmentPagerAdapter {
+public class DealerDocsTabLayoutAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     int mTotalTabs;
-    int OEMid;
+    int DealerId;
 
-    public TabLayoutAdapter(Context context , FragmentManager fragmentManager , int totalTabs,int OEMid) {
+    public DealerDocsTabLayoutAdapter(Context context , FragmentManager fragmentManager , int totalTabs, int DealerId) {
         super(fragmentManager);
         mContext = context;
         mTotalTabs = totalTabs;
-        this.OEMid=OEMid;
+        this.DealerId=DealerId;
     }
 
     @NonNull
@@ -30,9 +32,9 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
         Log.d("asasas" , position + "");
         switch (position) {
             case 0:
-                return new AddProductFragment(OEMid);
+                return new DealerPreDocsFragment(DealerId);
             case 1:
-                return new AddBankFragment(OEMid);
+                return new DealerPostDocsFragment(DealerId);
             default:
                 return null;
 

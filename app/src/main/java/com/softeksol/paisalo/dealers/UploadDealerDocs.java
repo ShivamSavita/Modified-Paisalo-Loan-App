@@ -1,36 +1,33 @@
 package com.softeksol.paisalo.dealers;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.softeksol.paisalo.dealers.Adapters.DealerDocsTabLayoutAdapter;
 import com.softeksol.paisalo.dealers.Adapters.TabLayoutAdapterOEM;
-import com.softeksol.paisalo.jlgsourcing.databinding.ActivityProductBankAddPageOemBinding;
+import com.softeksol.paisalo.jlgsourcing.databinding.ActivityUploadDealerDocsBinding;
 
-public class Product_Bank_addPage_OEM extends AppCompatActivity {
-
-    private ActivityProductBankAddPageOemBinding binding;
-    Intent i;
-    int oemid;
+public class UploadDealerDocs extends AppCompatActivity {
+ActivityUploadDealerDocsBinding binding;
+int dealerid;
+Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivityProductBankAddPageOemBinding.inflate(getLayoutInflater());
+        binding = ActivityUploadDealerDocsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        i=getIntent();
-        oemid=i.getIntExtra("OEMid",0);
-
+        intent=getIntent();
+        dealerid=intent.getIntExtra("dealerId",0);
         TabLayout tabs = binding.tabs;
-        tabs.addTab(tabs.newTab().setText("Product List"));
-        tabs.addTab(tabs.newTab().setText("Bank List"));
+        tabs.addTab(tabs.newTab().setText("Pre Documents"));
+        tabs.addTab(tabs.newTab().setText("Post Documents"));
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        TabLayoutAdapterOEM adapter=new TabLayoutAdapterOEM(this,getSupportFragmentManager(),binding.tabs.getTabCount(),oemid);
+        DealerDocsTabLayoutAdapter adapter=new DealerDocsTabLayoutAdapter(this,getSupportFragmentManager(),binding.tabs.getTabCount(),dealerid);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
 
@@ -53,4 +50,6 @@ public class Product_Bank_addPage_OEM extends AppCompatActivity {
             }
         });
     }
+
+
 }

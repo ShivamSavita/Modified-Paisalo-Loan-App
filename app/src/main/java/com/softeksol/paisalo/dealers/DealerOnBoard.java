@@ -93,8 +93,10 @@ public class DealerOnBoard extends AppCompatActivity {
                                 BrandResponse brandResponse=response.body();
                                 if (brandResponse.getStatusCode()==200 ){
 
-                                    Toast.makeText(DealerOnBoard.this, "OEM Created Succesfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DealerOnBoard.this, "Dealer Created Created Succesfully", Toast.LENGTH_SHORT).show();
                                     finish();
+                                }else if(brandResponse.getStatusCode()==-1){
+                                    Toast.makeText(DealerOnBoard.this, "Dealer Already Exist for this creator", Toast.LENGTH_SHORT).show();
                                 }
                             }
 

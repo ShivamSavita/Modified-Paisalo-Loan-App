@@ -41,6 +41,9 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.dealers.UploadDealerDocs"
+            android:exported="false" />
+        <activity
             android:name="com.softeksol.paisalo.dealers.DealersListPage"
             android:exported="false" />
         <activity

@@ -289,8 +289,7 @@ Button ImageUploadBtn,ImageUploadBtn1,ImageUploadBtn2,ImageUploadBtn3,ImageUploa
                     public void onClick(DialogInterface dialog, int item) {
                         ContentValues values = new ContentValues();
                         values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
-                       Uri imageUri =
-                                getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                       Uri imageUri =getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                         values);
                         if (options[item].equals("Take Photo")) {
                             dialog.dismiss();

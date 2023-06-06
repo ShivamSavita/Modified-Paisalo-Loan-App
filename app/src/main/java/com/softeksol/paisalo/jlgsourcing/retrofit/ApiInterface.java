@@ -97,6 +97,12 @@ public interface ApiInterface {
 
 
 
+   @GET("PFL.ABF.API/api/Dealer/GetABFDocs")
+    Call<BrandResponse> getABfDocs(@Header("Authorization") String authHeader,@Query("Type") String Type,@Query("id") int id);
+
+
+
+
 
 
 
