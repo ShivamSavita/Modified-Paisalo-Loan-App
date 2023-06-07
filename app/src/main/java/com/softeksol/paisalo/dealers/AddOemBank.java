@@ -153,16 +153,7 @@ public class AddOemBank extends AppCompatActivity {
 
                         builder.addFormDataPart("Signature",f.getName(),surveyBody);
 
-//                        RequestBody allOtherData = RequestBody.create(MediaType.parse("multipart/form-data"),getJsonOfData());
-                        RequestBody OEMIdPart = RequestBody.create(MultipartBody.FORM, String.valueOf(OEMId));
-                        RequestBody namePart = RequestBody.create(MultipartBody.FORM,OEMName.getText().toString().trim());
-                        RequestBody bankNamePart = RequestBody.create(MultipartBody.FORM,bankName.getText().toString().trim());
-                        RequestBody accountNumPart = RequestBody.create(MultipartBody.FORM,Account_Number.getText().toString().trim());
-                        RequestBody iFSCPart = RequestBody.create(MultipartBody.FORM,ifscCode.getText().toString().trim());
-                        RequestBody branchNamePart = RequestBody.create(MultipartBody.FORM,branchName.getText().toString().trim());
-                        RequestBody accoutnTyepPart = RequestBody.create(MultipartBody.FORM,firm_accountType.getSelectedItem().toString());
-                        RequestBody accountOpeningDatepart = RequestBody.create(MultipartBody.FORM,accountOpeningDate);
-
+//
                         RequestBody requestBody = builder.build();
                         Call<BrandResponse> call=apiInterface.uploadBankOemDetails(SEILIGL.NEW_TOKEN,requestBody);
 

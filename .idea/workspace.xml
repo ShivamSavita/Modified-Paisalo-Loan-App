@@ -9,32 +9,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="Error solve in 1.5.0 version">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DealerDocsTabLayoutAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DealerListAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DealerNestedAdapeter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DocImageAddViewAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/ImageClickListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/ABFDocsModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Models/AllDealersModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/UploadDealerDocs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/dealerDocsFrags/DealerPostDocsFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/dealerDocsFrags/DealerPreDocsFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_upload_dealer_docs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dealer_doc_image_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dealer_nested_itemcard.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dealer_post_docs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dealer_pre_docs.xml" afterDir="false" />
+    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="Document work in process">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/PrePostDocsViewHolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/TabLayoutAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/TabLayoutAdapterOEM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/DealerOnBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/DealerOnBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Dealer_CheckList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Dealer_CheckList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/DealersListPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/DealersListPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Product_Bank_addPage_OEM.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Product_Bank_addPage_OEM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DealerDocsTabLayoutAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DealerDocsTabLayoutAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DocImageAddViewAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/DocImageAddViewAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/ImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/ImageAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/AddOemBank.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/AddOemBank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/ImageClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/ImageClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/UploadDealerDocs.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/UploadDealerDocs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/dealerDocsFrags/DealerPreDocsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/dealerDocsFrags/DealerPreDocsFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_dealers_list_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_dealers_list_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dealer_pre_docs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dealer_pre_docs.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +58,8 @@
         <option value="valueResourceFile" />
         <option value="resourceFile" />
         <option value="layoutResourceFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -87,6 +74,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jrt://C:/Program Files/Android/Android Studio/jbr!/java.base/java/lang/Integer.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/.gradle/caches/transforms-3/8287b930b575a12b68503a2c829edce8/transformed/cardview-1.0.0/res/values/values.xml" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/.gradle/caches/transforms-3/bd72443796817583641b0f33489866a9/transformed/appcompat-1.4.1/res/values/values.xml" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-28/android.jar!/android/text/SpannableStringBuilder.class" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-32/data/res/values/attrs.xml" root0="SKIP_INSPECTION" />
@@ -104,35 +92,36 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/com.github.smarteist/autoimageslider/1.3.9/e3dbdffbe9d3561090b33663cf91ad33011545b7/autoimageslider-1.3.9-sources.jar!/com/smarteist/autoimageslider/SliderPager.java_SELECTED&quot;: &quot;SliderPager&quot;,
-    &quot;android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/com.kyanogen.signatureview/signature-view/1.2/d5e905426476245f07adb3e1b9efc7177511a57e/signature-view-1.2-sources.jar!/com/kyanogen/signatureview/SignatureView.java_SELECTED&quot;: &quot;SignatureView&quot;,
-    &quot;android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/view/View.java_SELECTED&quot;: &quot;View&quot;,
-    &quot;android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AbsSpinner.java_SELECTED&quot;: &quot;AbsSpinner&quot;,
-    &quot;android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AdapterView.java_SELECTED&quot;: &quot;AdapterView&quot;,
-    &quot;android-custom-viewD:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/java/com/softeksol/paisalo/dealers/Utilities/ZoomImage.java_SELECTED&quot;: &quot;ZoomImage&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_directory_selection&quot;: &quot;D:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/res/raw&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
+    "PROJECT_TRUSTED_KEY": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/com.github.smarteist/autoimageslider/1.3.9/e3dbdffbe9d3561090b33663cf91ad33011545b7/autoimageslider-1.3.9-sources.jar!/com/smarteist/autoimageslider/SliderPager.java_SELECTED": "SliderPager",
+    "android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/com.kyanogen.signatureview/signature-view/1.2/d5e905426476245f07adb3e1b9efc7177511a57e/signature-view-1.2-sources.jar!/com/kyanogen/signatureview/SignatureView.java_SELECTED": "SignatureView",
+    "android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/view/View.java_SELECTED": "View",
+    "android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AbsSpinner.java_SELECTED": "AbsSpinner",
+    "android-custom-viewC:/Users/admin/AppData/Local/Android/Sdk/sources/android-33/android/widget/AdapterView.java_SELECTED": "AdapterView",
+    "android-custom-viewD:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/java/com/softeksol/paisalo/dealers/Utilities/ZoomImage.java_SELECTED": "ZoomImage",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_directory_selection": "D:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/res/drawable",
+    "last_opened_file_path": "D:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/res/raw",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
     ]
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -170,6 +159,9 @@
     </key>
     <key name="android.template.1060924502">
       <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.softeksol.paisalo.dealers.Adapters" />
     </key>
     <key name="android.template.1751305344">
       <recent name="com.softeksol.paisalo.dealers" />
@@ -509,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685969859707</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Document work in process">
+      <created>1686054912847</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1686054912847</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -580,7 +579,8 @@
     <MESSAGE value="bank scheme dynamic set in Crif Score page" />
     <MESSAGE value="validation done in OEM basic detailes" />
     <MESSAGE value="Error solve in 1.5.0 version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Error solve in 1.5.0 version" />
+    <MESSAGE value="Document work in process" />
+    <option name="LAST_COMMIT_MESSAGE" value="Document work in process" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

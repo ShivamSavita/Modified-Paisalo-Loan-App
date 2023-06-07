@@ -90,7 +90,13 @@ try {
                         Toast.makeText(context, "It will be deleted later", Toast.LENGTH_SHORT).show();
                     }
                 });
-
+holder.CrossImageView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        arrayList.remove(position);
+        notifyDataSetChanged();
+    }
+});
 holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {

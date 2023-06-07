@@ -90,15 +90,15 @@ public interface ApiInterface {
    @POST("PFL.ABF.API/api/Dealer/CreateDealer")
     Call<BrandResponse> createDealer(@Header("Authorization") String authHeader,@Body JsonObject jsonObject);
 
-
    @GET("PFL.ABF.API/api/Dealer/GetDealers")
     Call<BrandResponse> getAllDealers(@Header("Authorization") String authHeader);
 
-
-
-
    @GET("PFL.ABF.API/api/Dealer/GetABFDocs")
     Call<BrandResponse> getABfDocs(@Header("Authorization") String authHeader,@Query("Type") String Type,@Query("id") int id);
+
+
+  @POST("PFL.ABF.API/api/Oem/PreDocumentUpload")
+    Call<BrandResponse> uploadDealerPreDocs(@Header("Authorization") String authHeader,@Body RequestBody file);
 
 
 

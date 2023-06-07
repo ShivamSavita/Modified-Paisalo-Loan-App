@@ -1,6 +1,14 @@
 package com.softeksol.paisalo.dealers.Adapters;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,15 +54,10 @@ public class DocImageAddViewAdapter extends RecyclerView.Adapter<DocImageAddView
     @Override
     public void onBindViewHolder(@NonNull PrePostDocsViewHolder holder, int position) {
         holder.docName.setText(nameList[position].getDocName());
-        holder.ImageUploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onImageClicked();
-            }
-        });
         holder.imageDocsRecView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
         adapter=new ImageAdapter(context,arrayListImages);
         holder.imageDocsRecView.setAdapter(adapter);
+
         adapter.notifyDataSetChanged();
 
 
@@ -67,7 +70,7 @@ public class DocImageAddViewAdapter extends RecyclerView.Adapter<DocImageAddView
         return nameList.length;
     }
 
-    public class PrePostDocsViewHolder extends RecyclerView.ViewHolder {
+    public class PrePostDocsViewHolder extends RecyclerView.ViewHolder implements com.softeksol.paisalo.dealers.Adapters.PrePostDocsViewHolder {
         TextView docName;
         Button ImageUploadBtn;
         RecyclerView imageDocsRecView;
@@ -76,6 +79,15 @@ public class DocImageAddViewAdapter extends RecyclerView.Adapter<DocImageAddView
             docName=itemView.findViewById(R.id.docName);
             imageDocsRecView=itemView.findViewById(R.id.imageDocsRecView);
             ImageUploadBtn=itemView.findViewById(R.id.ImageUploadBtn);
+            ImageUploadBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onImageClicked();
+                }
+            });
+
+
         }
+
     }
 }

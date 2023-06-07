@@ -210,4 +210,8 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
 
     implementation 'com.kyanogen.signatureview:signature-view:1.2'
+
+
+    ///file picker libraray
+    implementation 'com.github.TutorialsAndroid:FilePicker:v4.0.19'
 }

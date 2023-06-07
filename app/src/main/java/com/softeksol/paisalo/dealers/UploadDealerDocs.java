@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 import com.softeksol.paisalo.dealers.Adapters.DealerDocsTabLayoutAdapter;
 import com.softeksol.paisalo.dealers.Adapters.TabLayoutAdapterOEM;
 import com.softeksol.paisalo.jlgsourcing.databinding.ActivityUploadDealerDocsBinding;
+
+import java.util.concurrent.BlockingDeque;
 
 public class UploadDealerDocs extends AppCompatActivity {
 ActivityUploadDealerDocsBinding binding;
@@ -21,6 +24,7 @@ Intent intent;
         setContentView(binding.getRoot());
         intent=getIntent();
         dealerid=intent.getIntExtra("dealerId",0);
+        Log.d("TAG", "onCreate: "+dealerid);
         TabLayout tabs = binding.tabs;
         tabs.addTab(tabs.newTab().setText("Pre Documents"));
         tabs.addTab(tabs.newTab().setText("Post Documents"));

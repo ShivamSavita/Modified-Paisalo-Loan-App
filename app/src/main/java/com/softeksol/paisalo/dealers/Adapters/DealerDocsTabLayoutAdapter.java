@@ -29,7 +29,7 @@ public class DealerDocsTabLayoutAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Log.d("asasas" , position + "");
+        Log.d("asasas" , position + ""+DealerId);
         switch (position) {
             case 0:
                 return new DealerPreDocsFragment(DealerId);
