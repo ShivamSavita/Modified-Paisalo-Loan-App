@@ -2,11 +2,709 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softeksol.paisalo.dealers.dealerDocsFrags.DealerPostDocsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.softeksol.paisalo.dealers.dealerDocsFrags.DealerPreDocsFragment">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/recviewDealerPosDocs"
+
+   <LinearLayout android:orientation="vertical"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"/>
+       android:layout_height="match_parent"
+       tools:context=".activities.Dealer_CheckList">
+
+      <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:layout_height="match_parent">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="CIBIL of entity(director/partner/proprietor)"/>
+
+                     <Button
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageUploadBtn"
+                         android:layout_width="50dp"
+
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn"
+                         android:layout_width="50dp"
+
+
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Approval of dealer"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn1"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn1"
+                         android:layout_width="50dp"
+
+
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView1"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout></androidx.cardview.widget.CardView>
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Agreement on Rs.100 stamp paper"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn2"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn2"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView2"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Cancelled Cheque"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn3"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn3"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView3"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="2 SPDCS"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn4"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn4"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView4"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Security deposit(FD) Rs.1 lakh-5 lakh(optional)"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn5"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn5"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView5"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Partner authorization letter/Board Resolution"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn6"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn6"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView6"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Trade Certificate"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn7"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn7"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView7"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:visibility="visible"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="GST Registration"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn8"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn8"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView8"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:visibility="visible"
+                android:layout_margin="6dp"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="vertical"
+                   android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+                     <TextView
+                         android:layout_weight="1"
+                         android:textColor="@color/black"
+                         android:padding="5dp"
+                         android:textSize="15dp"
+                         android:layout_marginStart="8dp"
+                         android:textStyle="bold"
+                         android:fontFamily="@font/scada_bold"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Additional Remarks"/>
+
+                     <Button
+                         android:id="@+id/ImageUploadBtn9"
+                         android:backgroundTint="@color/colorPrimary"
+                         android:textColor="@color/white"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="+"
+                         android:layout_margin="10dp"
+                         android:textSize="29dp"/>
+
+                     <Button
+                         android:backgroundTint="#00B507"
+                         android:textColor="@color/white"
+                         android:id="@+id/ImageSaveBtn9"
+                         android:layout_width="50dp"
+                         android:layout_height="wrap_content"
+                         android:text="⇑"
+                         android:textStyle="bold"
+                         android:layout_margin="7dp"
+                         android:textSize="29dp"
+                         tools:ignore="InvalidId" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/kycRecView9"
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"/>
+                  </LinearLayout>
+               </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:textSize="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Save Documents"/>
+
+
+
+
+
+
+         </LinearLayout>
+      </ScrollView>
+
+   </LinearLayout>
 
 </FrameLayout>

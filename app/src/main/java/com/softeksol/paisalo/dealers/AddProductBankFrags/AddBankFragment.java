@@ -96,7 +96,8 @@ public class AddBankFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(getContext(), AddOemBank.class);
-                i.putExtra("OEMId",OEMid);
+                i.putExtra("Id",OEMid);
+                i.putExtra("type","OEM");
                startActivity(i);
             }
         });

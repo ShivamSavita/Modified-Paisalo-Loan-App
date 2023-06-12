@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,9 @@ public class OEMListAdapter extends RecyclerView.Adapter<OEMListAdapter.OEMListV
                 @Override
                 public void onClick(View v) {
                     Intent i=new Intent(context, Product_Bank_addPage_OEM.class);
+                    Log.d("TAG", "onClick: "+oemDataModels[position].getBrandid());
                     i.putExtra("OEMid",oemDataModels[position].getId());
+                    i.putExtra("BrandId",oemDataModels[position].getBrandid());
                     context.startActivity(i);
                 }
             });

@@ -6,14 +6,13 @@
     android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
             app:cardCornerRadius="7dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,17 +29,37 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/cardView19"
+            app:layout_constraintStart_toStartOf="@+id/cardView19"
+            app:layout_constraintTop_toBottomOf="@+id/cardView19">
+
+                <TextView
+                    android:id="@+id/docName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Document name"
+                    android:textSize="10dp" />
+        </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:elevation="2dp"
             android:id="@+id/ImageCross"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/cross_buton"
-            android:foregroundTint="@color/colorPrimary"
+            android:elevation="2dp"
             android:foreground="@drawable/ic_baseline_highlight_off_24"
+            android:foregroundTint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

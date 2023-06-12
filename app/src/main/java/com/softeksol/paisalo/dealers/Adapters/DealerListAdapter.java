@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.softeksol.paisalo.dealers.AddBankForDealer;
 import com.softeksol.paisalo.dealers.DealerOnBoard;
 import com.softeksol.paisalo.dealers.Dealer_Branch_Open;
 import com.softeksol.paisalo.dealers.Dealer_Dashboard;
@@ -62,7 +63,8 @@ public class DealerListAdapter extends RecyclerView.Adapter<DealerListAdapter.De
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (which==0){
-                                        Intent intent2 = new Intent(context, DealerOnBoard.class);
+                                        Intent intent2 = new Intent(context, AddBankForDealer.class);
+                                        intent2.putExtra("DealerId",allDealersModels.get(position).getId());
                                         context.startActivity(intent2);
                                     }else{
                                         Intent intent2 = new Intent(context, UploadDealerDocs.class);

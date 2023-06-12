@@ -45,11 +45,13 @@ public class AddProductFragment extends Fragment {
     FloatingActionButton fab;
     RecyclerView recViewProductList;
     int OEMid;
+    String BrandId;
 
 
-    public AddProductFragment(int OEMid) {
+    public AddProductFragment(int OEMid,String BrandId) {
         // Required empty public constructor
         this.OEMid=OEMid;
+        this.BrandId=BrandId;
     }
 
 
@@ -72,7 +74,7 @@ public class AddProductFragment extends Fragment {
         recViewProductList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ApiInterface apiInterface=  new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
-        Call<BrandResponse> call=apiInterface.getProductList(SEILIGL.NEW_TOKEN,2);
+        Call<BrandResponse> call=apiInterface.getProductList(SEILIGL.NEW_TOKEN,OEMid);
         call.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
@@ -97,7 +99,10 @@ public class AddProductFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              startActivity(new Intent(getContext(), CreateProductPage.class));
+                Intent i=new Intent(getContext(), CreateProductPage.class);
+                i.putExtra("OEMid",OEMid);
+                i.putExtra("BrandId",BrandId);
+              startActivity(i);
             }
         });
         return  view;

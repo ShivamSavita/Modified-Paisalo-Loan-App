@@ -16,10 +16,11 @@
     <color name="defaultTextColor">#515151</color>
     <color name="blueTextColor">#1DA1F2</color>
     <color name="red">#FF0000</color>
-    <color name="green">#52D600</color>
+    <color name="green">#4FAA16</color>
     <color name="dull_green">#42BD00</color>
     <color name="dull_red">#FFE5E7</color>
     <color name="dull_grey">#FAFAFA</color>
+    <color name="grey">#D1D1D1</color>
 
     <color name="kyc_color">#FFEDED</color>
     <color name="loan_color">#E5F8FE</color>

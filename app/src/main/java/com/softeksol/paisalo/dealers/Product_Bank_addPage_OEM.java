@@ -15,6 +15,7 @@ public class Product_Bank_addPage_OEM extends AppCompatActivity {
     private ActivityProductBankAddPageOemBinding binding;
     Intent i;
     int oemid;
+    String BrandId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,7 @@ public class Product_Bank_addPage_OEM extends AppCompatActivity {
         setContentView(binding.getRoot());
         i=getIntent();
         oemid=i.getIntExtra("OEMid",0);
+        BrandId=i.getStringExtra("BrandId");
 
         TabLayout tabs = binding.tabs;
         tabs.addTab(tabs.newTab().setText("Product List"));
@@ -30,7 +32,7 @@ public class Product_Bank_addPage_OEM extends AppCompatActivity {
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        TabLayoutAdapterOEM adapter=new TabLayoutAdapterOEM(this,getSupportFragmentManager(),binding.tabs.getTabCount(),oemid);
+        TabLayoutAdapterOEM adapter=new TabLayoutAdapterOEM(this,getSupportFragmentManager(),binding.tabs.getTabCount(),oemid,BrandId);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
 

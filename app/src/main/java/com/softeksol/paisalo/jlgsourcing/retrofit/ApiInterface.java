@@ -78,6 +78,12 @@ public interface ApiInterface {
     @GET("PFL.ABF.API/api/Masters/GetVehicleType")
     Call<BrandResponse> getVehicleType(@Header("Authorization") String authHeader);
 
+       @GET("PFL.ABF.API/api/Masters/GetModelByFuelType")
+    Call<BrandResponse> getModelTypeByFuelAndVehical(@Header("Authorization") String authHeader,@Query("VehicleTypeId") int VehicleTypeId,@Query("FuelType") String FuelType, @Query("Bid") String Bid);
+
+
+
+
     @GET("PFL.ABF.API/api/Oem/GetBankDetaisByOemId")
     Call<BrandResponse> getBankList(@Header("Authorization") String authHeader,@Query("id") int id);
 
@@ -100,7 +106,16 @@ public interface ApiInterface {
   @POST("PFL.ABF.API/api/Oem/PreDocumentUpload")
     Call<BrandResponse> uploadDealerPreDocs(@Header("Authorization") String authHeader,@Body RequestBody file);
 
+    @GET("PFL.ABF.API/api/Oem/GetBankDetaisByDealerId")
+    Call<BrandResponse> getBankListByDealer(@Header("Authorization") String authHeader,@Query("id") int id);
 
+    @POST("PFL.ABF.API/api/Dealer/CreateBankDetails")
+    Call<BrandResponse> uploadBankDealerDetails(@Header("Authorization") String authHeader,@Body RequestBody file);
+
+
+
+ @POST("PFL.ABF.API/api/Oem/CreateProduct")
+    Call<BrandResponse> CreateProduct(@Header("Authorization") String authHeader,@Body RequestBody file);
 
 
 

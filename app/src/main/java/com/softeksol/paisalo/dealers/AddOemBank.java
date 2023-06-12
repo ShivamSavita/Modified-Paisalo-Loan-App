@@ -52,6 +52,7 @@ public class AddOemBank extends AppCompatActivity {
     ImageView imgViewCalBank;
     String accountOpeningDate;
     int OEMId;
+    String userType;
     private DatePickerDialog.OnDateSetListener dateSetListner;
     Intent i;
     ApiInterface apiInterface;
@@ -63,7 +64,8 @@ public class AddOemBank extends AppCompatActivity {
         i=getIntent();
         apiInterface=  new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
 
-        OEMId=i.getIntExtra("OEMId",0);
+        OEMId=i.getIntExtra("Id",0);
+        userType=i.getStringExtra("type");
         branchName=findViewById(R.id.branchName);
         ifscCode=findViewById(R.id.ifscCode);
         Account_Number=findViewById(R.id.Account_Number);
@@ -149,28 +151,49 @@ public class AddOemBank extends AppCompatActivity {
                         .addFormDataPart("Ifsc",ifscCode.getText().toString().trim())
                         .addFormDataPart("Branch",branchName.getText().toString().trim())
                         .addFormDataPart("AccountType",firm_accountType.getSelectedItem().toString())
-                        .addFormDataPart("UserType","OEM");
+                        .addFormDataPart("UserType",userType);
 
                         builder.addFormDataPart("Signature",f.getName(),surveyBody);
 
 //
                         RequestBody requestBody = builder.build();
-                        Call<BrandResponse> call=apiInterface.uploadBankOemDetails(SEILIGL.NEW_TOKEN,requestBody);
+                        if (userType.equals("OEM")){
+                            Call<BrandResponse> call=apiInterface.uploadBankOemDetails(SEILIGL.NEW_TOKEN,requestBody);
 
-                        call.enqueue(new Callback<BrandResponse>() {
-                            @Override
-                            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-                                BrandResponse brandResponse=response.body();
+                            call.enqueue(new Callback<BrandResponse>() {
+                                @Override
+                                public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                                    BrandResponse brandResponse=response.body();
 
-                                Toast.makeText(AddOemBank.this, ""+brandResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
+                                    Toast.makeText(AddOemBank.this, ""+brandResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
 
-                            @Override
-                            public void onFailure(Call<BrandResponse> call, Throwable t) {
-                                Log.d("TAG", "onFailure: "+t.getMessage());
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<BrandResponse> call, Throwable t) {
+                                    Log.d("TAG", "onFailure: "+t.getMessage());
+                                }
+                            });
+                        }else if(userType.equals("Dealer")){
+                            Call<BrandResponse> call=apiInterface.uploadBankDealerDetails(SEILIGL.NEW_TOKEN,requestBody);
+
+                            call.enqueue(new Callback<BrandResponse>() {
+                                @Override
+                                public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                                    BrandResponse brandResponse=response.body();
+
+                                    Toast.makeText(AddOemBank.this, ""+brandResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<BrandResponse> call, Throwable t) {
+                                    Log.d("TAG", "onFailure: "+t.getMessage());
+                                }
+                            });
+
+                        }
+
 
 
 
@@ -205,7 +228,7 @@ public class AddOemBank extends AppCompatActivity {
         jsonObject.addProperty("Branch",branchName.getText().toString().trim());
         jsonObject.addProperty("AccountT",firm_accountType.getSelectedItem().toString());
         jsonObject.addProperty("OpenDate",accountOpeningDate);
-        jsonObject.addProperty("UserType","OEM");
+        jsonObject.addProperty("UserType",userType);
         Log.d("TAG", "onClick: "+jsonObject);
         return  jsonObject.toString();
     }

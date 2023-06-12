@@ -76,7 +76,7 @@ public class DealerPreDocsFragment extends Fragment {
     private final int PICK_IMAGE_CAMERA = 333, PICK_IMAGE_GALLERY = 111,PICK_PDF_GALLERY = 222;
     RecyclerView kycRecView, kycRecView1,kycRecView2,kycRecView3,kycRecView4,kycRecView5,kycRecView6,kycRecView7,kycRecView8;
     Button ImageUploadBtn,ImageUploadBtn1,ImageUploadBtn2,ImageUploadBtn3,ImageUploadBtn4,ImageUploadBtn5,ImageUploadBtn6,ImageUploadBtn7,ImageUploadBtn8,ImageUploadBtn9;
-    Button ImageSaveBtn;
+    Button ImageSaveBtn,ImageSaveBtn1,ImageSaveBtn2,ImageSaveBtn3,ImageSaveBtn4,ImageSaveBtn5,ImageSaveBtn6,ImageSaveBtn7,ImageSaveBtn8;
     public ArrayList<File> arrayListImages1 = new ArrayList<>();
     public ArrayList<File> arrayListImages2 = new ArrayList<>();
     public ArrayList<File> arrayListImages3 = new ArrayList<>();
@@ -196,7 +196,24 @@ public class DealerPreDocsFragment extends Fragment {
         ImageUploadBtn8=view.findViewById(R.id.ImageUploadBtn8);
 
         ImageSaveBtn=view.findViewById(R.id.ImageSaveBtn);
+        ImageSaveBtn1=view.findViewById(R.id.ImageSaveBtn1);
+        ImageSaveBtn2=view.findViewById(R.id.ImageSaveBtn2);
+        ImageSaveBtn3=view.findViewById(R.id.ImageSaveBtn3);
+        ImageSaveBtn4=view.findViewById(R.id.ImageSaveBtn4);
+        ImageSaveBtn5=view.findViewById(R.id.ImageSaveBtn5);
+        ImageSaveBtn6=view.findViewById(R.id.ImageSaveBtn6);
+        ImageSaveBtn7=view.findViewById(R.id.ImageSaveBtn7);
+        ImageSaveBtn8=view.findViewById(R.id.ImageSaveBtn8);
+
         ImageSaveBtn.setVisibility(View.INVISIBLE);
+        ImageSaveBtn1.setVisibility(View.INVISIBLE);
+        ImageSaveBtn2.setVisibility(View.INVISIBLE);
+        ImageSaveBtn3.setVisibility(View.INVISIBLE);
+        ImageSaveBtn4.setVisibility(View.INVISIBLE);
+        ImageSaveBtn5.setVisibility(View.INVISIBLE);
+        ImageSaveBtn6.setVisibility(View.INVISIBLE);
+        ImageSaveBtn7.setVisibility(View.INVISIBLE);
+        ImageSaveBtn8.setVisibility(View.INVISIBLE);
 
         apiInterface=new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         kycRecView=view.findViewById(R.id.kycRecView);
@@ -262,12 +279,7 @@ public class DealerPreDocsFragment extends Fragment {
         imageAdapter6.notifyDataSetChanged();
         imageAdapter7.notifyDataSetChanged();
         imageAdapter8.notifyDataSetChanged();
-        view.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                Log.d("TAG", "onSystemUiVisibilityChange: "+visibility);
-            }
-        });
+
        kycRecView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
            @Override
            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -279,14 +291,105 @@ public class DealerPreDocsFragment extends Fragment {
 
                }
 
-               Log.d("TAG", "onLayoutChange: top "+top);
-               Log.d("TAG", "onLayoutChange: left "+left);
-               Log.d("TAG", "onLayoutChange: right "+right);
-               Log.d("TAG", "onLayoutChange: bottom "+bottom);
-               Log.d("TAG", "onLayoutChange: oldLeft "+oldLeft);
-               Log.d("TAG", "onLayoutChange: oldTop "+oldTop);
-               Log.d("TAG", "onLayoutChange: oldRight "+oldRight);
-               Log.d("TAG", "onLayoutChange: oldBottom "+oldBottom);
+           }
+       });
+       kycRecView1.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn1.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn1.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });
+
+       kycRecView2.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn2.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn2.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView3.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn3.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn3.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView4.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn4.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn4.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView5.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn5.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn5.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView6.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn6.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn6.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView7.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn7.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn7.setVisibility(View.INVISIBLE);
+
+               }
+
+           }
+       });   kycRecView8.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+           @Override
+           public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+               if (bottom>0){
+                   ImageSaveBtn8.setVisibility(View.VISIBLE);
+               }else {
+                   ImageSaveBtn8.setVisibility(View.INVISIBLE);
+
+               }
+
            }
        });
 
@@ -355,42 +458,62 @@ public class DealerPreDocsFragment extends Fragment {
 
 
 /////////////////////////////////////////Upload Images Data
-
-
-    ImageSaveBtn.setOnClickListener(new View.OnClickListener() {
+        ImageSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDocsData(arrayListImages1,"1");
+            }
+        });
+        ImageSaveBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDocsData(arrayListImages1,"2");
+            }
+        });
+        ImageSaveBtn2.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            saveDocsData(arrayListImages2,"3");
+        }
+    });
 
 
-            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-            builder.addFormDataPart("UserId", String.valueOf(DealerId))
-                    .addFormDataPart("UserType","Dealer")
-                    .addFormDataPart("DocId","1");
-            for (File image:arrayListImages1) {
-                RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), image);
-                builder.addFormDataPart("Documents",image.getName(),surveyBody);
-            }
+ ImageSaveBtn3.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages4,"4");
+        }
+    });
+    ImageSaveBtn4.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages5,"5");
+        }
+    });
 
+ ImageSaveBtn5.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages6,"6");
+        }
+    });
+    ImageSaveBtn6.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages7,"7");
+        }
+    });
 
-//
-            RequestBody requestBody = builder.build();
-
-            Call<BrandResponse> call=apiInterface.uploadDealerPreDocs(SEILIGL.NEW_TOKEN,requestBody);
-            call.enqueue(new Callback<BrandResponse>() {
-                @Override
-                public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-                    BrandResponse brandResponse=response.body();
-                    Log.d("TAG", "onResponse: "+brandResponse.getMessage());
-                    Log.d("TAG", "onResponse: "+brandResponse.getData());
-                    Log.d("TAG", "onResponse: "+brandResponse.getStatusCode());
-                }
-
-                @Override
-                public void onFailure(Call<BrandResponse> call, Throwable t) {
-                    Log.d("TAG", "onFailure: "+t.getMessage());
-                }
-            });
-
+ ImageSaveBtn7.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages8,"8");
+        }
+    });
+    ImageSaveBtn8.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveDocsData(arrayListImages9,"9");
         }
     });
 
@@ -405,6 +528,40 @@ public class DealerPreDocsFragment extends Fragment {
 
 
         return  view;
+    }
+
+    private void saveDocsData(ArrayList<File> arrayImages, String docId) {
+
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("UserId", String.valueOf(DealerId))
+                .addFormDataPart("UserType","Dealer")
+                .addFormDataPart("DocType","Pre")
+                .addFormDataPart("DocId",docId);
+        for (File image:arrayImages) {
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), image);
+            builder.addFormDataPart("Documents",image.getName(),surveyBody);
+        }
+
+
+//
+        RequestBody requestBody = builder.build();
+
+        Call<BrandResponse> call=apiInterface.uploadDealerPreDocs(SEILIGL.NEW_TOKEN,requestBody);
+        call.enqueue(new Callback<BrandResponse>() {
+            @Override
+            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                BrandResponse brandResponse=response.body();
+                Log.d("TAG", "onResponse: "+brandResponse.getMessage());
+                Log.d("TAG", "onResponse: "+brandResponse.getData());
+                Log.d("TAG", "onResponse: "+brandResponse.getStatusCode());
+            }
+
+            @Override
+            public void onFailure(Call<BrandResponse> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
     }
 
     private void selectImage(int requestCode) {
@@ -466,20 +623,90 @@ public class DealerPreDocsFragment extends Fragment {
 //                    intentPDF.putExtra(DocumentsContract.EXTRA_INITIAL_URI, true);
 //                    startActivityForResult(Intent.createChooser(intentPDF, "Open with"), PICK_PDF_GALLERY+requestCode);
                     DialogProperties properties = new DialogProperties();
-
+                    properties.selection_mode = DialogConfigs.SINGLE_MODE;
                     properties.selection_type = DialogConfigs.FILE_SELECT;
-                    properties.extensions = null;
+                    properties.root = new File("sdcard");
                     FilePickerDialog dialog1 = new FilePickerDialog(getContext(),properties);
                     dialog1.setTitle("Select a File");
 
                     dialog1.setDialogSelectionListener(new DialogSelectionListener() {
                         @Override
                         public void onSelectedFilePaths(String[] files) {
-                            for (String file:files
-                                 ) {
-                                File file1 = new File(file);
-                                arrayListImages1.add(file1);
+                            switch (requestCode){
+                                case 0:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages1.add(file1);
+                                        imageAdapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                case 1:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages2.add(file1);
+                                        imageAdapter1.notifyDataSetChanged();
+                                    }
+                                    break;
+                                    case 2:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages3.add(file1);
+                                        imageAdapter2.notifyDataSetChanged();
+                                    }
+                                    break;
+                                      case 3:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages4.add(file1);
+                                        imageAdapter3.notifyDataSetChanged();
+                                    }
+                                    break;
+
+                                        case 4:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages5.add(file1);
+                                        imageAdapter4.notifyDataSetChanged();
+                                    }
+                                    break;
+                                          case 5:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages6.add(file1);
+                                        imageAdapter5.notifyDataSetChanged();
+                                    }
+                                    break;
+
+                                          case 6:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages7.add(file1);
+                                        imageAdapter6.notifyDataSetChanged();
+                                    }
+                                    break;
+
+
+                                          case 7:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages8.add(file1);
+                                        imageAdapter7.notifyDataSetChanged();
+                                    }
+                                    break;
+                                             case 8:
+                                    for (String file:files) {
+                                        File file1 = new File(file);
+                                        arrayListImages9.add(file1);
+                                        imageAdapter8.notifyDataSetChanged();
+                                    }
+                                    break;
+
+
+
+
+
                             }
+
 
                         }
                     });

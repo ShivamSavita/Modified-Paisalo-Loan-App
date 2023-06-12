@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,7 @@ public class ImageAdapter extends  RecyclerView.Adapter<ImageAdapter.ImageViewHo
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, @SuppressLint("RecyclerView") int position) {
 try {
+    Log.d("TAG", "onBindViewHolder: "+arrayList.get(position).getName());
     BitmapFactory.Options options = new BitmapFactory.Options();
     options.inPreferredConfig = Bitmap.Config.ARGB_8888;
     Bitmap bitmap = BitmapFactory.decodeFile(arrayList.get(position).getPath(), options);
@@ -77,7 +80,11 @@ try {
         default:
             rotatedBitmap = bitmap;
     }
-    holder.mainImageView.setImageBitmap(rotatedBitmap);
+    if (arrayList.get(position).getName().endsWith(".pdf")){
+        holder.mainImageView.setImageResource(R.drawable.pdf_icon_dummy);
+    }else{
+        holder.mainImageView.setImageBitmap(rotatedBitmap);
+    }
 
 }catch (Exception e){
     holder.mainImageView.setImageResource(R.drawable.pdf_icon_dummy);
@@ -97,6 +104,7 @@ holder.CrossImageView.setOnClickListener(new View.OnClickListener() {
         notifyDataSetChanged();
     }
 });
+        holder.docName.setText(arrayList.get(position).getName());
 holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -121,10 +129,12 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView mainImageView,CrossImageView;
+        TextView docName;
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             mainImageView=itemView.findViewById(R.id.imageMain);
             CrossImageView=itemView.findViewById(R.id.ImageCross);
+            docName=itemView.findViewById(R.id.docName);
 
         }
     }

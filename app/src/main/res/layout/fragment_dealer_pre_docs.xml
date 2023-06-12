@@ -204,11 +204,8 @@
                                 android:textColor="@color/white"
                                 android:id="@+id/ImageSaveBtn2"
                                 android:layout_width="50dp"
-
-
                                 android:layout_height="wrap_content"
                                 android:text="⇑"
-
                                 android:textStyle="bold"
                                 android:layout_margin="7dp"
                                 android:textSize="29dp"
@@ -263,11 +260,24 @@
                                 android:id="@+id/ImageUploadBtn3"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+
+
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn3"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -318,11 +328,23 @@
                                 android:id="@+id/ImageUploadBtn4"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn4"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -375,11 +397,23 @@
                                 android:id="@+id/ImageUploadBtn5"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn5"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -429,11 +463,22 @@
                                 android:id="@+id/ImageUploadBtn6"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn6"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -475,17 +520,28 @@
                                 android:fontFamily="@font/scada_bold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bank statements last 6 months of entity"/>
+                                android:text="MOA/AOA, partnership deed copy"/>
 
                             <Button
                                 android:id="@+id/ImageUploadBtn7"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn7"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -506,6 +562,7 @@
                     android:layout_width="match_parent"
                     app:cardElevation="4dp"
                     app:cardCornerRadius="8dp"
+                    android:visibility="gone"
                     android:layout_margin="6dp"
                     android:padding="5dp"
                     android:layout_height="wrap_content">
@@ -534,11 +591,23 @@
                                 android:id="@+id/ImageUploadBtn8"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:textColor="@color/white"
-                                android:layout_width="70dp"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:text="+"
                                 android:layout_margin="10dp"
                                 android:textSize="29dp"/>
+
+                            <Button
+                                android:backgroundTint="#00B507"
+                                android:textColor="@color/white"
+                                android:id="@+id/ImageSaveBtn8"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="⇑"
+                                android:textStyle="bold"
+                                android:layout_margin="7dp"
+                                android:textSize="29dp"
+                                tools:ignore="InvalidId" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -557,7 +626,7 @@
 
 
                 <Button
-
+                        android:visibility="gone"
                     android:layout_margin="10dp"
                     android:textSize="16dp"
                     android:backgroundTint="@color/colorPrimary"
