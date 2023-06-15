@@ -92,12 +92,10 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
                     mla.getFilter().filter(charSequence);
                 }
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(mla != null) {
@@ -237,7 +235,7 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
-                //Log.d("Manager Data", jsonString);
+                Log.d("Manager_Data", jsonString);
                 Type listType = new TypeToken<List<Manager>>() {
                 }.getType();
                 List<Manager> managers = WebOperations.convertToObjectArray(jsonString, listType);
@@ -264,7 +262,6 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         RequestParams params = new RequestParams();
         params.add("UserId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         params.add("IMEINO", IglPreferences.getPrefString(this, SEILIGL.DEVICE_IMEI, "0"));
-
         (new WebOperations()).getEntity(this, operationItem.getUrlController(), operationItem.getUrlEndpoint(), params, dataAsyncHttpResponseHandler);
 
     }

@@ -45,7 +45,7 @@ public class Setup extends Thread {
     }
     private void installApkProgramatically() {
 
-
+        Log.i("TAG", "installApkProgramatically");
         try {
             File path = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
 
@@ -55,7 +55,7 @@ public class Setup extends Thread {
 
             if (file.exists()) {
 
-                Intent unKnownSourceIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", m_context.getPackageName())));
+//                Intent unKnownSourceIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", m_context.getPackageName())));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -82,11 +82,8 @@ public class Setup extends Thread {
                     m_context.startActivity(intent1);
 
                 } else {
-
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-
                     uri = Uri.fromFile(file);
-
                     intent.setDataAndType(uri,
                             "application/vnd.android.package-archive");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -115,7 +112,7 @@ public class Setup extends Thread {
         String filename = m_context.getResources().getResourceEntryName(resId);
 
         File f = new File(m_sdcard, "/"+filename+".apk");
-
+        Log.i("copyResources", filename);
         if(!f.exists()){
             try {
                 OutputStream out = new FileOutputStream(new File(m_sdcard, "/"+filename+".apk"));
@@ -129,9 +126,9 @@ public class Setup extends Thread {
                 installApkProgramatically();
                 Toast.makeText(m_context, "Done", Toast.LENGTH_SHORT).show();
             } catch (FileNotFoundException e) {
-                Log.i("Test", "Setup::copyResources FileNotFoundException - "+e.getMessage());
+                Log.i("Test", "FileNotFoundException - "+e.getMessage());
             } catch (IOException e) {
-                Log.i("Test", "Setup::copyResources IOException - "+e.getMessage());
+                Log.i("Test", "IOException - "+e.getMessage());
             }
         }else {
             installApkProgramatically();

@@ -109,7 +109,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         List<ResolveInfo> pkgAppsList =
                 context.getPackageManager().queryIntentActivities( mainIntent, 0);
         for (ResolveInfo resolveInfo : pkgAppsList) {
-            Log.d("TAG", "__<>"+resolveInfo.activityInfo.packageName);
+            Log.d("TAG", "PACKAGENAME"+resolveInfo.activityInfo.packageName);
             if (resolveInfo.activityInfo.packageName != null
                     && resolveInfo.activityInfo.packageName.equals(targetPackage)) {
                 return true;
@@ -122,8 +122,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         getSupportActionBar().setTitle(getString(R.string.appname) + " (" + BuildConfig.VERSION_NAME + ")");
+
 //        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
 //        if(isAppInstalled) {
 //
@@ -921,6 +921,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
                     Build.TAGS.length()%10 + Build.TYPE.length()%10 +
                     Build.USER.length()%10 ; //13 digits
+
+        Log.e("DirectoryDeviceID", deviceId + "");
 
 //        try {
 //            File dir = Utils.getFilePath("/", false);

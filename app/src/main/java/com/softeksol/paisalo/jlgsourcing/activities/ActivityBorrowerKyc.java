@@ -188,27 +188,22 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 // Creating an Editor object to edit(write to the file)
         editor = sharedPreferences.edit();
-
         //borrower = new Borrower();
         borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, ""));
         borrowerExtra=new BorrowerExtra();
-
         //borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG);
         borrower.associateExtraBank(new BorrowerExtraBank(manager.Creator, manager.TAG));
-
         //borrower.fi
         borrower.isAadharVerified = "N";
         rlaMarritalStatus = new AdapterListRange(this,
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("marrital_status")).queryList(), false);
-         spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
+        spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
         spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
         Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "    Borrower KYC");
-
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 //        ArrayList<RangeCategory> genders = new ArrayList<>();
 //        genders.add(new RangeCategory("Female", "Gender"));
 

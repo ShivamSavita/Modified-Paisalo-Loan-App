@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -17,15 +18,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.smarteist.autoimageslider.SliderView;
 import com.softeksol.paisalo.ESign.adapters.SliderAdapter;
 import com.softeksol.paisalo.dealers.Dealer_Dashboard;
+import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -36,6 +40,10 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterOperation;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -44,6 +52,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityOperationSelect extends AppCompatActivity {
     private AdapterListManager adapterListManager;
@@ -58,9 +69,11 @@ public class ActivityOperationSelect extends AppCompatActivity {
         drawerLayout = findViewById(R.id.my_drawer_layout);
 //        Intent intent = new Intent();
 //        intent.setComponent(new ComponentName("com.plcoding.backgroundlocationtracking","com.plcoding.backgroundlocationtracking.MainActivity"));
-//        intent.putExtra("UserName","Shivam");
+//        intent.putExtra("userId",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
+//        intent.putExtra("deviceId",IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
+//        intent.putExtra("groupCode",IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
 //        startActivity(intent);
-//        startActivity(intent);
+        getLoginLocation();
         sliderView = findViewById(R.id.slider);
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
          adapter = new SliderAdapter(this, myImageList);
@@ -188,7 +201,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 intent.putExtra(Global.OPTION_ITEM, operationItem);
                 intent.putExtra("Title", operationItem.getOprationName());
                 startActivity(intent);
-
+                getLoginLocation();
             }
 
             @Override
@@ -207,5 +220,37 @@ public class ActivityOperationSelect extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         return actionBarDrawerToggle.onOptionsItemSelected(item);
+    }
+
+    private void getLoginLocation(){
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getdatalocation());
+        Call<JsonObject> call=apiInterface.livetrack(getdatalocation());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
+
+    private JsonObject getdatalocation() {
+        GpsTracker gpsTracker=new GpsTracker(getApplicationContext());
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("userId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
+        jsonObject.addProperty("deviceId", IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
+        jsonObject.addProperty("groupCode", IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
+        jsonObject.addProperty("trackAppVersion", BuildConfig.VERSION_NAME);
+        jsonObject.addProperty("latitude",gpsTracker.getLatitude()+"");
+        jsonObject.addProperty("longitude", gpsTracker.getLongitude()+"");
+        jsonObject.addProperty("appInBackground","1");
+        return jsonObject;
+
     }
 }

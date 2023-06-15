@@ -8,7 +8,9 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -29,6 +31,11 @@ public interface ApiInterface {
     @POST("IdentityVerification/Get")
     public Call<JsonObject> cardValidate(@Body JsonObject object);
 
+    @POST("LiveTrack/CreateLiveTrack")
+    public Call<JsonObject> livetrack(@Body JsonObject object);
+
+    @GET("LiveTrack/GetAppLink")
+    Call<AppUpdateResponse> getAppLinkStatus(@Query("version") String version, @Query("AppName") String AppName, @Query("action") int action);
 
 
 

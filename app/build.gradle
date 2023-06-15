@@ -46,12 +46,8 @@ android {
 
         debug {
             minifyEnabled false
-            //buildConfigField("String", 'BASE_URL', '"http://agra.seil.in:8087/PLServicev82/"')
-//            buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
+          //  buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
             buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServicev82/"')
-            //buildConfigField("String", 'BASE_URL', '"https://agra.seil.in:8444/PLServiceV82Test/"')
-            //buildConfigField("String", 'BASE_URL', '"https://agra.paisalo.in:8445/PLServiceV82/"')
-//            buildConfigField("String", 'BASE_URL', '"http://kailash.seil.in:8086/PLService/"')
             buildConfigField("String", 'EKYC_FETCH_URL', '"http://agra.seil.in:8085/SeilKycESign/api/KycDataSZenApi/GetEKyc"')
             buildConfigField("String[]", 'AUTH_TYPE', '{"FP","OTP"}')
             buildConfigField("String", 'PROC_NAME', '""')

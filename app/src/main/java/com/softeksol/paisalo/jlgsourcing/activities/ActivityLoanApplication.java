@@ -154,7 +154,7 @@ public class ActivityLoanApplication extends AppCompatActivity implements
 
     }
 
-    private void loadFragments() {
+    private void loadFragments(){
         fragments.add(FragmentBorrowerAadhar.newInstance(borrower_id));
         fragments.add(FragmentBorrowerPersonal.newInstance(borrower_id));
 //        fragments.add(FragmentBorrowerPersonal_Additional.newInstance(borrower_id));
