@@ -37,6 +37,10 @@ public interface ApiInterface {
     @GET("LiveTrack/GetAppLink")
     Call<AppUpdateResponse> getAppLinkStatus(@Query("version") String version, @Query("AppName") String AppName, @Query("action") int action);
 
+    @POST("LiveTrack/SourcingStatus")
+    Call<JsonObject> updateStatus(@Query("ficode") String Ficode, @Query("creator") String Creator);
+
+
 
 
 /*

@@ -58,6 +58,7 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -137,6 +138,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 //        }
         if (requestPermissions()){
             getDeviceID();
+            GpsTracker gpsTracker=new GpsTracker(getApplicationContext());
         }else {
             permissionCheck();
         }
@@ -362,9 +364,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         password = (EditText) findViewById(R.id.etLoginPassword);
         //tilPassowrd.setErrorEnabled(true);
         password.setError("Min 5 chars required");
-
         //Displaying EditText Error
-
         database = (Spinner) findViewById(R.id.database);
         userName.setError("Required");
         userName.addTextChangedListener(new MyTextWatcher(userName) {
@@ -372,8 +372,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             public void validate(EditText editText, String text) {
                 btnShareDeviceID.setEnabled(false);
                 checkBtnShareIDStatus(false);
-
-
                 editText.setError(null);
 
                 switch (text.length()) {

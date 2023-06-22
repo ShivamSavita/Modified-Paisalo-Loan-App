@@ -62,11 +62,13 @@ public class ActivityOperationSelect extends AppCompatActivity {
     public ActionBarDrawerToggle actionBarDrawerToggle;
     SliderView sliderView;
     SliderAdapter adapter;
+    GpsTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
+        gpsTracker=new GpsTracker(getApplicationContext());
 //        Intent intent = new Intent();
 //        intent.setComponent(new ComponentName("com.plcoding.backgroundlocationtracking","com.plcoding.backgroundlocationtracking.MainActivity"));
 //        intent.putExtra("userId",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
@@ -241,7 +243,6 @@ public class ActivityOperationSelect extends AppCompatActivity {
     }
 
     private JsonObject getdatalocation() {
-        GpsTracker gpsTracker=new GpsTracker(getApplicationContext());
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("userId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         jsonObject.addProperty("deviceId", IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));

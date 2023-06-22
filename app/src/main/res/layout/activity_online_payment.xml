@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.OnlinePaymentActivity"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/layout_success"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:textSize="15dp"
+            android:text="PAYMENT SUCCESSFULLY"
+            android:textColor="@color/dull_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text_tranID"
+            android:gravity="center"
+            android:text="Payment success"
+            android:textColor="@color/defaultTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/layout_error"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:textSize="15dp"
+            android:text="PAYMENT FAILED"
+            android:textColor="@color/red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_icon"
+        android:id="@+id/BtnSaveData"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_marginBottom="70dp"
+        android:text="Done"
+        android:fontFamily="@font/scada_bold"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+</LinearLayout>

@@ -22,9 +22,6 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 
-/**
- * Created by sachindra on 2016-10-04.
- */
 @ModelContainer
 @Table(database = DbIGL.class)
 public class RangeCategory extends BaseModel {

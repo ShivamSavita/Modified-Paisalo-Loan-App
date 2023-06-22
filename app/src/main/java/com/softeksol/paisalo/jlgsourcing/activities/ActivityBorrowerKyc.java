@@ -152,7 +152,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     String loanDurationData,stateData,genderData;
     boolean aadharNumberentry=false;
     String isAdhaarEntry ="M";
-    String isNameMatched ="0";
+    String isNameMatched ="1";
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
@@ -1562,7 +1562,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                               // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                                                 intent.putExtra("FatherFName", tietFatherFName.getText().toString());
                                                 intent.putExtra("FatherLName", tietFatherLName.getText().toString());
@@ -1860,7 +1860,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {

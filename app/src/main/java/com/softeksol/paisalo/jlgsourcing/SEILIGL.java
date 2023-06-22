@@ -48,6 +48,7 @@ public class SEILIGL extends Application {
     public static final String CREATOR = BuildConfig.APPLICATION_ID + ".CREATOR";
     public static final String IMEI = BuildConfig.APPLICATION_ID + ".IMEI_NO";
     public static final String NEW_SERVERAPI = "http://124.123.16.235:8084/PDL.Mobile.API/api/";
+    public static final String NEW_SERVERAPIAGARA = "https://agra.paisalo.in:8462/creditmatrix/api/";
     private String deviceId;
     private long deviceImei;
 
@@ -104,7 +105,7 @@ public class SEILIGL extends Application {
 
         //IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, BuildConfig.DATABASE_NAME);
 
-//      IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
+        //IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
 
         IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
 

@@ -485,9 +485,6 @@ TextView textViewTotalAnnualIncome;
                         //Log.d("Borrower Json", borrowerJsonString);
                         Log.d("TAG", "updateBorrower: "+borrowerJsonString);
                 (new WebOperations()).postEntity(getApplicationContext(), "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
-                //  Toast.makeText(this, "Calling save fi api", Toast.LENGTH_SHORT).show();
-
-
 
             }
 

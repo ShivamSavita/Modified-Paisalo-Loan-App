@@ -1,12 +1,15 @@
 package com.softeksol.paisalo.jlgsourcing.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -32,6 +35,7 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.activities.ActivityCollection;
+import com.softeksol.paisalo.jlgsourcing.activities.OnlinePaymentActivity;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterDueData;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterInstallment;
 import com.softeksol.paisalo.jlgsourcing.entities.DueData;
@@ -62,6 +66,7 @@ public class FragmentCollection extends AbsCollectionFragment {
     private boolean isDialogActive;
     private int collectionAmount;
     private int latePmtIntAmt;
+    private boolean isProcessingEMI=false;
 
     public FragmentCollection() {
         // Required empty public constructor
@@ -124,12 +129,40 @@ public class FragmentCollection extends AbsCollectionFragment {
                 collect.setEnabled(false);
 
                 final LinearLayout llLatePayment = dialogView.findViewById(R.id.llLatePmtInterest);
+                final Button onlinepayment = dialogView.findViewById(R.id.onlinepayment);
+                final Button prossingFees = dialogView.findViewById(R.id.prossingFees);
                 final CheckBox chkLatePayment = dialogView.findViewById(R.id.chkLatePmtInterest);
                 final TextView tvLatePayAmount = dialogView.findViewById(R.id.tvLatePmtInterestAmt);
                 if (latePaymentInterest > 0) {
                     llLatePayment.setVisibility(View.VISIBLE);
                     tvLatePayAmount.setText(String.valueOf(latePaymentInterest));
                 }
+                onlinepayment.setEnabled(false);
+                onlinepayment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int totCollectAmt;
+                        if(radioGroup.getCheckedRadioButtonId()==R.id.rbLumpSumAmount){
+                            totCollectAmt=collectionAmount;
+                        }else{
+                            totCollectAmt=collectionAmount+latePmtIntAmt;
+                        }
+
+                        Intent intent=new Intent(getContext(), OnlinePaymentActivity.class);
+                        intent.putExtra("Price",totCollectAmt);
+                        getActivity().startActivity(intent);
+                    }
+                });
+                if(isProcessingEMI==false){
+                    prossingFees.setVisibility(View.INVISIBLE);
+                }
+                prossingFees.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
                 final ToggleButton tglBtnPaidBy = (ToggleButton) dialogView.findViewById(R.id.tglPaidBy);
                 tglBtnPaidBy.setVisibility(BuildConfig.APPLICATION_ID.equals("com.softeksol.paisalo.jlgsourcing") ? View.VISIBLE : View.GONE);
@@ -156,6 +189,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                         collectionAmount = amt;
                         tvTotDue.setText(text);
                         collect.setEnabled(false);
+                        onlinepayment.setEnabled(false);
 
                         if (amt < 1) {
                             editText.setError("Amount should be greater than or equals to 1");
@@ -167,6 +201,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                         }
                         //collectEnableDisable(latePaymentInterest, collect, tvTotDue);
                         collect.setEnabled(true);
+                        onlinepayment.setEnabled(true);
 
                         editText.setError(null);
                     }
@@ -192,6 +227,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                         tvSelectedCount.setText(String.valueOf(selectedCount));
 
                         collect.setEnabled(collectionAmount + latePmtIntAmt> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+                        onlinepayment.setEnabled(collectionAmount + latePmtIntAmt> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+
                         tvTotDue.setText(String.valueOf(collectionAmount+ latePmtIntAmt));
                     }
                 });
@@ -210,6 +247,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                             tvTotDue.setText(String.valueOf(collectionAmount+latePmtIntAmt));
                         }
                         collect.setEnabled(collectionAmount> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+                        onlinepayment.setEnabled(collectionAmount> (latePmtIntAmt>0?latePmtIntAmt-1:0));
 
                     }
                 });
@@ -236,6 +274,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                                 tilLumpsumAccount.setVisibility(View.VISIBLE);
                                 tilLumpsumAccount.setHint(getResources().getString(R.string.lump_sum_amount) + " (Max " + maxDue + ")");
                                 collect.setEnabled(false);
+                                onlinepayment.setEnabled(false);
                                 teitLumpSumAccount.setText("0");
                                 break;
                         }
@@ -254,14 +293,14 @@ public class FragmentCollection extends AbsCollectionFragment {
                     public void onClick(View v) {
                         dueData.setEnabled(false);
                         collect.setEnabled(false);
+                        onlinepayment.setEnabled(false);
                         int totCollectAmt;
                         if(radioGroup.getCheckedRadioButtonId()==R.id.rbLumpSumAmount){
                             totCollectAmt=collectionAmount;
                         }else{
                             totCollectAmt=collectionAmount+latePmtIntAmt;
                         }
-                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,
-                                tglBtnPaidBy.isChecked() ? "F" : "B");
+                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B");
                         dialog.dismiss();
                     }
                 });
@@ -329,13 +368,8 @@ public class FragmentCollection extends AbsCollectionFragment {
         instRcv.setPartyCd(dueData.getPartyCd());
         instRcv.setInterestAmt(latePmtAmount);
         instRcv.setPayFlag(depBy);
-
-
-
         //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
-
         Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
-
         (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), asyncResponseHandler);
     }
 

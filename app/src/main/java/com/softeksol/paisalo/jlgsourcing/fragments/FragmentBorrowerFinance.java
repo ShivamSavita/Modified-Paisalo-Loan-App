@@ -27,6 +27,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
@@ -210,7 +211,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,bankIfsc));
         call.enqueue(new Callback<JsonObject>() {
             @Override

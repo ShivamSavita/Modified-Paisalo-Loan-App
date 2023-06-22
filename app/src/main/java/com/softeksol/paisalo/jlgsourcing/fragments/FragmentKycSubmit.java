@@ -102,7 +102,6 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
         listView = (ListView) view.findViewById(R.id.lvList);
         listView.setAdapter(adapterListDocuments);
         listView.setOnItemClickListener(this);
-
         Log.e("KYCSUBMIT","DONE");
         return view;
     }

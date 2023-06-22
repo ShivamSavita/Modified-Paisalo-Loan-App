@@ -35,6 +35,7 @@ public class SplashScreenPage extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         getAppUpdate();
+
 //       new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -44,7 +45,6 @@ public class SplashScreenPage extends AppCompatActivity {
 //                finish();
 //            }
 //        }, 1700);
-
 
     }
 

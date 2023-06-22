@@ -35,32 +35,57 @@
 
     </RadioGroup>
 
-    <CheckBox
-        android:fontFamily="@font/scada_regular"
-        android:id="@+id/checkBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Vehicle Receipt"
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/checkBox_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgCollectionType" />
+        app:layout_constraintTop_toBottomOf="@+id/rgCollectionType"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        tools:ignore="MissingConstraints">
+
+        <CheckBox
+            android:layout_weight="1"
+            android:fontFamily="@font/scada_regular"
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Vehicle Receipt" />
+
+        <Button
+            android:visibility="invisible"
+            android:background="@color/colorMenuDeposit"
+            android:layout_weight="1"
+            android:id="@+id/prossingFees"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Processing Fee EMI"
+            android:textSize="12dp"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_layout"
         android:orientation="horizontal">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_weight="1"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:padding="2dp"
             android:background="@drawable/spinner_bggrey"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBox">
@@ -68,7 +93,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:fontFamily="@font/scada_regular"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:digits="0123456789"
                 android:hint="UTR No."
@@ -79,18 +104,18 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_weight="1"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:padding="2dp"
             android:background="@drawable/spinner_bggrey"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:digits="0123456789"
                 android:background="@null"
                 android:fontFamily="@font/scada_regular"
@@ -280,5 +305,25 @@
         app:layout_constraintTop_toBottomOf="@id/llCollectTotal"
         tools:layout_editor_absoluteX="219dp" />
 
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/btnCollectLeft"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        tools:ignore="InvalidId"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/onlinepayment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="PAY ONLINE"
+            android:textSize="12dp"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

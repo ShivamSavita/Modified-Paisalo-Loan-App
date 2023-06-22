@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,8 +28,10 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
@@ -41,6 +44,7 @@ import com.softeksol.paisalo.jlgsourcing.fragments.FragmentCollection;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+import com.softeksol.paisalo.jlgsourcing.retrofit.AppUpdateResponse;
 import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ScrifData;
@@ -125,6 +129,7 @@ public class CrifScore extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialogBreEligibility();
+
             }
         });
         btnSrifScore=findViewById(R.id.btnSrifScore);
@@ -255,7 +260,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void checkCrifScore(){
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfKyc());
         Call<CheckCrifData> call=apiInterface.checkCrifScore(getJsonOfKyc());
         call.enqueue(new Callback<CheckCrifData>() {
@@ -269,6 +274,7 @@ public class CrifScore extends AppCompatActivity {
                             public void run() {
                                 checkCrifData=response.body();
                                 getCrifScore(checkCrifData);
+                                updateSourcingStatus();
                             }
                         },25000);
                     }else{
@@ -318,7 +324,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void getCrifScore(CheckCrifData checkCrifData) {
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Call<ScrifData> call=apiInterface.getCrifScore(getJSOnOfCheckDataResponse(checkCrifData));
         call.enqueue(new Callback<ScrifData>() {
             @Override
@@ -548,6 +554,25 @@ public class CrifScore extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+
+    private void updateSourcingStatus(){
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.updateStatus(checkCrifData.getData().getFiCode()+"",checkCrifData.getData().getCreator());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
     }
 
 }
