@@ -28,6 +28,7 @@ import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
@@ -42,8 +43,11 @@ import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
@@ -69,6 +73,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
     private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaFinanceDuration, rlaSchemeType;
     private EditText etIFSC, etBaoDtate, etBankAccount, etCIF;
+    TextView  howOldAccount;
     private ActivityLoanApplication activity;
     private Borrower borrower;
     private Spinner spinnerPurpose, spinnerLoanAmount, spinnerLoanDuration, spinnerBankAcType, spinnerSchemeType;
@@ -183,6 +188,48 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             }
         });
         etBankAccount = (EditText) v.findViewById(R.id.etLoanAppFinanceBankAccountNo);
+        howOldAccount = (TextView) v.findViewById(R.id.howOldAccount);
+        howOldAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                                String dateInString = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                try {
+                                    Date date = formatter.parse(dateInString);
+                                    Log.e("DATATIMEhowOldAccountSTRING",formatter.format(date));
+                                    howOldAccount.setText(formatter.format(date));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                               // Log.e("DATATIMEhowOldAccountNEWWDATA",DateUtils.getsmallDate(howOldAccount.getText().toString(),"dd-MM-yyyy")+"");
+
+
+                            }
+                        },
+                        // on below line we are passing year,
+                        // month and day for selected date in our date picker.
+                        year, month, day);
+                // at last we are calling show to
+                // display our date picker dialog.
+                datePickerDialog.show();
+
+
+
+
+            }
+        });
 
         // etBaoDtate=(EditText) v.findViewById(R.id.etLoanAppFinanceBankAcOpenDate);
         // etBaoDtate.setOnClickListener(this);
@@ -319,6 +366,9 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         spinnerPurpose.setEnabled(borrower.Loan_Reason.length() < 3);
         etBankAccount.setText(Utils.NullIf(borrower.bank_ac_no, ""));
         etBankAccount.setEnabled(Utils.NullIf(borrower.bank_ac_no, "").length() < 3);
+        howOldAccount.setText(DateUtils.getFormatedDateOpen(borrower.BankAcOpenDt,"dd-MM-yyyy"));
+       // howOldAccount.setEnabled(Utils.NullIf(borrower.bank_ac_month, "").length() < 1);
+
         Utils.setSpinnerPosition(spinnerBankAcType, borrower.BankAcType);
         etIFSC.setText(Utils.NullIf(borrower.Enc_Property, ""));
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName)).setText(Utils.NullIf(borrower.BankName, ""));
@@ -352,6 +402,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.Loan_Duration = Utils.getSpinnerStringValue(spinnerLoanDuration);
             borrower.Loan_Reason = Utils.getSpinnerStringValue(spinnerPurpose);
             borrower.bank_ac_no = Utils.getNotNullText(etBankAccount);
+            borrower.BankAcOpenDt = DateUtils.getParsedDate(howOldAccount.getText().toString(),"dd-MM-yyyy");
             borrower.BankAcType = Utils.getSpinnerStringValue(spinnerBankAcType);
             borrower.Enc_Property = Utils.getNotNullText(etIFSC);
 //            borrower.fiExtraBank.setBankCif(Utils.getNotNullText(etCIF));

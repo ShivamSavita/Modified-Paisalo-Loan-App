@@ -1853,7 +1853,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void cardValidate(String id,String type,String bankIfsc,String dob) {
-
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setIndeterminate(false);
@@ -1877,7 +1876,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilPAN_Name.setText("Card Holder Name Not Found");
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         panCheckSign.setEnabled(true);
-
                     }
                     progressDialog.cancel();
                 }else if(type.equals("voterid")){

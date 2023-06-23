@@ -158,6 +158,9 @@ public class BorrowerDTO {
     public String Bank_Ac_No;
 
     @Expose
+    public String c;
+
+    @Expose
     public String Bank_Address;
 
     @Expose

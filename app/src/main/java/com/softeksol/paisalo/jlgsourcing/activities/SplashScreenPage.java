@@ -77,6 +77,7 @@ public class SplashScreenPage extends AppCompatActivity {
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
+                        finish();
                     });
                     builder.setNegativeButton("Cancel", (dialog, which) -> {
                         // this method is called when user click on negative button.

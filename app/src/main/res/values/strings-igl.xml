@@ -61,7 +61,7 @@
 
 
     <string name="applicant_bank_ifsc">Bank IFSC<font color='red'>*</font></string>
-    <string name="accountholded">How old your Account?(In month)<font color='red'>*</font></string>
+    <string name="accountholded">Account Opening Date<font color='red'>*</font></string>
     <string name="applicant_bank_account_type">Bank Account Type<font color='red'>*</font></string>
     <string name="applicant_bank_account_number">Bank Account Number<font color='red'>*</font></string>
     <string name="applicant_bank_account_date">Bank Account Opening Date</string>

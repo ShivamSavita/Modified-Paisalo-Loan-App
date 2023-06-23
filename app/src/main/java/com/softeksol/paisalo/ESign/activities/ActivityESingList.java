@@ -226,13 +226,12 @@ public class ActivityESingList extends AppCompatActivity {
         });
 
     }
+
     private void downloadUnsignedDoc(View v, final ESigner eSigner, ESignBorrower borrower) {
         final View view = v;
         FileAsyncResponseHandler fileAsyncResponseHandler = new FileAsyncResponseHandler(this, "Loan Financing", "Downloading Document for " + eSigner.FiCode + "(" + eSigner.Creator + ")") {
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
                 Log.d("throwable ", throwable.getMessage());
                 Toast.makeText(getBaseContext(), statusCode + "  " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                 Utils.showSnakbar(findViewById(android.R.id.content), R.string.loan_detail_doc_download_failed);

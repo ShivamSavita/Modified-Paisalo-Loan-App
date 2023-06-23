@@ -228,6 +228,7 @@ public class Borrower extends BaseModel implements Serializable {
     @Column
     public String bank_ac_no;
 
+
     @Expose
     @Column
     public String Bank_Address;
@@ -1021,6 +1022,11 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.bank_ac_no == null || this.bank_ac_no.length() < 5) {
             messages.put("Bank Account", "Check Bank Account No");
         }
+
+        if (this.BankAcOpenDt == null) {
+            messages.put("Bank Account", "Account Open Date");
+        }
+
         if (this.Enc_Property == null || this.Enc_Property.length() < 11 && this.BankName.length() < 2) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
         }
