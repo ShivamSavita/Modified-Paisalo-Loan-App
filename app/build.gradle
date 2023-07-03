@@ -88,7 +88,7 @@ android {
 
         SBIColending {
             versionCode 7
-            versionName "1.5.2"
+            versionName "1.5.4"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
             buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')
@@ -190,3 +190,4 @@ dependencies {
 
     implementation files('libs/isgpaymediatorbank-release.aar')
 }
+

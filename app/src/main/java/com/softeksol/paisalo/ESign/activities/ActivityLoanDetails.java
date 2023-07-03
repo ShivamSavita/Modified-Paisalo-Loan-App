@@ -178,8 +178,6 @@ public class ActivityLoanDetails extends AppCompatActivity implements View.OnCli
         } else {
             /*if (eSigner.KycUuid == null || eSigner.KycUuid.trim().length() =
 
-
-
             = 0) {
                 Utils.showSnakbar(findViewById(android.R.id.content), R.string.msg_perform_ekyc);
 

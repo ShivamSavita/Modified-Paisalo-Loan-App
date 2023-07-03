@@ -23,19 +23,28 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="App live 22-06 For RND">
+    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="App live 23-06 For RND">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/adapters/AdapterProcessingFee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/DataEMI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/ProcessingEmiData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_processing_fee.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_prossingfee.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityESingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityESingList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/Utilities/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/Utilities/DateUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityLoanDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/ESign/activities/ActivityLoanDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityOperationSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityOperationSelect.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/SplashScreenPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/SplashScreenPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/dto/BorrowerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/dto/BorrowerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerFinance.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerFinance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/location/GpsTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/location/GpsTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_borrower_entry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_borrower_entry.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_operation_select.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_operation_select.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_loan_app_finance.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_loan_app_finance.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings-igl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings-igl.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +52,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" show_ignored="true" />
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Administrator\.android\avd\Pixel_5_API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Administrator\.android\avd\Pixel_6_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -71,8 +80,8 @@
       <list>
         <option value="valueResourceFile" />
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Interface" />
+        <option value="layoutResourceFile" />
         <option value="Class" />
       </list>
     </option>
@@ -124,6 +133,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.softeksol.paisalo.jlgsourcing.entities" />
       <recent name="com.softeksol.paisalo.dealers.Adapters" />
       <recent name="com.softeksol.paisalo.dealers" />
     </key>
@@ -612,7 +622,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
           <line>103</line>
-          <properties class="com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank" method="toString">
+          <properties class="com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank">
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="1" />

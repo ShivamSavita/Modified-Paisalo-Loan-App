@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -39,6 +40,10 @@ public interface ApiInterface {
 
     @POST("LiveTrack/SourcingStatus")
     Call<JsonObject> updateStatus(@Query("ficode") String Ficode, @Query("creator") String Creator);
+
+    @GET("InstCollection/GetProcessingFeeEmi")
+    Call<ProcessingEmiData> processingFee(@Query("ficode") String Ficode, @Query("creator") String Creator);
+
 
 
 

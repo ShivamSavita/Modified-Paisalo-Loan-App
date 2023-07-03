@@ -47,8 +47,6 @@ public class SplashScreenPage extends AppCompatActivity {
 //        }, 1700);
 
     }
-
-
     private void getAppUpdate(){
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
         Call<AppUpdateResponse> call=apiInterface.getAppLinkStatus(BuildConfig.VERSION_NAME,"S",1);
@@ -70,6 +68,7 @@ public class SplashScreenPage extends AppCompatActivity {
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenPage.this);
                     builder.setTitle("Need Update");
+                    builder.setCancelable(false);
                     builder.setMessage("You are using older version of this app kindly update this app");
                     builder.setPositiveButton("Update Now", (dialog, which) -> {
                         dialog.cancel();
@@ -83,6 +82,8 @@ public class SplashScreenPage extends AppCompatActivity {
                         // this method is called when user click on negative button.
                         dialog.cancel();
                         finish();
+
+
                     });
                     // below line is used to display our dialog
                     builder.show();

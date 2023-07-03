@@ -274,7 +274,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         findViewById(R.id.imgViewAadharPhoto).setVisibility(View.VISIBLE);
 
         acspAadharState = findViewById(R.id.acspAadharState);
-        Log.d("TAG", "onCreate: "+RangeCategory.getRangesByCatKey("state", "DescriptionEn", true));
+        Log.d("TAG", "onCreate: "+RangeCategory.getRangesByCatKey("state", "RangeCode", false));
+
         acspAadharState.setAdapter(new AdapterListRange(this, RangeCategory.getRangesByCatKey("state", "DescriptionEn", true), false));
 
         tietName = findViewById(R.id.tietName);
@@ -775,7 +776,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrowerExtra.save();
         borrower.fiExtra=null;
         borrower.BankName= bankName;
-
         borrower.save();
 
         editor.clear();
@@ -1297,6 +1297,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void  updateBorrower() {
+        if(stateData.equalsIgnoreCase("APO Address")){
+            Toast.makeText(activity, "Select State Name", Toast.LENGTH_SHORT).show();
+        }else{
         if (borrower != null) {
             getDataFromView(this.findViewById(android.R.id.content).getRootView());
 
@@ -1621,6 +1624,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
             }
 
+        }
         }
     }
 

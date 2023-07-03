@@ -1118,14 +1118,14 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.P_ph3 == null || this.P_ph3.length() < 10) {
             messages.put("Mobile", "Mobile Number should be of 10 Digits");
         }
-        if (this.P_Add1 == null || this.P_Add1.length() < 1) {
-            messages.put("Address", "Address 1 is not specified");
+        if (this.P_Add1 == null || this.P_Add1.length() < 4) {
+            messages.put("Address", "Address 1 is not specified. Add minimum 5 letter");
         }
-        if (this.P_add2 == null || this.P_add2.length() < 1) {
-            messages.put("Address", "Address 2 is not specified");
+        if (this.P_add2 == null || this.P_add2.length() < 4) {
+            messages.put("Address", "Address 2 is not specified. Add minimum 5 letter");
         }
-        if (this.P_add3 == null || this.P_add3.length() < 1) {
-            messages.put("Address", "Address 3 is not specified");
+        if (this.P_add3 == null || this.P_add3.length() < 2) {
+            messages.put("Address", "Address 3 is not specified. Add minimum 2 letter");
         }
         if (this.P_city == null || this.P_city.length() < 2) {
             messages.put("City", "Address City is not specified");

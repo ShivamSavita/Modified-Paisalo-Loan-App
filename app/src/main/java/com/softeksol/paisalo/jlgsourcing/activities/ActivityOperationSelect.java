@@ -1,8 +1,10 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -11,11 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -37,12 +43,16 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListManager;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterOperation;
+import com.softeksol.paisalo.jlgsourcing.adapters.AdapterProcessingFee;
+import com.softeksol.paisalo.jlgsourcing.entities.DataEMI;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
+import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+import com.softeksol.paisalo.jlgsourcing.retrofit.AppUpdateResponse;
 import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 
 import java.io.UnsupportedEncodingException;
@@ -50,11 +60,16 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityOperationSelect extends AppCompatActivity {
     private AdapterListManager adapterListManager;
@@ -63,6 +78,13 @@ public class ActivityOperationSelect extends AppCompatActivity {
     SliderView sliderView;
     SliderAdapter adapter;
     GpsTracker gpsTracker;
+    List<DataEMI> ProcessingEmi_data=new ArrayList<>();
+    boolean itemsChecked=true;
+    //boolean[] itemsChecked = new boolean[items.length];
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,6 +174,23 @@ public class ActivityOperationSelect extends AppCompatActivity {
 
             }
         });
+       // getProcessingFee();
+        LinearLayout layout_profile=findViewById(R.id.layout_profile);
+        layout_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                AlertDialog.Builder alertDialog = new
+//                AlertDialog.Builder(ActivityOperationSelect.this);
+//                View rowList = getLayoutInflater().inflate(R.layout.layout_prossingfee, null);
+//                ListView listView = rowList.findViewById(R.id.list_processing);
+//                AdapterProcessingFee adapter_list = new AdapterProcessingFee(ActivityOperationSelect.this, android.R.layout.simple_list_item_1, ProcessingEmi_data);
+//                listView.setAdapter(adapter_list);
+//                adapter.notifyDataSetChanged();
+//                alertDialog.setView(rowList);
+//                AlertDialog dialog = alertDialog.create();
+//                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -203,6 +242,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 intent.putExtra(Global.OPTION_ITEM, operationItem);
                 intent.putExtra("Title", operationItem.getOprationName());
                 startActivity(intent);
+                gpsTracker=new GpsTracker(getApplicationContext());
                 getLoginLocation();
             }
 
@@ -254,4 +294,53 @@ public class ActivityOperationSelect extends AppCompatActivity {
         return jsonObject;
 
     }
+
+    private void getProcessingFee(){
+        ApiInterface apiInterface= getClientService(SEILIGL.NEW_SERVERAPISERVISE).create(ApiInterface.class);
+        Call<ProcessingEmiData> call=apiInterface.processingFee("205528","SHAHJAHANPUR");
+        call.enqueue(new Callback<ProcessingEmiData>() {
+            @Override
+            public void onResponse(Call<ProcessingEmiData> call, Response<ProcessingEmiData> response) {
+                Log.d("TAG", "onResponseDATA: "+response.body());
+              //ProcessingEmiData brandResponse=response.body();
+                if(response.body() != null){
+                    if (response.body().getStatusCode()== 200){
+                         ProcessingEmi_data=response.body().getData();
+                        Log.d("TAG", "onResponseLIST: "+ProcessingEmi_data);
+                    }else{
+
+                    }
+                }
+
+            }
+            @Override
+            public void onFailure(Call<ProcessingEmiData> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
+
+
+    public static Retrofit getClientService(String BASE_URL) {
+        Retrofit retrofit=null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
+
 }
