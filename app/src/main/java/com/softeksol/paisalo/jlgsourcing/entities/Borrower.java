@@ -1122,7 +1122,7 @@ public class Borrower extends BaseModel implements Serializable {
             messages.put("Address", "Address 1 is not specified. Add minimum 5 letter");
         }
         if (this.P_add2 == null || this.P_add2.length() < 4) {
-            messages.put("Address", "Address 2 is not specified. Add minimum 5 letter");
+            messages.put("Address", "Address 2 is not specified. Add minimum 4 letter");
         }
         if (this.P_add3 == null || this.P_add3.length() < 2) {
             messages.put("Address", "Address 3 is not specified. Add minimum 2 letter");

@@ -545,10 +545,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         dLCheckSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tietDob.getText().toString().trim().length()>10){
+                if (tietDob.getText().toString().trim().length()>9){
                     try {
                         String Dob=formatDate(tietDob.getText().toString().trim(),"dd-MMM-yyyy","yyyy-MM-dd");
-                        if (tietDrivingLic.getText().toString().trim().length() >1) {
+                        if (tietDrivingLic.getText().toString().trim().length() >5) {
                             Log.d("TAG", "onClick: "+tietDob.getText().toString()+"/////"+Dob);
                             cardValidate(tietDrivingLic.getText().toString().trim(),"drivinglicense","",Dob);
                         } else {
@@ -569,7 +569,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         voterIdCheckSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tietVoterId.getText().toString().trim().length() == 10) {
+                if (tietVoterId.getText().toString().trim().length() > 5) {
                     cardValidate(tietVoterId.getText().toString().trim(),"voterid","","");
                 }else {
                     tilVoterId_Name.setVisibility(View.GONE);
@@ -577,8 +577,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
             }
         });
-
-
 
         tietPanNo.addTextChangedListener(new TextWatcher() {
             @Override

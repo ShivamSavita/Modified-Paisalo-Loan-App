@@ -508,6 +508,14 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 IglPreferences.setLanguage(getApplicationContext(), "hi");
                 reStartApplication();
                 break;
+            case R.id.action_update:
+                retVal = true;
+                String url = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+
+                break;
             default:
                 retVal = super.onOptionsItemSelected(item);
         }
