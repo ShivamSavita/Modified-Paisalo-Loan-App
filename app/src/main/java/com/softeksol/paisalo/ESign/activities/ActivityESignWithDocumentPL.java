@@ -248,7 +248,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         Intent appStartIntent = new Intent();
                         appStartIntent.setAction("com.nsdl.egov.esign.rdservice.fp.CAPTURE");
                         appStartIntent.putExtra("msg", xmlString); // msg contains esign request xml from ASP.
-                        appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).//Possible values PREPROD or PROD (case insensative).
+                        appStartIntent.putExtra("env", "PREPROD"); //Possible values PREPROD or PROD (case insensative).//Possible values PREPROD or PROD (case insensative).
                         appStartIntent.putExtra("returnUrl", responseUrl); // your package name where esign response failure/success will be sent.
                         startActivityForResult(appStartIntent, APK_ESIGN_REQUEST_CODE);
 
