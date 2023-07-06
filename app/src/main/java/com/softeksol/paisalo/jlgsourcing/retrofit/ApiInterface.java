@@ -61,13 +61,10 @@ public interface ApiInterface {
     Call<ResponseBody> postDataForEsignTrack(@Header("Authorization") String authHeader,@Query("ficode") String ficode,@Query("creator") String creator);
 
     @POST("PDL.Mobile.API/api/LiveTrack/CreateDocDataFetch")
-    Call<ResponseBody> saveFetchedDocData(
-            @Header("Authorization") String authHeader,@Body JsonObject jsonObject
+    Call<ResponseBody> saveFetchedDocData( @Header("Authorization") String authHeader,@Body JsonObject jsonObject);
 
-    );
     @GET("PDL.Mobile.API/api/LiveTrack/GetAppLink")
     Call<BrandResponse> getAppLinkStatus(@Query("version") String version,@Query("AppName") String AppName,@Query("action") int action);
-
 
     @GET("PDL.UserService.API/api/DDLHelper/GetCreator")
     Call<List<CreatorAllResponse>> getAllCreator();
@@ -80,9 +77,6 @@ public interface ApiInterface {
 
        @GET("PFL.ABF.API/api/Masters/GetModelByFuelType")
     Call<BrandResponse> getModelTypeByFuelAndVehical(@Header("Authorization") String authHeader,@Query("VehicleTypeId") int VehicleTypeId,@Query("FuelType") String FuelType, @Query("Bid") String Bid);
-
-
-
 
     @GET("PFL.ABF.API/api/Oem/GetBankDetaisByOemId")
     Call<BrandResponse> getBankList(@Header("Authorization") String authHeader,@Query("id") int id);
@@ -118,7 +112,8 @@ public interface ApiInterface {
     Call<BrandResponse> CreateProduct(@Header("Authorization") String authHeader,@Body RequestBody file);
 
 
-
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
 
 
 

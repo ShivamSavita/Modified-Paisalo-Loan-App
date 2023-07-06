@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -31,6 +32,8 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterOperation;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Dealer_Dashboard extends AppCompatActivity {
 
@@ -49,16 +55,37 @@ public class Dealer_Dashboard extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
+    ApiInterface apiInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dealer_dashboard);
+        apiInterface= new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("ABF Dashboard");
         sliderView = findViewById(R.id.slider);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("emailId", "dotnetdev2@paisalo.in");
+        jsonObject.addProperty("password", "admin@123");
+        jsonObject.addProperty("location", "string");
+        Log.d("TAG", "onCreate: "+jsonObject);
+        Call<JsonObject> call=apiInterface.getTokenForABF(jsonObject);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                SEILIGL.NEW_TOKEN="Bearer "+ response.body().get("token").getAsString();
+                Log.d("TAGs", "onCreate: "+SEILIGL.NEW_TOKEN);
 
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAGs", "onFailure: "+t.getMessage());
+            }
+        });
+
+        Log.d("TAG", "onCreate: "+SEILIGL.NEW_TOKEN);
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
         adapter = new SliderAdapter(this, myImageList);
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);

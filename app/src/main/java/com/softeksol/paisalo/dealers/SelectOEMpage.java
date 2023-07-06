@@ -67,6 +67,7 @@ public class SelectOEMpage extends AppCompatActivity {
         binding.recViewOemList.setLayoutManager(new LinearLayoutManager(this));
         ApiInterface apiInterface=new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         Call<BrandResponse> call=apiInterface.getOEMList(SEILIGL.NEW_TOKEN);
+        Log.d("TAG", "onCreate: "+SEILIGL.NEW_TOKEN);
         call.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {

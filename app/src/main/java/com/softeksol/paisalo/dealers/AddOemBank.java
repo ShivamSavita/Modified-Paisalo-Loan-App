@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.dealers;
 
+import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TAKE_PHOTO;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +9,10 @@ import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,15 +21,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.kyanogen.signatureview.SignatureView;
 import com.softeksol.paisalo.dealers.Models.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,15 +52,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddOemBank extends AppCompatActivity {
+public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCameraCaptureUpdate {
     TextInputEditText branchName,ifscCode,Account_Number,bankName,OEMName,tietAccOenDt;
     Spinner firm_accountType;
-    Button btnSaveAccount;
-    SignatureView signatureView;
+    Button btnSaveAccount,clickSignatureBtn;
+    ImageView signatureView;
     private Calendar myCalendar;
     ImageView imgViewCalBank;
+    private Uri uriPicture;
     String accountOpeningDate;
     int OEMId;
+    File croppedImage = null;
+    private Boolean cropState = false;
     String userType;
     private DatePickerDialog.OnDateSetListener dateSetListner;
     Intent i;
@@ -72,12 +84,26 @@ public class AddOemBank extends AppCompatActivity {
         bankName=findViewById(R.id.bankName);
         OEMName=findViewById(R.id.OEMName);
         btnSaveAccount=findViewById(R.id.btnSaveAccount);
-        signatureView=findViewById(R.id.signatureView);
+        signatureView=findViewById(R.id.bankSignatueImage);
         tietAccOenDt=findViewById(R.id.tietAccOenDt);
         imgViewCalBank=findViewById(R.id.imgViewCalBank);
+        clickSignatureBtn=findViewById(R.id.clickSignatureBtn);
+        clickSignatureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                cropState = true;
+                ImagePicker.with(AddOemBank.this)
+                        .cameraOnly()
+                        .start(REQUEST_TAKE_PHOTO);
+
+
+            }
+        });
         myCalendar = Calendar.getInstance();
         myCalendar.setTime(new Date());
         tietAccOenDt.setEnabled(false);
+        signatureView.setVisibility(View.GONE);
         imgViewCalBank .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,46 +128,47 @@ public class AddOemBank extends AppCompatActivity {
         btnSaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (signatureView.isBitmapEmpty()){
-                    Toast.makeText(AddOemBank.this, "Please do your signature", Toast.LENGTH_SHORT).show();
-                }else{
-                    Bitmap bitmap = signatureView.getSignatureBitmap();
-                    Log.d("TAG", "onClick: "+bitmap);
-                    File dir = new File("//sdcard//Download//");
-
-
-                    File f = new File(dir, "OEMSignature.png");
-                    try {
-                        f.createNewFile();
-                        Log.d("TAG", "file created");
-
-                    } catch (IOException e) {
-                        Log.d("TAG", "onClick: Runtime IO "+e);
-
-                        throw new RuntimeException(e);
-                    }
-
-//Convert bitmap to byte array
-
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(f);
-                        fos.write(bitmapdata);
-                        Log.d("TAG", "file done");
-
-
-                        DownloadManager downloadManager = (DownloadManager) getBaseContext().getSystemService(DOWNLOAD_SERVICE);
-
-                        downloadManager.addCompletedDownload(f.getName(), f.getName(), true, "text/plain",f.getAbsolutePath(),f.length(),true);
-                        fos.flush();
-                        fos.close();
-                        RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), f);
-                       MultipartBody.Part signatureimage = MultipartBody.Part.createFormData("Signature",f.getName(),surveyBody);
+//                if (signatureView.isBitmapEmpty()){
+//                    Toast.makeText(AddOemBank.this, "Please do your signature", Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+//                    Bitmap bitmap = signatureView.getSignatureBitmap();
+//                    Log.d("TAG", "onClick: "+bitmap);
+//                    File dir = new File("//sdcard//Download//");
+//
+//
+//                    File f = new File(dir, "OEMSignature.png");
+//                    try {
+//                        f.createNewFile();
+//                        Log.d("TAG", "file created");
+//
+//                    } catch (IOException e) {
+//                        Log.d("TAG", "onClick: Runtime IO "+e);
+//
+//                        throw new RuntimeException(e);
+//                    }
+//
+////Convert bitmap to byte array
+//
+//                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+//                    byte[] bitmapdata = bos.toByteArray();
+//
+////write the bytes in file
+//                    FileOutputStream fos = null;
+//                    try {
+//                        fos = new FileOutputStream(f);
+//                        fos.write(bitmapdata);
+//                        Log.d("TAG", "file done");
+//
+//
+//                        DownloadManager downloadManager = (DownloadManager) getBaseContext().getSystemService(DOWNLOAD_SERVICE);
+//
+//                        downloadManager.addCompletedDownload(f.getName(), f.getName(), true, "text/plain",f.getAbsolutePath(),f.length(),true);
+//                        fos.flush();
+//                        fos.close();
+                        RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), croppedImage);
+                       MultipartBody.Part signatureimage = MultipartBody.Part.createFormData("Signature",croppedImage.getName(),surveyBody);
 
                         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
                         builder.addFormDataPart("UserId", String.valueOf(OEMId))
@@ -153,7 +180,7 @@ public class AddOemBank extends AppCompatActivity {
                         .addFormDataPart("AccountType",firm_accountType.getSelectedItem().toString())
                         .addFormDataPart("UserType",userType);
 
-                        builder.addFormDataPart("Signature",f.getName(),surveyBody);
+                        builder.addFormDataPart("Signature",croppedImage.getName(),surveyBody);
 
 //
                         RequestBody requestBody = builder.build();
@@ -197,19 +224,19 @@ public class AddOemBank extends AppCompatActivity {
 
 
 
-                    } catch (FileNotFoundException e) {
-                        Log.d("TAG", "onClick: file not found"+e);
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        Log.d("TAG", "onClick: IO exception"+e);
-
-                        throw new RuntimeException(e);
-                    }
+//                    } catch (FileNotFoundException e) {
+//                        Log.d("TAG", "onClick: file not found"+e);
+//                        throw new RuntimeException(e);
+//                    } catch (IOException e) {
+//                        Log.d("TAG", "onClick: IO exception"+e);
+//
+//                        throw new RuntimeException(e);
+//                    }
 
                 }
 
 
-            }
+//            }
         });
 
 
@@ -217,7 +244,52 @@ public class AddOemBank extends AppCompatActivity {
 
 
     }
+    public void open(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //IMAGE CAPTURE CODE
+        startActivityForResult(intent, 0);
+    }
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            uriPicture = data.getData();
+            CropImage.activity(uriPicture)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(45, 20)
+                    .start(AddOemBank.this);
+        }else{
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Exception error = null;
+            Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
+            Toast.makeText(AddOemBank.this, imageUri.toString(), Toast.LENGTH_SHORT).show();
+            File tempCroppedImage = new File(imageUri.getPath());
 
+
+            try {
+                croppedImage = CameraUtils.moveCachedImage2Storage(AddOemBank.this, tempCroppedImage, true);
+
+//                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+//                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
+//                                    } else {
+//                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
+//                                    }
+//                                    //Log.e("CroppedImageMyBitmap", bitmap+ "");
+            Log.e("CroppedImageFile1", croppedImage.getPath()+"");
+            Log.e("CroppedImageFile2", croppedImage.getAbsolutePath()+"");
+            Log.e("CroppedImageFile3", croppedImage.getCanonicalPath()+"");
+            Log.e("CroppedImageFile4", croppedImage.getParent()+"");
+            Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
+            Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
+                Bitmap imgBitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+                signatureView.setVisibility(View.VISIBLE);
+            signatureView.setImageBitmap(imgBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }}
+
+//        signatureView.setImageBitmap(bitmap);
+    }
     private String getJsonOfData() {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("UserId",OEMId);
@@ -231,5 +303,10 @@ public class AddOemBank extends AppCompatActivity {
         jsonObject.addProperty("UserType",userType);
         Log.d("TAG", "onClick: "+jsonObject);
         return  jsonObject.toString();
+    }
+
+    @Override
+    public void cameraCaptureUpdate(Uri uriImage) {
+        uriPicture = uriImage;
     }
 }

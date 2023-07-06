@@ -14,7 +14,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +57,7 @@ import com.softeksol.paisalo.dealers.SelectOEMpage;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
@@ -87,7 +97,7 @@ public class DealerPreDocsFragment extends Fragment {
     public ArrayList<File> arrayListImages8 = new ArrayList<>();
     public ArrayList<File> arrayListImages9 = new ArrayList<>();
     ImageAdapter imageAdapter,imageAdapter1,imageAdapter2,imageAdapter3,imageAdapter4,imageAdapter5,imageAdapter6,imageAdapter7,imageAdapter8;
-
+    ActivityResultLauncher<Intent> resultLauncher;
     Uri imageURI;
     String currentImagePath=null;
 
@@ -97,6 +107,8 @@ public class DealerPreDocsFragment extends Fragment {
     private String url = "https://www.google.com";
     private static final int BUFFER_SIZE = 1024 * 2;
     private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
+    private int documentId;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -162,7 +174,12 @@ public class DealerPreDocsFragment extends Fragment {
         }
     }
 
-
+    private ActivityResultLauncher<Intent> launcher; // Initialise this object in Activity.onCreate()
+    private Uri baseDocumentTreeUri;
+    public void launchBaseDirectoryPicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        launcher.launch(intent);
+    }
 
     public int DealerId;
 
@@ -183,7 +200,6 @@ public class DealerPreDocsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_dealer_pre_docs, container, false);
-
         Log.d("TAG", "onCreateView: dealr id in pre doc frag"+DealerId);
         ImageUploadBtn=view.findViewById(R.id.ImageUploadBtn);
         ImageUploadBtn1=view.findViewById(R.id.ImageUploadBtn1);
@@ -396,8 +412,17 @@ public class DealerPreDocsFragment extends Fragment {
         ImageUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage(0);
-
+            selectImage(0);
+////
+//                final DialogProperties properties = new DialogProperties();
+//                properties.selection_mode = DialogConfigs.SINGLE_MODE;
+//                properties.selection_type = DialogConfigs.FILE_SELECT;
+//                properties.root = new File("sdcard");
+//                FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+//                dialog.setTitle("Select a File");
+//                dialog.setPositiveBtnName("Select");
+//                dialog.setNegativeBtnName("Cancel");
+//                dialog.show();
             }
         });
         ImageUploadBtn1.setOnClickListener(new View.OnClickListener() {
@@ -461,19 +486,23 @@ public class DealerPreDocsFragment extends Fragment {
         ImageSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentId=1;
                 saveDocsData(arrayListImages1,"1");
             }
         });
         ImageSaveBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveDocsData(arrayListImages1,"2");
+                documentId=2;
+                saveDocsData(arrayListImages2,"2");
             }
         });
         ImageSaveBtn2.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            saveDocsData(arrayListImages2,"3");
+            documentId=3;
+
+            saveDocsData(arrayListImages3,"3");
         }
     });
 
@@ -481,12 +510,16 @@ public class DealerPreDocsFragment extends Fragment {
  ImageSaveBtn3.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=4;
+
             saveDocsData(arrayListImages4,"4");
         }
     });
     ImageSaveBtn4.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=5;
+
             saveDocsData(arrayListImages5,"5");
         }
     });
@@ -494,12 +527,16 @@ public class DealerPreDocsFragment extends Fragment {
  ImageSaveBtn5.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=6;
+
             saveDocsData(arrayListImages6,"6");
         }
     });
     ImageSaveBtn6.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=7;
+
             saveDocsData(arrayListImages7,"7");
         }
     });
@@ -507,12 +544,15 @@ public class DealerPreDocsFragment extends Fragment {
  ImageSaveBtn7.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=8;
             saveDocsData(arrayListImages8,"8");
         }
     });
     ImageSaveBtn8.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            documentId=8;
+
             saveDocsData(arrayListImages9,"9");
         }
     });
@@ -554,6 +594,52 @@ public class DealerPreDocsFragment extends Fragment {
                 Log.d("TAG", "onResponse: "+brandResponse.getMessage());
                 Log.d("TAG", "onResponse: "+brandResponse.getData());
                 Log.d("TAG", "onResponse: "+brandResponse.getStatusCode());
+                if(brandResponse.getStatusCode()==200){
+                    Utils.alert(getContext(),"Document Saved Successfully");
+
+                    switch (documentId)
+                    {
+                        case 1:
+                            arrayListImages1.clear();
+                            imageAdapter.notifyDataSetChanged();
+                            break;
+                        case 2:
+                            arrayListImages2.clear();
+                            imageAdapter1.notifyDataSetChanged();
+                            break;
+                        case 3:
+                            arrayListImages3.clear();
+                            imageAdapter2.notifyDataSetChanged();
+                            break;
+                        case 4:
+                            arrayListImages4.clear();
+                            imageAdapter3.notifyDataSetChanged();
+                            break;
+                        case 5:
+                            arrayListImages5.clear();
+                            imageAdapter4.notifyDataSetChanged();
+                            break;
+                        case 6:
+                            arrayListImages6.clear();
+                            imageAdapter5.notifyDataSetChanged();
+                            break;
+                        case 7:
+                            arrayListImages7.clear();
+                            imageAdapter6.notifyDataSetChanged();
+                            break;
+                        case 8:
+                            arrayListImages8.clear();
+                            imageAdapter7.notifyDataSetChanged();
+                            break;
+                        case 9:
+                            arrayListImages9.clear();
+                            imageAdapter8.notifyDataSetChanged();
+                            break;
+
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Something went wrong. Please try again!!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

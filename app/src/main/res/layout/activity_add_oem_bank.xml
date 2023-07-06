@@ -301,12 +301,12 @@
                     android:text="Signature Here" />
 
                 <Button
-                    android:id="@+id/clearSignatureBtn"
+                    android:id="@+id/clickSignatureBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:elevation="10dp"
-                    android:text="Clear"
+                    android:text="Click Signature Image"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -333,18 +333,15 @@
                     android:background="@drawable/spinner_bggrey">
 
 
-                    <com.kyanogen.signatureview.SignatureView
-                        android:id="@+id/signatureView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="260dp"
-                        app:backgroundColor="#E4E4E4"
-                        app:enableSignature="true"
+                    <ImageView
+                        android:id="@+id/bankSignatueImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:scaleType="fitXY"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:penColor="#000000"
-                        app:penSize="2dp" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

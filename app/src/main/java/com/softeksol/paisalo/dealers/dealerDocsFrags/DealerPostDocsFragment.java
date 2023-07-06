@@ -2,18 +2,23 @@ package com.softeksol.paisalo.dealers.dealerDocsFrags;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +51,7 @@ import com.softeksol.paisalo.dealers.Models.VehicalDataModel;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
@@ -86,7 +92,7 @@ public class DealerPostDocsFragment extends Fragment {
     public ArrayList<File> arrayListImages9 = new ArrayList<>();
     public ArrayList<File> arrayListImages10 = new ArrayList<>();
     ImageAdapter imageAdapter,imageAdapter1,imageAdapter2,imageAdapter3,imageAdapter4,imageAdapter5,imageAdapter6,imageAdapter7,imageAdapter8,imageAdapter9;
-
+    FilePickerDialog dialog1;
     Uri imageURI;
     String currentImagePath=null;
 
@@ -96,6 +102,8 @@ public class DealerPostDocsFragment extends Fragment {
     private String url = "https://www.google.com";
     private static final int BUFFER_SIZE = 1024 * 2;
     private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
+    private int documentID;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -490,18 +498,23 @@ public class DealerPostDocsFragment extends Fragment {
         ImageSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=9;
                 saveDocsData(arrayListImages1,"9");
             }
         });
         ImageSaveBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=10;
+
                 saveDocsData(arrayListImages1,"10");
             }
         });
         ImageSaveBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=11;
+
                 saveDocsData(arrayListImages2,"11");
             }
         });
@@ -510,12 +523,16 @@ public class DealerPostDocsFragment extends Fragment {
         ImageSaveBtn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=12;
+
                 saveDocsData(arrayListImages4,"12");
             }
         });
         ImageSaveBtn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=13;
+
                 saveDocsData(arrayListImages5,"13");
             }
         });
@@ -523,12 +540,16 @@ public class DealerPostDocsFragment extends Fragment {
         ImageSaveBtn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=14;
+
                 saveDocsData(arrayListImages6,"14");
             }
         });
         ImageSaveBtn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=15;
+
                 saveDocsData(arrayListImages7,"15");
             }
         });
@@ -536,18 +557,24 @@ public class DealerPostDocsFragment extends Fragment {
         ImageSaveBtn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=16;
+
                 saveDocsData(arrayListImages8,"16");
             }
         });
         ImageSaveBtn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=17;
+
                 saveDocsData(arrayListImages9,"17");
             }
         });
         ImageSaveBtn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                documentID=18;
+
                 saveDocsData(arrayListImages10,"18");
             }
         });
@@ -577,9 +604,7 @@ public class DealerPostDocsFragment extends Fragment {
             RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), image);
             builder.addFormDataPart("Documents",image.getName(),surveyBody);
         }
-
-
-//
+        
         RequestBody requestBody = builder.build();
 
         Call<BrandResponse> call=apiInterface.uploadDealerPreDocs(SEILIGL.NEW_TOKEN,requestBody);
@@ -590,6 +615,57 @@ public class DealerPostDocsFragment extends Fragment {
                 Log.d("TAG", "onResponse: "+brandResponse.getMessage());
                 Log.d("TAG", "onResponse: "+brandResponse.getData());
                 Log.d("TAG", "onResponse: "+brandResponse.getStatusCode());
+                if(brandResponse.getStatusCode()==200){
+                    Utils.alert(getContext(),"Document Saved Successfully");
+
+                    switch (documentID)
+                    {
+                        case 9:
+                            arrayListImages1.clear();
+                            imageAdapter.notifyDataSetChanged();
+                            break;
+                             case 10:
+                            arrayListImages2.clear();
+                            imageAdapter1.notifyDataSetChanged();
+                            break;
+                             case 11:
+                            arrayListImages3.clear();
+                            imageAdapter2.notifyDataSetChanged();
+                            break;
+                             case 12:
+                            arrayListImages4.clear();
+                            imageAdapter3.notifyDataSetChanged();
+                            break;
+                             case 13:
+                            arrayListImages5.clear();
+                            imageAdapter4.notifyDataSetChanged();
+                            break;
+                             case 14:
+                            arrayListImages6.clear();
+                            imageAdapter5.notifyDataSetChanged();
+                            break;
+                             case 15:
+                            arrayListImages7.clear();
+                            imageAdapter6.notifyDataSetChanged();
+                            break;
+                             case 16:
+                            arrayListImages8.clear();
+                            imageAdapter7.notifyDataSetChanged();
+                            break;
+                             case 17:
+                            arrayListImages9.clear();
+                            imageAdapter8.notifyDataSetChanged();
+                            break;
+                             case 18:
+                            arrayListImages10.clear();
+                            imageAdapter9.notifyDataSetChanged();
+                            break;
+
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Something went wrong. Please try again!!", Toast.LENGTH_SHORT).show();
+                }
+                    
             }
 
             @Override
@@ -652,6 +728,8 @@ public class DealerPostDocsFragment extends Fragment {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY+requestCode);
                 }else if (options[item].equals("Choose Docs From Gallery")) {
+                    Log.d("TAG", "onClick: clicked on pick docs from gallery");
+
                     dialog.dismiss();
 //                    Intent intentPDF = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 //                    intentPDF.setType("application/pdf");
@@ -662,9 +740,9 @@ public class DealerPostDocsFragment extends Fragment {
                     properties.selection_mode = DialogConfigs.SINGLE_MODE;
                     properties.selection_type = DialogConfigs.FILE_SELECT;
                     properties.root = new File("sdcard");
-                    FilePickerDialog dialog1 = new FilePickerDialog(getContext(),properties);
+                     dialog1 = new FilePickerDialog(getContext(),properties);
                     dialog1.setTitle("Select a File");
-
+                    Log.d("TAG", "onClick: clicked on pick docs from gallery");
                     dialog1.setDialogSelectionListener(new DialogSelectionListener() {
                         @Override
                         public void onSelectedFilePaths(String[] files) {
@@ -746,7 +824,14 @@ public class DealerPostDocsFragment extends Fragment {
 
                         }
                     });
-                    dialog1.show();
+
+
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        dialog1.show();
+                    } else {
+                        // Request the permission if not granted
+                        requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, FilePickerDialog.EXTERNAL_READ_PERMISSION_GRANT);
+                    }
 
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -914,6 +999,30 @@ public class DealerPostDocsFragment extends Fragment {
         }
         return null;
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case FilePickerDialog.EXTERNAL_READ_PERMISSION_GRANT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (dialog1 != null) {
+                        // Show the dialog if the read permission has been granted
+                        dialog1.show();
+                    }
+                } else {
+                    // Permission has not been granted. Notify the user.
+                    Toast.makeText(getContext(), "Permission is required for getting the list of files", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+
+
+
+
+
+
 
     public static String getFileName(Uri uri) {
         if (uri == null) return null;
