@@ -97,15 +97,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff.validateCaseCode;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -151,8 +157,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     ArrayList<RangeCategory> genders;
     String loanDurationData,stateData,genderData;
     boolean aadharNumberentry=false;
-    String isAdhaarEntry ="M";
-    String isNameMatched ="1";
+    String isAdhaarEntry ="N";
+    String isNameMatched ="0";
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
@@ -200,9 +206,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
         spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
-        Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
+      //  Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(actionBar.getTitle() + "    Borrower KYC");
+        actionBar.setTitle(" Borrower KYC"); //actionBar.getTitle();
         actionBar.setDisplayHomeAsUpEnabled(true);
 //        ArrayList<RangeCategory> genders = new ArrayList<>();
 //        genders.add(new RangeCategory("Female", "Gender"));
@@ -871,7 +877,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 Log.d("CheckXMLDATA3","AadharData:->" + scanContent);
                 if (scanFormat != null) {
                     try {
-                        isAdhaarEntry ="S";
                         setAadharContent(scanContent);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1861,7 +1866,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
@@ -1873,6 +1878,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
+                        isNameMatched="1";
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");
@@ -1883,10 +1889,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }else if(type.equals("voterid")){
                     try {
                         tilVoterId_Name.setVisibility(View.VISIBLE);
-
                         tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         voterIdCheckSign.setEnabled(false);
+                        isNameMatched="1";
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText("Card Holder Name Not Found");
@@ -1903,6 +1909,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         dLCheckSign.setEnabled(false);
+                        isNameMatched="1";
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
                         tilDL_Name.setText("Card Holder Name Not Found");
@@ -2047,5 +2054,30 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             e.printStackTrace();
         }
     }
+
+
+
+
+    public static Retrofit getClientPan(String BASE_URL) {
+        Retrofit retrofit = null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
+
 
 }

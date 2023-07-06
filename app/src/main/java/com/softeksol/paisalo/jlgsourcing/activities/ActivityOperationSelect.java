@@ -1,32 +1,23 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +34,6 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListManager;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterOperation;
-import com.softeksol.paisalo.jlgsourcing.adapters.AdapterProcessingFee;
 import com.softeksol.paisalo.jlgsourcing.entities.DataEMI;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
@@ -52,10 +42,7 @@ import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
-import com.softeksol.paisalo.jlgsourcing.retrofit.AppUpdateResponse;
-import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -97,7 +84,12 @@ public class ActivityOperationSelect extends AppCompatActivity {
 //        intent.putExtra("deviceId",IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
 //        intent.putExtra("groupCode",IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
 //        startActivity(intent);
-        getLoginLocation();
+         if(gpsTracker.getGPSstatus()==false){
+             showSettingsAlert();
+         }else{
+             getLoginLocation("LOGIN");
+         }
+
         sliderView = findViewById(R.id.slider);
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
          adapter = new SliderAdapter(this, myImageList);
@@ -191,6 +183,37 @@ public class ActivityOperationSelect extends AppCompatActivity {
 //                dialog.show();
             }
         });
+
+
+
+    }
+
+
+    public void showSettingsAlert(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ActivityOperationSelect.this);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS is settings");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
@@ -243,7 +266,8 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 intent.putExtra("Title", operationItem.getOprationName());
                 startActivity(intent);
                 gpsTracker=new GpsTracker(getApplicationContext());
-                getLoginLocation();
+                getLoginLocation(operationItem.getOprationName());
+                Log.d("CLICK",operationItem.getOprationName());
             }
 
             @Override
@@ -264,10 +288,10 @@ public class ActivityOperationSelect extends AppCompatActivity {
         return actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
-    private void getLoginLocation(){
+    private void getLoginLocation(String login){
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-        Log.d("TAG", "checkCrifScore: "+getdatalocation());
-        Call<JsonObject> call=apiInterface.livetrack(getdatalocation());
+        Log.d("TAG", "checkCrifScore: "+getdatalocation(login));
+        Call<JsonObject> call=apiInterface.livetrack(getdatalocation(login));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -282,7 +306,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         });
     }
 
-    private JsonObject getdatalocation() {
+    private JsonObject getdatalocation(String login) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("userId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         jsonObject.addProperty("deviceId", IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
@@ -290,7 +314,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
         jsonObject.addProperty("trackAppVersion", BuildConfig.VERSION_NAME);
         jsonObject.addProperty("latitude",gpsTracker.getLatitude()+"");
         jsonObject.addProperty("longitude", gpsTracker.getLongitude()+"");
-        jsonObject.addProperty("appInBackground","1");
+            jsonObject.addProperty("appInBackground",login);
         return jsonObject;
 
     }

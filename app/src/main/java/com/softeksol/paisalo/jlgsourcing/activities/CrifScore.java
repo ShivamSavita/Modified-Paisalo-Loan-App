@@ -53,12 +53,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CrifScore extends AppCompatActivity {
 
@@ -260,7 +265,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void checkCrifScore(){
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        ApiInterface apiInterface= getClientCrif(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfKyc());
         Call<CheckCrifData> call=apiInterface.checkCrifScore(getJsonOfKyc());
         call.enqueue(new Callback<CheckCrifData>() {
@@ -324,7 +329,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void getCrifScore(CheckCrifData checkCrifData) {
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        ApiInterface apiInterface= getClientCrif(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Call<ScrifData> call=apiInterface.getCrifScore(getJSOnOfCheckDataResponse(checkCrifData));
         call.enqueue(new Callback<ScrifData>() {
             @Override
@@ -528,7 +533,6 @@ public class CrifScore extends AppCompatActivity {
         // this will convert any number sequence into 6 character.
         return String.format("%06d", number);
     }
-
     public static String getRandomTwoNumberString() {
         // It will generate 6 digit random Number.
         // from 0 to 999999
@@ -574,5 +578,28 @@ public class CrifScore extends AppCompatActivity {
             }
         });
     }
+
+
+
+    public static Retrofit getClientCrif(String BASE_URL) {
+        Retrofit retrofit = null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
 
 }

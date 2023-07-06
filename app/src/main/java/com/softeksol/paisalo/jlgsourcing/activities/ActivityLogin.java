@@ -254,11 +254,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                         String Creator = jsonObject.getString("Creator");
                                         String IMEI_NO = jsonObject.getString("IMEINO");
                                         loginData.remove("foImei");
-                                        Log.d("FOiemi", foImei.toString());
-                                        Log.d("LoginData", loginData.toString());
-                                        Log.d("CREATORAAYA", Creator+"");
-                                        Log.d("branchCode", branchCode+"");
-                                        Log.d("IMEI_NO", IMEI_NO+"");
 
                                         IglPreferences.setSharedPref(getBaseContext(), SEILIGL.USER_ID, UserName);
                                         IglPreferences.setSharedPref(getBaseContext(), SEILIGL.CREATOR, Creator);
@@ -331,7 +326,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                             finish();
                                         }
                                     } catch (JSONException e) {
-                                        Toast.makeText(ActivityLogin.this, "Manager List Not Mapped Kindly Contact to Your Head", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ActivityLogin.this, "Manager List Not Mapped Kindly Contact to Your Area Head", Toast.LENGTH_LONG).show();
                                         e.printStackTrace();
                                     }
                                 }
@@ -514,8 +509,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
-
                 break;
+
             default:
                 retVal = super.onOptionsItemSelected(item);
         }
@@ -596,7 +591,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 try {
                     jo = new JSONObject(jsonString);
                     jo.remove("LoginData");
-
                     IglPreferences.setSharedPref(getBaseContext(), SEILIGL.LOGIN_TOKEN, jo.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

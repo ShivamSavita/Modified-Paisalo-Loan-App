@@ -95,7 +95,7 @@ public class WebOperations {
 
     public static void setHttpHeadersJson(Context context, AsyncHttpClient client, Boolean setBearer) {
         setHttpHeaders(context, client, setBearer);
-            client.addHeader("accept", "application/json");
+        client.addHeader("accept", "application/json");
         client.addHeader("access", "application/json");
         client.addHeader("procname", BuildConfig.PROC_NAME);
         Log.d("TAG PROC", "setHttpHeadersJson: "+BuildConfig.PROC_NAME);
@@ -134,11 +134,12 @@ public class WebOperations {
             client.addHeader("Authorization", "bearer " + bearerString);
         }
         client.addHeader("Content-Encoding", "gzip,deflate,compress");
+       //
         client.addHeader("imeino",IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
-        //client.addHeader("imeino","863859056810497");
+        //client.addHeader("imeino","350098015074602");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-        //client.addHeader("devid","2239519535692247");
+        //client.addHeader("devid","4374793985786243");
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
     //  client.addHeader("dbname",IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, ""));
         client.addHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, ""));
@@ -155,14 +156,15 @@ public class WebOperations {
                 bearerString = IglPreferences.getAccesstokenESign(context).getString("access_token");
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
             client.addHeader("Authorization", "bearer " + bearerString);
         }
         client.addHeader("Content-Encoding", "gzip,deflate,compress");
         client.addHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
-        //client.addHeader("imeino", "863859056810497");
+       // client.addHeader("imeino", "350098015074602");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-      //  client.addHeader("devid","2239519535692247");
+        //client.addHeader("devid","4374793985786243");
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
         client.setTimeout(70000);
     }
@@ -179,9 +181,9 @@ public class WebOperations {
         }
         headers.add(new BasicHeader("Content-Encoding", "gzip,deflate,compress"));
         headers.add(new BasicHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0")));
-        //  headers.add(new BasicHeader("imeino", "863859056810497"));
+       //headers.add(new BasicHeader("imeino", "350098015074602"));
         headers.add(new BasicHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")));
-       // headers.add(new BasicHeader("devid","2239519535692247"));
+       //headers.add(new BasicHeader("devid","4374793985786243"));
         headers.add(new BasicHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, "")));
         headers.add(new BasicHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, "")));
         headers.add(new BasicHeader("procname", BuildConfig.PROC_NAME));

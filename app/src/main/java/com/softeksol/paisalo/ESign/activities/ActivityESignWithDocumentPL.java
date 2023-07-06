@@ -304,7 +304,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         }
                     } catch (Exception je) {
                         Utils.alert(ActivityESignWithDocumentPL.this, "Something went wrong in ESigning OR response is not correct");
-
                         je.printStackTrace();
                     }
                 }
