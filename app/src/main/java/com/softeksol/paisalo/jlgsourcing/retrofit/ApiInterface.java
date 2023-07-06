@@ -46,7 +46,7 @@ public interface ApiInterface {
     Call<BrandResponse> getBrands(@Header("Authorization") String authHeader);
 
    @GET("PFL.ABF.API/api/Oem/Getpincode")
-    Call<BrandResponse> getPINData(@Query("pincode") int textnum, @Header("Authorization") String authHeader);
+    Call<BrandResponse> getPINData(@Query("pincode") int pincode, @Header("Authorization") String authHeader);
 
    @POST("PFL.ABF.API/api/Oem/CreateOem")
     Call<ResponseBody> saveOEmDetails( @Header("Authorization") String authHeader,@Body JsonObject jsonObject);
