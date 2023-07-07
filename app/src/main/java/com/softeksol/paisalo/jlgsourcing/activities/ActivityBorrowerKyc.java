@@ -332,7 +332,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 rangeCategory = (RangeCategory) adapterView.getSelectedItem();
 
                 Spinner spinnerMaritalStatus = (Spinner) findViewById(R.id.spinMARITAL_STATUS);
-                ;
+
                 if (rangeCategory.RangeCode.equals("Unmarried")) {
                     linearLayout433.setVisibility(View.GONE);
                     cardView_SpouseFirstName.setVisibility(View.GONE);

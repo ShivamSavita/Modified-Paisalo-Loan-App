@@ -308,9 +308,7 @@ public class CrifScore extends AppCompatActivity {
                     text_serverMessage.setText("Server Error!!.Please try again!!");
                     btnTryAgain.setVisibility(View.VISIBLE);
                     text_wait.setVisibility(View.GONE);
-
                 }
-
             }
 
             @Override
@@ -325,7 +323,6 @@ public class CrifScore extends AppCompatActivity {
             }
         });
     }
-
 
     private void getCrifScore(CheckCrifData checkCrifData) {
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
@@ -559,8 +556,6 @@ public class CrifScore extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-
-
 
     private void updateSourcingStatus(){
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
