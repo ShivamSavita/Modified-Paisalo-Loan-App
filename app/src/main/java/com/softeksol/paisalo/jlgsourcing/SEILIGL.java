@@ -49,6 +49,8 @@ public class SEILIGL extends Application {
     public static final String IMEI = BuildConfig.APPLICATION_ID + ".IMEI_NO";
 //    public static final String NEW_SERVER_BASEURL ="http://192.168.1.168:8084/";
     public static final String NEW_SERVER_BASEURL ="https://erpservice.paisalo.in:980/";
+    public static final String NEW_SERVER_BASEURL_BETA ="http://192.168.1.168:8084/";
+
     public static  String NEW_TOKEN ="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AcGFpc2Fsby5pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQHBhaXNhbG8uaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJSb2xlIjpbIkFETUlOIiwiQURNSU4iXSwiQnJhbmNoQ29kZSI6IjAwMSIsIkNyZWF0b3IiOiJBR1JBIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiSnVsIEZyaSAwNyAyMDIzIDA2OjIxOjM2IEFNIiwibmJmIjoxNjg4NjI0NDk2LCJleHAiOjE2ODg2OTEwOTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxODgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4In0.QBuhTqPUyq_OKXmspzpkIcpUdlsB-jSIUC7-fNPBCHU";
     public static final String AGRA_CREDITMATRIX_BASEURL ="https://agra.paisalo.in:8462/creditmatrix/api/";
     private String deviceId;

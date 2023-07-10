@@ -318,8 +318,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                                 updateReloginToken(foImei.getString("RequestUrl"), UserName, Password);
                                             }
                                             //updateManager( managers);
-//                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
-                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
+                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
+//                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -330,8 +330,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                                 updateReloginToken(foImei.getString("RequestUrl"), UserName, Password);
                                             }
                                             //updateManager( managers);
-//                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
-                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
+                                            Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
+//                                            Intent intent = new Intent(ActivityLogin.this, Dealer_Dashboard.class);
 
                                             //Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
                                             startActivity(intent);

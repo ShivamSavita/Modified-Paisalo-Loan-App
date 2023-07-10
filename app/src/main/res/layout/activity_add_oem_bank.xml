@@ -73,21 +73,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilUidDob">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <Spinner
+                    android:id="@+id/bankName"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:paddingLeft="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/bankName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:capitalize="characters"
-                        android:hint="Bank Name"
-                        android:inputType="textCapWords" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    android:layout_height="45dp"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

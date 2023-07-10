@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -23,9 +24,15 @@ import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kyanogen.signatureview.SignatureView;
+import com.softeksol.paisalo.dealers.Adapters.BankAdapter;
+import com.softeksol.paisalo.dealers.Adapters.BankListAdapter;
+import com.softeksol.paisalo.dealers.Models.BankListMaster;
 import com.softeksol.paisalo.dealers.Models.BrandResponse;
+import com.softeksol.paisalo.dealers.Models.CreatorAllResponse;
+import com.softeksol.paisalo.dealers.Models.OEMBankResponse;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
@@ -53,21 +60,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCameraCaptureUpdate {
-    TextInputEditText branchName,ifscCode,Account_Number,bankName,OEMName,tietAccOenDt;
+    TextInputEditText branchName,ifscCode,Account_Number,OEMName,tietAccOenDt;
+    Spinner bankName;
     Spinner firm_accountType;
     Button btnSaveAccount,clickSignatureBtn;
     ImageView signatureView;
     private Calendar myCalendar;
+
+    BankListAdapter adapter;
     ImageView imgViewCalBank;
     private Uri uriPicture;
     String accountOpeningDate;
     int OEMId;
     File croppedImage = null;
     private Boolean cropState = false;
+    String bank;
     String userType;
     private DatePickerDialog.OnDateSetListener dateSetListner;
     Intent i;
-    ApiInterface apiInterface;
+    ApiInterface apiInterface,apiInterface1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +86,7 @@ public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCamer
         firm_accountType=findViewById(R.id.firm_accountType);
         i=getIntent();
         apiInterface=  new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
+        apiInterface1=  new ApiClient().getClient2(SEILIGL.NEW_SERVER_BASEURL_BETA).create(ApiInterface.class);
 
         OEMId=i.getIntExtra("Id",0);
         userType=i.getStringExtra("type");
@@ -97,6 +109,37 @@ public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCamer
                         .cameraOnly()
                         .start(REQUEST_TAKE_PHOTO);
 
+
+            }
+        });
+        Call<BrandResponse> call=apiInterface1.getBanks();
+        call.enqueue(new Callback<BrandResponse>() {
+            @Override
+            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                BrandResponse brandResponse=response.body();
+                Log.d("TAG", "onResponse: "+response.body());
+                Gson gson = new Gson();
+                BankListMaster[] nameList = gson.fromJson(brandResponse.getData(), BankListMaster[].class);
+                adapter=new BankListAdapter(AddOemBank.this,nameList);
+                bankName.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<BrandResponse> call, Throwable t) {
+
+            }
+        });
+
+        bankName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                BankListMaster bankListMaster= (BankListMaster) adapterView.getSelectedItem();
+                bank=bankListMaster.getBankName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -173,7 +216,7 @@ public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCamer
                         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
                         builder.addFormDataPart("UserId", String.valueOf(OEMId))
                         .addFormDataPart("Name",OEMName.getText().toString().trim())
-                        .addFormDataPart("BankName",bankName.getText().toString().trim())
+                        .addFormDataPart("BankName",bank)
                         .addFormDataPart("AccountNo",Account_Number.getText().toString().trim())
                         .addFormDataPart("Ifsc",ifscCode.getText().toString().trim())
                         .addFormDataPart("Branch",branchName.getText().toString().trim())
@@ -294,7 +337,7 @@ public class AddOemBank extends AppCompatActivity implements CameraUtils.OnCamer
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("UserId",OEMId);
         jsonObject.addProperty("Name",OEMName.getText().toString().trim());
-        jsonObject.addProperty("BankName",bankName.getText().toString().trim());
+        jsonObject.addProperty("BankName",bank);
         jsonObject.addProperty("AccountN",Account_Number.getText().toString().trim());
         jsonObject.addProperty("Ifsc",ifscCode.getText().toString().trim());
         jsonObject.addProperty("Branch",branchName.getText().toString().trim());

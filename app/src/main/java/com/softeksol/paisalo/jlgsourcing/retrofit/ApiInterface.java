@@ -116,6 +116,8 @@ public interface ApiInterface {
     Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
 
 
+    @GET("PDL.UserService.API/api/DDLHelper/GetBank")
+    Call<BrandResponse> getBanks();
 
 
 
