@@ -70,6 +70,7 @@ android {
         groupfin {
             applicationId "net.softeksol.seil.groupfin"
             resValue("string", "appname", "ग्रुप")
+            buildConfigField("String", 'DOC_NAME', '"sbicolend_loan_document"')
             buildConfigField("String", 'DATABASE_NAME', '"GROUPFIN_MFI"')
             buildConfigField("String",'ESIGN_APP','"net.softeksol.seil.esignseilgrp"')
             dimension = 'sourcing'
@@ -86,7 +87,7 @@ android {
 
         SBIColending {
             versionCode 7
-            versionName "1.5.6"
+            versionName "1.5.9"
             applicationId "net.softeksol.seil.groupfin.sbicolending"
             resValue("string", "appname", "SBI-CoLending")
             buildConfigField("String", 'DATABASE_NAME', '"SBIPDLCOL"')

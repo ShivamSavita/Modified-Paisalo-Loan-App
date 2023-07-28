@@ -3,13 +3,14 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -43,10 +44,16 @@ import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
@@ -67,6 +74,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
     GpsTracker gpsTracker;
     List<DataEMI> ProcessingEmi_data=new ArrayList<>();
     boolean itemsChecked=true;
+    String address="";
     //boolean[] itemsChecked = new boolean[items.length];
 
 
@@ -87,7 +95,8 @@ public class ActivityOperationSelect extends AppCompatActivity {
          if(gpsTracker.getGPSstatus()==false){
              showSettingsAlert();
          }else{
-             getLoginLocation("LOGIN");
+             getLoginLocation("LOGIN","");
+
          }
 
         sliderView = findViewById(R.id.slider);
@@ -266,7 +275,8 @@ public class ActivityOperationSelect extends AppCompatActivity {
                 intent.putExtra("Title", operationItem.getOprationName());
                 startActivity(intent);
                 gpsTracker=new GpsTracker(getApplicationContext());
-                getLoginLocation(operationItem.getOprationName());
+               // getLoginLocationText(operationItem.getOprationName());
+                getLoginLocation(operationItem.getOprationName(),"");
                 Log.d("CLICK",operationItem.getOprationName());
             }
 
@@ -288,10 +298,47 @@ public class ActivityOperationSelect extends AppCompatActivity {
         return actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
-    private void getLoginLocation(String login){
+
+//    private void getLoginLocationText(String login){
+//        ApiInterface apiInterface= getClientService(SEILIGL.LOCATION).create(ApiInterface.class);
+//        Log.d("TAG", "checkCrifScore: "+getdatalocation(login, address));
+//        Call<JsonObject> call=apiInterface.getAppLocation("68cf2bbcdc429377533c9abd34ae457c",gpsTracker.getLatitude()+","+gpsTracker.getLongitude()+"");
+//        call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//               // Log.d("TAG", "onResponse: "+response.body());
+//                JSONObject jo;
+//                try {
+//                    jo = new JSONObject(String.valueOf(response.body()));
+//                    JSONArray jArray = jo.getJSONArray("data");
+//                    JSONObject jsonObject = (JSONObject) jArray.get(0);
+//                    address=jsonObject.getString("label");
+//                    Log.d("TAG", "onResponse:address "+address);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                getLoginLocation(login,address);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.d("TAG", "onFailure: "+t.getMessage());
+//                getLoginLocation(login,address);
+//            }
+//        });
+//    }
+//
+
+    private void getLoginLocation(String login,String address){
+//        String bearerString = "";
+//        try {
+//            bearerString = IglPreferences.getAccesstoken(getApplicationContext()).getString("access_token");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-        Log.d("TAG", "checkCrifScore: "+getdatalocation(login));
-        Call<JsonObject> call=apiInterface.livetrack(getdatalocation(login));
+        Log.d("TAG", "checkCrifScore: "+getdatalocation(login, address));
+        Call<JsonObject> call=apiInterface.livetrack(getdatalocation(login,address));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -306,44 +353,19 @@ public class ActivityOperationSelect extends AppCompatActivity {
         });
     }
 
-    private JsonObject getdatalocation(String login) {
+    private JsonObject getdatalocation(String login, String address) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("userId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         jsonObject.addProperty("deviceId", IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
-        jsonObject.addProperty("groupCode", IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
+        jsonObject.addProperty("Creator", IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
         jsonObject.addProperty("trackAppVersion", BuildConfig.VERSION_NAME);
         jsonObject.addProperty("latitude",gpsTracker.getLatitude()+"");
         jsonObject.addProperty("longitude", gpsTracker.getLongitude()+"");
-            jsonObject.addProperty("appInBackground",login);
+        jsonObject.addProperty("appInBackground",login);
+        jsonObject.addProperty("Address",getAddress(gpsTracker.getLatitude(),gpsTracker.getLongitude()));
         return jsonObject;
-
     }
 
-    private void getProcessingFee(){
-        ApiInterface apiInterface= getClientService(SEILIGL.NEW_SERVERAPISERVISE).create(ApiInterface.class);
-        Call<ProcessingEmiData> call=apiInterface.processingFee("205528","SHAHJAHANPUR");
-        call.enqueue(new Callback<ProcessingEmiData>() {
-            @Override
-            public void onResponse(Call<ProcessingEmiData> call, Response<ProcessingEmiData> response) {
-                Log.d("TAG", "onResponseDATA: "+response.body());
-              //ProcessingEmiData brandResponse=response.body();
-                if(response.body() != null){
-                    if (response.body().getStatusCode()== 200){
-                         ProcessingEmi_data=response.body().getData();
-                        Log.d("TAG", "onResponseLIST: "+ProcessingEmi_data);
-                    }else{
-
-                    }
-                }
-
-            }
-            @Override
-            public void onFailure(Call<ProcessingEmiData> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
-
-            }
-        });
-    }
 
 
     public static Retrofit getClientService(String BASE_URL) {
@@ -364,6 +386,28 @@ public class ActivityOperationSelect extends AppCompatActivity {
                     .build();
         }
         return retrofit;
+    }
+
+    private String getAddress(double latitude, double longitude) {
+        String addrerss="";
+        StringBuilder result = new StringBuilder();
+        if(latitude != 0.0){
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    result.append(address.getAddressLine(0));
+                    // result.append(address.getLocality());
+                    // result.append(address.getCountryName());
+                    addrerss=result.toString();
+                    Log.e("tag", addrerss);
+                }
+            } catch (IOException e) {
+                //  Log.e("tag", e.getMessage());
+            }
+        }
+        return addrerss;
     }
 
 

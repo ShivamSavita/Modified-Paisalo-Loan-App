@@ -422,14 +422,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
         ArrayList<RangeCategory> DatabaseName = new ArrayList<>();
         DatabaseName.add(new RangeCategory("SBI COLENDING", "Database"));
-//        DatabaseName.add(new RangeCategory("IGL DIGITAL", "Database"));
-//        DatabaseName.add(new RangeCategory("GROUP FINANCE", "Database"));
-//        DatabaseName.add(new RangeCategory("SBI PDL", "Database"));
-
-//        DatabaseName.add(new RangeCategory("PNB COLENDING", "Database"));
+      //  DatabaseName.add(new RangeCategory("IGL DIGITAL", "Database"));
+         // DatabaseName.add(new RangeCategory("GROUP FINANCE", "Database"));
+        // DatabaseName.add(new RangeCategory("SBI PDL", "Database"));
+        // DatabaseName.add(new RangeCategory("PNB COLENDING", "Database"));
 
         database.setAdapter(new AdapterListRange(this, R.layout.spinner_card_orange,DatabaseName));
-
         storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
         apkPath = storageDir.getPath() + "/sourcing.apk";
         File destination = new File(apkPath);

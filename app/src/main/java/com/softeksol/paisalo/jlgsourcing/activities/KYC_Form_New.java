@@ -64,15 +64,15 @@ TextView textViewTotalAnnualIncome;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kyc_form_new);
         i=getIntent();
-        FatherFName=i.getStringExtra("FatherFName");
-        FatherLName=i.getStringExtra("FatherLName");
-        FatherMName=i.getStringExtra("FatherMName");
-        MotherFName=i.getStringExtra("MotherFName");
-        MotherLName=i.getStringExtra("MotherLName");
-        MotherMName=i.getStringExtra("MotherMName");
-        SpouseLName=i.getStringExtra("SpouseLName");
-        SpouseMName=i.getStringExtra("SpouseMName");
-        SpouseFName=i.getStringExtra("SpouseFName");
+        FatherFName=i.getStringExtra("FatherFName").trim().length()<1?null:i.getStringExtra("FatherFName").trim();
+        FatherLName=i.getStringExtra("FatherLName").trim().length()<1?null:i.getStringExtra("FatherLName").trim();
+        FatherMName=i.getStringExtra("FatherMName").trim().length()<1?null:i.getStringExtra("FatherMName").trim();
+        MotherFName=i.getStringExtra("MotherFName").trim().length()<1?null:i.getStringExtra("MotherFName").trim();
+        MotherLName=i.getStringExtra("MotherLName").trim().length()<1?null:i.getStringExtra("MotherLName").trim();
+        MotherMName=i.getStringExtra("MotherMName").trim().length()<1?null:i.getStringExtra("MotherMName").trim();
+        SpouseLName=i.getStringExtra("SpouseLName").trim().length()<1?null:i.getStringExtra("SpouseLName").trim();
+        SpouseMName=i.getStringExtra("SpouseMName").trim().length()<1?null:i.getStringExtra("SpouseMName").trim();
+        SpouseFName=i.getStringExtra("SpouseFName").trim().length()<1?null:i.getStringExtra("SpouseFName").trim();
         manager = (Manager) i.getSerializableExtra("manager");
         borrower = (Borrower) i.getSerializableExtra("borrower");
         tietAgricultureIncome=findViewById(R.id.tietAgricultureIncome);
@@ -92,16 +92,6 @@ TextView textViewTotalAnnualIncome;
         acspLoanAppFinanceLoanAmount=findViewById(R.id.acspLoanAppFinanceLoanAmount);
         textViewTotalAnnualIncome=findViewById(R.id.textViewTotalAnnualIncome);
         BtnSaveKYCData=findViewById(R.id.BtnFinalSaveKYCData);
-        Log.d("TAG", "onCreate: "+FatherFName);
-        Log.d("TAG", "onCreate: "+FatherLName);
-        Log.d("TAG", "onCreate: "+FatherMName);
-        Log.d("TAG", "onCreate: "+MotherFName);
-        Log.d("TAG", "onCreate: "+MotherLName);
-        Log.d("TAG", "onCreate: "+MotherMName);
-        Log.d("TAG", "onCreate: "+SpouseLName);
-        Log.d("TAG", "onCreate: "+SpouseMName);
-        Log.d("TAG", "onCreate: "+SpouseFName);
-//        borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(KYC_Form_New.this, SEILIGL.USER_ID, ""));
 
         rlaSchemeType = new AdapterListRange(this,
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("DISBSCH")).queryList(), false);
@@ -317,7 +307,7 @@ TextView textViewTotalAnnualIncome;
             getDataFromView(this.findViewById(android.R.id.content).getRootView());
 
             if (tietIncomeMonthly.getText().toString().trim().equals("")){
-                tietIncomeMonthly.setError("Please Enter Expense");
+                tietIncomeMonthly.setError("Please Enter Income");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Income");
             }else if(tietExpenseMonthly.getText().toString().trim().equals("")){
                 tietExpenseMonthly.setError("Please Enter Expense");

@@ -10,6 +10,8 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -34,6 +36,7 @@ public interface ApiInterface {
 
     @POST("LiveTrack/CreateLiveTrack")
     public Call<JsonObject> livetrack(@Body JsonObject object);
+    //,@Header("Authorization") String token
 
     @GET("LiveTrack/GetAppLink")
     Call<AppUpdateResponse> getAppLinkStatus(@Query("version") String version, @Query("AppName") String AppName, @Query("action") int action);
@@ -44,6 +47,11 @@ public interface ApiInterface {
     @GET("InstCollection/GetProcessingFeeEmi")
     Call<ProcessingEmiData> processingFee(@Query("ficode") String Ficode, @Query("creator") String Creator);
 
+
+    @GET("reverse")
+    Call<JsonObject> getAppLocation(@Query("access_key") String version, @Query("query") String AppName);
+
+    //reverse?access_key=68cf2bbcdc429377533c9abd34ae457c&query=25.9600000,83.5700000
 
 
 
