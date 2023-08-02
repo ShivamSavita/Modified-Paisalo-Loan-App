@@ -30,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.smarteist.autoimageslider.SliderView;
+import com.softeksol.paisalo.ESign.activities.ActivityESignWithDocumentPL;
 import com.softeksol.paisalo.ESign.adapters.SliderAdapter;
 import com.softeksol.paisalo.dealers.Dealer_Dashboard;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
@@ -243,8 +244,6 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
             }
         });
 
-
-
     }
 
 
@@ -434,6 +433,7 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
             case R.id.recharge_morpho:
                // String url1 = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
                 Intent i1 = new Intent(ActivityOperationSelect.this,Morpho_Recharge_Entry.class);
+                i1.putExtra("UserID",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
                 startActivity(i1);
                 break;
 

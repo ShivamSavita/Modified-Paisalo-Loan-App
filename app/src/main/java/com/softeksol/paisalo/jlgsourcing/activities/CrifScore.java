@@ -246,9 +246,8 @@ public class CrifScore extends AppCompatActivity {
         builder.setTitle("Alert !");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-
-
-
+            dialog.cancel();
+            finish();
         });
         builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
             dialog.cancel();
@@ -344,7 +343,7 @@ public class CrifScore extends AppCompatActivity {
                         progressBarsmall.setVisibility(View.GONE);
                     }else{
                         if (data.equals("0")){
-                          /* // Toast.makeText(CrifScore.this, ""+scrifData.getMessage(), Toast.LENGTH_SHORT).show();
+                          /* //Toast.makeText(CrifScore.this, ""+scrifData.getMessage(), Toast.LENGTH_SHORT).show();
                             layout_design.setVisibility(View.GONE);
                             layout_design_pending.setVisibility(View.VISIBLE);
                             text_serverMessage.setText(scrifData.getMessage());
@@ -395,7 +394,7 @@ public class CrifScore extends AppCompatActivity {
                                 btnSrifScoreSave.setVisibility(View.VISIBLE);
                                 btnSrifScore.setVisibility(View.GONE);
                                 saveBREData();
-//                                    spinner.setEnabled(false);
+                       //       spinner.setEnabled(false);
 
                             }else{
                                 gifImageView.setImageResource(R.drawable.crosssign);
@@ -458,22 +457,13 @@ public class CrifScore extends AppCompatActivity {
     }
 
     private void saveBREData() {
-
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.e("TAG",statusCode+"");
                 if (statusCode == 200) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CrifScore.this);
-                    builder.setTitle("Thanks for choosing us!!");
-                    builder.setMessage("Your Loan Request has been Submitted");
-                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    });
-                    builder.show();
+                    updateSourcingStatus();
+                    Toast.makeText(CrifScore.this, "Data save successfully" , Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -531,6 +521,24 @@ public class CrifScore extends AppCompatActivity {
         jsonObject.addProperty("Duration",eSignerborower.Loan_Duration);
         return jsonObject;
 
+    }
+
+
+    private void updateSourcingStatus(){
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.updateStatus(checkCrifData.getData().getFiCode()+"",checkCrifData.getData().getCreator());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
     }
     public String parseDateToddMMyyyy(String time) {
         String inputPattern = "yyyy-MM-dd";
