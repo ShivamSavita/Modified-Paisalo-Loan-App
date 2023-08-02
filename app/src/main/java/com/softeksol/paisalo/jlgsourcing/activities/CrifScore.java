@@ -227,32 +227,7 @@ public class CrifScore extends AppCompatActivity {
         builder.setTitle("Alert !");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-
-            DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.e("TAG",statusCode+"");
-                    if (statusCode == 200) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CrifScore.this);
-                        builder.setTitle("Thanks for choosing us!!");
-                        builder.setMessage("Your Loan Request has been Submitted");
-                        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        });
-                        builder.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
-                }
-            };
-            (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi)), asyncResponseHandler);
-
+            finish();
         });
         builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
             dialog.cancel();
@@ -279,7 +254,7 @@ public class CrifScore extends AppCompatActivity {
                             public void run() {
                                 checkCrifData=response.body();
                                 getCrifScore(checkCrifData);
-                                updateSourcingStatus();
+
                             }
                         },25000);
                     }else{
@@ -379,9 +354,7 @@ public class CrifScore extends AppCompatActivity {
                             text_srifScore.setText(score);
                             textView5.setText(score);
 
-
-
-                                if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
+                            if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
                                     gifImageView.setImageResource(R.drawable.checksign);
                                     textView8.setText("Congrats!!");
                                     textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.green));
@@ -395,6 +368,7 @@ public class CrifScore extends AppCompatActivity {
                                     btnSrifScoreSave.setVisibility(View.VISIBLE);
                                     btnSrifScore.setVisibility(View.GONE);
                                     spinner.setEnabled(false);
+                                    AutoSaveBreReport();
 
                             }else{
                                 gifImageView.setImageResource(R.drawable.crosssign);
@@ -572,6 +546,35 @@ public class CrifScore extends AppCompatActivity {
 
             }
         });
+    }
+    private void AutoSaveBreReport(){
+        DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.e("TAG",statusCode+"");
+                if (statusCode == 200) {
+                    updateSourcingStatus();
+                    Toast.makeText(CrifScore.this, "Your Loan Request has been Submitted", Toast.LENGTH_LONG).show();
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(CrifScore.this);
+//                    builder.setTitle("Thanks for choosing us!!");
+//                    builder.setMessage("Your Loan Request has been Submitted");
+//                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            finish();
+//                        }
+//                    });
+//                    builder.show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
+            }
+        };
+        (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi)), asyncResponseHandler);
+
     }
 
 
