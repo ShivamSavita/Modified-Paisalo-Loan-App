@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -69,6 +70,8 @@ import com.softeksol.paisalo.jlgsourcing.fragments.FragmentLoanAppSubmitList;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentSubmittedApplications;
 import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,6 +84,9 @@ import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityFinancing extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -471,7 +477,37 @@ public class ActivityFinancing extends AppCompatActivity
     }
 
     private void showScreen(Borrower borrower) {
-        Intent intent = new Intent(this, ActivityLoanApplication.class);
+//        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+//        Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
+//        Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
+//        call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                Log.d("TAG", "onResponse: "+response.body());
+//                JsonObject jsonObject=response.body();
+//                try {
+//                    if (jsonObject.get("data").getAsInt()==0){
+//                        Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//
+//                    }
+//                }catch (Exception e){
+//                    Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//
+//                }
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.d("TAG", "onFailure: "+t.getMessage());
+//            }
+//        });
+
+        Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
         intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
         startActivity(intent);
     }

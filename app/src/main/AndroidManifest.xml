@@ -42,6 +42,9 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.jlgsourcing.activities.Morpho_Recharge_Entry"
+            android:exported="false" />
+        <activity
             android:name="com.softeksol.paisalo.jlgsourcing.activities.OnlinePaymentActivity"
             android:exported="false">
             <meta-data

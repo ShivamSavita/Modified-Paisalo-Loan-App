@@ -3,22 +3,28 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -58,7 +64,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ActivityOperationSelect extends AppCompatActivity {
+public class ActivityOperationSelect extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AdapterListManager adapterListManager;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -70,8 +76,59 @@ public class ActivityOperationSelect extends AppCompatActivity {
     //boolean[] itemsChecked = new boolean[items.length];
 
 
+    NavigationView navigationView;
+    private void AlertDialogBreEligibility(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityOperationSelect.this);
+        builder.setMessage("Do you want to Proceed to Loan?");
+        builder.setTitle("Alert !");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
 
+            DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(ActivityOperationSelect.this, "Data Submitting", "Saving Loan Details") {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.e("TAG",statusCode+"");
+                    if (statusCode == 200) {
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityOperationSelect.this);
+                        builder.setTitle("Thanks for choosing us!!");
+                        builder.setMessage("Your Loan Request has been Submitted");
+                        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
 
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(ActivityOperationSelect.this, error.getMessage() , Toast.LENGTH_LONG).show();
+                }
+            };
+            (new WebOperations()).postEntity(ActivityOperationSelect.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif("111111","Agra","1223445","1223","ABC")), asyncResponseHandler);
+
+        });
+        builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+            dialog.cancel();
+            finish();
+        });
+        android.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi,String bank) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("Ficode",ficode);
+        jsonObject.addProperty("Creator",creator);
+        jsonObject.addProperty("Loan_Amt",amount);
+        jsonObject.addProperty("Emi",emi);
+        jsonObject.addProperty("Bank",bank);
+        Log.e("TAG",jsonObject.toString());
+        return jsonObject;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +146,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
          }else{
              getLoginLocation("LOGIN");
          }
-
+       // AlertDialogBreEligibility();
         sliderView = findViewById(R.id.slider);
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
          adapter = new SliderAdapter(this, myImageList);
@@ -120,14 +177,16 @@ public class ActivityOperationSelect extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         actionBarDrawerToggle.syncState();
-
+        navigationView = findViewById(R.id.operationSelectNavView);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         getSupportActionBar().setElevation(0.0f);
-        getSupportActionBar().setTitle(Html.fromHtml("<center><font color=\"black\">" + getString(R.string.app_name) + "</font></center>"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle( getString(R.string.app_name));
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 
         List<OperationItem> operationItems = new ArrayList<>();
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("S")) {
@@ -367,4 +426,21 @@ public class ActivityOperationSelect extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        getSupportActionBar().setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ")" + " / " + item.getTitle());
+        switch (id) {
+            case R.id.recharge_morpho:
+               // String url1 = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
+                Intent i1 = new Intent(ActivityOperationSelect.this,Morpho_Recharge_Entry.class);
+                startActivity(i1);
+                break;
+
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

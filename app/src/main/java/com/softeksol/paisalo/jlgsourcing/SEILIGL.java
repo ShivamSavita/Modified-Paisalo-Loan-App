@@ -52,7 +52,7 @@ public class SEILIGL extends Application {
     public static final String NEW_SERVERAPIAGARA = "https://agra.paisalo.in:8462/creditmatrix/api/";
     private String deviceId;
     private long deviceImei;
-
+    public static final String AGRA_CREDITMATRIX_BASEURL ="https://agra.paisalo.in:8462/creditmatrix/api/";
     @Override
     public void onCreate() {
         super.onCreate();

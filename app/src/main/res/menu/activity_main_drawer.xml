@@ -42,4 +42,14 @@
         </menu>
     </item>
 
+    <item android:title="Recharge">
+        <menu>
+            <item
+                android:title="Recharge Morpho Device"
+                android:id="@+id/recharge_morpho"
+            android:icon="@drawable/submit_kyc" />
+        </menu>
+    </item>
+
+
 </menu>

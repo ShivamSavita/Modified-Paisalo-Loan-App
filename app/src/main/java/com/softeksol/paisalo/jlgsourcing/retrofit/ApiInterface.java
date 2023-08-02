@@ -4,6 +4,8 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -45,6 +47,11 @@ public interface ApiInterface {
     Call<ProcessingEmiData> processingFee(@Query("ficode") String Ficode, @Query("creator") String Creator);
 
 
+    @POST("LiveTrack/CreateMorphoDeviceData")
+    Call<JsonObject> sendDataForMorphoRecharge(@Body JsonObject jsonObject);
+
+    @GET("LiveTrack/GetBreStatus")
+    Call<JsonObject> getBreStatus(@Query("code") String code,@Query("creator") String creator);
 
 
 

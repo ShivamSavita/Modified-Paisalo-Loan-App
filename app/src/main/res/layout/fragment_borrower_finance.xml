@@ -30,19 +30,44 @@
                 app:layout_constraintVertical_weight="1" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/textView900"
                 android:layout_width="0dp"
                 android:background="#DDDDDD"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="8dp"
-                android:text="Expense Details"
+                android:text="Income Details"
                 android:fontFamily="@font/scada_regular"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/container" />
+
+
+            <include
+                android:id="@+id/include1"
+                layout="@layout/finance_income_included_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView900" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#DDDDDD"
+                android:fontFamily="@font/scada_regular"
+                android:paddingStart="8dp"
+                android:text="Expense Details"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include1" />
 
             <include
                 android:id="@+id/include"

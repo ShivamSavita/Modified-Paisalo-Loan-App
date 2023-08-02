@@ -156,6 +156,18 @@ public class BorrowerExtraDTO {
     @Column
     public String IsBorrowerHandicap;
 
+    @Expose
+    @Column
+    public int RentalIncome;
+
+    public int getRentalIncome() {
+        return RentalIncome;
+    }
+
+    public void setRentalIncome(int rentalIncome) {
+        RentalIncome = rentalIncome;
+    }
+
     public int getPensionIncome() {
         return PensionIncome;
     }
@@ -692,6 +704,7 @@ public class BorrowerExtraDTO {
                 ", InterestIncome='"+ InterestIncome +'\''+
                 ", PensionIncome='"+ PensionIncome +'\''+
                 ", IsBorrowerHandicap='"+ IsBorrowerHandicap +'\''+
+                ", RentalIncome='"+ RentalIncome +'\''+
                 '}';
     }
 }
