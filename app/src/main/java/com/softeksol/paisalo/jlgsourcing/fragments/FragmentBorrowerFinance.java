@@ -252,15 +252,14 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 if (!etBankAccount.getText().toString().equals("") && !etIFSC.getText().toString().equals("")){
                     cardValidate(etBankAccount.getText().toString().trim(),etIFSC.getText().toString().trim());
                 }else{
-                    Toast.makeText(getContext(), "Please enter account number and IFCS code Properly", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Please enter account number and IFSC code Properly", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
         return v;
     }
-    private void cardValidate(String id,String bankIfsc) {
 
+    private void cardValidate(String id,String bankIfsc) {
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setIndeterminate(false);
@@ -272,13 +271,21 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
                     try {
-                        tilBankAccountName.setVisibility(View.VISIBLE);
+                        if(response.body().get("data").getAsJsonObject().get("account_exists").equals("true")){
+                            tilBankAccountName.setVisibility(View.VISIBLE);
+                            tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
+                            //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
+                            checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            checkBankAccountNuber.setEnabled(false);
+                        }else{
+                            tilBankAccountName.setVisibility(View.VISIBLE);
+                            tilBankAccountName.setText("Account Holder Name Not Found");
+                            tilBankAccountName.setTextColor(getResources().getColor(R.color.red));
+                            checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            checkBankAccountNuber.setEnabled(true);
+                        }
 
-                        tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
-                        checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        checkBankAccountNuber.setEnabled(false);
                     }catch (Exception e){
                         tilBankAccountName.setVisibility(View.VISIBLE);
                         tilBankAccountName.setText("Card Holder Name Not Found");

@@ -128,10 +128,11 @@ public class ActivityESingList extends AppCompatActivity {
 //                        }
 
                         if (jo.has("Guarantors")) {
+
                             listType = new TypeToken<List<ESignGuarantor>>() {
                             }.getType();
                             List<ESignGuarantor> eSignGuarantors = WebOperations.convertToObjectArray(jo.getString("Guarantors"), listType);
-
+                           //Log.d("Guarantorslog", jo.getString("Guarantors"));
                             for (ESignGuarantor eSignGuarantor : eSignGuarantors) {
                                 eSignGuarantor.insert();
                             }
