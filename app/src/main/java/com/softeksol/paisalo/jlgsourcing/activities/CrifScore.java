@@ -275,6 +275,7 @@ public class CrifScore extends AppCompatActivity {
                             public void run() {
                                 checkCrifData=response.body();
                                 getCrifScore(checkCrifData);
+                                updateSourcingStatus();
                             }
                         },25000);
                     }else{
@@ -456,7 +457,22 @@ public class CrifScore extends AppCompatActivity {
             }
         });
     }
+    private void updateSourcingStatus(){
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.updateStatus(checkCrifData.getData().getFiCode()+"",checkCrifData.getData().getCreator());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
 
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
     private void saveBREData() {
 
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
