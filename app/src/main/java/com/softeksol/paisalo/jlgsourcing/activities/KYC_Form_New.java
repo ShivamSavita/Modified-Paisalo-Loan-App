@@ -373,15 +373,7 @@ TextView textViewTotalAnnualIncome;
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
                                     BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,Utils.getNotNullInt(tietPensionIncome),Utils.getNotNullInt(tietInterestIncome));
-                                    Log.d("TAG", "onCreate: "+FatherFName);
-                                    Log.d("TAG", "onCreate: "+FatherLName);
-                                    Log.d("TAG", "onCreate: "+FatherMName);
-                                    Log.d("TAG", "onCreate: "+MotherFName);
-                                    Log.d("TAG", "onCreate: "+MotherLName);
-                                    Log.d("TAG", "onCreate: "+MotherMName);
-                                    Log.d("TAG", "onCreate: "+SpouseLName);
-                                    Log.d("TAG", "onCreate: "+SpouseMName);
-                                    Log.d("TAG", "onCreate: "+SpouseFName);
+
 //                                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG,FiCode);
 
 //                                    borrower.associateExtraBank(borrowerExtraBank);
@@ -431,6 +423,8 @@ TextView textViewTotalAnnualIncome;
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(KYC_Form_New.this);
                                     builder.setTitle("Borrower KYC");
+                                    builder.setCancelable(false);
+
                                     builder.setCancelable(true);
                                     builder.setMessage("KYC Saved with " + manager.Creator + " / " + FiCode + "\nPlease capture / scan documents");
                                     builder.setPositiveButton("Want to E-Sign", new DialogInterface.OnClickListener() {
