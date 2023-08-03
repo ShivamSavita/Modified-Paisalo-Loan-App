@@ -10,16 +10,20 @@ import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -65,7 +69,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ActivityOperationSelect extends AppCompatActivity {
+public class ActivityOperationSelect extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AdapterListManager adapterListManager;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -76,7 +80,7 @@ public class ActivityOperationSelect extends AppCompatActivity {
     boolean itemsChecked=true;
     String address="";
     //boolean[] itemsChecked = new boolean[items.length];
-
+    NavigationView navigationView;
 
 
 
@@ -130,13 +134,15 @@ public class ActivityOperationSelect extends AppCompatActivity {
 
         actionBarDrawerToggle.syncState();
 
+        navigationView = findViewById(R.id.operationSelectNavView);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         getSupportActionBar().setElevation(0.0f);
-        getSupportActionBar().setTitle(Html.fromHtml("<center><font color=\"black\">" + getString(R.string.app_name) + "</font></center>"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle(Html.fromHtml("<center>" + getString(R.string.app_name) + "</font></center>"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
 
         List<OperationItem> operationItems = new ArrayList<>();
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("S")) {
@@ -296,6 +302,25 @@ public class ActivityOperationSelect extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         return actionBarDrawerToggle.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        getSupportActionBar().setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ")" + " / " + item.getTitle());
+        switch (id) {
+            case R.id.recharge_morpho:
+                // String url1 = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
+                Intent intentDevice = new Intent(ActivityOperationSelect.this,Morpho_Recharge_Entry.class);
+                intentDevice.putExtra("UserID",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
+                startActivity(intentDevice);
+                break;
+
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
