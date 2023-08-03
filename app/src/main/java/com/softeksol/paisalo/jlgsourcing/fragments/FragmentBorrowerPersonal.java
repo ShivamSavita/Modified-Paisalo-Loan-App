@@ -365,7 +365,7 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
     }
 
     private void getDataFromView(View v) {
-        borrower.Income = Integer.parseInt(Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly)));
+            borrower.Income = Integer.parseInt(Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalIncomeMonthly)));
             borrower.Cast = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalCaste));
             borrower.Religion = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalReligion));
             borrower.House_Owner = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalPresentResidenceOwner));

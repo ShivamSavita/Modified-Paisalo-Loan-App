@@ -3,34 +3,28 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.smarteist.autoimageslider.SliderView;
-import com.softeksol.paisalo.ESign.activities.ActivityESignWithDocumentPL;
 import com.softeksol.paisalo.ESign.adapters.SliderAdapter;
 import com.softeksol.paisalo.dealers.Dealer_Dashboard;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
@@ -50,10 +44,16 @@ import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
@@ -65,7 +65,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ActivityOperationSelect extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ActivityOperationSelect extends AppCompatActivity {
     private AdapterListManager adapterListManager;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -74,62 +74,12 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
     GpsTracker gpsTracker;
     List<DataEMI> ProcessingEmi_data=new ArrayList<>();
     boolean itemsChecked=true;
+    String address="";
     //boolean[] itemsChecked = new boolean[items.length];
 
 
-    NavigationView navigationView;
-    private void AlertDialogBreEligibility(){
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityOperationSelect.this);
-        builder.setMessage("Do you want to Proceed to Loan?");
-        builder.setTitle("Alert !");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
 
-            DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(ActivityOperationSelect.this, "Data Submitting", "Saving Loan Details") {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.e("TAG",statusCode+"");
-                    if (statusCode == 200) {
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityOperationSelect.this);
-                        builder.setTitle("Thanks for choosing us!!");
-                        builder.setMessage("Your Loan Request has been Submitted");
-                        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        });
-                        builder.show();
-                    }
-                }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(ActivityOperationSelect.this, error.getMessage() , Toast.LENGTH_LONG).show();
-                }
-            };
-            (new WebOperations()).postEntity(ActivityOperationSelect.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif("111111","Agra","1223445","1223","ABC")), asyncResponseHandler);
-
-        });
-        builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
-            dialog.cancel();
-            finish();
-        });
-        android.app.AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
-
-    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi,String bank) {
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("Ficode",ficode);
-        jsonObject.addProperty("Creator",creator);
-        jsonObject.addProperty("Loan_Amt",amount);
-        jsonObject.addProperty("Emi",emi);
-        jsonObject.addProperty("Bank",bank);
-        Log.e("TAG",jsonObject.toString());
-        return jsonObject;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,15 +92,16 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
 //        intent.putExtra("deviceId",IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
 //        intent.putExtra("groupCode",IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
 //        startActivity(intent);
-         if(gpsTracker.getGPSstatus()==false){
-             showSettingsAlert();
-         }else{
-             getLoginLocation("LOGIN");
-         }
-       // AlertDialogBreEligibility();
+        if(gpsTracker.getGPSstatus()==false){
+            showSettingsAlert();
+        }else{
+            getLoginLocation("LOGIN","");
+
+        }
+
         sliderView = findViewById(R.id.slider);
         int[] myImageList = new int[]{R.drawable.bannerback, R.drawable.bannerback,R.drawable.bannerback};
-         adapter = new SliderAdapter(this, myImageList);
+        adapter = new SliderAdapter(this, myImageList);
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
         sliderView.setSliderAdapter(adapter);
         sliderView.setScrollTimeInSec(3);
@@ -178,16 +129,14 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         actionBarDrawerToggle.syncState();
-        navigationView = findViewById(R.id.operationSelectNavView);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         getSupportActionBar().setElevation(0.0f);
-        getSupportActionBar().setTitle( getString(R.string.app_name));
-
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        getSupportActionBar().setTitle(Html.fromHtml("<center><font color=\"black\">" + getString(R.string.app_name) + "</font></center>"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
 
         List<OperationItem> operationItems = new ArrayList<>();
         if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("S")) {
@@ -218,15 +167,15 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OperationItem operationItem = (OperationItem) parent.getAdapter().getItem(position);
                 if (operationItem.getId()==7){
-                   Intent intent = new Intent(ActivityOperationSelect.this, Dealer_Dashboard.class);
-                   startActivity(intent);
+                    Intent intent = new Intent(ActivityOperationSelect.this, Dealer_Dashboard.class);
+                    startActivity(intent);
                 }else {
                     updateManagers(operationItem);
                 }
 
             }
         });
-       // getProcessingFee();
+        // getProcessingFee();
         LinearLayout layout_profile=findViewById(R.id.layout_profile);
         layout_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +192,8 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
 //                dialog.show();
             }
         });
+
+
 
     }
 
@@ -324,7 +275,8 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
                 intent.putExtra("Title", operationItem.getOprationName());
                 startActivity(intent);
                 gpsTracker=new GpsTracker(getApplicationContext());
-                getLoginLocation(operationItem.getOprationName());
+                // getLoginLocationText(operationItem.getOprationName());
+                getLoginLocation(operationItem.getOprationName(),"");
                 Log.d("CLICK",operationItem.getOprationName());
             }
 
@@ -346,10 +298,47 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         return actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
-    private void getLoginLocation(String login){
+
+//    private void getLoginLocationText(String login){
+//        ApiInterface apiInterface= getClientService(SEILIGL.LOCATION).create(ApiInterface.class);
+//        Log.d("TAG", "checkCrifScore: "+getdatalocation(login, address));
+//        Call<JsonObject> call=apiInterface.getAppLocation("68cf2bbcdc429377533c9abd34ae457c",gpsTracker.getLatitude()+","+gpsTracker.getLongitude()+"");
+//        call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//               // Log.d("TAG", "onResponse: "+response.body());
+//                JSONObject jo;
+//                try {
+//                    jo = new JSONObject(String.valueOf(response.body()));
+//                    JSONArray jArray = jo.getJSONArray("data");
+//                    JSONObject jsonObject = (JSONObject) jArray.get(0);
+//                    address=jsonObject.getString("label");
+//                    Log.d("TAG", "onResponse:address "+address);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                getLoginLocation(login,address);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.d("TAG", "onFailure: "+t.getMessage());
+//                getLoginLocation(login,address);
+//            }
+//        });
+//    }
+//
+
+    private void getLoginLocation(String login,String address){
+//        String bearerString = "";
+//        try {
+//            bearerString = IglPreferences.getAccesstoken(getApplicationContext()).getString("access_token");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-        Log.d("TAG", "checkCrifScore: "+getdatalocation(login));
-        Call<JsonObject> call=apiInterface.livetrack(getdatalocation(login));
+        Log.d("TAG", "checkCrifScore: "+getdatalocation(login, address));
+        Call<JsonObject> call=apiInterface.livetrack(getdatalocation(login,address));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -364,44 +353,19 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         });
     }
 
-    private JsonObject getdatalocation(String login) {
+    private JsonObject getdatalocation(String login, String address) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("userId", IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
         jsonObject.addProperty("deviceId", IglPreferences.getPrefString(this, SEILIGL.DEVICE_ID, ""));
-        jsonObject.addProperty("groupCode", IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
+        jsonObject.addProperty("Creator", IglPreferences.getPrefString(this, SEILIGL.CREATOR, ""));
         jsonObject.addProperty("trackAppVersion", BuildConfig.VERSION_NAME);
         jsonObject.addProperty("latitude",gpsTracker.getLatitude()+"");
         jsonObject.addProperty("longitude", gpsTracker.getLongitude()+"");
-            jsonObject.addProperty("appInBackground",login);
+        jsonObject.addProperty("appInBackground",login);
+        jsonObject.addProperty("Address",getAddress(gpsTracker.getLatitude(),gpsTracker.getLongitude()));
         return jsonObject;
-
     }
 
-    private void getProcessingFee(){
-        ApiInterface apiInterface= getClientService(SEILIGL.NEW_SERVERAPISERVISE).create(ApiInterface.class);
-        Call<ProcessingEmiData> call=apiInterface.processingFee("205528","SHAHJAHANPUR");
-        call.enqueue(new Callback<ProcessingEmiData>() {
-            @Override
-            public void onResponse(Call<ProcessingEmiData> call, Response<ProcessingEmiData> response) {
-                Log.d("TAG", "onResponseDATA: "+response.body());
-              //ProcessingEmiData brandResponse=response.body();
-                if(response.body() != null){
-                    if (response.body().getStatusCode()== 200){
-                         ProcessingEmi_data=response.body().getData();
-                        Log.d("TAG", "onResponseLIST: "+ProcessingEmi_data);
-                    }else{
-
-                    }
-                }
-
-            }
-            @Override
-            public void onFailure(Call<ProcessingEmiData> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
-
-            }
-        });
-    }
 
 
     public static Retrofit getClientService(String BASE_URL) {
@@ -424,23 +388,27 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         return retrofit;
     }
 
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        getSupportActionBar().setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ")" + " / " + item.getTitle());
-        switch (id) {
-            case R.id.recharge_morpho:
-               // String url1 = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
-                Intent i1 = new Intent(ActivityOperationSelect.this,Morpho_Recharge_Entry.class);
-                i1.putExtra("UserID",IglPreferences.getPrefString(this, SEILIGL.USER_ID, ""));
-                startActivity(i1);
-                break;
-
-
+    private String getAddress(double latitude, double longitude) {
+        String addrerss="";
+        StringBuilder result = new StringBuilder();
+        if(latitude != 0.0){
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    result.append(address.getAddressLine(0));
+                    // result.append(address.getLocality());
+                    // result.append(address.getCountryName());
+                    addrerss=result.toString();
+                    Log.e("tag", addrerss);
+                }
+            } catch (IOException e) {
+                //  Log.e("tag", e.getMessage());
+            }
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return addrerss;
     }
+
+
 }

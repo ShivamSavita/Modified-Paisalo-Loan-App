@@ -53,7 +53,6 @@ public class SEILIGL extends Application {
     public static final String LOCATION = "http://api.positionstack.com/v1/";
     private String deviceId;
     private long deviceImei;
-    public static final String AGRA_CREDITMATRIX_BASEURL ="https://agra.paisalo.in:8462/creditmatrix/api/";
     @Override
     public void onCreate() {
         super.onCreate();

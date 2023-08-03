@@ -431,7 +431,7 @@ TextView textViewTotalAnnualIncome;
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(KYC_Form_New.this);
                                     builder.setTitle("Borrower KYC");
-                                    builder.setCancelable(true);
+                                    builder.setCancelable(false);
                                     builder.setMessage("KYC Saved with " + manager.Creator + " / " + FiCode + "\nPlease capture / scan documents");
                                     builder.setPositiveButton("Want to E-Sign", new DialogInterface.OnClickListener() {
                                         @Override
