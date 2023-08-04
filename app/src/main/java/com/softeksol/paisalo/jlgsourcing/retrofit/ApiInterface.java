@@ -13,6 +13,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -52,6 +53,9 @@ public interface ApiInterface {
 
     @GET("LiveTrack/GetBreStatus")
     Call<JsonObject> getBreStatus(@Query("code") String code,@Query("creator") String creator);
+
+    @GET("{ifsccode}")
+    Call<JsonObject> getIfscCode(@Path("ifsccode") String ifsccode);
 
 
 

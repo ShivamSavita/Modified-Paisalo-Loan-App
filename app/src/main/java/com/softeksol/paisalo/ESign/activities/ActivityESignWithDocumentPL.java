@@ -421,7 +421,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name + " (" + BuildConfig.VERSION_NAME + ")");
         builder.setMessage("eSignature Stamping");
-
         DialogInterface.OnClickListener onDialogSubmitListner = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

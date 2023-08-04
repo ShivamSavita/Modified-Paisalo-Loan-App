@@ -44,6 +44,9 @@ import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -192,7 +195,14 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         etIFSC.addTextChangedListener(new MyTextWatcher(etIFSC) {
             @Override
             public void validate(EditText editText, String text) {
-                validateIFSC(editText, text);
+                editText.setError(null);
+                if (editText.length() != 11) {
+                    editText.setError("Must be 11 Character");
+                } else if (!Verhoeff.validateIFSC(text)) {
+                    editText.setError("Please input a valid IFSC. " + " " + text + "is not a valid IFSC");
+                } else {
+                    CheckValidateIFSC(editText, text);
+                }
             }
         });
         etBankAccount = (EditText) v.findViewById(R.id.etLoanAppFinanceBankAccountNo);
@@ -208,9 +218,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
+                            public void onDateSet(DatePicker view, int year,int monthOfYear, int dayOfMonth) {
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                                 String dateInString = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                                 try {
@@ -220,10 +228,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-
                                // Log.e("DATATIMEhowOldAccountNEWWDATA",DateUtils.getsmallDate(howOldAccount.getText().toString(),"dd-MM-yyyy")+"");
-
-
                             }
                         },
                         // on below line we are passing year,
@@ -526,6 +531,46 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         }
     }
 
+    private void CheckValidateIFSC(final EditText editText, String text){
+        ApiInterface apiInterface= getClientService(SEILIGL.IFSCCODE).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getIfscCode(text);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+                TextView tvBankName = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankName);
+                TextView tvBankBranch = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankBranch);
+                if(response.body() != null){
+                    try {
+                        tvBankName.setText("");
+                        tvBankBranch.setText("");
+                        JSONObject jo = new JSONObject(String.valueOf(response.body()));
+                        String bankname=jo.getString("BANK");
+                        String address=jo.getString("ADDRESS");
+                        if (borrower != null) {
+                            borrower.BankName = bankname;
+                            borrower.Bank_Address =address;
+                            tvBankName.setText(borrower.BankName);
+                            tvBankBranch.setText(borrower.Bank_Address);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    tvBankName.setText("");
+                    tvBankBranch.setText("");
+                    editText.setError("This IFSC not available");
+                }
+
+
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
 
     public static Retrofit getClientPan(String BASE_URL) {
         Retrofit retrofit = null;
@@ -546,6 +591,27 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         }
         return retrofit;
     }
+
+    public static Retrofit getClientService(String BASE_URL) {
+        Retrofit retrofit=null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
 
 
 }

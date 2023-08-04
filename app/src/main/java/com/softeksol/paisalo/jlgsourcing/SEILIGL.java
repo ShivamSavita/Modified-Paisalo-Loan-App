@@ -50,7 +50,7 @@ public class SEILIGL extends Application {
     public static final String NEW_SERVERAPI = "https://erpservice.paisalo.in:980/PDL.Mobile.API/api/";
     public static final String NEW_SERVERAPISERVISE = "https://erpservice.paisalo.in:980/PDL.FiService.API/api/";
     public static final String NEW_SERVERAPIAGARA = "https://agra.paisalo.in:8462/creditmatrix/api/";
-    public static final String LOCATION = "http://api.positionstack.com/v1/";
+    public static final String IFSCCODE = "https://ifsc.razorpay.com/";
     private String deviceId;
     private long deviceImei;
     @Override
