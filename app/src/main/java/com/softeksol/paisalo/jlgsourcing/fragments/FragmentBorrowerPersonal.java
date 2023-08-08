@@ -382,8 +382,12 @@ public class FragmentBorrowerPersonal extends AbsFragment implements AdapterView
         borrowerExtra.NoOfChildren = Utils.getSpinnerIntegerValue((Spinner) v.findViewById(R.id.spinLoanAppExtraChildren));
 
         Spinner childrenSchooling = (Spinner) v.findViewById(R.id.spinLoanAppExtraChildrenSchooling);
-        if (childrenSchooling.getVisibility() == View.VISIBLE)
-            borrowerExtra.SchoolingChildren = Utils.getSpinnerIntegerValue(childrenSchooling);
+     try {
+         if (childrenSchooling.getVisibility() == View.VISIBLE)
+             borrowerExtra.SchoolingChildren = Utils.getSpinnerIntegerValue(childrenSchooling);
+     }catch (Exception e) {
+
+     }
 
         borrowerExtra.SpendOnChildren = Utils.getSpinnerIntegerValue((Spinner) v.findViewById(R.id.spinLoanAppExtraChildrenSpending));
 

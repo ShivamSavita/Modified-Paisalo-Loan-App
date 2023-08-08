@@ -80,7 +80,7 @@ public class FragmentCollection extends AbsCollectionFragment {
      * @param dbName Parameter 1.
      * @return A new instance of fragment FragmentCollection.
      */
-    // TODO: Rename and change types and number of parameters
+    //TODO: Rename and change types and number of parameters
     public static FragmentCollection newInstance(String dbName, String dbDesc) {
         FragmentCollection fragment = new FragmentCollection();
 
@@ -123,6 +123,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                 dialogView.setBackgroundResource(R.color.colorLightGreen);
                 AppCompatButton cancel = (AppCompatButton) dialogView.findViewById(R.id.btnCollectRight);
                 cancel.setText("Cancel");
+                Log.d("TAG", "onClick: "+ adapterDueData.getItem(position).getSchmCode());
 
                 final AppCompatButton collect = (AppCompatButton) dialogView.findViewById(R.id.btnCollectLeft);
                 collect.setText("Collect");
@@ -300,7 +301,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                         }else{
                             totCollectAmt=collectionAmount+latePmtIntAmt;
                         }
-                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B");
+                        Log.d("TAG", "onClick: "+ adapterDueData.getItem(position).getSchmCode());
+                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B",adapterDueData.getItem(position).getSchmCode());
                         dialog.dismiss();
                     }
                 });
@@ -338,7 +340,7 @@ public class FragmentCollection extends AbsCollectionFragment {
         //collect.setEnabled(latePaymentInterest > 0);
     }
 
-    private void saveDeposit(DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
+    private void saveDeposit(DueData dueData, int collectedAmount, int latePmtAmount, String depBy,String schemeCode) {
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(getContext(), "Loan Collection", "Saving Collection Entry") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

@@ -289,7 +289,9 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         //(new WebOperations()).postEntity(this, "https://agra.seil.in:8444/SeilESignProd/api/docsESignPvn/signdoc", WebOperations.convertToJson(eSingParms), asyncResponseHandler);
     }
 
-
+    /**
+    * Sending data to server after Esigning is done form NSDL
+    */
     private void sendESign(String xml) {
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(this, "Finalising eSignature") {
             @Override

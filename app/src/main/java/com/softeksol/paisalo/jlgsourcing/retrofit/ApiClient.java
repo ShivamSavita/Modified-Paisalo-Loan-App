@@ -40,7 +40,7 @@ public class ApiClient {
 
 
 
-    public static  Retrofit getClientdynamic(String deviceId,String databaseName) {
+    public static  Retrofit getClientdynamic(String BASE_URL) {
         Retrofit retrofit = null;
         if (retrofit==null) {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -50,11 +50,6 @@ public class ApiClient {
                                               Request original = chain.request();
 
                                               Request request = original.newBuilder()
-                                                      .header("procname", "")
-                                                      .header("Content-Encoding", "gzip,deflate,compress")
-                                                      .header("imeino", "354690572942373")
-                                                      .header("devid", deviceId)
-                                                      .header("dbname", databaseName)
                                                       .method(original.method(), original.body())
                                                       .build();
 

@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.retrofit;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +10,8 @@ public class CheckCrifData {
 
     @SerializedName("data")
     @Expose
-    private Data data ;
+    @Nullable
+    private Data data;
 
     @SerializedName("message")
     @Expose

@@ -32,6 +32,7 @@ public class DueData implements Serializable {
     private int FutureDue = 0;
     private int InterestAmt = 0;
 
+    private String SchmCode;
     private boolean isEnabled = true;
 
     public static Comparator<DueData> DueDataNachName = new Comparator<DueData>() {
@@ -48,6 +49,14 @@ public class DueData implements Serializable {
         }
 
     };
+
+    public String getSchmCode() {
+        return SchmCode;
+    }
+
+    public void setSchmCode(String schmCode) {
+        SchmCode = schmCode;
+    }
 
     public String getDb() {
         return db;
@@ -270,6 +279,7 @@ public class DueData implements Serializable {
                 ", aadhar='" + aadhar + '\'' +
                 ", isNachReg='" + isNachReg + '\'' +
                 ", InterestAmt=" + InterestAmt +
+                ", SchmCode=" + SchmCode +
                 '}';
     }
 

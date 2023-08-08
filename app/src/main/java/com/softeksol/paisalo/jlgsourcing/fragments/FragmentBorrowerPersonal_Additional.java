@@ -325,7 +325,6 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.MARITAL_STATUS=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinMARITAL_STATUS));
         borrowerExtra.RESERVATN_CATEGORY=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinRESERVATN_CATEGORY));
         borrowerExtra.OCCUPATION_TYPE=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinOCCUPATION_TYPE));
-
         borrowerExtra.SOC_ATTR_3_LAND_HOLD=((EditText) view.findViewById(R.id.editLandHold)).getText().toString();
         borrowerExtra.EDUCATION_CODE=((EditText) view.findViewById(R.id.editEducationalCode)).getText().toString();
         borrowerExtra.PLACE_OF_BIRTH=((EditText) view.findViewById(R.id.editPlaceOfBirth)).getText().toString();
@@ -348,7 +347,6 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.FATHER_MIDDLE_NAME=((EditText) view.findViewById(R.id.editFATHER_MIDDLE_NAME)).getText().toString();
         borrowerExtra.FATHER_LAST_NAME=((EditText) view.findViewById(R.id.editFATHER_LAST_NAME)).getText().toString();
         borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) view.findViewById(R.id.editYearsInBusiness)).getText().toString());
-        Log.d("TAG", "getDataFromView: yha tk chal rha h 1");
         borrowerExtra.save();
 
     }

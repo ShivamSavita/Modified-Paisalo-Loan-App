@@ -130,7 +130,8 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         return jsonObject;
     }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_select);
         drawerLayout = findViewById(R.id.my_drawer_layout);
@@ -377,6 +378,7 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
         return jsonObject;
 
     }
+
 
     private void getProcessingFee(){
         ApiInterface apiInterface= getClientService(SEILIGL.NEW_SERVERAPISERVISE).create(ApiInterface.class);

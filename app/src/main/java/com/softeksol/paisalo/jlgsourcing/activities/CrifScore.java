@@ -261,7 +261,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void checkCrifScore(){
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= new ApiClient().getClient(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
+        ApiInterface apiInterface= ApiClient.getClientdynamic(SEILIGL.AGRA_CREDITMATRIX_BASEURL).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfKyc());
         Call<CheckCrifData> call=apiInterface.checkCrifScore(getJsonOfKyc());
         call.enqueue(new Callback<CheckCrifData>() {
