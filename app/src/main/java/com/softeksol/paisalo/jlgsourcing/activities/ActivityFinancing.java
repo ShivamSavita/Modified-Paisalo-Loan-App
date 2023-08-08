@@ -481,10 +481,12 @@ public class ActivityFinancing extends AppCompatActivity
     }
 
     private void showScreen(Borrower borrower) {
+
+        Log.d("TAG", "showScreen: "+borrower.toString());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         Date date2 = null;
         try {
-            date2 = simpleDateFormat.parse("Thu Aug 03 00:00:00 GMT+05:30 2023");
+            date2 = simpleDateFormat.parse("Thu Aug 09 00:00:00 GMT+05:30 2023");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -808,7 +810,7 @@ public class ActivityFinancing extends AppCompatActivity
                 .and(Borrower_Table.CityCode.eq(manager.AreaCd))
                 .and(Borrower_Table.Oth_Prop_Det.isNull())
                 .queryList();
-        //Log.d("Borrowers", borrowers.toString());
+        Log.d("Borrowers", borrowers.toString());
         return borrowers;
     }
 

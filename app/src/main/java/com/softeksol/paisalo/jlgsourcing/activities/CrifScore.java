@@ -279,7 +279,7 @@ public class CrifScore extends AppCompatActivity {
                             public void run() {
                                 checkCrifData=response.body();
                                 getCrifScore(checkCrifData);
-                                updateSourcingStatus();
+
                             }
                         },25000);
                     }else{
@@ -384,8 +384,6 @@ public class CrifScore extends AppCompatActivity {
                             text_srifScore.setText(score);
                             textView5.setText(score);
 
-
-
                             if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
                                 gifImageView.setImageResource(R.drawable.checksign);
                                 textView8.setText("Congrats!!");
@@ -400,8 +398,8 @@ public class CrifScore extends AppCompatActivity {
                                 btnSrifScoreSave.setVisibility(View.VISIBLE);
                                 btnSrifScore.setVisibility(View.GONE);
                                 saveBREData();
-                       //       spinner.setEnabled(false);
-
+                                updateSourcingStatus();
+                                //spinner.setEnabled(false);
                             }else{
                                 gifImageView.setImageResource(R.drawable.crosssign);
                                 textView8.setText("Sorry!!");
@@ -414,10 +412,7 @@ public class CrifScore extends AppCompatActivity {
                                 btnSrifScoreSave.setVisibility(View.GONE);
                                 btnSrifScore.setVisibility(View.VISIBLE);
                                 btnSrifScore.setText("TRY AGAIN");
-
                             }
-
-
                             progressBar.setMax(1000);
                             progressBar.setProgress(0);
                             new Thread(new Runnable() {
@@ -483,7 +478,6 @@ public class CrifScore extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.e("TAG",statusCode+"");
                 if (statusCode == 200) {
-                    updateSourcingStatus();
                     Toast.makeText(CrifScore.this, "Data save successfully" , Toast.LENGTH_LONG).show();
                 }
             }
