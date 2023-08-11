@@ -481,18 +481,16 @@ public class ActivityFinancing extends AppCompatActivity
     }
 
     private void showScreen(Borrower borrower) {
-
         Log.d("TAG", "showScreen: "+borrower.toString());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         Date date2 = null;
         try {
-            date2 = simpleDateFormat.parse("Thu Aug 09 00:00:00 GMT+05:30 2023");
+            date2 = simpleDateFormat.parse("Thu Nov 29 00:00:00 GMT+05:30 2023");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         Log.d("TAG", "showScreen: "+date2.compareTo(borrower.DT));
         if (date2.compareTo(borrower.DT)<=0){
-
             Log.d("TAG", "showScreen: "+borrower.DT);
             ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
             Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);

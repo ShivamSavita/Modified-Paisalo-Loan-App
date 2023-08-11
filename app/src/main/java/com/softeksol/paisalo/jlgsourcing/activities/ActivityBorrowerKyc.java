@@ -1960,7 +1960,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         retVal &= validateControls(tietCity, tietCity.getText().toString());
         retVal &= validateControls(tietPinCode, tietPinCode.getText().toString());
         retVal &= validateControls(tietMobile, tietMobile.getText().toString());
-//        retVal &= validateControls(tietVoterId, tietVoterId.getText().toString()) || validateControls(tietPanNo, tietPanNo.getText().toString());
+//      retVal &= validateControls(tietVoterId, tietVoterId.getText().toString()) || validateControls(tietPanNo, tietPanNo.getText().toString());
         retVal &= validateControls(tietDrivingLic, tietDrivingLic.getText().toString());
         retVal &= validateControls(tietMotherFName, tietMotherFName.getText().toString());
         retVal &= validateControls(tietFatherFName, tietFatherFName.getText().toString());
