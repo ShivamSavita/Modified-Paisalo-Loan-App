@@ -116,7 +116,7 @@ public class FragmentLoanAppList extends Fragment {
         }
     }
 
-    private void filter(String text) {
+    private void filter(String text){
         ArrayList<PendingFi> filteredlist = new ArrayList<PendingFi>();
         for (PendingFi item : pendingFiList) {
             if (item.getCode().toLowerCase().contains(text.toLowerCase())) {
@@ -124,7 +124,8 @@ public class FragmentLoanAppList extends Fragment {
             }
         }
         if (filteredlist.isEmpty()) {
-            Toast.makeText(getContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
+            adapterRecViewPendingFI.updateListClear();
+           // Toast.makeText(getContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             adapterRecViewPendingFI.filterList(filteredlist);
         }

@@ -98,8 +98,12 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         return mValues.size();
     }
 
-    public void updateList(List<PendingFi> data) {
+    public void updateList(List<PendingFi> data){
         mValues = data;
+        notifyDataSetChanged();
+    }
+    public void updateListClear(){
+        mValues.clear();
         notifyDataSetChanged();
     }
 
