@@ -17,6 +17,7 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.entities.PendingFi;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentLoanAppList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,11 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         mValues = items;
         mListener = listener;
         this.context=context;
+    }
+
+    public void filterList(ArrayList<PendingFi> filterlist) {
+        mValues = filterlist;
+        notifyDataSetChanged();
     }
 
     @Override

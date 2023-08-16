@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -47,6 +51,7 @@ public class ActivityESingList extends AppCompatActivity {
     private AdapterListESignBorrower adapterListESignBorrower;
     private Manager manager;
     private int esignType;
+    EditText edt_tvSearchFI;
 //    ClientDataDao clientDataDao;
 
     @Override
@@ -113,7 +118,7 @@ public class ActivityESingList extends AppCompatActivity {
                             } else {
                                 adapterListESignBorrower.addAll(eSignBorrowers);
                             }
-
+                            adapterListESignBorrower.addArraylist(eSignBorrowers);
                             adapterListESignBorrower.notifyDataSetChanged();
                         }
 //                        if (jo.has("Guarantors")) {
@@ -222,6 +227,29 @@ public class ActivityESingList extends AppCompatActivity {
                     } else {
                         downloadUnsignedDoc(view, borrower.getESigners().get(0),borrower);
                     }
+                }
+            }
+        });
+
+        edt_tvSearchFI=findViewById(R.id.edt_tvSearchFICode);
+        edt_tvSearchFI.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (adapterListESignBorrower != null) {
+                    adapterListESignBorrower.getFilter().filter(charSequence);
+                }
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(adapterListESignBorrower != null) {
+                    String text = edt_tvSearchFI.getText().toString();
+                    adapterListESignBorrower.filter(text);
+
+
                 }
             }
         });

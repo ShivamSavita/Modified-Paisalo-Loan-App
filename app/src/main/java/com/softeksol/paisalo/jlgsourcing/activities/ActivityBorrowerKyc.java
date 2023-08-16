@@ -1904,7 +1904,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }else if(type.equals("drivinglicense")){
                     try {
                         tilDL_Name.setVisibility(View.VISIBLE);
-
                         tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         dLCheckSign.setEnabled(false);
@@ -1914,7 +1913,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilDL_Name.setText("Card Holder Name Not Found");
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         dLCheckSign.setEnabled(true);
-
                     }
                     progressDialog.cancel();
 

@@ -52,6 +52,7 @@ public class AdapterListManager extends ArrayAdapter<Manager> {
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;

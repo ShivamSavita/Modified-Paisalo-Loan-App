@@ -102,6 +102,11 @@ public class PendingFi implements Serializable {
         return TextUtils.join(" ", new String[]{Utils.NullIf(F_fname, ""), Utils.NullIf(F_mname, ""), Utils.NullIf(F_lname, "")}).replace("  ", " ").trim();
     }
 
+    public String getCode(){
+        return TextUtils.join(" ", new String[]{Utils.NullIf(Code+"", ""), "",""}).replace("  ", " ").trim();
+
+    }
+
     @Override
     public String toString() {
         return "PendingFi{" +
