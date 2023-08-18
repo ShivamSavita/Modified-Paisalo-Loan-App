@@ -159,6 +159,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     boolean aadharNumberentry=false;
     String isAdhaarEntry ="N";
     String isNameMatched ="0";
+    int isPanverify=0;
+    int isDLverify=0;
+    int isVoterverify=0;
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
@@ -170,6 +173,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     Button BtnNextOnFirstKyc;
 
     Spinner spinnerMarritalStatus;
+    String requestforVerification="";
+    String ResponseforVerification="";
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -558,7 +564,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                             cardValidate(tietDrivingLic.getText().toString().trim(),"drivinglicense","",Dob);
                         } else {
                             tilDL_Name.setVisibility(View.GONE);
-
                             tietDrivingLic.setError("Enter Driving License");
                         }
                     } catch (ParseException e) {
@@ -1616,10 +1621,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                         }
 
-
-
-
-
                     }
                 } else {
                     Utils.alert(this, "There is at least one errors in the Aadhar Data");
@@ -1867,10 +1868,13 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         progressDialog.show();
         ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
+        requestforVerification= String.valueOf(getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                ResponseforVerification= String.valueOf(response.body().get("data"));
+                saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
                 if (type.equals("pancard")){
                     try {
                         tilPAN_Name.setVisibility(View.VISIBLE);
@@ -1878,11 +1882,13 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
                         isNameMatched="1";
+                        isPanverify=1;
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         panCheckSign.setEnabled(true);
+                        isPanverify=0;
                     }
                     progressDialog.cancel();
                 }else if(type.equals("voterid")){
@@ -1892,11 +1898,13 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         voterIdCheckSign.setEnabled(false);
                         isNameMatched="1";
+                        isVoterverify=1;
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText("Card Holder Name Not Found");
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         voterIdCheckSign.setEnabled(true);
+                        isVoterverify=0;
 
                     }
                     progressDialog.cancel();
@@ -1908,11 +1916,13 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         dLCheckSign.setEnabled(false);
                         isNameMatched="1";
+                        isDLverify=1;
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
                         tilDL_Name.setText("Card Holder Name Not Found");
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         dLCheckSign.setEnabled(true);
+                        isDLverify=0;
                     }
                     progressDialog.cancel();
 
@@ -1924,7 +1934,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 if (type.equals("pancard")){
                     tilPAN_Name.setText(t.getMessage());
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-
                     progressDialog.cancel();
 
                 }else{
@@ -1932,10 +1941,33 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                     progressDialog.cancel();
                     voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
-
                 }
             }
         });
+    }
+
+    private void saveVerficationLogs(String id,String type,String request,String response) {
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.kycVerficationlog(getJsonOfKyCLogs(id,type,request,response));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "checkCrifScore: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+    private JsonObject getJsonOfKyCLogs(String id, String type,String bankIfsc,String userDOB) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("Type",type);
+        jsonObject.addProperty("Userid",id);
+        jsonObject.addProperty("Request",bankIfsc);
+        jsonObject.addProperty("Response",userDOB);
+        return  jsonObject;
     }
 
     private JsonObject getJsonOfString(String id, String type,String bankIfsc,String userDOB) {

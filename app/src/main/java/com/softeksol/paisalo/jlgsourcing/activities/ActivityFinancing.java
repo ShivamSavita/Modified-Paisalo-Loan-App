@@ -485,11 +485,10 @@ public class ActivityFinancing extends AppCompatActivity
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         Date date2 = null;
         try {
-            date2 = simpleDateFormat.parse("Thu Nov 29 00:00:00 GMT+05:30 2023");
+            date2 = simpleDateFormat.parse("Thu Dec 31 00:00:00 GMT+05:30 2023");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        Log.d("TAG", "showScreen: "+date2.compareTo(borrower.DT));
         if (date2.compareTo(borrower.DT)<=0){
             Log.d("TAG", "showScreen: "+borrower.DT);
             ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
@@ -511,11 +510,7 @@ public class ActivityFinancing extends AppCompatActivity
                         }
                     }catch (Exception e){
                         Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
-//
                     }
-//
-//
-//
                 }
                 //
                 @Override
@@ -528,10 +523,6 @@ public class ActivityFinancing extends AppCompatActivity
             intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
             startActivity(intent);
         }
-
-
-
-
     }
 
     @Override

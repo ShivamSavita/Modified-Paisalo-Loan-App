@@ -35,6 +35,9 @@ public interface ApiInterface {
     @POST("IdentityVerification/Get")
     public Call<JsonObject> cardValidate(@Body JsonObject object);
 
+    @POST("LiveTrack/CreateKycVerification")
+    public Call<JsonObject> kycVerficationlog(@Body JsonObject object);
+
     @POST("LiveTrack/CreateLiveTrack")
     public Call<JsonObject> livetrack(@Body JsonObject object);
 

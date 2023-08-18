@@ -29,6 +29,7 @@ import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
+import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
@@ -92,6 +93,9 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     private AppCompatSpinner acspHomeType, acspHomeRoofType, acspToiletType, acspLiveingWithSpouse;
     TextView tilBankAccountName;
     Button checkBankAccountNuber;
+    String requestforVerification="";
+    String ResponseforVerification="";
+
     public FragmentBorrowerFinance() {
         // Required empty public constructor
     }
@@ -272,11 +276,14 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        requestforVerification= String.valueOf(getJsonOfString(id,bankIfsc));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,bankIfsc));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    try {
+                ResponseforVerification= String.valueOf(response.body().get("data"));
+                saveVerficationLogs(IglPreferences.getPrefString(getContext(), SEILIGL.USER_ID, ""),"Bank Account",requestforVerification,ResponseforVerification);
+                try {
                         if(response.body().get("data").getAsJsonObject().get("account_exists").equals("true")){
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
@@ -323,6 +330,33 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         jsonObject.addProperty("userdob","");
         return  jsonObject;
     }
+
+    private void saveVerficationLogs(String id,String type,String request,String response) {
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.kycVerficationlog(getJsonOfKyCLogs(id,type,request,response));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "checkCrifScore: "+response.body());
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+    private JsonObject getJsonOfKyCLogs(String id, String type,String bankIfsc,String userDOB) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("Type",type);
+        jsonObject.addProperty("Userid",id);
+        jsonObject.addProperty("Request",bankIfsc);
+        jsonObject.addProperty("Response",userDOB);
+        return  jsonObject;
+    }
+
+
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
