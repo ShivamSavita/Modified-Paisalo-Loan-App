@@ -430,9 +430,9 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                 JSONObject jo = new JSONObject();
                 try {
                     jo.put("CustCode", jsonObject.get("CustCode"));
-                    jo.put("Creator", jsonObject.get("Creator"));
-                    jo.put("GrNo", eSigner.GrNo);
-                    jo.put("TxnID", jsonObject.get("TxnID"));
+                    jo.put("Creator",  jsonObject.get("Creator"));
+                    jo.put("GrNo",     eSigner.GrNo);
+                    jo.put("TxnID",    jsonObject.get("TxnID"));
                     jo.put("isAccepted", whichButton == DialogInterface.BUTTON_POSITIVE);
 
                     /*if(whichButton == DialogInterface.BUTTON_NEGATIVE){
