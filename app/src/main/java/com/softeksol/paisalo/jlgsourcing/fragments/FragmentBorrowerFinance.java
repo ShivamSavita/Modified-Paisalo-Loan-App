@@ -260,6 +260,11 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             public void onClick(View view) {
                 if (!etBankAccount.getText().toString().equals("") && !etIFSC.getText().toString().equals("")){
                     cardValidate(etBankAccount.getText().toString().trim(),etIFSC.getText().toString().trim());
+
+
+
+
+
                 }else{
                     Toast.makeText(getContext(), "Please enter account number and IFSC code Properly", Toast.LENGTH_SHORT).show();
                 }

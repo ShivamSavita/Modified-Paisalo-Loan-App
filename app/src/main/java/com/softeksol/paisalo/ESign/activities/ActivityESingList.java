@@ -106,14 +106,14 @@ public class ActivityESingList extends AppCompatActivity {
 //                            adapterListESignBorrower.notifyDataSetChanged();
 //                        }
                         if (jo.has("PendingESignFI")) {
-                            listType = new TypeToken<List<ESignBorrower>>() {
-                            }.getType();
+                            listType = new TypeToken<List<ESignBorrower>>() {}.getType();
                             List<ESignBorrower> eSignBorrowers = WebOperations.convertToObjectArray(jo.getString("PendingESignFI"), listType);
                             adapterListESignBorrower.clear();
                             if (esignType == 1) {
                                 for (ESignBorrower eSignBorrower : eSignBorrowers) {
                                     eSignBorrower.insert();
                                 }
+                                Log.d("manager", "onSuccess: "+manager.AreaCd);
                                 adapterListESignBorrower.addAll(getESignBorrowers(manager));
                             } else {
                                 adapterListESignBorrower.addAll(eSignBorrowers);
@@ -121,6 +121,7 @@ public class ActivityESingList extends AppCompatActivity {
                             adapterListESignBorrower.addArraylist(eSignBorrowers);
                             adapterListESignBorrower.notifyDataSetChanged();
                         }
+
 //                        if (jo.has("Guarantors")) {
 //                            listType = new TypeToken<List<ESignGuarantor>>() {
 //                            }.getType();

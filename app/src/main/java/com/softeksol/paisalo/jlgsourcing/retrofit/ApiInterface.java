@@ -3,9 +3,11 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 
 import java.util.Calendar;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -59,6 +61,10 @@ public interface ApiInterface {
 
     @GET("{ifsccode}")
     Call<JsonObject> getIfscCode(@Path("ifsccode") String ifsccode);
+
+    @POST("OCR/DocVerifyByOCR")
+    Call<OCRResponseModel> getFileValidateByOCR(@Query("type") String type, @Body RequestBody file);
+
 
 
 
