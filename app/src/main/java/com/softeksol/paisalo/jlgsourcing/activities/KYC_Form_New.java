@@ -53,7 +53,7 @@ Borrower borrower;
 private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaEarningMember, rlaSchemeType ,rlsOccupation,rlaBussiness;
 Intent i;
 String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMName,SpouseLName,SpouseMName,SpouseFName;
-String VoterIdName,tilPAN_Name,tilDL_Name,tietName;
+String VoterIdName="",tilPAN_Name="",tilDL_Name="",tietName="";
 TextView textViewTotalAnnualIncome;
 
     @Override
@@ -70,10 +70,10 @@ TextView textViewTotalAnnualIncome;
         SpouseLName=i.getStringExtra("SpouseLName").trim().length()<1?null:i.getStringExtra("SpouseLName").trim();
         SpouseMName=i.getStringExtra("SpouseMName").trim().length()<1?null:i.getStringExtra("SpouseMName").trim();
         SpouseFName=i.getStringExtra("SpouseFName").trim().length()<1?null:i.getStringExtra("SpouseFName").trim();
-        VoterIdName=i.getStringExtra("VoterIdName").length()<1?null:i.getStringExtra("VoterIdName");
-        tilPAN_Name=i.getStringExtra("PANName").length()<1?null:i.getStringExtra("PANName");
-        tilDL_Name=i.getStringExtra("DLName").length()<1?null:i.getStringExtra("DLName");
-        tietName=i.getStringExtra("AadharName").length()<1?null:i.getStringExtra("AadharName");
+        VoterIdName=i.getStringExtra("VoterIdName").length()<1?"":i.getStringExtra("VoterIdName");
+        tilPAN_Name=i.getStringExtra("PANName").length()<1?"":i.getStringExtra("PANName");
+        tilDL_Name=i.getStringExtra("DLName").length()<1?"":i.getStringExtra("DLName");
+        tietName=i.getStringExtra("AadharName").length()<1?"":i.getStringExtra("AadharName");
 
 
 

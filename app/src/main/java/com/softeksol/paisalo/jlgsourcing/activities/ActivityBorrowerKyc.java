@@ -1390,7 +1390,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                     intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-
+                                    intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                    intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                    intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                    intent.putExtra("AadharName", tietName.getText().toString());
                                     intent.putExtra("manager", manager);
                                     intent.putExtra("borrower", borrower);
                                     startActivity(intent);
@@ -1417,6 +1420,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
                                                 intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
                                                 intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                                intent.putExtra("AadharName", tietName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1441,7 +1448,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
                                         intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                         intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
+                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                        intent.putExtra("AadharName", tietName.getText().toString());
 
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
@@ -1471,6 +1481,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
                                                 intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
                                                 intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                                intent.putExtra("AadharName", tietName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1497,7 +1511,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                         intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-
+                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                        intent.putExtra("AadharName", tietName.getText().toString());
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);
@@ -1529,6 +1546,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
                                                 intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
                                                 intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                                intent.putExtra("AadharName", tietName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1555,7 +1576,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                         intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-
+                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                        intent.putExtra("AadharName", tietName.getText().toString());
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);
@@ -1587,6 +1611,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                                 intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
                                                 intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
                                                 intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                                intent.putExtra("AadharName", tietName.getText().toString());
                                                 intent.putExtra("manager", manager);
                                                 intent.putExtra("borrower", borrower);
                                                 startActivity(intent);
@@ -1613,7 +1641,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
                                         intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-
+                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                        intent.putExtra("AadharName", tietName.getText().toString());
                                         intent.putExtra("manager", manager);
                                         intent.putExtra("borrower", borrower);
                                         startActivity(intent);
