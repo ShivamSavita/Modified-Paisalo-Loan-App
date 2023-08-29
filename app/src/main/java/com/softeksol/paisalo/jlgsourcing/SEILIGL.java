@@ -47,6 +47,8 @@ public class SEILIGL extends Application {
     public static final String BRANCH_CODE = BuildConfig.APPLICATION_ID + ".BRANCH_CODE";
     public static final String CREATOR = BuildConfig.APPLICATION_ID + ".CREATOR";
     public static final String IMEI = BuildConfig.APPLICATION_ID + ".IMEI_NO";
+    public static final String DOBAadhar = BuildConfig.APPLICATION_ID + ".DOBAadhar";
+    public static final String DOBPan = BuildConfig.APPLICATION_ID + ".DOBPan";
     public static final String NEW_SERVERAPI = "https://erpservice.paisalo.in:980/PDL.Mobile.API/api/";
     public static final String NEW_SERVERAPISERVISE = "https://erpservice.paisalo.in:980/PDL.FiService.API/api/";
     public static final String NEW_SERVERAPIAGARA = "https://agra.paisalo.in:8462/creditmatrix/api/";

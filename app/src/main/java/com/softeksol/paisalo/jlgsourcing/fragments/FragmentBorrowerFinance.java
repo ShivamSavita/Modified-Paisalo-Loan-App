@@ -95,6 +95,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     Button checkBankAccountNuber;
     String requestforVerification="";
     String ResponseforVerification="";
+    TextView tvBankName,tvBankBranch;
 
     public FragmentBorrowerFinance() {
         // Required empty public constructor
@@ -189,6 +190,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         acspToiletType = (AppCompatSpinner) v.findViewById(R.id.acspToiletType);
         acspLiveingWithSpouse = (AppCompatSpinner) v.findViewById(R.id.acspLivigWithSpouse);
 
+
+        tvBankName = (TextView) v.findViewById(R.id.tvLoanAppFinanceBankName);
+        tvBankBranch = (TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch);
+
         acspHomeType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("house-type"), false));
         acspHomeRoofType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("house-roof-type"), false));
         acspToiletType.setAdapter(new AdapterListRange(getContext(), RangeCategory.getRangesByCatKey("toilet-type"), false));
@@ -258,7 +263,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         checkBankAccountNuber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!etBankAccount.getText().toString().equals("") && !etIFSC.getText().toString().equals("")){
+                if (!etBankAccount.getText().toString().equals("") && !etIFSC.getText().toString().equals("") && !tvBankName.getText().toString().equals("")){
                     cardValidate(etBankAccount.getText().toString().trim(),etIFSC.getText().toString().trim());
                 }else{
                     Toast.makeText(getContext(), "Please enter account number and IFSC code Properly", Toast.LENGTH_SHORT).show();
@@ -290,7 +295,9 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                             checkBankAccountNuber.setEnabled(false);
+                            UpdatefiVerificationDocName();
                         }else{
+                            etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText("Account Holder Name Not Found");
                             tilBankAccountName.setTextColor(getResources().getColor(R.color.red));
@@ -534,8 +541,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String jsonString = new String(responseBody);
                     try {
-                        TextView tvBankName = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankName);
-                        TextView tvBankBranch = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankBranch);
+
                         tvBankName.setText("");
                         tvBankBranch.setText("");
                         BankData bankData = WebOperations.convertToObject(jsonString, BankData.class);
@@ -647,5 +653,36 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     }
 
 
+    private void UpdatefiVerificationDocName() {
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getJsonOfDocName());
+        Call<JsonObject> call=apiInterface.getDocNameDate(getJsonOfDocName());
+        call.enqueue(new Callback<JsonObject>(){
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response){
+                Log.d("TAG", "onResponse: "+response.body());
+                if(response.body() != null){
 
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
+    private JsonObject getJsonOfDocName() {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type","bank");
+        jsonObject.addProperty("pan_Name","");
+        jsonObject.addProperty("voterId_Name","");
+        jsonObject.addProperty("aadhar_Name","");
+        jsonObject.addProperty("drivingLic_Name","");
+        jsonObject.addProperty("bankAcc_Name",tilBankAccountName.getText().toString());
+        jsonObject.addProperty("bank_Name",tvBankName.getText().toString());
+        jsonObject.addProperty("fiCode",borrowerExtra.Code);
+        jsonObject.addProperty("creator",borrowerExtra.Creator);
+        return jsonObject;
+    }
 }

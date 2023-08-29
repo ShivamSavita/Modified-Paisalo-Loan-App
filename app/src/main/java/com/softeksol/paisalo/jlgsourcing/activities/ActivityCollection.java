@@ -43,8 +43,7 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-public class
-ActivityCollection extends AppCompatActivity {
+public class ActivityCollection extends AppCompatActivity {
 
     private AdapterCollectionFragmentPager fragmentPagerAdapter;
     private ViewPager mViewPager;
@@ -130,11 +129,9 @@ ActivityCollection extends AppCompatActivity {
                     }.getType();
                     settlementDataList.clear();
                     String jsonString = (new String(responseBody));
-
                     List<PosInstRcv> dueData = WebOperations.convertToObjectArray(jsonString, listType);
                     settlementDataList.addAll(getSettlementDataByDbName(dueData, manager.FOCode, manager.Creator));
                     if (settlementDataList.size() > 0) {
-
                         if (fragSettlement == null) {
                             Log.d("checking","yha tak 2");
                             fragSettlement = FragmentCollectionSettlement.newInstance("POSDB", "Settlement");
@@ -144,7 +141,7 @@ ActivityCollection extends AppCompatActivity {
                             fragmentPagerAdapter.notifyDataSetChanged();
                         }
                         fragSettlement.refreshData();
-                    } else {
+                    }else{
                         Log.d("checking","yha tak 3");
                         if (absFragments != null) {
                             Log.d("checking","yha tak 4");

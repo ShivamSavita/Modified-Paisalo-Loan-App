@@ -3,9 +3,11 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 
 import java.util.Calendar;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -21,15 +23,18 @@ public interface ApiInterface {
     /*@FormUrlEncoded
     @POST("token")
     public Call<LoginResponse> login(@Field("grant_type") String grantType, @Field("username") String  userName, @Field("password") String password);
+   */
 
-*/
+
+    @POST("UserMobile/CreateFiVerfiedInfo")
+    public  Call<JsonObject> getDocNameDate(@Body JsonObject object);
+
     @POST("CrifReport/CheckCrifReport")
     public  Call<CheckCrifData> checkCrifScore(@Body JsonObject object);
 
 
     @POST("CrifReport/GetCrifReport")
     public  Call<ScrifData> getCrifScore(@Body JsonObject object);
-
 
 
     @POST("IdentityVerification/Get")
@@ -60,7 +65,8 @@ public interface ApiInterface {
     @GET("{ifsccode}")
     Call<JsonObject> getIfscCode(@Path("ifsccode") String ifsccode);
 
-
+    @POST("OCR/DocVerifyByOCR")
+    Call<OCRResponseModel> getFileValidateByOCR(@Query("imgData") String type, @Body RequestBody file);
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

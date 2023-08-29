@@ -31,7 +31,7 @@ public class DueData implements Serializable {
     private String CityCode;
     private int FutureDue = 0;
     private int InterestAmt = 0;
-
+    private  String SchmCode;
     private boolean isEnabled = true;
 
     public static Comparator<DueData> DueDataNachName = new Comparator<DueData>() {
@@ -219,6 +219,15 @@ public class DueData implements Serializable {
         isEnabled = enabled;
     }
 
+
+    public String getSchmCode() {
+        return SchmCode;
+    }
+
+    public void setSchmCode(String schmCode) {
+        SchmCode = schmCode;
+    }
+
     public static int getInstallmentSum(List<Installment> installments, Boolean selectedOnly) {
         int tot = 0;
         for (Installment installment : installments) {
@@ -270,6 +279,7 @@ public class DueData implements Serializable {
                 ", aadhar='" + aadhar + '\'' +
                 ", isNachReg='" + isNachReg + '\'' +
                 ", InterestAmt=" + InterestAmt +
+                ", SchmCode='" + SchmCode + '\'' +
                 '}';
     }
 

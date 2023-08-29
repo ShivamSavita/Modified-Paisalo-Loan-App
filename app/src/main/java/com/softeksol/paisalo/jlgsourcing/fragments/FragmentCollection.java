@@ -67,6 +67,7 @@ public class FragmentCollection extends AbsCollectionFragment {
     private int collectionAmount;
     private int latePmtIntAmt;
     private boolean isProcessingEMI=false;
+    private String SchmCode;
 
     public FragmentCollection() {
         // Required empty public constructor
@@ -112,6 +113,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                 AdapterDueData adapterDueData = (AdapterDueData) parent.getAdapter();
                 final DueData dueData = (DueData) adapterDueData.getItem(position);
                 Log.d("DueData",dueData.toString());
+                Log.d("DueDataSchmCode",dueData.getSchmCode());
+                SchmCode=dueData.getSchmCode();
                 latePmtIntAmt=0;
                 adapterDueData.notifyDataSetChanged();
                 final int maxDue = dueData.getMaxDueAmount();
@@ -206,8 +209,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                         editText.setError(null);
                     }
                 });
-                tilLumpsumAccount.setVisibility(View.INVISIBLE);
 
+                tilLumpsumAccount.setVisibility(View.INVISIBLE);
                 final ListView lvc = (ListView) dialogView.findViewById(R.id.lvcCollectInstallments);
                 lvc.setItemsCanFocus(false);
                 lvc.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -300,7 +303,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                         }else{
                             totCollectAmt=collectionAmount+latePmtIntAmt;
                         }
-                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B");
+                        saveDeposit(SchmCode,dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B");
                         dialog.dismiss();
                     }
                 });
@@ -338,12 +341,11 @@ public class FragmentCollection extends AbsCollectionFragment {
         //collect.setEnabled(latePaymentInterest > 0);
     }
 
-    private void saveDeposit(DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
+    private void saveDeposit(String SchmCode,DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(getContext(), "Loan Collection", "Saving Collection Entry") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-
                     ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
                 }
             }
@@ -370,7 +372,13 @@ public class FragmentCollection extends AbsCollectionFragment {
         instRcv.setPayFlag(depBy);
         //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
         Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
-        (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), asyncResponseHandler);
+        Log.e("SchmCode",SchmCode+"---"+SchmCode.substring(0,2));
+        if(SchmCode.substring(0,2).equalsIgnoreCase("SD")){
+          (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 1,asyncResponseHandler);
+        }else{
+          (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 0,asyncResponseHandler);
+        }
+      //  (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 0,asyncResponseHandler);
     }
 
     public void refreshData() {

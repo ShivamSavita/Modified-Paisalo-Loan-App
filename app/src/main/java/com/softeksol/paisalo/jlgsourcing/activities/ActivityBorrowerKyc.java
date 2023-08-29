@@ -1360,6 +1360,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
                                             intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
                                             intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                                            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                                            intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                                            intent.putExtra("DLName", tilDL_Name.getText().toString());
+                                            intent.putExtra("AadharName", tietName.getText().toString());
                                             intent.putExtra("manager", manager);
                                             intent.putExtra("borrower", borrower);
                                             startActivity(intent);
@@ -1776,13 +1780,19 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }catch (Exception e){
                     editText.setError("Age should be greater than 17");
                 }
-
-
                 break;
             case R.id.tietAddress1:
+                String character=editText.getText().toString().trim();
                 if (editText.getText().toString().trim().length() < 1) {
                     editText.setError("Should be more than 5 Characters");
                     retVal = false;
+                }else{
+                    if (character.matches(".*[A-Za-z].*") && character.matches(".*[0-9].*")) {
+                } else {
+                        tietAddress1.setEnabled(true);
+                        editText.setError("Only number not allowed.");
+                        retVal = false;
+                   }
                 }
                 break;
             case R.id.tietCity:

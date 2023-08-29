@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,36 +14,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.loopj.android.http.ResponseHandlerInterface;
+import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
-import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
-import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
-import com.softeksol.paisalo.jlgsourcing.fragments.FragmentKycSubmit;
 import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class KYC_Form_New extends AppCompatActivity {
 TextInputEditText tietAgricultureIncome,tietFutureIncome,tietExpenseMonthly,tietIncomeMonthly,tietOtherIncome,EditEarningMemberIncome,tietPensionIncome,tietInterestIncome;
@@ -56,7 +53,7 @@ Borrower borrower;
 private AdapterListRange rlaBankType, rlaPurposeType, rlaLoanAmount, rlaEarningMember, rlaSchemeType ,rlsOccupation,rlaBussiness;
 Intent i;
 String FatherFName, FatherLName,FatherMName, MotherFName,MotherLName, MotherMName,SpouseLName,SpouseMName,SpouseFName;
-
+String VoterIdName,tilPAN_Name,tilDL_Name,tietName;
 TextView textViewTotalAnnualIncome;
 
     @Override
@@ -73,6 +70,15 @@ TextView textViewTotalAnnualIncome;
         SpouseLName=i.getStringExtra("SpouseLName").trim().length()<1?null:i.getStringExtra("SpouseLName").trim();
         SpouseMName=i.getStringExtra("SpouseMName").trim().length()<1?null:i.getStringExtra("SpouseMName").trim();
         SpouseFName=i.getStringExtra("SpouseFName").trim().length()<1?null:i.getStringExtra("SpouseFName").trim();
+        VoterIdName=i.getStringExtra("VoterIdName").length()<1?null:i.getStringExtra("VoterIdName");
+        tilPAN_Name=i.getStringExtra("PANName").length()<1?null:i.getStringExtra("PANName");
+        tilDL_Name=i.getStringExtra("DLName").length()<1?null:i.getStringExtra("DLName");
+        tietName=i.getStringExtra("AadharName").length()<1?null:i.getStringExtra("AadharName");
+
+
+
+
+
         manager = (Manager) i.getSerializableExtra("manager");
         borrower = (Borrower) i.getSerializableExtra("borrower");
         tietAgricultureIncome=findViewById(R.id.tietAgricultureIncome);
@@ -312,7 +318,9 @@ TextView textViewTotalAnnualIncome;
             }else if(tietExpenseMonthly.getText().toString().trim().equals("")){
                 tietExpenseMonthly.setError("Please Enter Expense");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Expense");
-
+            }else if(((Double.parseDouble(tietIncomeMonthly.getText().toString().trim()))* 0.25)>Double.parseDouble(tietExpenseMonthly.getText().toString().trim())){
+                tietExpenseMonthly.setError("Expense should be greater than 25 % of Income");
+                Utils.showSnakbar(findViewById(android.R.id.content),"Expense should be greater than 25 % of Income");
             }else if(tietFutureIncome.getText().toString().trim().equals("")){
                 tietFutureIncome.setError("Please Enter Future Income");
                 Utils.showSnakbar(findViewById(android.R.id.content),"Please enter Future Income");
@@ -372,7 +380,7 @@ TextView textViewTotalAnnualIncome;
 
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
-                                    BorrowerExtra borrowerExtra=new BorrowerExtra( FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,Utils.getNotNullInt(tietPensionIncome),Utils.getNotNullInt(tietInterestIncome));
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra(FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgricultureIncome),Utils.getNotNullText(tietOtherIncome),Utils.getSpinnerStringValue(earningMemberTypeSpin),Utils.getNotNullInt(EditEarningMemberIncome),MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,Utils.getNotNullInt(tietPensionIncome),Utils.getNotNullInt(tietInterestIncome));
                                     Log.d("TAG", "onCreate: "+FatherFName);
                                     Log.d("TAG", "onCreate: "+FatherLName);
                                     Log.d("TAG", "onCreate: "+FatherMName);
@@ -455,6 +463,9 @@ TextView textViewTotalAnnualIncome;
                                         }
                                     });
                                     builder.create().show();
+
+                                    UpdatefiVerificationDocName(FiCode,manager.Creator);
+
                                 } catch (JSONException jo) {
                                     Log.d("TAG", "onSuccess: "+jo.getMessage());
                                     Utils.showSnakbar(findViewById(android.R.id.content), jo.getMessage());
@@ -511,11 +522,41 @@ TextView textViewTotalAnnualIncome;
     Log.d("TAG", "getDataFromView: "+ borrower.Loan_Reason);
     Log.d("TAG", "getDataFromView: "+ borrower.Loan_Amt);
 
+    }catch (Exception e){
 
+      }
+    }
 
-}catch (Exception e){
+    private void UpdatefiVerificationDocName(long fiCode, String creator) {
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getJsonOfDocName(fiCode, creator));
+        Call<JsonObject> call=apiInterface.getDocNameDate(getJsonOfDocName(fiCode,creator));
+        call.enqueue(new Callback<JsonObject>(){
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response){
+                Log.d("TAG", "onResponse: "+response.body());
+                if(response.body() != null){
 
-}
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
 
+            }
+        });
+    }
+    private JsonObject getJsonOfDocName(long fiCode, String creator) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type","basic");
+        jsonObject.addProperty("pan_Name",tilPAN_Name);
+        jsonObject.addProperty("voterId_Name",VoterIdName);
+        jsonObject.addProperty("aadhar_Name",tietName);
+        jsonObject.addProperty("drivingLic_Name",tilDL_Name);
+        jsonObject.addProperty("bankAcc_Name","");
+        jsonObject.addProperty("bank_Name","");
+        jsonObject.addProperty("fiCode",fiCode+"");
+        jsonObject.addProperty("creator",creator);
+        return jsonObject;
     }
 }
