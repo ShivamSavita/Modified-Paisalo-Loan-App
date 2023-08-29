@@ -63,7 +63,7 @@ public interface ApiInterface {
     Call<JsonObject> getIfscCode(@Path("ifsccode") String ifsccode);
 
     @POST("OCR/DocVerifyByOCR")
-    Call<OCRResponseModel> getFileValidateByOCR(@Query("type") String type, @Body RequestBody file);
+    Call<OCRResponseModel> getFileValidateByOCR(@Query("imgData") String type, @Body RequestBody file);
 
 
 
