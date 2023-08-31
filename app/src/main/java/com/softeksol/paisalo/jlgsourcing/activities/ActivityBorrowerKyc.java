@@ -1021,9 +1021,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
     }
 
-
-
-
     // 20/11/2022 ========================================
     protected byte[] decompressData(byte[] byteScanData) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream(byteScanData.length);
@@ -1214,9 +1211,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             tietAddress2.setEnabled(true);
         }
 
-
-        //borrower.P_city = decodedData.get(7);
-
+         borrower.isAadharVerified = "Q";
+        // borrower.P_city = decodedData.get(7);
         // borrower.P_Add1 = decodedData.get(9);
         // borrower.P_add2 = decodedData.get(8);
         // borrower.P_add3 = decodedData.get(10);

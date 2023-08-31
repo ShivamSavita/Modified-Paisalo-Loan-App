@@ -349,7 +349,6 @@ public class FragmentCollection extends AbsCollectionFragment {
                     ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(getContext(), error.getMessage() + "\n" + (new String(responseBody)), Toast.LENGTH_LONG).show();
@@ -360,6 +359,11 @@ public class FragmentCollection extends AbsCollectionFragment {
         PosInstRcv instRcv = new PosInstRcv();
         instRcv.setCaseCode(dueData.getCaseCode());
         instRcv.setCreator(dueData.getCreator());
+//        if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
+//            instRcv.setDataBaseName("PDL_OWN");
+//        }else{
+//            instRcv.setDataBaseName(dueData.getDb());
+//        }
         instRcv.setDataBaseName(dueData.getDb());
         //instRcv.setDataBaseName("SBIPDL_TEST");
         instRcv.setIMEI(IglPreferences.getPrefString(getContext(), SEILIGL.DEVICE_IMEI, "0"));
@@ -372,13 +376,7 @@ public class FragmentCollection extends AbsCollectionFragment {
         instRcv.setPayFlag(depBy);
         //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
         Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
-        Log.e("SchmCode",SchmCode+"---"+SchmCode.substring(0,2));
-        if(SchmCode.substring(0,2).equalsIgnoreCase("SD")){
-          (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 1,asyncResponseHandler);
-        }else{
-          (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 0,asyncResponseHandler);
-        }
-      //  (new WebOperations()).postEntityCollection(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), 0,asyncResponseHandler);
+       (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv),asyncResponseHandler);
     }
 
     public void refreshData() {

@@ -310,6 +310,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                         tilBankAccountName.setText("Card Holder Name Not Found");
                         checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         checkBankAccountNuber.setEnabled(true);
+                        etBankAccount.setText("");
 
                     }
                     progressDialog.cancel();
@@ -541,7 +542,6 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String jsonString = new String(responseBody);
                     try {
-
                         tvBankName.setText("");
                         tvBankBranch.setText("");
                         BankData bankData = WebOperations.convertToObject(jsonString, BankData.class);

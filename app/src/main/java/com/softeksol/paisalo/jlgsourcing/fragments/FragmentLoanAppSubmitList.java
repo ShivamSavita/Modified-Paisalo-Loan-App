@@ -62,7 +62,7 @@ public class FragmentLoanAppSubmitList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         Utils.setLayoutToRecyclerView(view, 1);
-        recyclerView = (RecyclerView) view;
+        recyclerView = view.findViewById(R.id.application_recycler);
         loanApplicationRVA = new AdapterRecViewLoanApplication(borrowers, mListener);
         recyclerView.setAdapter(loanApplicationRVA);
         return view;
