@@ -287,9 +287,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 ResponseforVerification= String.valueOf(response.body().get("data"));
+                Log.d("TAG", "acc Rep: "+response.body().get("data"));
                 saveVerficationLogs(IglPreferences.getPrefString(getContext(), SEILIGL.USER_ID, ""),"Bank Account",requestforVerification,ResponseforVerification);
-                try {
-                        if(response.body().get("data").getAsJsonObject().get("account_exists").equals("true")){
+               try {
+                        if(response.body().get("data").getAsJsonObject().get("account_exists").getAsBoolean()){
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
                             //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
@@ -299,7 +300,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                         }else{
                             etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
-                            tilBankAccountName.setText("Account Holder Name Not Found");
+                            tilBankAccountName.setText("Account is inactive Or Blocked");
                             tilBankAccountName.setTextColor(getResources().getColor(R.color.red));
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                             checkBankAccountNuber.setEnabled(true);
@@ -577,7 +578,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d("TAG", "onResponse: "+response.body());
+                Log.d("TAG", "onResponse bank: "+response.body());
                 TextView tvBankName = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankName);
                 TextView tvBankBranch = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankBranch);
                 if(response.body() != null){

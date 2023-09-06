@@ -702,8 +702,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 
         if (borrower.isAadharVerified.equals("Q")) {
-            imgViewScanQR.setVisibility(View.GONE);
-            tietAadharId.setEnabled(false);
+           // imgViewScanQR.setVisibility(View.GONE);
+            //tietAadharId.setEnabled(false);
             tietName.setEnabled(false);
             if (Utils.NullIf(borrower.getGurName(), "").trim().length() > 0)
                 tietGuardian.setEnabled(false);
@@ -871,6 +871,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: "+data);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             //Log.d("QR Scan","Executed");
@@ -940,6 +941,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             //AadharData aadharData = AadharUtils.getAadhar(aadharDataString);
             AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
 
+            Log.d("TAG", "setAadharContent: "+aadharData.isAadharVerified);
             if (aadharData.AadharId != null) {
 
                 Borrower borrower1 = Borrower.getBorrower(aadharData.AadharId);
@@ -1020,6 +1022,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 //        }
 
     }
+
+
+
 
     // 20/11/2022 ========================================
     protected byte[] decompressData(byte[] byteScanData) {
@@ -1158,7 +1163,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             borrower.Age = period.getYears();
             System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
         }
-
+        borrower.isAadharVerified="Q";
         borrower.aadharid=decodedData.get(2-inc);
         borrower.Gender = decodedData.get(5-inc);
         if (decodedData.get(13-inc).equals("")||decodedData.get(13-inc).equals(null)){
@@ -1211,8 +1216,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             tietAddress2.setEnabled(true);
         }
 
-         borrower.isAadharVerified = "Q";
-        // borrower.P_city = decodedData.get(7);
+
+        //borrower.P_city = decodedData.get(7);
+
         // borrower.P_Add1 = decodedData.get(9);
         // borrower.P_add2 = decodedData.get(8);
         // borrower.P_add3 = decodedData.get(10);
@@ -1346,23 +1352,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                            intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                            intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                            intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                            intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                            intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                            intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                            intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                            intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                            intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                            intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                            intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                            intent.putExtra("AadharName", tietName.getText().toString());
-                                            intent.putExtra("manager", manager);
-                                            intent.putExtra("borrower", borrower);
-                                            startActivity(intent);
+                                            sendingDataToNewPage();
+
                                         }
                                     });
                                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1374,25 +1365,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     builder.create().show();
 
                                 }else{
-                                    Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                    intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                    intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                    intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                    intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                    intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                    intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                    sendingDataToNewPage();
 
-                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                    intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                    intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                    intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                    intent.putExtra("AadharName", tietName.getText().toString());
-                                    intent.putExtra("manager", manager);
-                                    intent.putExtra("borrower", borrower);
-                                    startActivity(intent);
                                 }
                             }
                         }else{
@@ -1406,23 +1380,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
+                                                sendingDataToNewPage();
+
                                             }
                                         });
                                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1433,25 +1392,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         });
                                         builder.create().show();
                                     }else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        sendingDataToNewPage();
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
                                     }
                         }else if (!tietPanNo.getText().toString().equals("")){
                                 if (tilPAN_Name.getText().toString().trim().equals("")){
@@ -1467,23 +1409,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
+                                                sendingDataToNewPage();
+
                                             }
                                         });
                                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1495,25 +1422,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.create().show();
                                     }
                                     else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        sendingDataToNewPage();
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
                                     }
                                 }
                             }
@@ -1532,23 +1442,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
+                                                sendingDataToNewPage();
+
                                             }
                                         });
                                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1560,25 +1455,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.create().show();
                                     }
                                     else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        sendingDataToNewPage();
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
                                     }
                                 }
 
@@ -1597,23 +1475,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
+                                                sendingDataToNewPage();
+
                                             }
                                         });
                                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1625,25 +1488,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         builder.create().show();
                                     }
                                     else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        sendingDataToNewPage();
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
                                     }
                                 }
 
@@ -1660,6 +1506,28 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         }
         }
+    }
+
+    private void sendingDataToNewPage() {
+
+        Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+        intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+        intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+        intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+        intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+        intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+        intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+        intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+        intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+        intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+        intent.putExtra("DLName", tilDL_Name.getText().toString());
+        intent.putExtra("AadharName", tietName.getText().toString());
+        intent.putExtra("manager", manager);
+        intent.putExtra("borrower", borrower);
+        startActivity(intent);
+
     }
 
     private void fetchTopupDetails(final String oldCaseCode) {
@@ -1910,6 +1778,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
                 ResponseforVerification= String.valueOf(response.body().get("data"));
                 saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
                 if (type.equals("pancard")){

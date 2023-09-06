@@ -42,6 +42,20 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
+            android:name="com.softeksol.paisalo.jlgsourcing.ABFActivities.FiFormSecond"
+            android:exported="true" />
+
+        <activity
+            android:name="com.softeksol.paisalo.jlgsourcing.ABFActivities.FiFormActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name="com.softeksol.paisalo.jlgsourcing.activities.Morpho_Recharge_Entry"
             android:exported="false" />
         <activity
@@ -106,12 +120,6 @@
         <activity
             android:name=".activities.SplashScreenPage"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

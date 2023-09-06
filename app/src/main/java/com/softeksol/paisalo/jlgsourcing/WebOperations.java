@@ -102,7 +102,14 @@ public class WebOperations {
         //client.addHeader("content-type", "application/json;charset=utf-8");
     }
 
-
+    public static void setHttpHeadersJsonCollection(Context context, AsyncHttpClient client, Boolean setBearer,int type) {
+        setHttpHeadersCollection(context, client, setBearer,type);
+        client.addHeader("accept", "application/json");
+        client.addHeader("access", "application/json");
+        client.addHeader("procname", BuildConfig.PROC_NAME);
+        Log.d("TAG PROC", "setHttpHeadersJson: "+BuildConfig.PROC_NAME);
+        //client.addHeader("content-type", "application/json;charset=utf-8");
+    }
 
     public static void setHttpHeadersJsonESign(Context context, AsyncHttpClient client, Boolean setBearer) {
         setHttpHeadersESign(context, client, setBearer);
@@ -141,11 +148,39 @@ public class WebOperations {
         // client.addHeader("imeino","911634551444304");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-        //client.addHeader("devid","2075498485477244");
+//        client.addHeader("devid","0807498525477244");
         // my client.addHeader("devid","4374793985786243");
         client.addHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, ""));
         client.addHeader("procname", BuildConfig.PROC_NAME);
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
+        client.setTimeout(700000);
+    }
+    public static void setHttpHeadersCollection(Context context, AsyncHttpClient client, Boolean setBearer,int type) {
+        if (setBearer) {
+            String bearerString = "";
+            try {
+                bearerString = IglPreferences.getAccesstoken(context).getString("access_token");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("TAG", "setHttpHeaders: "+bearerString);
+            client.addHeader("Authorization", "bearer " + bearerString);
+        }
+        client.addHeader("Content-Encoding", "gzip,deflate,compress");
+        //
+        client.addHeader("imeino",IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
+//         client.addHeader("imeino","869232040500018");
+        Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
+        client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
+//        client.addHeader("devid","0807498525477244");
+        // my client.addHeader("devid","4374793985786243");
+        client.addHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, ""));
+        client.addHeader("procname", BuildConfig.PROC_NAME);
+        if(type==1){
+            client.addHeader("dbname", "PDL_OWN");
+        }else{
+            client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
+        }
         client.setTimeout(700000);
     }
 
@@ -162,9 +197,9 @@ public class WebOperations {
         }
         client.addHeader("Content-Encoding", "gzip,deflate,compress");
         client.addHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
-       // client.addHeader("imeino", "911634551444304");
+//        client.addHeader("imeino", "869232040500018");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-        //client.addHeader("devid","2075498485477244");
+//        client.addHeader("devid","0807498525477244");
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
         client.setTimeout(70000);
     }
@@ -181,9 +216,9 @@ public class WebOperations {
         }
         headers.add(new BasicHeader("Content-Encoding", "gzip,deflate,compress"));
         headers.add(new BasicHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0")));
-       // headers.add(new BasicHeader("imeino", "911634551444304"));
+//         headers.add(new BasicHeader("imeino", "869232040500018"));
         headers.add(new BasicHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")));
-       // headers.add(new BasicHeader("devid","2075498485477244"));
+//        headers.add(new BasicHeader("devid","0807498525477244"));
         headers.add(new BasicHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, "")));
         headers.add(new BasicHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, "")));
         headers.add(new BasicHeader("procname", BuildConfig.PROC_NAME));
@@ -384,6 +419,27 @@ public class WebOperations {
         client.setThreadPool(Executors.newSingleThreadExecutor());
         client.setTimeout(700000);
         client.post(context, url, params, responseHandler);
+    }
+
+    public void postEntityCollection(Context context, String dbName, String controller, String method, String jsonString,int type, ResponseHandlerInterface responseHandler) {
+        try {
+            String url = IglPreferences.getPrefString(context, SEILIGL.BASE_URL, "") + "api/" + controller + "/" + method;
+            //Log.d("Json Data", jsonString);
+            StringEntity entity = new StringEntity(Utils.cleanTextContent(jsonString));
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.setThreadPool(Executors.newSingleThreadExecutor());
+            client.removeHeader("dbname");
+            client.removeHeader("procname");
+            client.addHeader("dbname", dbName);
+//            client.addHeader("dbname", "SBIPDL_TEST");
+            client.addHeader("procname", BuildConfig.PROC_NAME);
+            Log.d("Response",url);
+            setHttpHeadersJsonCollection(context, client, true,type);
+            Log.d("Url", url+"/// post entity:///"+entity+"/////response hendler:"+responseHandler);
+            client.post(context, url, entity, "application/json", responseHandler);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -264,6 +264,10 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                 Log.e("SuccessCrop", "Data Aaya hai Crop Image kaa");
                 Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 1000, error, true);
                 File tempCroppedImageCopy = new File(imageUri.getPath());
+
+
+
+
                 File tempCroppedImage = new Compressor.Builder(activity)
                         .setMaxWidth(720)
                         .setMaxHeight(720)
@@ -273,6 +277,7 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                 Environment.DIRECTORY_PICTURES).getAbsolutePath())
                         .build()
                         .compressToFile(tempCroppedImageCopy);
+
                 if (error == null) {
 
                     if (imageUri != null) {
@@ -285,76 +290,50 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                 String type="";
                                 Log.d("TAG", "onActivityResult: "+mDocumentStore.remarks);
 
-                                switch (mDocumentStore.remarks){
-                                    case "PANCard":
-                                        type=b.PanNO;
-                                        break;
-                                    case "VoterFront":
-                                        type=b.voterid;
-                                        break;
-                                    case "AadharBack":
-                                    case "AadharFront":
-                                        type=b.aadharid;
-                                        break;
+                                if (mDocumentStore.GuarantorSerial==0){
+                                    switch (mDocumentStore.remarks){
+                                        case "PANCard":
+                                            type=b.PanNO;
+                                            break;
+                                        case "VoterFront":
+                                            type=b.voterid;
+                                            break;
+                                        case "AadharBack":
+                                        case "AadharFront":
+                                            type=b.aadharid;
+                                            break;
+                                    }
                                 }
 
-                                if (type.trim().length()>1){
-                                    //OCR API consume///////////////
 
-                                    ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+                            if (type.trim().length()>1){
+                                //OCR API consume///////////////
 
-                                    MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                                ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
 
-                                    RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), tempCroppedImage);
-                                    builder.addFormDataPart("file",tempCroppedImage.getName(),surveyBody);
+                                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+                                RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), tempCroppedImage);
+                                builder.addFormDataPart("file",tempCroppedImage.getName(),surveyBody);
 
 
-                                    RequestBody requestBody = builder.build();
+                                RequestBody requestBody = builder.build();
 
-                                    Call<OCRResponseModel> call=apiInterface.getFileValidateByOCR(type,requestBody);
-                                    call.enqueue(new Callback<OCRResponseModel>() {
-                                        @Override
-                                        public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
+                                Call<OCRResponseModel> call=apiInterface.getFileValidateByOCR(type,requestBody);
+                                call.enqueue(new Callback<OCRResponseModel>() {
+                                    @Override
+                                    public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
 
-                                            OCRResponseModel ocrResponseModel=response.body();
-                                            try {
-                                                if (ocrResponseModel.getData()!=null){
-                                                    Log.d("TAG", "onResponse: "+response.body().getData());
+                                        OCRResponseModel ocrResponseModel=response.body();
+                                        try {
+                                            if (ocrResponseModel.getData()!=null){
+                                                Log.d("TAG", "onResponse: "+response.body().getData());
 
-                                                    if (ocrResponseModel.getData().getStatus()){
-                                                        if (mDocumentStore.remarks.equals("PANCard")){
-                                                            IglPreferences.setSharedPref(activity, SEILIGL.DOBPan, ocrResponseModel.getData().getDob());
-                                                            if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
+                                                if (ocrResponseModel.getData().getStatus()){
+                                                    if (mDocumentStore.remarks.equals("PANCard")){
+                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBPan, ocrResponseModel.getData().getDob());
+                                                        if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
 
-                                                                File croppedImage = null;
-                                                                try {
-                                                                    croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                                                    Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-
-                                                                    //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
-                                                                    Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                                                    mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                                                    mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                                                    mDocumentStore.imagePath = croppedImage.getPath();
-
-                                                                    //mDocumentStore.imageshow = ImageString;
-                                                                    mDocumentStore.save();
-                                                                    documentStores.clear();
-                                                                    Log.d("TAG", "onResume: "+activity.getBorrower());
-                                                                    documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                                                    Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                                                    adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                                                    listView.setAdapter(adapterListDocuments);
-                                                                    adapterListDocuments.notifyDataSetChanged();
-                                                                } catch (IOException e) {
-                                                                    throw new RuntimeException(e);
-                                                                }
-                                                            }else{
-                                                                Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
-                                                            }
-                                                        } else if (mDocumentStore.remarks.equals("AadharFront")) {
-                                                            IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
                                                             File croppedImage = null;
                                                             try {
                                                                 croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
@@ -380,46 +359,75 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                                                 throw new RuntimeException(e);
                                                             }
                                                         }else{
-
-                                                            File croppedImage = null;
-                                                            try {
-                                                                croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                                                Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-
-                                                                //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
-                                                                Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                                                mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                                                mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                                                mDocumentStore.imagePath = croppedImage.getPath();
-
-                                                                //mDocumentStore.imageshow = ImageString;
-                                                                mDocumentStore.save();
-                                                                documentStores.clear();
-                                                                Log.d("TAG", "onResume: "+activity.getBorrower());
-                                                                documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                                                Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                                                adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                                                listView.setAdapter(adapterListDocuments);
-                                                                adapterListDocuments.notifyDataSetChanged();
-                                                            } catch (IOException e) {
-                                                                throw new RuntimeException(e);
-                                                            }
-
+                                                            Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
                                                         }
+                                                    } else if (mDocumentStore.remarks.equals("AadharFront")) {
+                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
+                                                        File croppedImage = null;
+                                                        try {
+                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
+                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
 
+                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+
+                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+                                                            mDocumentStore.imagePath = croppedImage.getPath();
+
+                                                            //mDocumentStore.imageshow = ImageString;
+                                                            mDocumentStore.save();
+                                                            documentStores.clear();
+                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
+                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+                                                            listView.setAdapter(adapterListDocuments);
+                                                            adapterListDocuments.notifyDataSetChanged();
+                                                        } catch (IOException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
                                                     }else{
-                                                        Utils.alert(activity,ocrResponseModel.getData().getErrorMessage());
+
+                                                        File croppedImage = null;
+                                                        try {
+                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
+                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+
+                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+
+                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+                                                            mDocumentStore.imagePath = croppedImage.getPath();
+
+                                                            //mDocumentStore.imageshow = ImageString;
+                                                            mDocumentStore.save();
+                                                            documentStores.clear();
+                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
+                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+                                                            listView.setAdapter(adapterListDocuments);
+                                                            adapterListDocuments.notifyDataSetChanged();
+                                                        } catch (IOException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
 
                                                     }
 
                                                 }else{
-                                                    Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }catch (Exception e){
-                                                Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+                                                    Utils.alert(activity,ocrResponseModel.getData().getErrorMessage());
 
+                                                }
+
+                                            }else{
+                                                Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
                                             }
+                                        }catch (Exception e){
+                                            Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+
+                                        }
 
 
 
@@ -436,40 +444,40 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
 //                                            //mDocumentStore.imageshow = ImageString;
 //                                            mDocumentStore.save();
 
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<OCRResponseModel> call, Throwable t) {
-                                            Log.d("TAG", "onFailure: "+t.getMessage());
-                                        }
-                                    });
-
-                                }else{
-                                    File croppedImage = null;
-                                    try {
-                                        croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                        Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-
-                                        //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
-                                        Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                        mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                        mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                        mDocumentStore.imagePath = croppedImage.getPath();
-
-                                        //mDocumentStore.imageshow = ImageString;
-                                        mDocumentStore.save();
-                                        documentStores.clear();
-                                        Log.d("TAG", "onResume: "+activity.getBorrower());
-                                        documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                        Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                        adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                        listView.setAdapter(adapterListDocuments);
-                                        adapterListDocuments.notifyDataSetChanged();
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
                                     }
+
+                                    @Override
+                                    public void onFailure(Call<OCRResponseModel> call, Throwable t) {
+                                        Log.d("TAG", "onFailure: "+t.getMessage());
+                                    }
+                                });
+
+                            }else{
+                                File croppedImage = null;
+                                try {
+                                    croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
+                                    Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+
+                                    //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+
+                                    Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                    mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+                                    mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+                                    mDocumentStore.imagePath = croppedImage.getPath();
+
+                                    //mDocumentStore.imageshow = ImageString;
+                                    mDocumentStore.save();
+                                    documentStores.clear();
+                                    Log.d("TAG", "onResume: "+activity.getBorrower());
+                                    documentStores.addAll(getDocumentStore(activity.getBorrower()));
+                                    Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+                                    adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+                                    listView.setAdapter(adapterListDocuments);
+                                    adapterListDocuments.notifyDataSetChanged();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
+                            }
 
 
                                 //adapterListDocuments.notifyDataSetChanged();

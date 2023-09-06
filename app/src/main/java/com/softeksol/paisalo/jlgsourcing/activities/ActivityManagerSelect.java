@@ -30,6 +30,7 @@ import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.ESign.activities.ActivityESingList;
+import com.softeksol.paisalo.jlgsourcing.ABFActivities.FiFormActivity;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
@@ -168,7 +169,12 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         Intent intent = null;
         switch (operationItem.getId()) {
             case 1:
-                intent = new Intent(ActivityManagerSelect.this, ActivityBorrowerKyc.class);
+                if (manager.Creator.toUpperCase().startsWith("VH")){
+                    intent = new Intent(ActivityManagerSelect.this, FiFormActivity.class);
+                }else{
+                    intent = new Intent(ActivityManagerSelect.this, ActivityBorrowerKyc.class);
+                }
+
                 intent.putExtra(Global.MANAGER_TAG, manager);
                 startActivity(intent);
                 break;
