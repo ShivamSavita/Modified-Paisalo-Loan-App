@@ -284,20 +284,20 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
 
                                 String type="";
                                 Log.d("TAG", "onActivityResult: "+mDocumentStore.remarks);
-
-                                switch (mDocumentStore.remarks){
-                                    case "PANCard":
-                                        type=b.PanNO;
-                                        break;
-                                    case "VoterFront":
-                                        type=b.voterid;
-                                        break;
-                                    case "AadharBack":
-                                    case "AadharFront":
-                                        type=b.aadharid;
-                                        break;
+                                if (mDocumentStore.GuarantorSerial==0) {
+                                    switch (mDocumentStore.remarks) {
+                                        case "PANCard":
+                                            type = b.PanNO;
+                                            break;
+                                        case "VoterFront":
+                                            type = b.voterid;
+                                            break;
+                                        case "AadharBack":
+                                        case "AadharFront":
+                                            type = b.aadharid;
+                                            break;
+                                    }
                                 }
-
                                 if (type.trim().length()>1){
                                     //OCR API consume///////////////
 

@@ -171,6 +171,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     TextView textView35;
 
     Button BtnNextOnFirstKyc;
+    ImageView imgViewCal;
 
     Spinner spinnerMarritalStatus;
     String requestforVerification="";
@@ -212,7 +213,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
         spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
-      //  Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
+        //  Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(" Borrower KYC"); //actionBar.getTitle();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -247,11 +248,19 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 genders.add(new RangeCategory("Female", "Gender"));
                 genders.add(new RangeCategory("Transgender", "Gender"));
         }*/
-
+        tietDob = findViewById(R.id.tietDob);
+        tietMotherMName=findViewById(R.id.tietIncomeMonthly);
+        tietMotherFName=findViewById(R.id.tietMotherFName);
+        tietMotherLName=findViewById(R.id.tietMotherLName);
+        tietFatherMName=findViewById(R.id.tietFatherMName);
+        tietFatherFName=findViewById(R.id.tietFatherFName);
+        tietFatherLName=findViewById(R.id.tietFatherLName);
+        tietGuardian = findViewById(R.id.tietGuardian);
         cardView_SpouseFirstName = findViewById(R.id.cardView_SpouseFirstName);
         tietSpouseLName = findViewById(R.id.tietSpouseLName);
         tietSpouseMName = findViewById(R.id.tietSpouseMName);
         tietSpouseFName = findViewById(R.id.tietSpouseFName);
+        imgViewCal = findViewById(R.id.imgViewCal);
         textView35 = findViewById(R.id.textView35);
         textView35.setVisibility(View.GONE);
         cardView_SpouseFirstName.setVisibility(View.GONE);
@@ -297,9 +306,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 validateControls(editText, text);
             }
         });
+
         llTopupCode = findViewById(R.id.llTopupCode);
         llTopupCode.setVisibility(View.INVISIBLE);
-
         svOldCase = findViewById(R.id.svTopupCaseNumber);
         svOldCase.setVisibility(View.GONE);
         svOldCase.setIconified(false);
@@ -410,15 +419,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             }
         });
 
-        tietDob = findViewById(R.id.tietDob);
-        tietMotherMName=findViewById(R.id.tietIncomeMonthly);
-        tietMotherFName=findViewById(R.id.tietMotherFName);
-        tietMotherLName=findViewById(R.id.tietMotherLName);
-        tietFatherMName=findViewById(R.id.tietFatherMName);
-        tietFatherFName=findViewById(R.id.tietFatherFName);
-        tietFatherLName=findViewById(R.id.tietFatherLName);
 
-        tietGuardian = findViewById(R.id.tietGuardian);
         tietGuardian.addTextChangedListener(new MyTextWatcher(tietGuardian) {
             @Override
             public void validate(EditText editText, String text) {
@@ -487,8 +488,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 tietDob.setText(DateUtils.getFormatedDate(myCalendar.getTime(), "dd-MMM-yyyy"));
             }
         };
-        tietDob.setOnClickListener(this);
-
+        imgViewCal.setOnClickListener(this);
         tietMobile = findViewById(R.id.tietMobile);
         tietMobile.addTextChangedListener(new MyTextWatcher(tietMobile) {
             @Override
@@ -668,7 +668,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             }
         }
 //        tietAadharId.removeTextChangedListener(aadharTextChangeListner);
-        tietAadharId.setText(borrower.aadharid);
+          tietAadharId.setText(borrower.aadharid);
 //        tietAadharId.addTextChangedListener(aadharTextChangeListner);
 
 
@@ -702,8 +702,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 
         if (borrower.isAadharVerified.equals("Q")) {
-            imgViewScanQR.setVisibility(View.GONE);
-            tietAadharId.setEnabled(false);
+            // imgViewScanQR.setVisibility(View.GONE);
+            //tietAadharId.setEnabled(false);
             tietName.setEnabled(false);
             if (Utils.NullIf(borrower.getGurName(), "").trim().length() > 0)
                 tietGuardian.setEnabled(false);
@@ -850,7 +850,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 launchScanning();
                 break;
                 */
-            case R.id.tietDob:
+            case R.id.imgViewCal:
                 Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
                 try{
                     if (!dob.equals(null)){
@@ -871,6 +871,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: "+data);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             //Log.d("QR Scan","Executed");
@@ -940,6 +941,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             //AadharData aadharData = AadharUtils.getAadhar(aadharDataString);
             AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
 
+            Log.d("TAG", "setAadharContent: "+aadharData.isAadharVerified);
             if (aadharData.AadharId != null) {
 
                 Borrower borrower1 = Borrower.getBorrower(aadharData.AadharId);
@@ -1020,6 +1022,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 //        }
 
     }
+
+
+
 
     // 20/11/2022 ========================================
     protected byte[] decompressData(byte[] byteScanData) {
@@ -1158,7 +1163,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             borrower.Age = period.getYears();
             System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
         }
-
+        borrower.isAadharVerified="Q";
         borrower.aadharid=decodedData.get(2-inc);
         borrower.Gender = decodedData.get(5-inc);
         if (decodedData.get(13-inc).equals("")||decodedData.get(13-inc).equals(null)){
@@ -1211,8 +1216,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             tietAddress2.setEnabled(true);
         }
 
-         borrower.isAadharVerified = "Q";
-        // borrower.P_city = decodedData.get(7);
+
+        //borrower.P_city = decodedData.get(7);
+
         // borrower.P_Add1 = decodedData.get(9);
         // borrower.P_add2 = decodedData.get(8);
         // borrower.P_add3 = decodedData.get(10);
@@ -1303,100 +1309,68 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         if(stateData.equalsIgnoreCase("APO Address")){
             Toast.makeText(activity, "Select State Name", Toast.LENGTH_SHORT).show();
         }else{
-        if (borrower != null) {
-            getDataFromView(this.findViewById(android.R.id.content).getRootView());
+            if (borrower != null) {
+                getDataFromView(this.findViewById(android.R.id.content).getRootView());
 
-            if ((tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)) && (tietDrivingLic.getText().toString().equals("") || tietDrivingLic.getText().toString().equals(null)) &&(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null))){
-                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter anyone in PAN number, Driving License or Voter ID");
-            }else{
-                if (validateBorrower()) {
-                    Map<String, String> messages = borrower.validateKyc(this);
-                    if (messages.size() > 0) {
-                        String combineMessage = Arrays.toString(messages.values().toArray());
-                        combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");
-                        Log.e("combineMessage",combineMessage);
-                        Utils.alert(this, combineMessage);
-                    } else {
-                        invalidateOptionsMenu();
-                        if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
-                        borrower.Oth_Prop_Det = null;
-                        borrower.save();
-                        borrower.associateExtraBank(borrower.fiExtraBank);
-                        borrower.fiExtraBank.save();
+                if ((tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)) && (tietDrivingLic.getText().toString().equals("") || tietDrivingLic.getText().toString().equals(null)) &&(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null))){
+                    Utils.showSnakbar(findViewById(android.R.id.content),"Please enter anyone in PAN number, Driving License or Voter ID");
+                }else{
+                    if (validateBorrower()) {
+                        Map<String, String> messages = borrower.validateKyc(this);
+                        if (messages.size() > 0) {
+                            String combineMessage = Arrays.toString(messages.values().toArray());
+                            combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");
+                            Log.e("combineMessage",combineMessage);
+                            Utils.alert(this, combineMessage);
+                        } else {
+                            invalidateOptionsMenu();
+                            if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
+                            borrower.Oth_Prop_Det = null;
+                            borrower.save();
+                            borrower.associateExtraBank(borrower.fiExtraBank);
+                            borrower.fiExtraBank.save();
 
-                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-                        borrowerDTO.fiFamExpenses = null;
-                        borrowerDTO.fiExtra = null;
-                        //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
-                        String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
-                        //Log.d("Borrower Json", borrowerJsonString);
-                        Log.d("TAG", "updateBorrower: "+borrowerJsonString);
+                            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                            borrowerDTO.fiFamExpenses = null;
+                            borrowerDTO.fiExtra = null;
+                            //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
+                            String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
+                            //Log.d("Borrower Json", borrowerJsonString);
+                            Log.d("TAG", "updateBorrower: "+borrowerJsonString);
 
-                        if (!tietPanNo.getText().toString().equals("") && !tietVoterId.getText().toString().equals("") && !tietDrivingLic.getText().toString().equals("")){
-                            if (tilPAN_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("") || tilDL_Name.getText().toString().trim().equals("")){
-                                Toast.makeText(activity, "Please Verify PAN Card, Voter ID and Driving License", Toast.LENGTH_SHORT).show();
-                            }else{
-                                if(!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])){
-
-
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                    builder.setTitle("Caution!!");
-                                    builder.setMessage("want to save  data without PAN Card name, Driving License Name, Voter Id Name and Aadhaar Name matching");
-                                    builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                            intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                            intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                            intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                            intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                            intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                            intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                            intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                            intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                            intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                            intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                            intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                            intent.putExtra("AadharName", tietName.getText().toString());
-                                            intent.putExtra("manager", manager);
-                                            intent.putExtra("borrower", borrower);
-                                            startActivity(intent);
-                                        }
-                                    });
-                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    builder.create().show();
-
+                            if (!tietPanNo.getText().toString().equals("") && !tietVoterId.getText().toString().equals("") && !tietDrivingLic.getText().toString().equals("")){
+                                if (tilPAN_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("") || tilDL_Name.getText().toString().trim().equals("")){
+                                    Toast.makeText(activity, "Please Verify PAN Card, Voter ID and Driving License", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                    intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                    intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                    intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                    intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                    intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                    intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                    if(!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])){
 
-                                    intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                    intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                    intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-                                    intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                    intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                    intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                    intent.putExtra("AadharName", tietName.getText().toString());
-                                    intent.putExtra("manager", manager);
-                                    intent.putExtra("borrower", borrower);
-                                    startActivity(intent);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+                                        builder.setTitle("Caution!!");
+                                        builder.setMessage("want to save  data without PAN Card name, Driving License Name, Voter Id Name and Aadhaar Name matching");
+                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                sendingDataToNewPage();
+
+                                            }
+                                        });
+                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.create().show();
+
+                                    }else{
+                                        sendingDataToNewPage();
+
+                                    }
                                 }
-                            }
-                        }else{
-                            if(!tilPAN_Name.getText().toString().trim().equals("") ||!tilVoterId_Name.getText().toString().trim().equals("") ||!tilDL_Name.getText().toString().trim().equals("") ){
+                            }else{
+                                if(!tilPAN_Name.getText().toString().trim().equals("") ||!tilVoterId_Name.getText().toString().trim().equals("") ||!tilDL_Name.getText().toString().trim().equals("") ){
                                     if((!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) && !tilPAN_Name.getText().toString().trim().equals("")) || (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) && !tilVoterId_Name.getText().toString().trim().equals("") )|| (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0]) && !tilDL_Name.getText().toString().trim().equals(""))){
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
@@ -1406,23 +1380,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
+                                                sendingDataToNewPage();
+
                                             }
                                         });
                                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1433,233 +1392,142 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         });
                                         builder.create().show();
                                     }else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        sendingDataToNewPage();
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
                                     }
-                        }else if (!tietPanNo.getText().toString().equals("")){
-                                if (tilPAN_Name.getText().toString().trim().equals("")){
-                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])) {
+                                }else if (!tietPanNo.getText().toString().equals("")){
+                                    if (tilPAN_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])) {
 
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without PAN card Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without PAN card Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
+                                    }
+                                }
+                                else if(!tietVoterId.getText().toString().equals("")){
+                                    if(tilVoterId_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please verify the Voter ID", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])) {
 
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
 
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without Voter Id Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
                                     }
+
                                 }
-                            }
-                            else if(!tietVoterId.getText().toString().equals("")){
-                                if(tilVoterId_Name.getText().toString().trim().equals("")){
-                                    Toast.makeText(activity, "Please verify the Voter ID", Toast.LENGTH_SHORT).show();
+                                else if(!tietDrivingLic.getText().toString().equals("")){
+                                    if (tilDL_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please Verify the Driving License ", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])) {
+
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without Driving License Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
+                                    }
+
+
                                 }
-                                else{
-                                    if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])) {
-
-
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without Voter Id Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }
-                                    else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
-                                    }
-                                }
-
-                            }
-                            else if(!tietDrivingLic.getText().toString().equals("")){
-                                if (tilDL_Name.getText().toString().trim().equals("")){
-                                    Toast.makeText(activity, "Please Verify the Driving License ", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])) {
-
-
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without Driving License Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                               // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-                                                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-                                                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-                                                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-                                                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-                                                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                                intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                                intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                                intent.putExtra("AadharName", tietName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                intent.putExtra("borrower", borrower);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }
-                                    else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-
-                                        intent.putExtra("SpouseLName",tietSpouseLName.getText().toString());
-                                        intent.putExtra("SpouseMName",tietSpouseMName.getText().toString());
-                                        intent.putExtra("SpouseFName",tietSpouseFName.getText().toString());
-
-                                        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-                                        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-                                        intent.putExtra("DLName", tilDL_Name.getText().toString());
-                                        intent.putExtra("AadharName", tietName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        intent.putExtra("borrower", borrower);
-                                        startActivity(intent);
-                                    }
-                                }
-
 
                             }
 
                         }
-
+                    } else {
+                        Utils.alert(this, "There is at least one errors in the Aadhar Data");
                     }
-                } else {
-                    Utils.alert(this, "There is at least one errors in the Aadhar Data");
                 }
-            }
 
+            }
         }
-        }
+    }
+
+    private void sendingDataToNewPage() {
+
+        Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+        intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+        intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+        intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+        intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+        intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+        intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+        intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+        intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+        intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+        intent.putExtra("PANName", tilPAN_Name.getText().toString());
+        intent.putExtra("DLName", tilDL_Name.getText().toString());
+        intent.putExtra("AadharName", tietName.getText().toString());
+        intent.putExtra("manager", manager);
+        intent.putExtra("borrower", borrower);
+        startActivity(intent);
+
     }
 
     private void fetchTopupDetails(final String oldCaseCode) {
@@ -1814,12 +1682,15 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                     editText.setError("Should be more than 5 Characters");
                     retVal = false;
                 }else{
-                    if (character.matches(".*[A-Za-z].*") && character.matches(".*[0-9].*")) {
-                } else {
+                    try {
+                       int intValue = Integer.parseInt(character);
                         tietAddress1.setEnabled(true);
                         editText.setError("Only number not allowed.");
                         retVal = false;
-                   }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input String cannot be parsed to Integer.");
+                    }
+
                 }
                 break;
             case R.id.tietCity:
@@ -1872,8 +1743,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             case R.id.tietMotherFName:
                 if (editText.getText().toString().trim().length() < 1) {
 
-                        editText.setError("Please Enter Mother Name");
-                        retVal = false;
+                    editText.setError("Please Enter Mother Name");
+                    retVal = false;
 
                 } else {
                     retVal = true;
@@ -1881,11 +1752,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
                 break;
 
-                case R.id.tietFatherFName:
+            case R.id.tietFatherFName:
                 if (editText.getText().toString().trim().length() < 1) {
 
-                        editText.setError("Please Enter Father Name");
-                        retVal = false;
+                    editText.setError("Please Enter Father Name");
+                    retVal = false;
 
                 } else {
                     retVal = true;
@@ -1910,6 +1781,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.body() != null){
                 ResponseforVerification= String.valueOf(response.body().get("data"));
                 saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
                 if (type.equals("pancard")){
@@ -1963,6 +1835,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                     }
                     progressDialog.cancel();
 
+                }
+                }else{
+                    progressDialog.cancel();
+                    tilVoterId_Name.setText("Not found");
                 }
             }
 

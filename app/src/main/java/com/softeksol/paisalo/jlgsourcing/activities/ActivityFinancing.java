@@ -482,47 +482,50 @@ public class ActivityFinancing extends AppCompatActivity
 
     private void showScreen(Borrower borrower) {
         Log.d("TAG", "showScreen: "+borrower.toString());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        Date date2 = null;
-        try {
-            date2 = simpleDateFormat.parse("Thu Dec 31 00:00:00 GMT+05:30 2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        if (date2.compareTo(borrower.DT)<=0){
-            Log.d("TAG", "showScreen: "+borrower.DT);
-            ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-            Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
-            Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    Log.d("TAG", "onResponse: "+response.body());
-                    JsonObject jsonObject=response.body();
-                    try {
-                        if (jsonObject.get("data").getAsInt()==0){
-                            Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
-                            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
-                            startActivity(intent);
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                //
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.d("TAG", "onFailure: "+t.getMessage());
-                }
-            });
-        }else{
-            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
-            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+        intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+        startActivity(intent);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+//        Date date2 = null;
+//        try {
+//            date2 = simpleDateFormat.parse("Thu Dec 31 00:00:00 GMT+05:30 2023");
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (date2.compareTo(borrower.DT)<=0){
+//            Log.d("TAG", "showScreen: "+borrower.DT);
+//            ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+//            Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
+//            Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
+//            call.enqueue(new Callback<JsonObject>() {
+//                @Override
+//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                    Log.d("TAG", "onResponse: "+response.body());
+//                    JsonObject jsonObject=response.body();
+//                    try {
+//                        if (jsonObject.get("data").getAsInt()==0){
+//                            Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else {
+//                            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+//                            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+//                            startActivity(intent);
+//                        }
+//                    }catch (Exception e){
+//                        Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                //
+//                @Override
+//                public void onFailure(Call<JsonObject> call, Throwable t) {
+//                    Log.d("TAG", "onFailure: "+t.getMessage());
+//                }
+//            });
+//        }else{
+//            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+//            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+//            startActivity(intent);
+//        }
     }
 
     @Override

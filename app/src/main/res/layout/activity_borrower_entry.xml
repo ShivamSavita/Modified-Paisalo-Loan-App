@@ -242,11 +242,13 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tietAge"
+                            android:enabled="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:inputType="number"
                             android:maxLength="2"
+                            android:textColor="@color/black"
                             android:paddingStart="8dp"
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -308,6 +310,8 @@
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/tietDob"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"

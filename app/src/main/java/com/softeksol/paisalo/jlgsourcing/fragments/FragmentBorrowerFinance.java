@@ -289,13 +289,15 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 ResponseforVerification= String.valueOf(response.body().get("data"));
                 saveVerficationLogs(IglPreferences.getPrefString(getContext(), SEILIGL.USER_ID, ""),"Bank Account",requestforVerification,ResponseforVerification);
                 try {
-                        if(response.body().get("data").getAsJsonObject().get("account_exists").equals("true")){
+                        if(response.body().get("data").getAsJsonObject().get("account_exists").getAsBoolean()){
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
                             //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                             checkBankAccountNuber.setEnabled(false);
                             UpdatefiVerificationDocName();
+                            borrower.DelCode="V";
+                            //borrower.save();
                         }else{
                             etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
@@ -472,7 +474,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.BankAcOpenDt = DateUtils.getParsedDate(howOldAccount.getText().toString(),"dd-MM-yyyy");
             borrower.BankAcType = Utils.getSpinnerStringValue(spinnerBankAcType);
             borrower.Enc_Property = Utils.getNotNullText(etIFSC);
-//            borrower.fiExtraBank.setBankCif(Utils.getNotNullText(etCIF));
+//          borrower.fiExtraBank.setBankCif(Utils.getNotNullText(etCIF));
             borrower.BankName = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName));
             borrower.Bank_Address = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch));
             borrower.T_ph3 = Utils.getSpinnerStringValue(spinnerSchemeType);
@@ -681,8 +683,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         jsonObject.addProperty("drivingLic_Name","");
         jsonObject.addProperty("bankAcc_Name",tilBankAccountName.getText().toString());
         jsonObject.addProperty("bank_Name",tvBankName.getText().toString());
-        jsonObject.addProperty("fiCode",borrowerExtra.Code);
-        jsonObject.addProperty("creator",borrowerExtra.Creator);
+        jsonObject.addProperty("fiCode",String.valueOf(borrower.Code));
+        jsonObject.addProperty("creator",borrower.Creator);
         return jsonObject;
     }
 }

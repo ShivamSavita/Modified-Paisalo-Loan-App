@@ -1030,6 +1030,9 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.Enc_Property == null || this.Enc_Property.length() < 11 && this.BankName.length() < 2) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
         }
+        if (this.DelCode == null || this.DelCode.length()==0) {
+            messages.put("Bank Account", "Verify Bank Account with click on Mark");
+        }
 
         if (!this.getPictureUpdated()) {
             if (this.getPicture() == null) {

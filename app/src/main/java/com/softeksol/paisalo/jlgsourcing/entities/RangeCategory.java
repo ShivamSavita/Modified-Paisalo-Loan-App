@@ -80,7 +80,6 @@ public class RangeCategory extends BaseModel {
                 Type listType = new TypeToken<List<RangeCategory>>() {
                 }.getType();
                 List<RangeCategory> rangeCategoryList = WebOperations.convertToObjectArray(jsonString, listType);
-
                 SQLite.delete().from(RangeCategory.class).query();
                 for (RangeCategory rangeCategory : rangeCategoryList) {
                     rangeCategory.insert();

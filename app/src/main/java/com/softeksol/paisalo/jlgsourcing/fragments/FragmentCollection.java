@@ -346,6 +346,9 @@ public class FragmentCollection extends AbsCollectionFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
+                    if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
+                        saveDepositOwn(SchmCode,dueData, collectedAmount,latePmtAmount,depBy);
+                    }
                     ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
                 }
             }
@@ -359,13 +362,7 @@ public class FragmentCollection extends AbsCollectionFragment {
         PosInstRcv instRcv = new PosInstRcv();
         instRcv.setCaseCode(dueData.getCaseCode());
         instRcv.setCreator(dueData.getCreator());
-//        if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
-//            instRcv.setDataBaseName("PDL_OWN");
-//        }else{
-//            instRcv.setDataBaseName(dueData.getDb());
-//        }
         instRcv.setDataBaseName(dueData.getDb());
-        //instRcv.setDataBaseName("SBIPDL_TEST");
         instRcv.setIMEI(IglPreferences.getPrefString(getContext(), SEILIGL.DEVICE_IMEI, "0"));
         instRcv.setInstRcvAmt(collectedAmount - latePmtAmount);
         instRcv.setInstRcvDateTimeUTC(new Date());
@@ -378,6 +375,41 @@ public class FragmentCollection extends AbsCollectionFragment {
         Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
        (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv),asyncResponseHandler);
     }
+
+
+    private void saveDepositOwn(String SchmCode,DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
+        DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(getContext(), "Loan Collection", "Saving Collection Entry") {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode == 200) {
+                   // ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getContext(), error.getMessage() + "\n" + (new String(responseBody)), Toast.LENGTH_LONG).show();
+                Log.d("eKYC Response",error.getLocalizedMessage());
+            }
+        };
+
+        PosInstRcv instRcv = new PosInstRcv();
+        instRcv.setCaseCode(dueData.getCaseCode());
+        instRcv.setCreator(dueData.getCreator());
+        instRcv.setDataBaseName("PDL_OWN");
+        instRcv.setIMEI(IglPreferences.getPrefString(getContext(), SEILIGL.DEVICE_IMEI, "0"));
+        instRcv.setInstRcvAmt(collectedAmount - latePmtAmount);
+        instRcv.setInstRcvDateTimeUTC(new Date());
+        instRcv.setFoCode(dueData.getFoCode());
+        instRcv.setCustName(dueData.getCustName());
+        instRcv.setPartyCd(dueData.getPartyCd());
+        instRcv.setInterestAmt(latePmtAmount);
+        instRcv.setPayFlag(depBy);
+        //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
+        Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
+        (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv),asyncResponseHandler);
+    }
+
+
 
     public void refreshData() {
         AdapterDueData adapterDueData = (AdapterDueData) lv.getAdapter();
