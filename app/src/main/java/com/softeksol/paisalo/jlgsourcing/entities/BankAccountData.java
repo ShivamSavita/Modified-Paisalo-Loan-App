@@ -49,7 +49,7 @@ public class BankAccountData extends BaseModel
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
-                //Log.d("data", jsonString);
+                Log.d("data bank", jsonString);
                 Type listType = new TypeToken<List<BankAccountData>>() {
                 }.getType();
                 List<BankAccountData> bankAccounts = WebOperations.convertToObjectArray(jsonString, listType);
@@ -70,7 +70,7 @@ public class BankAccountData extends BaseModel
                 }
             }
         };
-        (new WebOperations()).getEntity(context, "POSDATA", "instcollection", "banklist", null, asyncResponseHandler);
+        (new WebOperations()).getEntity(context, "-", "instcollection", "banklist", null, asyncResponseHandler);
     }
 
     public String getBankName() {

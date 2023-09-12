@@ -167,7 +167,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tietMotherLName"
+                                    android:id="@+id/tietRentalIncome"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -240,7 +240,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietFutureIncome"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -305,7 +305,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietAgriIncome"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -378,7 +378,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietIntrestIncome"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -443,7 +443,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietOtherIncome"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -545,6 +545,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tietRentExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -607,6 +608,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tietFoodExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -679,7 +681,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietEduExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -744,7 +746,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietHealthExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -817,7 +819,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietTravelExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -882,7 +884,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietSOcietyExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -956,7 +958,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietUtilExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -1021,7 +1023,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-
+                                    android:id="@+id/tietOtherExpense"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -1349,7 +1351,7 @@
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/imgViewScanQR"
+                    app:layout_constraintEnd_toStartOf="@+id/imgViewScanQRNominee"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView10">
 
@@ -1362,12 +1364,12 @@
                         app:boxStrokeColor="#FFF"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-                        app:layout_constraintEnd_toStartOf="@+id/imgViewScanQR"
+                        app:layout_constraintEnd_toStartOf="@+id/imgViewScanQRNominee"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietAadhar"
+                            android:id="@+id/tietAadharNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1381,7 +1383,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <ImageView
-                    android:id="@+id/imgViewScanQR"
+                    android:id="@+id/imgViewScanQRNominee"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
@@ -1415,7 +1417,7 @@
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/imgViewAadharPhoto"
+                    app:layout_constraintEnd_toStartOf="@+id/imgViewAadharPhotoNomineeNominee"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11">
 
@@ -1432,7 +1434,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tilUidAadhar">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietName"
+                            android:id="@+id/tietNameNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1445,7 +1447,7 @@
                 </androidx.cardview.widget.CardView>
                 <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"-->
                 <ImageView
-                    android:id="@+id/imgViewAadharPhoto"
+                    android:id="@+id/imgViewAadharPhotoNomineeNominee"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
@@ -1497,7 +1499,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tilUidName">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietAge"
+                            android:id="@+id/tietAgeNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1556,14 +1558,14 @@
                                 app:boxStrokeColor="#FFF"
                                 app:boxStrokeWidth="0dp"
                                 app:boxStrokeWidthFocused="0dp"
-                                app:layout_constraintEnd_toStartOf="@id/imgViewAadharPhoto"
+                                app:layout_constraintEnd_toStartOf="@id/imgViewAadharPhotoNomineeNominee"
                                 app:layout_constraintHorizontal_chainStyle="spread"
                                 app:layout_constraintHorizontal_weight="1"
                                 app:layout_constraintStart_toEndOf="@+id/tilUidAge"
                                 app:layout_constraintTop_toBottomOf="@id/tilUidName">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tietDob"
+                                    android:id="@+id/tietDobNominee"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -1635,7 +1637,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspGender"
+                                android:id="@+id/acspGenderNominee"
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
                                 android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -1683,7 +1685,7 @@
                         app:layout_constraintTop_toBottomOf="@id/llUidGender">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietGuardian"
+                            android:id="@+id/tietGuardianNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1737,7 +1739,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspRelationship"
+                                android:id="@+id/acspRelationshipNominee"
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
                                 android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
@@ -1784,7 +1786,7 @@
                         app:layout_constraintTop_toTopOf="@+id/tilMobile">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietMobile"
+                            android:id="@+id/tietMobileNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1836,7 +1838,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tilMobile">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tietVoter"
+                            android:id="@+id/tietVoterNominee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1906,7 +1908,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspBusinessDetail"
+                                android:id="@+id/acspSelectOem"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -1950,7 +1952,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspLoanReason"
+                                android:id="@+id/acspSelectDelear"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
 
@@ -2005,7 +2007,7 @@
                         android:background="@drawable/spinner_bggrey">
 
                         <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/acspAadharState"
+                            android:id="@+id/acspSelectProduct"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -2056,7 +2058,7 @@
                     app:layout_constraintTop_toBottomOf="@id/llUidGender">
 
                     <com.google.android.material.textfield.TextInputEditText
-
+                        android:id="@+id/textProductPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
@@ -2068,7 +2070,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/BtnFinalSaveKYCData"
+                android:id="@+id/BtnFinalSaveKYCDataABF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

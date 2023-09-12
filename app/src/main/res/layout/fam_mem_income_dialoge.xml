@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <TextView
 
@@ -12,7 +13,7 @@
         android:background="@color/colorPrimary"
         android:padding="2dp"
 
-        android:text="Family Member"
+        android:text="Add Family Member Income"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:textStyle="bold"
@@ -20,16 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/femMemRemoveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/ic_cancel"
 
-        app:layout_constraintBottom_toBottomOf="@+id/FamMemNumberTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/FamMemNumberTxt" />
 
     <TextView
         android:id="@+id/textView15"
@@ -69,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/llUidGender">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietGuardian"
+                android:id="@+id/tietFamMemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -286,6 +278,7 @@
 
     <LinearLayout
 
+        android:id="@+id/linearLayout23"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -322,14 +315,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
+                    android:layout_margin="4dp"
                     android:background="@drawable/spinner_bggrey">
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-
+                    <EditText
+                        android:background="@color/white"
+                        android:id="@+id/acspIncomeFamMem"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+                        android:layout_margin="3dp"
+                        android:layout_height="35dp"
+
 
                         android:textSize="15dp" />
                 </LinearLayout>
@@ -370,7 +365,7 @@
                     android:background="@drawable/spinner_bggrey">
 
                     <androidx.appcompat.widget.AppCompatSpinner
-
+                        android:id="@+id/spinIncomeFamMemType"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
 
@@ -383,4 +378,30 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/femDialogdeleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Delete"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout23" />
+
+    <Button
+        android:id="@+id/femDialogaddBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Add"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout23" />
 </androidx.constraintlayout.widget.ConstraintLayout>

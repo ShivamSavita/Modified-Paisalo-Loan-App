@@ -489,40 +489,62 @@ public class ActivityFinancing extends AppCompatActivity
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        if (date2.compareTo(borrower.DT)<=0){
-            Log.d("TAG", "showScreen: "+borrower.DT);
-            ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-            Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
-            Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    Log.d("TAG", "onResponse: "+response.body());
-                    JsonObject jsonObject=response.body();
-                    try {
-                        if (jsonObject.get("data").getAsInt()==0){
+        if (borrower.DT!=null){
+            if (date2.compareTo(borrower.DT)<=0){
+                Log.d("TAG", "showScreen: "+borrower.DT);
+                ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+                Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
+                Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        Log.d("TAG", "onResponse: "+response.body());
+                        JsonObject jsonObject=response.body();
+                        try {
+                            if (jsonObject.get("data").getAsInt()==0){
+                                Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+                                Log.d("TAG", "onResponse: "+borrower.FiID);
+                                Log.d("TAG", "onResponse: "+borrower.Code);
+                                Log.d("TAG", "onResponse: "+borrower.Creator);
+                                intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+                                intent.putExtra("BoFicode", String.valueOf(borrower.Code));
+                                intent.putExtra("BoCreator", borrower.Creator);
+                                startActivity(intent);
+                            }
+                        }catch (Exception e){
                             Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
-                            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
-                            startActivity(intent);
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
                     }
-                }
-                //
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.d("TAG", "onFailure: "+t.getMessage());
-                }
-            });
+                    //
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("TAG", "onFailure: "+t.getMessage());
+                    }
+                });
+            }else{
+                Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+                Log.d("TAG", "onResponse: "+borrower.FiID);
+                Log.d("TAG", "onResponse: "+borrower.Code);
+                Log.d("TAG", "onResponse: "+borrower.Creator);
+                intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+                intent.putExtra("BoFicode", String.valueOf(borrower.Code));
+                intent.putExtra("BoCreator", borrower.Creator);
+                startActivity(intent);
+            }
         }else{
             Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+            Log.d("TAG", "onResponse: "+borrower.FiID);
+            Log.d("TAG", "onResponse: "+borrower.Code);
+            Log.d("TAG", "onResponse: "+borrower.Creator);
             intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+            intent.putExtra("BoFicode", String.valueOf(borrower.Code));
+            intent.putExtra("BoCreator", borrower.Creator);
             startActivity(intent);
         }
+
     }
 
     @Override
@@ -554,6 +576,7 @@ public class ActivityFinancing extends AppCompatActivity
             borrower.UserID = IglPreferences.getPrefString(ActivityFinancing.this, SEILIGL.USER_ID, "");
 
         Map<String, String> message = borrower.validateLoanApplication(context);
+        Log.d("TAG", "submitLoanApplication: "+message.size());
         if (message.size() > 0) {
             String combineMessage = Arrays.toString(message.values().toArray());
             combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");

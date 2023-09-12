@@ -3,6 +3,7 @@ package com.softeksol.paisalo.jlgsourcing.entities;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -984,6 +985,8 @@ public class Borrower extends BaseModel implements Serializable {
     public Map<String, String> validateLoanApplication(Context context) {
         int docCount = 3;
         Map<String, String> messages = new HashMap<>();
+        Log.d("TAG", "validateLoanApplication: "+this.DelCode);
+
         if (this.aadharid == null || this.aadharid.trim().length() == 0) {
             messages.put("Borrower Aadhar", "Aadhar number is missing");
         } else if (this.aadharid.toUpperCase().contains("X")) {
@@ -1022,7 +1025,9 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.bank_ac_no == null || this.bank_ac_no.length() < 5) {
             messages.put("Bank Account", "Check Bank Account No");
         }
-
+        if (this.DelCode==null || this.DelCode.trim().length()<1){
+            messages.put("Borrower Bank", "Bank Account Number is not Verified");
+        }
         if (this.BankAcOpenDt == null) {
             messages.put("Bank Account", "Account Open Date");
         }

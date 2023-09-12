@@ -24,23 +24,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/dealers/Adapters/AddFemIncomeAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form_second.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/member_income_card_item.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/Adapter/OEMByDealerAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/Model/BrandResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/Model/OEMByCreatorModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fam_mem_income_dialoge.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/SEILIGL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityFinancing.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityFinancing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLoanApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLoanApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityManagerSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityManagerSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BankAccountData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BankAccountData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerAadhar.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerAadhar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerFinance.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentBorrowerFinance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentKycScanning.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentKycScanning.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentLoanAppSubmitList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentLoanAppSubmitList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentLoanAppList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentLoanAppList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form_second.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form_second.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_loan_app_finance.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_loan_app_finance.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/member_income_card_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/member_income_card_item.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +58,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" show_ignored="true" />
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\admin\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[RZ8T40D7MGM]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -77,15 +87,15 @@
         <option value="valueResourceFile" />
         <option value="resourceFile" />
         <option value="Interface" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ver_1_testing" />
+        <entry key="$PROJECT_DIR$" value="BranchForRND" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -116,15 +126,15 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Android New Projects/paisaloloanapp/app/src/main/java/com/softeksol/paisalo/jlgsourcing/Utilities&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "D:/Android New Projects/paisaloloanapp/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/Model",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -158,18 +168,18 @@
       <recent name="com.softeksol.paisalo.dealers" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities.Adapter" />
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities.Model" />
       <recent name="com.softeksol.paisalo.jlgsourcing.retrofit" />
       <recent name="com.softeksol.paisalo" />
       <recent name="com.softeksol.paisalo.dealers.Utilities" />
-      <recent name="com.softeksol.paisalo.dealers" />
-      <recent name="com.softeksol.paisalo.dealers.Adapters" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android New Projects\paisaloloanapp\app\src\main\java\com\softeksol\paisalo\jlgsourcing\ABFActivities\Model" />
       <recent name="D:\Android New Projects\paisaloloanapp\app\src\main\java\com\softeksol\paisalo\jlgsourcing\Utilities" />
       <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\res\drawable" />
       <recent name="D:\Modified-Paisalo-Loan-App\app" />
       <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\retrofit" />
-      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\res\raw" />
     </key>
     <key name="android.template.1436590464">
       <recent name="com.softeksol.paisalo.dealers" />
@@ -265,13 +275,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677736548092</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Application form and family memeber dialog ui ready">
-      <created>1678706810552</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1678706810552</updated>
     </task>
     <task id="LOCAL-00010" summary="Some UI changes are done with">
       <created>1678785100437</created>
@@ -609,7 +612,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693286272336</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Kyc form UI Created">
+      <created>1694003228108</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1694003228108</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -664,7 +674,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Dealer Module Added" />
     <MESSAGE value="Geo tracking done and also with installation of geo tracking app" />
     <MESSAGE value="bank scheme dynamic set in Crif Score page" />
     <MESSAGE value="validation done in OEM basic detailes" />
@@ -689,7 +698,8 @@
     <MESSAGE value="Filter2 Search data 16-08-23" />
     <MESSAGE value="Kyc verify Search data 18-08-23" />
     <MESSAGE value="tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="tested" />
+    <MESSAGE value="Kyc form UI Created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kyc form UI Created" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

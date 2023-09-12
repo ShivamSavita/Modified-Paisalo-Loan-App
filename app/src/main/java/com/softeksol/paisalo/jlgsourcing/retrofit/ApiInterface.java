@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 
@@ -14,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -67,6 +69,16 @@ public interface ApiInterface {
 
     @POST("OCR/DocVerifyByOCR")
     Call<OCRResponseModel> getFileValidateByOCR(@Query("imgData") String type, @Body RequestBody file);
+
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getToken(@Body JsonObject jsonObject);
+    @GET("PFL.ABF.API/api/Dealer/GetOems")
+    Call<BrandResponse> getOEMbyCreator(@Header("Authorization") String authHeader, @Query("Creator") String creator);
+
+
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
+
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

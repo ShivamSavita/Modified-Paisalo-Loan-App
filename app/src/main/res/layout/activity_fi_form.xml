@@ -1165,7 +1165,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/tilPAN_Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tietIncomeMonthly"
+                                    android:id="@+id/tietMotherMName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
@@ -1883,7 +1883,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
 
                         <com.google.android.material.textfield.TextInputEditText
-
+                            android:id="@+id/txtPlaceOfBirth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -1934,7 +1934,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
 
                         <com.google.android.material.textfield.TextInputEditText
-
+                            android:id="@+id/txtFamHeadIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -2314,7 +2314,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-
+                                android:id="@+id/spinPresentHouseOwner"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
 
@@ -2353,6 +2353,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <EditText
+                                android:id="@+id/txtHouseRent"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -2395,7 +2396,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-
+                                android:id="@+id/spinResidingFrom"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
 
@@ -2433,8 +2434,8 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-
                                 android:layout_width="match_parent"
+                                android:id="@+id/spinHouseType"
                                 android:layout_height="40dp"
 
                                 android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -2471,7 +2472,7 @@
                             android:background="@drawable/spinner_bggrey">
 
                             <androidx.appcompat.widget.AppCompatSpinner
-
+                                android:id="@+id/spinRoofType"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
 

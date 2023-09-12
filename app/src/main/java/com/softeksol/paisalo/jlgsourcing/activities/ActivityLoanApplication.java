@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,8 @@ public class ActivityLoanApplication extends AppCompatActivity implements
         FragmentKycScanning.OnListFragmentKycScanInteractionListener {
     TabLayout tabLayout;
     private long borrower_id;
+    String BoFicode,BoCreator;
+
     private Borrower borrower;
     private View.OnClickListener navOnClikListner;
     /**
@@ -68,6 +71,11 @@ public class ActivityLoanApplication extends AppCompatActivity implements
         setContentView(R.layout.layout_viewpager);
 
         borrower_id = getIntent().getLongExtra(Global.BORROWER_TAG, 0);
+        BoFicode = getIntent().getStringExtra("BoFicode");
+        BoCreator = getIntent().getStringExtra("BoCreator");
+        Log.d("TAG", "onCreate: "+borrower_id);
+        Log.d("TAG", "onCreate: "+BoFicode);
+        Log.d("TAG", "onCreate: "+BoCreator);
         refreshBorrower();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,7 +107,9 @@ public class ActivityLoanApplication extends AppCompatActivity implements
     }
 
     private void refreshBorrower() {
-        borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.FiID.eq(borrower_id)).querySingle();
+//        borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.FiID.eq(borrower_id)).querySingle();
+        borrower = SQLite.select().from(Borrower.class) .where(Borrower_Table.Code.eq(Long.parseLong(BoFicode)))
+                .and(Borrower_Table.Creator.eq(BoCreator)).querySingle();
 
     }
 

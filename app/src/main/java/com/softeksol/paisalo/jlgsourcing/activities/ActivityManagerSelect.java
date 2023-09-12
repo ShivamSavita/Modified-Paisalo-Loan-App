@@ -108,6 +108,8 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         mla = new AdapterListManager(this, R.layout.manager_list_card, SQLite.select().from(Manager.class).queryList());
         listViewFM.setAdapter(mla);
         listViewFM.setOnItemClickListener(this);
+
+        Log.d("TAG", "onCreate: bank account details"+SQLite.select().from(BankAccountData.class).queryList());
         if (SQLite.selectCountOf().from(RangeCategory.class).count() <= 0)
             RangeCategory.updateOptions(this);
         if (SQLite.selectCountOf().from(BankAccountData.class).count() <= 0)
@@ -169,7 +171,7 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         Intent intent = null;
         switch (operationItem.getId()) {
             case 1:
-                if (manager.Creator.toUpperCase().startsWith("VH")){
+                if (!manager.Creator.toUpperCase().startsWith("VH")){
                     intent = new Intent(ActivityManagerSelect.this, FiFormActivity.class);
                 }else{
                     intent = new Intent(ActivityManagerSelect.this, ActivityBorrowerKyc.class);

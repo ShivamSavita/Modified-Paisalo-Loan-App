@@ -148,7 +148,7 @@ public class WebOperations {
         // client.addHeader("imeino","911634551444304");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-//        client.addHeader("devid","0807498525477244");
+//        client.addHeader("devid","2916695595665247");
         // my client.addHeader("devid","4374793985786243");
         client.addHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, ""));
         client.addHeader("procname", BuildConfig.PROC_NAME);
@@ -172,7 +172,7 @@ public class WebOperations {
 //         client.addHeader("imeino","869232040500018");
         Log.e("DeviceId","CheckingOnHttpheader: "+IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")+"");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-//        client.addHeader("devid","0807498525477244");
+//        client.addHeader("devid","2916695595665247");
         // my client.addHeader("devid","4374793985786243");
         client.addHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, ""));
         client.addHeader("procname", BuildConfig.PROC_NAME);
@@ -199,7 +199,7 @@ public class WebOperations {
         client.addHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0"));
 //        client.addHeader("imeino", "869232040500018");
         client.addHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0"));
-//        client.addHeader("devid","0807498525477244");
+//        client.addHeader("devid","2916695595665247");
         client.addHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, BuildConfig.DATABASE_NAME));
         client.setTimeout(70000);
     }
@@ -218,7 +218,7 @@ public class WebOperations {
         headers.add(new BasicHeader("imeino", IglPreferences.getPrefString(context, SEILIGL.DEVICE_IMEI, "0")));
 //         headers.add(new BasicHeader("imeino", "869232040500018"));
         headers.add(new BasicHeader("devid", IglPreferences.getPrefString(context, SEILIGL.DEVICE_ID, "0")));
-//        headers.add(new BasicHeader("devid","0807498525477244"));
+//        headers.add(new BasicHeader("devid","2916695595665247"));
         headers.add(new BasicHeader("dbname", IglPreferences.getPrefString(context, SEILIGL.DATABASE_NAME, "")));
         headers.add(new BasicHeader("userid", IglPreferences.getPrefString(context, SEILIGL.USER_ID, "")));
         headers.add(new BasicHeader("procname", BuildConfig.PROC_NAME));

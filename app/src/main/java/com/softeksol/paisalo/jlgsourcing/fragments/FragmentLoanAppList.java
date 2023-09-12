@@ -99,7 +99,10 @@ public class FragmentLoanAppList extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                filter(tv_search.getText().toString());
+                if (tv_search.getText()!=null){
+                    filter(tv_search.getText().toString());
+                }
+
             }
         });
         return view;

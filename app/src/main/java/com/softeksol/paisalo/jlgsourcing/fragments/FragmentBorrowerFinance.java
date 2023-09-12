@@ -478,6 +478,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.Bank_Address = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch));
             borrower.T_ph3 = Utils.getSpinnerStringValue(spinnerSchemeType);
             borrowerExtra.RentalIncome= Utils.getNotNullInt(tietRentalIncome);
+            borrower.DelCode=tilBankAccountName.getText().toString().trim();
 
 
 
@@ -682,8 +683,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         jsonObject.addProperty("drivingLic_Name","");
         jsonObject.addProperty("bankAcc_Name",tilBankAccountName.getText().toString());
         jsonObject.addProperty("bank_Name",tvBankName.getText().toString());
-        jsonObject.addProperty("fiCode",borrowerExtra.Code);
-        jsonObject.addProperty("creator",borrowerExtra.Creator);
+        jsonObject.addProperty("fiCode",String.valueOf(borrower.Code));
+        jsonObject.addProperty("creator",borrower.Creator);
+        borrower.DelCode="1";
+        borrower.save();
         return jsonObject;
     }
 }

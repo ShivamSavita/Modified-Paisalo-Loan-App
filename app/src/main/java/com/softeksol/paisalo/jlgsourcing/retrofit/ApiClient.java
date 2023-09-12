@@ -22,11 +22,7 @@ public class ApiClient {
         if (retrofit==null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
-
-            );
-            httpClient.connectTimeout(1, TimeUnit.MINUTES);
-            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.addInterceptor(logging);
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
