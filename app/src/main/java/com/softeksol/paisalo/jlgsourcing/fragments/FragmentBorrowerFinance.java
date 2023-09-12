@@ -467,7 +467,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
     private void getDataFromView(View v) {
         if (v != null) {
-            borrower.Loan_Amt = Utils.getSpinnerIntegerValue(spinnerLoanAmount);
+          //  borrower.Loan_Amt = Utils.getSpinnerIntegerValue(spinnerLoanAmount);
             borrower.Loan_Duration = Utils.getSpinnerStringValue(spinnerLoanDuration);
             borrower.Loan_Reason = Utils.getSpinnerStringValue(spinnerPurpose);
             borrower.bank_ac_no = Utils.getNotNullText(etBankAccount);
@@ -620,7 +620,6 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
-
             );
             httpClient.connectTimeout(1, TimeUnit.MINUTES);
             httpClient.readTimeout(1,TimeUnit.MINUTES);
