@@ -3,9 +3,12 @@ package com.softeksol.paisalo.jlgsourcing.ABFActivities;
 import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TAKE_PHOTO;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -40,6 +43,9 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
+import com.softeksol.paisalo.jlgsourcing.WebOperations;
+import com.softeksol.paisalo.jlgsourcing.activities.ActivityBorrowerKyc;
+import com.softeksol.paisalo.jlgsourcing.activities.KYC_Form_New;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
@@ -48,6 +54,9 @@ import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
+import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -74,8 +83,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
+import a.a.e.d;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -119,6 +131,14 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
     Spinner spinReligion,spinCaste,spinLoanAppPersonalMarritalStatus;
     EditText acspLoanAppFinanceLoanAmount,txtHouseRent;
     AppCompatSpinner acspBusinessDetail,acspLoanReason,acspOccupation,loanDuration,loanbanktype,spinPresentHouseOwner,spinResidingFrom,spinHouseTypespinRoofType,spinHouseType;
+    Button voterIdCheckSign,panCheckSign,dLCheckSign;
+    String requestforVerification="";
+    String ResponseforVerification="";
+    String isNameMatched ="0";
+    int isPanverify=0;
+    int isDLverify=0;
+    int isVoterverify=0;
+    String bankName;
 
 
     @Override
@@ -162,7 +182,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         acspLoanAppFinanceLoanAmount = findViewById(R.id.acspLoanAppFinanceLoanAmount);
         txtHouseRent = findViewById(R.id.txtHouseRent);
         acspBusinessDetail = findViewById(R.id.acspBusinessDetail);
-        acspLoanReason = findViewById(R.id.acspBusinessType);
+        acspLoanReason = findViewById(R.id.acspLoanReason);
         acspOccupation = findViewById(R.id.acspOccupation);
         loanDuration = findViewById(R.id.loanDuration);
         loanbanktype = findViewById(R.id.loanbanktype);
@@ -172,6 +192,10 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         spinLoanAppPersonalMarritalStatus = findViewById(R.id.spinLoanAppPersonalMarritalStatus);
         spinHouseType = findViewById(R.id.spinHouseType);
         BtnFinalSaveKYCData = findViewById(R.id.BtnFinalSaveKYCData);
+        voterIdCheckSign = findViewById(R.id.voterIdCheckSign);
+        panCheckSign = findViewById(R.id.panCheckSign);
+        dLCheckSign = findViewById(R.id.dLCheckSign);
+
        // apiInterface=ApiClient.getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -338,19 +362,353 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         BtnFinalSaveKYCData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(FiFormActivity.this,FiFormSecond.class);
-                intent.putExtra(Global.MANAGER_TAG, manager);
-                startActivity(intent);
+
+                updateBorrower();
+
+
+
+//                Intent intent=new Intent(FiFormActivity.this,FiFormSecond.class);
+//                intent.putExtra(Global.MANAGER_TAG, manager);
+//                startActivity(intent);
+            }
+        });
+
+        panCheckSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tietPanNo.getText().toString().trim().length() == 10) {
+                    cardValidate(tietPanNo.getText().toString().trim(),"pancard","","");
+                } else {
+                    tilPAN_Name.setVisibility(View.GONE);
+
+                    tietPanNo.setError("Enter PAN");
+                }
+            }
+        });
+        dLCheckSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tietDob.getText().toString().trim().length()>9){
+                    try {
+                        String Dob=formatDate(tietDob.getText().toString().trim(),"dd-MMM-yyyy","yyyy-MM-dd");
+                        if (tietDrivingLic.getText().toString().trim().length() >5) {
+                            Log.d("TAG", "onClick: "+tietDob.getText().toString()+"/////"+Dob);
+                            cardValidate(tietDrivingLic.getText().toString().trim(),"drivinglicense","",Dob);
+                        } else {
+                            tilDL_Name.setVisibility(View.GONE);
+                            tietDrivingLic.setError("Enter Driving License");
+                        }
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please enter Date of Birth", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        voterIdCheckSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tietVoterId.getText().toString().trim().length() > 5) {
+                    cardValidate(tietVoterId.getText().toString().trim(),"voterid","","");
+                }else {
+                    tilVoterId_Name.setVisibility(View.GONE);
+                    tietVoterId.setError("Enter Voter Id");
+                }
             }
         });
 
     }
 
+
+    private void  updateBorrower() {
+        if(stateData.equalsIgnoreCase("APO Address")){
+            Toast.makeText(getApplicationContext(), "Select State Name", Toast.LENGTH_SHORT).show();
+        }else{
+            if (borrower != null) {
+                getDataFromView(this.findViewById(android.R.id.content).getRootView());
+
+                if ((tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)) && (tietDrivingLic.getText().toString().equals("") || tietDrivingLic.getText().toString().equals(null)) &&(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null))){
+                    Utils.showSnakbar(findViewById(android.R.id.content),"Please enter anyone in PAN number, Driving License or Voter ID");
+                }else{
+                    if (validateBorrower()) {
+                        Map<String, String> messages = borrower.validateKyc(this);
+                        if (messages.size() > 0) {
+                            String combineMessage = Arrays.toString(messages.values().toArray());
+                            combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");
+                            Log.e("combineMessage",combineMessage);
+                            Utils.alert(this, combineMessage);
+                        } else {
+                            invalidateOptionsMenu();
+                          //  if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
+                            borrower.Oth_Prop_Det = null;
+                            borrower.save();
+                            borrower.associateExtraBank(borrower.fiExtraBank);
+                            borrower.fiExtraBank.save();
+
+                            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                            borrowerDTO.fiFamExpenses = null;
+                            borrowerDTO.fiExtra = null;
+                            //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
+                            String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
+                            //Log.d("Borrower Json", borrowerJsonString);
+                            Log.d("TAG", "updateBorrower: "+borrowerJsonString);
+
+                            if (!tietPanNo.getText().toString().equals("") && !tietVoterId.getText().toString().equals("") && !tietDrivingLic.getText().toString().equals("")){
+                                if (tilPAN_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("") || tilDL_Name.getText().toString().trim().equals("")){
+                                    Toast.makeText(getApplicationContext(), "Please Verify PAN Card, Voter ID and Driving License", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])){
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(FiFormActivity.this);
+                                        builder.setTitle("Caution!!");
+                                        builder.setMessage("want to save  data without PAN Card name, Driving License Name, Voter Id Name and Aadhaar Name matching");
+                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Toast.makeText(getApplicationContext(), "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                sendingDataToNewPage();
+
+                                            }
+                                        });
+                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Toast.makeText(getApplicationContext(), "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.create().show();
+
+                                    }else{
+                                        sendingDataToNewPage();
+
+                                    }
+                                }
+                            }else{
+                                if(!tilPAN_Name.getText().toString().trim().equals("") ||!tilVoterId_Name.getText().toString().trim().equals("") ||!tilDL_Name.getText().toString().trim().equals("") ){
+                                    if((!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) && !tilPAN_Name.getText().toString().trim().equals("")) || (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) && !tilVoterId_Name.getText().toString().trim().equals("") )|| (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0]) && !tilDL_Name.getText().toString().trim().equals(""))){
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(FiFormActivity.this);
+                                        builder.setTitle("Caution!!");
+                                        builder.setMessage("want to save  data without Matching Documents Name and Aadhaar Name matching");
+                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Toast.makeText(getApplicationContext(), "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                sendingDataToNewPage();
+
+                                            }
+                                        });
+                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Toast.makeText(getApplicationContext(), "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.create().show();
+                                    }else{
+                                        sendingDataToNewPage();
+
+                                    }
+                                }else if (!tietPanNo.getText().toString().equals("")){
+                                    if (tilPAN_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(getApplicationContext(), "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])) {
+
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(FiFormActivity.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without PAN card Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(getApplicationContext(), "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(getApplicationContext(), "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
+                                    }
+                                }
+                                else if(!tietVoterId.getText().toString().equals("")){
+                                    if(tilVoterId_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(getApplicationContext(), "Please verify the Voter ID", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])) {
+
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(FiFormActivity.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without Voter Id Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(getApplicationContext(), "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(getApplicationContext(), "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
+                                    }
+
+                                }
+                                else if(!tietDrivingLic.getText().toString().equals("")){
+                                    if (tilDL_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(getApplicationContext(), "Please Verify the Driving License ", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])) {
+
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(FiFormActivity.this);
+                                            builder.setTitle("Caution!!");
+                                            builder.setMessage("want to save  data without Driving License Name and Aadhaar Name matching");
+                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
+                                                    sendingDataToNewPage();
+
+                                                }
+                                            });
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(getApplicationContext(), "Kindly verify all details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            builder.create().show();
+                                        }
+                                        else{
+                                            sendingDataToNewPage();
+
+                                        }
+                                    }
+
+
+                                }
+
+                            }
+
+                        }
+                    } else {
+                        Utils.alert(this, "There is at least one errors in the Aadhar Data");
+                    }
+                }
+
+            }
+        }
+    }
+    private void getDataFromView(View v) {
+        GpsTracker gpsTracker=new GpsTracker(FiFormActivity.this);
+        borrower.aadharid = Utils.getNotNullText(tietAadharId);
+        borrower.setNames(Utils.getNotNullText(tietName));
+        borrower.Age = Utils.getNotNullInt(tietAge);
+        borrower.DOB = myCalendar.getTime();
+        borrower.setGuardianNames(Utils.getNotNullText(tietGuardian));
+        borrower.P_Add1 = Utils.getNotNullText(tietAddress1);
+        borrower.P_add2 = Utils.getNotNullText(tietAddress2);
+        borrower.P_add3 = Utils.getNotNullText(tietAddress3);
+        borrower.P_city = Utils.getNotNullText(tietCity);
+        borrower.p_pin = Utils.getNotNullInt(tietPinCode);
+        Log.d("TAG", "getDataFromView: "+gpsTracker.getLongitude()+"////"+gpsTracker.getLatitude());
+        borrower.Latitude= (float) gpsTracker.getLatitude();
+        borrower.Longitude= (float) gpsTracker.getLongitude();
+        borrower.Gender = ((RangeCategory) acspGender.getSelectedItem()).RangeCode.substring(0, 1);
+        borrower.p_state = ((RangeCategory) acspAadharState.getSelectedItem()).RangeCode;
+        borrower.P_ph3 = Utils.getNotNullText(tietMobile);
+        borrower.PanNO = Utils.getNotNullText(tietPanNo);
+        borrower.drivinglic = Utils.getNotNullText(tietDrivingLic);
+        borrower.voterid = Utils.getNotNullText(tietVoterId);
+        borrower.IsNameVerify=isNameMatched;
+        borrower.isAdhaarEntry="";
+        borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
+        borrowerExtra.save();
+        borrower.fiExtra=null;
+        borrower.BankName= bankName;
+
+        borrower.Business_Detail=Utils.getSpinnerStringValue(acspBusinessDetail);
+        borrower.Loan_Duration=loanDuration.getSelectedItem().toString().trim();
+        borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
+        borrower.Loan_Amt=Utils.getNotNullInt(acspLoanAppFinanceLoanAmount);
+        borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
+        borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
+        borrower.Approved=null;
+
+        borrower.save();
+
+
+    }
+
+
+    private void sendingDataToNewPage() {
+        if(txtPlaceOfBirth.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(), "Enter Place of Birth", Toast.LENGTH_SHORT).show();
+        }else if(txtFamHeadIncome.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(), "Enter business of Head of family", Toast.LENGTH_SHORT).show();
+
+        }else if(acspLoanAppFinanceLoanAmount.getText().toString().length()<3){
+            Toast.makeText(getApplicationContext(), "Enter Loan amount", Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(FiFormActivity.this, FiFormSecond.class);
+            intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+            intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+            intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+            intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+            intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+            intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+            intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+            intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+            intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+            intent.putExtra("PANName", tilPAN_Name.getText().toString());
+            intent.putExtra("DLName", tilDL_Name.getText().toString());
+            intent.putExtra("AadharName", tietName.getText().toString());
+            intent.putExtra("manager", manager);
+            intent.putExtra("borrower", borrower);
+            intent.putExtra("spinReligion", ((RangeCategory)spinReligion.getSelectedItem()).RangeCode);
+            intent.putExtra("spinCaste", ((RangeCategory)spinCaste.getSelectedItem()).RangeCode);
+            intent.putExtra("spinPresentHouseOwner", ((RangeCategory)spinPresentHouseOwner.getSelectedItem()).RangeCode);
+            intent.putExtra("spinResidingFrom", ((RangeCategory)spinResidingFrom.getSelectedItem()).RangeCode);
+            intent.putExtra("spinHouseType", ((RangeCategory)spinHouseType.getSelectedItem()).RangeCode);
+            intent.putExtra("spinRoofType", ((RangeCategory)spinHouseTypespinRoofType.getSelectedItem()).RangeCode);
+            intent.putExtra("PlaceOfBirth", txtPlaceOfBirth.getText().toString());
+            intent.putExtra("FamHeadIncome", txtFamHeadIncome.getText().toString());
+            intent.putExtra("Occupation",  Utils.getSpinnerStringValue(acspOccupation));
+            intent.putExtra("HouseRent",txtHouseRent.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+
     @Override
     public void cameraCaptureUpdate(Uri imagePath) {
         uriPicture = imagePath;
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1107,4 +1465,157 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         }
 
     }
+
+
+    private void cardValidate(String id,String type,String bankIfsc,String dob) {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setTitle("Fetching Details");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
+        requestforVerification= String.valueOf(getJsonOfString(id,type,bankIfsc,dob));
+        Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                ResponseforVerification= String.valueOf(response.body().get("data"));
+                saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
+                if (type.equals("pancard")){
+                    try {
+                        tilPAN_Name.setVisibility(View.VISIBLE);
+                        tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                        panCheckSign.setEnabled(false);
+                        isNameMatched="1";
+                        isPanverify=1;
+                    }catch (Exception e){
+                        tilPAN_Name.setVisibility(View.VISIBLE);
+                        tilPAN_Name.setText("Card Holder Name Not Found");
+                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                        panCheckSign.setEnabled(true);
+                        isPanverify=0;
+                    }
+                    progressDialog.cancel();
+                }else if(type.equals("voterid")){
+                    try {
+                        tilVoterId_Name.setVisibility(View.VISIBLE);
+                        tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                        voterIdCheckSign.setEnabled(false);
+                        isNameMatched="1";
+                        isVoterverify=1;
+                    }catch (Exception e){
+                        tilVoterId_Name.setVisibility(View.VISIBLE);
+                        tilVoterId_Name.setText("Card Holder Name Not Found");
+                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                        voterIdCheckSign.setEnabled(true);
+                        isVoterverify=0;
+
+                    }
+                    progressDialog.cancel();
+
+                }else if(type.equals("drivinglicense")){
+                    try {
+                        tilDL_Name.setVisibility(View.VISIBLE);
+                        tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                        dLCheckSign.setEnabled(false);
+                        isNameMatched="1";
+                        isDLverify=1;
+                    }catch (Exception e){
+                        tilDL_Name.setVisibility(View.VISIBLE);
+                        tilDL_Name.setText("Card Holder Name Not Found");
+                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                        dLCheckSign.setEnabled(true);
+                        isDLverify=0;
+                    }
+                    progressDialog.cancel();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                if (type.equals("pancard")){
+                    tilPAN_Name.setText(t.getMessage());
+                    panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                    progressDialog.cancel();
+
+                }else{
+                    tilVoterId_Name.setText(t.getMessage());
+                    progressDialog.cancel();
+                    voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+
+                }
+            }
+        });
+    }
+
+    private JsonObject getJsonOfString(String id, String type,String bankIfsc,String userDOB) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type",type);
+        jsonObject.addProperty("txtnumber",id);
+        jsonObject.addProperty("ifsc",bankIfsc);
+        jsonObject.addProperty("userdob",userDOB);
+        return  jsonObject;
+    }
+
+    private void saveVerficationLogs(String id,String type,String request,String response) {
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.kycVerficationlog(getJsonOfKyCLogs(id,type,request,response));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "checkCrifScore: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+    private JsonObject getJsonOfKyCLogs(String id, String type,String bankIfsc,String userDOB) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("Type",type);
+        jsonObject.addProperty("Userid",id);
+        jsonObject.addProperty("Request",bankIfsc);
+        jsonObject.addProperty("Response",userDOB);
+        return  jsonObject;
+    }
+    public static Retrofit getClientPan(String BASE_URL) {
+        Retrofit retrofit = null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
+    public static String formatDate (String date, String initDateFormat, String endDateFormat) throws ParseException {
+
+        Date initDate = new SimpleDateFormat(initDateFormat).parse(date);
+        SimpleDateFormat formatter = new SimpleDateFormat(endDateFormat);
+        String parsedDate = formatter.format(initDate);
+
+        return parsedDate;
+    }
+
+
+
+
 }
