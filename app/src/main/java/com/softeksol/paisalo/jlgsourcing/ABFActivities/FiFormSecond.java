@@ -5,30 +5,30 @@ import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TA
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.dealers.Adapters.AddFemIncomeAdapter;
-import com.softeksol.paisalo.dealers.DealerOnBoard;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Adapter.OEMByDealerAdapter;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.OEMByCreatorModel;
@@ -46,8 +46,6 @@ import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyMember;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
-import com.softeksol.paisalo.jlgsourcing.entities.ReceiptData;
-import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -76,23 +74,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FiFormSecond extends AppCompatActivity {
 Button addFemIncomeBtn;
     ApiInterface apiInterface;
+    private Uri uriPicture;
     private Calendar myCalendar;
 
 AppCompatSpinner acspGenderNominee,acspRelationshipNominee,acspSelectOem,acspSelectDelear,acspSelectProduct;
 
-ImageView imgViewAadharPhotoNominee,imgViewAadharPhoto,imgViewScanQRNominee;
+ImageView imgViewAadharPhotoNominee,imgViewScanQRNominee;
 
 TextView tilBankAccountName,howOldAccount,tvLoanAppFinanceBankName,tvLoanAppFinanceBankBranch;
 RecyclerView addFemIncomeRecView;
 Button BtnFinalSaveKYCDataABF;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
+
+    ArrayList<BorrowerFamilyMember> borrowerFamilyMembersList =new ArrayList<>();
 
 TextInputEditText tietDobNominee, tietAgeNominee,tietNameNominee,tietAadharNominee,textProductPrice, tietVoterNominee,tietMobileNominee, tietGuardianNominee,etLoanAppFinanceBankIfsc,etLoanAppFinanceBankAccountNo, tietIncomeMonthly,tietRentalIncome,tietFutureIncome,tietAgriIncome,tietIntrestIncome,tietOtherIncome,tietRentExpense,tietFoodExpense,tietEduExpense,tietHealthExpense,tietTravelExpense,tietSOcietyExpense,tietUtilExpense,tietOtherExpense;
 
@@ -127,7 +132,6 @@ int size=0;
         acspRelationshipNominee=findViewById(R.id.acspRelationshipNominee);
         acspGenderNominee=findViewById(R.id.acspGenderNominee);
         imgViewScanQRNominee=findViewById(R.id.imgViewScanQRNominee);
-        imgViewAadharPhoto=findViewById(R.id.imgViewAadharPhoto);
         imgViewAadharPhotoNominee=findViewById(R.id.imgViewAadharPhotoNomineeNominee);
         tilBankAccountName=findViewById(R.id.tilBankAccountName);
         howOldAccount=findViewById(R.id.howOldAccount);
@@ -147,18 +151,29 @@ int size=0;
         tietNameNominee=findViewById(R.id.tietNameNominee);
         tietAgeNominee=findViewById(R.id.tietAgeNominee);
         tietDobNominee=findViewById(R.id.tietDobNominee);
-        apiInterface=new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVER_BASEURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        apiInterface=retrofit.create(ApiInterface.class);
+      //  apiInterface=new ApiClient().getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         myCalendar = Calendar.getInstance();
         myCalendar.setTime(new Date());
         List<RangeCategory> genders = new ArrayList<>();
         Log.d("TAG", "onCreate: "+manager.Creator+"///"+SEILIGL.NEW_TOKEN);
-        Call<BrandResponse> getCreatorByOem=apiInterface.getOEMbyCreator(SEILIGL.NEW_TOKEN, manager.Creator);
+        Call<BrandResponse> getCreatorByOem=apiInterface.getOEMbyCreator(SEILIGL.NEW_TOKEN, "VHDELHI");
         getCreatorByOem.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-
+                Log.d("TAG", "onResponse: "+response.body());
                 BrandResponse brandResponse=response.body();
                 Gson gson = new Gson();
+                Log.d("TAG", "onResponse: +"+brandResponse.getData());
                 OEMByCreatorModel[] nameList = gson.fromJson(brandResponse.getData(), OEMByCreatorModel[].class);
                 acspSelectOem.setAdapter(new OEMByDealerAdapter(FiFormSecond.this,nameList));
             }
@@ -168,7 +183,16 @@ int size=0;
 
             }
         });
+        imgViewAadharPhotoNominee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+                ImagePicker.with(FiFormSecond.this)
+                        .cameraOnly()
+                        .start(REQUEST_TAKE_PHOTO);
+            }
+        });
 
         genders.add(new RangeCategory("Female", "Gender"));
         genders.add(new RangeCategory("Male", "Gender"));
@@ -191,10 +215,10 @@ int size=0;
 
                 showFamilyMemberDialog();
 
-//                size++;
-//                addFemIncomeRecView.setAdapter(new AddFemIncomeAdapter(FiFormSecond.this,size));
-//                new AddFemIncomeAdapter(FiFormSecond.this,size).notifyDataSetChanged();
-//                Toast.makeText(FiFormSecond.this, "New Member Added!!", Toast.LENGTH_SHORT).show();
+
+                addFemIncomeRecView.setAdapter(new AddFemIncomeAdapter(FiFormSecond.this,borrowerFamilyMembersList));
+                new AddFemIncomeAdapter(FiFormSecond.this,borrowerFamilyMembersList).notifyDataSetChanged();
+                Toast.makeText(FiFormSecond.this, "New Member Added!!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -227,92 +251,101 @@ int size=0;
                 }
             }
         }
-//        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-//
-//
-//            if (data != null) {
-//                uriPicture = data.getData();
-//                CropImage.activity(uriPicture)
-//                        .setGuidelines(CropImageView.Guidelines.ON)
-//                        .setAspectRatio(45, 52)
-//                        .start(  FiFormSecond.this);
-//            } else {
-//                Log.e("ImageData","Null");
-//                Toast.makeText(this, "Image Data Null", Toast.LENGTH_SHORT).show();
-//            }
-//
-//        }
+        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+
+
+            if (data != null) {
+                uriPicture = data.getData();
+                CropImage.activity(uriPicture)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(45, 52)
+                        .start(  FiFormSecond.this);
+            } else {
+                Log.e("ImageData","Null");
+                Toast.makeText(this, "Image Data Null", Toast.LENGTH_SHORT).show();
+            }
+
+        }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             Exception error = null;
 
 
-//            if (data != null) {
-//                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
-//                //Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
-//                File tempCroppedImage = new File(imageUri.getPath());
-//                Log.e("tempCroppedImage",tempCroppedImage.getPath()+"");
-//
-//
-//                if (error == null) {
-//
-//                    if (imageUri != null) {
-//
-//                        if (tempCroppedImage.length() > 100) {
-//
-//                            if (borrower != null) {
-//                                (new File(uriPicture.getPath())).delete();
-//                                try {
-//
-//
-////                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
-////                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
-////                                    } else {
-////                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
-////                                    }
-////
-////
-////                                    ImageString = bitmapToBase64(bitmap);
-//
-//                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-////                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
-////                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
-////                                    } else {
-////                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
-////                                    }
-////                                    //Log.e("CroppedImageMyBitmap", bitmap+ "");
-//                                    Log.e("CroppedImageFile1", croppedImage.getPath()+"");
-//                                    Log.e("CroppedImageFile2", croppedImage.getAbsolutePath()+"");
-//                                    Log.e("CroppedImageFile3", croppedImage.getCanonicalPath()+"");
-//                                    Log.e("CroppedImageFile4", croppedImage.getParent()+"");
-//                                    Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
-//                                    Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
-////
-////                                    ImageString = bitmapToBase64(bitmap);
-//
-////                                    borrower.setPicture(croppedImage.getPath(),ImageString);
-//                                    borrower.setPicture(croppedImage.getPath());
-//                                    borrower.Oth_Prop_Det = null;
-//                                    borrower.save();
-//                                    showPicture(borrower);
-//
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            Toast.makeText(this, "CroppedImage FIle Length:"+tempCroppedImage.length() + "", Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(this, imageUri.toString() + "", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else {
-//                    Toast.makeText(this, error.toString() + "", Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-////                Log.e("Error",data.getData()+"");
-//                Toast.makeText(this, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
-//            }
+            if (data != null) {
+                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
+                //Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
+                File tempCroppedImage = new File(imageUri.getPath());
+                Log.e("tempCroppedImage",tempCroppedImage.getPath()+"");
+
+
+                if (error == null) {
+
+                    if (imageUri != null) {
+
+                        if (tempCroppedImage.length() > 100) {
+
+                         
+                                (new File(uriPicture.getPath())).delete();
+                                try {
+
+
+                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+
+//                                    //Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                    Log.e("CroppedImageFile1", croppedImage.getPath()+"");
+                                    Log.e("CroppedImageFile2", croppedImage.getAbsolutePath()+"");
+                                    Log.e("CroppedImageFile3", croppedImage.getCanonicalPath()+"");
+                                    Log.e("CroppedImageFile4", croppedImage.getParent()+"");
+                                    Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
+                                    Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
+
+                                    setImagepath(croppedImage);
+
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                   
+                        }
+                        else {
+                            Toast.makeText(this, "CroppedImage FIle Length:"+tempCroppedImage.length() + "", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, imageUri.toString() + "", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, error.toString() + "", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+//                Log.e("Error",data.getData()+"");
+                Toast.makeText(this, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+     
+    }
+
+    private void setImagepath(File file) {
+
+//        File imgFile = new  File("/sdcard/Images/test_image.jpg");
+
+//        customProgress.hideProgress();
+        // Toast.makeText(this, "Checking File: "+file.getAbsolutePath()+"", Toast.LENGTH_SHORT).show();
+
+        if (file.length() != 0) {
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+            //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+
+            if (myBitmap != null) {
+                imgViewAadharPhotoNominee.setImageBitmap(myBitmap);
+                Log.e("CHeckingmyBitmap22",myBitmap+"");
+            } else {
+                Toast.makeText(this, "Bitmap Null", Toast.LENGTH_SHORT).show();
+                Log.e("BitmapImage", "Null");
+            }
+        } else {
+            Toast.makeText(this, "Filepath Empty", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -649,18 +682,20 @@ int size=0;
         final View dialogView = this.getLayoutInflater().inflate(R.layout.fam_mem_income_dialoge, null);
         Button femDialogdeleteBtn=dialogView.findViewById(R.id.femDialogdeleteBtn);
         AppCompatSpinner acspRelationship=dialogView.findViewById(R.id.acspRelationship);
-        AppCompatSpinner acspBusinessDetail=dialogView.findViewById(R.id.acspBusinessDetail);
-        AppCompatSpinner acspLoanReason=dialogView.findViewById(R.id.acspLoanReason);
+        AppCompatSpinner acspEducationDetail=dialogView.findViewById(R.id.acspEducationDetail);
+        AppCompatSpinner acspBussinessType=dialogView.findViewById(R.id.acspBussinessType);
         AppCompatSpinner spinIncomeFamMemType=dialogView.findViewById(R.id.spinIncomeFamMemType);
         EditText spinIncomeFamMem=dialogView.findViewById(R.id.acspIncomeFamMem);
+        EditText tietFamMemName=dialogView.findViewById(R.id.tietFamMemName);
+        EditText txtFemMemBussiness=dialogView.findViewById(R.id.txtFemMemBussiness);
         Button femDialogaddBtn=dialogView.findViewById(R.id.femDialogaddBtn);
         ArrayList<RangeCategory> relationSips = new ArrayList<>();
         relationSips.add(new RangeCategory("Husband", ""));
         relationSips.add(new RangeCategory("Father", ""));
         relationSips.add(new RangeCategory("Mother", ""));
-        acspBusinessDetail.setAdapter(new AdapterListRange(this,
-                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("occupation-type")).queryList(), false));
-        acspLoanReason.setAdapter(new AdapterListRange(this,
+        acspEducationDetail.setAdapter(new AdapterListRange(this,
+                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("education")).queryList(), false));
+        acspBussinessType.setAdapter(new AdapterListRange(this,
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("loan_purpose")).queryList(), false));
         acspRelationship.setAdapter(new AdapterListRange(this, relationSips, false));
         spinIncomeFamMemType.setAdapter(new AdapterListRange(this, RangeCategory.getRangesByCatKey("income-type"), false));
@@ -677,8 +712,33 @@ int size=0;
         femDialogaddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //addUpdateMember(dialogView, familyMember);
-                dialog.dismiss();
+                if (tietFamMemName.getText().toString().length()<1){
+                    tietFamMemName.setError("Please enter member name");
+
+                }else if (txtFemMemBussiness.getText().toString().length()<1){
+                    txtFemMemBussiness.setError("Please enter member business");
+
+                }else if (spinIncomeFamMem.getText().toString().length()<1){
+                    spinIncomeFamMem.setError("Please enter member income");
+
+                }else  {
+                    BorrowerFamilyMember borrowerFamilyMember=new BorrowerFamilyMember();
+                    borrowerFamilyMember.setMemName(tietFamMemName.getText().toString());
+                    borrowerFamilyMember.setRelationWBorrower(Utils.getSpinnerStringValue(acspRelationship));
+                    borrowerFamilyMember.setEducatioin(Utils.getSpinnerStringValue(acspEducationDetail));
+                    borrowerFamilyMember.setBusiness(txtFemMemBussiness.getText().toString());
+                    borrowerFamilyMember.setBusinessType(Utils.getSpinnerStringValue(acspBussinessType));
+                    borrowerFamilyMember.setIncome(Integer.parseInt(spinIncomeFamMem.getText().toString().length()<1?"0":spinIncomeFamMem.getText().toString()));
+                    borrowerFamilyMember.setIncomeType(Utils.getSpinnerStringValue(spinIncomeFamMemType));
+                    borrowerFamilyMembersList.add(borrowerFamilyMember);
+                    Log.d("TAG", "onClick: "+ borrowerFamilyMembersList.size());
+                    addFemIncomeRecView.setAdapter(new AddFemIncomeAdapter(FiFormSecond.this,borrowerFamilyMembersList));
+                    new AddFemIncomeAdapter(FiFormSecond.this,borrowerFamilyMembersList).notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+
+
+
             }
         });
 

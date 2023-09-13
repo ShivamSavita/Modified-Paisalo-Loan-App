@@ -1071,7 +1071,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addFemIncomeRecView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -1817,10 +1817,13 @@
                     android:id="@+id/tilVoter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+
                     app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
-
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView25">
@@ -1851,223 +1854,236 @@
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-
-                android:id="@+id/textView65"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
+                android:visibility="gone"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="6dp"
-                android:text="Product Details"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
-            <LinearLayout
-                android:id="@+id/linearLayout17"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView65">
+                <TextView
 
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/textView65"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_medium"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="@dimen/spacing_middle"
-                    app:cardElevation="5dp"
-                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:background="@color/colorPrimary"
+                    android:padding="6dp"
+                    android:text="Product Details"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tilUidDob">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/InputLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Select OEM"
-                            android:textColor="@color/black"
-                            android:textSize="15dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="3dp"
-                            android:background="@drawable/spinner_bggrey">
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspSelectOem"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
-
-                                android:textSize="15dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_medium"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="@dimen/spacing_middle"
-                    app:cardElevation="5dp"
-                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tilUidDob">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/InputLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Select Dealer"
-                            android:textColor="@color/black"
-                            android:textSize="15dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="3dp"
-                            android:background="@drawable/spinner_bggrey">
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/acspSelectDelear"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-
-                                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
-                                android:textSize="15dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/scada_regular"
-                android:text="Select Product"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/llUidState"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="7dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23">
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/linearLayout17"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tilCurrentPinCode">
+                    app:layout_constraintTop_toBottomOf="@+id/textView65">
 
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select OEM"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="3dp"
+                                android:background="@drawable/spinner_bggrey">
+
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/acspSelectOem"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/spacing_middle"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilUidDob">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select Dealer"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="3dp"
+                                android:background="@drawable/spinner_bggrey">
+
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/acspSelectDelear"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/scada_regular"
+                    android:text="Select Product"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/llUidState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView23">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_bggrey">
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCurrentPinCode">
 
-                        <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/acspSelectProduct"
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_bggrey">
 
-                            android:textSize="15dp" />
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/acspSelectProduct"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+
+                                android:textSize="15dp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 
-            <TextView
+                <TextView
 
-                android:id="@+id/textView66"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/scada_regular"
-                android:text="Price"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llUidState" />
+                    android:id="@+id/textView66"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/scada_regular"
+                    android:text="Price"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llUidState" />
 
-            <androidx.cardview.widget.CardView
+                <androidx.cardview.widget.CardView
 
-                android:id="@+id/cardView22"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="7dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView66">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="4dp"
-                    app:boxBackgroundColor="#FFF"
-                    app:boxStrokeColor="#FFF"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
+                    android:id="@+id/cardView22"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llUidGender">
+                    app:layout_constraintTop_toBottomOf="@+id/textView66">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textProductPrice"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                        android:inputType="textCapCharacters"
-                        android:paddingStart="8dp"
-                        android:textSize="15dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:boxBackgroundColor="#FFF"
+                        app:boxStrokeColor="#FFF"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/llUidGender">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textProductPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                            android:inputType="textCapCharacters"
+                            android:paddingStart="8dp"
+                            android:textSize="15dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <Button
                 android:id="@+id/BtnFinalSaveKYCDataABF"
@@ -2082,7 +2098,7 @@
                 android:textSize="17dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView22" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

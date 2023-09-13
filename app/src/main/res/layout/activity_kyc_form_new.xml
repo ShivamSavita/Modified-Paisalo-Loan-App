@@ -554,7 +554,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/acspLoanReason"
+                            android:id="@+id/acspBusinessType"
                             android:layout_marginStart="@dimen/input_label_horizontal_spacing"
                             android:textSize="15dp"
 

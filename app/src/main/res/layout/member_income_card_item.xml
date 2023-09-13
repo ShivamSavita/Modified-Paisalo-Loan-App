@@ -69,10 +69,11 @@
             app:layout_constraintTop_toBottomOf="@id/llUidGender">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietGuardian"
+                android:id="@+id/tietMemberName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:enabled="false"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters"
                 android:paddingStart="8dp"
@@ -122,8 +123,12 @@
                 android:layout_margin="3dp"
                 android:background="@drawable/spinner_bggrey">
 
-                <androidx.appcompat.widget.AppCompatSpinner
+                <EditText
                     android:id="@+id/acspRelationship"
+                    android:background="@color/white"
+                    android:layout_margin="3dp"
+                    android:padding="6dp"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginStart="@dimen/input_label_horizontal_spacing" />
@@ -175,8 +180,11 @@
                     android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey">
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/acspBusinessDetail"
+                    <EditText
+                        android:id="@+id/acspEduDetail"
+                        android:background="@color/white"
+                        android:layout_margin="3dp"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -219,11 +227,13 @@
                     android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey">
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/acspLoanReason"
+                    <EditText
+                        android:id="@+id/acspBusinessType"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-
+                        android:background="@color/white"
+                        android:layout_margin="3dp"
+                        android:enabled="false"
                         android:layout_marginStart="@dimen/input_label_horizontal_spacing"
                         android:textSize="15dp" />
                 </LinearLayout>
@@ -271,9 +281,10 @@
             app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
 
             <com.google.android.material.textfield.TextInputEditText
-
+                    android:id="@+id/tietBusinessFemMe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:background="@color/white"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                 android:inputType="textCapWords"
@@ -325,8 +336,11 @@
                     android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey">
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-
+                    <EditText
+                        android:id="@+id/famMemIncome"
+                        android:background="@color/white"
+                        android:layout_margin="3dp"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -369,11 +383,13 @@
                     android:layout_margin="3dp"
                     android:background="@drawable/spinner_bggrey">
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-
+                    <EditText
+                            android:id="@+id/famMemIncomeType"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-
+                        android:background="@color/white"
+                        android:layout_margin="3dp"
+                        android:enabled="false"
                         android:layout_marginStart="@dimen/input_label_horizontal_spacing"
                         android:textSize="15dp" />
                 </LinearLayout>

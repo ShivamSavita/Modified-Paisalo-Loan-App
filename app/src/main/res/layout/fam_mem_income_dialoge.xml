@@ -168,7 +168,7 @@
                     android:background="@drawable/spinner_bggrey">
 
                     <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/acspBusinessDetail"
+                        android:id="@+id/acspEducationDetail"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginStart="@dimen/input_label_horizontal_spacing"
@@ -212,7 +212,7 @@
                     android:background="@drawable/spinner_bggrey">
 
                     <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/acspLoanReason"
+                        android:id="@+id/acspBussinessType"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
 
@@ -263,7 +263,7 @@
             app:layout_constraintTop_toBottomOf="@id/tilCurrentAddress2">
 
             <com.google.android.material.textfield.TextInputEditText
-
+                android:id="@+id/txtFemMemBussiness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -322,6 +322,7 @@
                         android:background="@color/white"
                         android:id="@+id/acspIncomeFamMem"
                         android:layout_width="match_parent"
+                        android:inputType="number"
                         android:layout_margin="3dp"
                         android:layout_height="35dp"
 

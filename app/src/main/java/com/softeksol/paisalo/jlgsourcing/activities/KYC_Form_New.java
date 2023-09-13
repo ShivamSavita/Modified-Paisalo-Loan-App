@@ -92,7 +92,7 @@ TextView textViewTotalAnnualIncome;
         loanbanktype=findViewById(R.id.loanbanktype);
         loanDuration=findViewById(R.id.loanDuration);
         acspOccupation=findViewById(R.id.acspOccupation);
-        acspLoanReason=findViewById(R.id.acspLoanReason);
+        acspLoanReason=findViewById(R.id.acspBusinessType);
         acspBusinessDetail=findViewById(R.id.acspBusinessDetail);
         earningMemberTypeSpin=findViewById(R.id.earningMemberTypeSpin);
         acspLoanAppFinanceLoanAmount=findViewById(R.id.acspLoanAppFinanceLoanAmount);
