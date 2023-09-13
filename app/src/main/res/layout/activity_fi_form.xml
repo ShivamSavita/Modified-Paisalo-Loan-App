@@ -2106,7 +2106,7 @@
                                 android:background="@drawable/spinner_bggrey">
 
                                 <androidx.appcompat.widget.AppCompatSpinner
-                                    android:id="@+id/acspBusinessType"
+                                    android:id="@+id/acspLoanReason"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"
 
@@ -2253,7 +2253,7 @@
                                     android:layout_height="40dp"
                                     android:layout_marginStart="@dimen/input_label_horizontal_spacing"
 
-                                    android:entries="@array/banktypedata"
+
                                     android:textSize="15dp" />
                             </LinearLayout>
                         </LinearLayout>

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -96,12 +98,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FiFormActivity extends AppCompatActivity  implements   CameraUtils.OnCameraCaptureUpdate{
+public class FiFormActivity extends AppCompatActivity  implements  View.OnClickListener,  CameraUtils.OnCameraCaptureUpdate{
 ImageView imgViewScanQR,imgViewAadharPhoto;
     private Borrower borrower;
     private Manager manager;
     ArrayList<RangeCategory> genders;
     SharedPreferences sharedPreferences;
+    private DatePickerDialog.OnDateSetListener dateSetListner;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
     private Calendar myCalendar;
     private AdapterListRange   rlaIncome, rlaCaste, rlaReligion, rlaMarritalStatus, rla1to9, rla1kto11k, rlaOwner;
@@ -195,6 +198,12 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         voterIdCheckSign = findViewById(R.id.voterIdCheckSign);
         panCheckSign = findViewById(R.id.panCheckSign);
         dLCheckSign = findViewById(R.id.dLCheckSign);
+        tilPAN_Name=findViewById(R.id.tilPAN_Name);
+        tilVoterId_Name=findViewById(R.id.tilVoterId_Name);
+        tilDL_Name=findViewById(R.id.tilDL_Name);
+
+
+
 
        // apiInterface=ApiClient.getClient(SEILIGL.NEW_SERVER_BASEURL).create(ApiInterface.class);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -243,6 +252,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         acspOccupation.setAdapter(rlaBussiness);
         spinPresentHouseOwner.setAdapter(rlaOwner);
         spinResidingFrom.setAdapter(rla1to9);
+        loanbanktype.setAdapter(rlaBankType);
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("emailId", "dotnetdev2@paisalo.in");
         jsonObject.addProperty("password", "admin@123");
@@ -291,6 +301,17 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                 validateControls(editText, text);
             }
         });
+        dateSetListner = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // TODO Auto-generated method stub
+                tietAge.clearFocus();
+                myCalendar.set(year, monthOfYear, dayOfMonth);
+                tietAge.setText(String.valueOf(DateUtils.getAge(myCalendar)));
+                tietDob.setText(DateUtils.getFormatedDate(myCalendar.getTime(), "dd-MMM-yyyy"));
+            }
+        };
         genders = new ArrayList<>();
 
         genders.add(new RangeCategory("Female", "Gender"));
@@ -359,6 +380,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                 tietDob.setText(dtString);
             }
         };
+        tietDob.setOnClickListener(this);
         BtnFinalSaveKYCData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -419,6 +441,36 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                 }
             }
         });
+
+
+        acspAadharState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                RangeCategory rangeCategory= (RangeCategory) adapterView.getSelectedItem();
+                Log.d("TAG", "onItemSelected: "+rangeCategory.DescriptionEn);
+                stateData=rangeCategory.DescriptionEn;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        acspGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                RangeCategory rangeCategory= (RangeCategory) adapterView.getSelectedItem();
+                Log.d("TAG", "onItemSelected: "+rangeCategory.DescriptionEn);
+                genderData=rangeCategory.DescriptionEn;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
     }
 
@@ -655,7 +707,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         borrower.Loan_Duration=loanDuration.getSelectedItem().toString().trim();
         borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
         borrower.Loan_Amt=Utils.getNotNullInt(acspLoanAppFinanceLoanAmount);
-        borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
+      //  borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.Approved=null;
 
@@ -817,6 +869,8 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
 
         }
     }
+
+
     private void showPicture(Borrower borrower) {
 
 
@@ -1616,6 +1670,35 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
 
+            /*
+            case R.id.btnSubmitKyc:
+                updateBorrower();
+                break;
+            case R.id.btnCancel:
+                finish();
+                break;
+            case R.id.btnCapturePhoto:
+                launchScanning();
+                break;
+                */
+            case R.id.tietDob:
+                Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
+                try{
+                    if (!dob.equals(null)){
+                        myCalendar.setTime(dob);
+                    }
+                }catch (Exception e){
 
+                }
+
+                new DatePickerDialog(this, dateSetListner,
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
+                break;
+        }
+    }
 }

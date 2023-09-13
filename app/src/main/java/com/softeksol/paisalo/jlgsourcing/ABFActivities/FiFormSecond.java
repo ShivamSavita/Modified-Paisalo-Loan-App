@@ -9,14 +9,20 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,8 +31,11 @@ import android.widget.Toast;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.loopj.android.http.DataAsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.dealers.Adapters.AddFemIncomeAdapter;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Adapter.OEMByDealerAdapter;
@@ -38,17 +47,32 @@ import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
+import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
+import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
+import com.softeksol.paisalo.jlgsourcing.WebOperations;
+import com.softeksol.paisalo.jlgsourcing.activities.ActivityManagerSelect;
+import com.softeksol.paisalo.jlgsourcing.activities.ActivityOperationSelect;
+import com.softeksol.paisalo.jlgsourcing.activities.KYC_Form_New;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
+import com.softeksol.paisalo.jlgsourcing.entities.BankData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyMember;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
+import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -72,8 +96,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
+import cz.msebera.android.httpclient.Header;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -82,9 +110,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FiFormSecond extends AppCompatActivity {
+public class FiFormSecond extends AppCompatActivity implements View.OnClickListener{
 Button addFemIncomeBtn;
+
+    private TextWatcher ageTextWatcher;
+
+    String FatherFName,FatherLName,FatherMName,MotherFName,MotherLName,MotherMName,SpouseLName,SpouseMName,SpouseFName,VoterIdName,PANName,DLName,AadharName,spinReligion,spinCaste,spinPresentHouseOwner,spinResidingFrom,spinHouseType,spinRoofType,PlaceOfBirth,FamHeadIncome,Occupation,HouseRent;
     ApiInterface apiInterface;
+
+    private DatePickerDialog.OnDateSetListener dateSetListner;
     private Uri uriPicture;
     private Calendar myCalendar;
 
@@ -92,9 +126,9 @@ AppCompatSpinner acspGenderNominee,acspRelationshipNominee,acspSelectOem,acspSel
 
 ImageView imgViewAadharPhotoNominee,imgViewScanQRNominee;
 
-TextView tilBankAccountName,howOldAccount,tvLoanAppFinanceBankName,tvLoanAppFinanceBankBranch;
+TextView howOldAccount,tilBankAccountName,tvLoanAppFinanceBankName,tvLoanAppFinanceBankBranch;
 RecyclerView addFemIncomeRecView;
-Button BtnFinalSaveKYCDataABF;
+Button BtnFinalSaveKYCDataABF,checkBankAccountNuber;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
 
     ArrayList<BorrowerFamilyMember> borrowerFamilyMembersList =new ArrayList<>();
@@ -106,12 +140,68 @@ TextInputEditText tietDobNominee, tietAgeNominee,tietNameNominee,tietAadharNomin
     protected static final int VTC_INDEX = 15;
     protected String signature,email,mobile;
     Manager manager;
+    Borrower borrower;
+    Intent i;
 int size=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fi_form_second);
-        manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
+        i=getIntent();
+        manager = (Manager) getIntent().getSerializableExtra("manager");
+        borrower = (Borrower) getIntent().getSerializableExtra("borrower");
+
+        FatherFName=i.getStringExtra("FatherFName");
+        FatherLName=i.getStringExtra("FatherLName");
+        FatherMName=i.getStringExtra("FatherMName");
+        MotherFName=i.getStringExtra("MotherFName");
+        MotherLName=i.getStringExtra("MotherLName");
+        MotherMName=i.getStringExtra("MotherMName");
+        SpouseLName=i.getStringExtra("SpouseLName");
+        SpouseMName=i.getStringExtra("SpouseMName");
+        SpouseFName=i.getStringExtra("SpouseFName");
+        VoterIdName=i.getStringExtra("VoterIdName");
+        spinReligion=i.getStringExtra("spinReligion");
+        spinCaste=i.getStringExtra("spinCaste");
+        spinPresentHouseOwner=i.getStringExtra("spinPresentHouseOwner");
+        spinResidingFrom=i.getStringExtra("spinResidingFrom");
+        spinHouseType=i.getStringExtra("spinHouseType");
+        spinRoofType=i.getStringExtra("spinRoofType");
+        PlaceOfBirth=i.getStringExtra("PlaceOfBirth");
+        FamHeadIncome=i.getStringExtra("FamHeadIncome");
+        Occupation=i.getStringExtra("Occupation");
+        HouseRent=i.getStringExtra("HouseRent");
+        PANName=i.getStringExtra("PANName");
+        DLName=i.getStringExtra("DLName");
+        AadharName=i.getStringExtra("AadharName");
+
+        Log.d("TAG", "onCreate: FatherFName"+FatherFName);
+        Log.d("TAG", "onCreate: FatherLName"+FatherLName);
+        Log.d("TAG", "onCreate: FatherMName"+FatherMName);
+        Log.d("TAG", "onCreate: MotherFName"+MotherFName);
+        Log.d("TAG", "onCreate: MotherLName"+MotherLName);
+        Log.d("TAG", "onCreate: MotherMName"+MotherMName);
+        Log.d("TAG", "onCreate: SpouseLName"+SpouseLName);
+        Log.d("TAG", "onCreate: SpouseMName"+SpouseMName);
+        Log.d("TAG", "onCreate: SpouseFName"+SpouseFName);
+        Log.d("TAG", "onCreate: VoterIdName"+VoterIdName);
+        Log.d("TAG", "onCreate: PANName"+PANName);
+        Log.d("TAG", "onCreate: DLName"+DLName);
+        Log.d("TAG", "onCreate: AadharName"+AadharName);
+        Log.d("TAG", "onCreate: spinReligion"+spinReligion);
+        Log.d("TAG", "onCreate: spinCaste"+spinCaste);
+        Log.d("TAG", "onCreate: spinPresentHouseOwner"+spinPresentHouseOwner);
+        Log.d("TAG", "onCreate: spinResidingFrom"+spinResidingFrom);
+        Log.d("TAG", "onCreate: spinHouseType"+spinHouseType);
+        Log.d("TAG", "onCreate: spinRoofType"+spinRoofType);
+        Log.d("TAG", "onCreate: PlaceOfBirth"+PlaceOfBirth);
+        Log.d("TAG", "onCreate: FamHeadIncome"+FamHeadIncome);
+        Log.d("TAG", "onCreate: Occupation"+Occupation);
+        Log.d("TAG", "onCreate: HouseRent"+HouseRent);
+
+
+
+
         addFemIncomeBtn=findViewById(R.id.addFemIncomeBtn);
         addFemIncomeRecView=findViewById(R.id.addFemIncomeRecView);
         addFemIncomeRecView.setLayoutManager(new LinearLayoutManager(this));
@@ -151,6 +241,7 @@ int size=0;
         tietNameNominee=findViewById(R.id.tietNameNominee);
         tietAgeNominee=findViewById(R.id.tietAgeNominee);
         tietDobNominee=findViewById(R.id.tietDobNominee);
+        checkBankAccountNuber=findViewById(R.id.checkBankAccountNuber);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -167,6 +258,53 @@ int size=0;
         List<RangeCategory> genders = new ArrayList<>();
         Log.d("TAG", "onCreate: "+manager.Creator+"///"+SEILIGL.NEW_TOKEN);
         Call<BrandResponse> getCreatorByOem=apiInterface.getOEMbyCreator(SEILIGL.NEW_TOKEN, "VHDELHI");
+        tietAgeNominee.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ((TextInputEditText) v).addTextChangedListener(ageTextWatcher);
+                } else {
+                    ((TextInputEditText) v).removeTextChangedListener(ageTextWatcher);
+                }
+            }
+        });
+        tietDobNominee.setOnClickListener(this);
+        dateSetListner = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // TODO Auto-generated method stub
+                tietAgeNominee.clearFocus();
+                myCalendar.set(year, monthOfYear, dayOfMonth);
+                tietAgeNominee.setText(String.valueOf(DateUtils.getAge(myCalendar)));
+                tietDobNominee.setText(DateUtils.getFormatedDate(myCalendar.getTime(), "dd-MMM-yyyy"));
+            }
+        };
+        tietAgeNominee.addTextChangedListener(new MyTextWatcher(tietAgeNominee) {
+            @Override
+            public void validate(EditText editText, String text) {
+                validateControls(editText, text);
+            }
+        });
+        ageTextWatcher = new TextWatcher() {
+            String dtString;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 0)
+                    dtString = DateUtils.getDobFrmAge(Integer.parseInt(s.toString()));
+                myCalendar.setTime(DateUtils.getParsedDate(dtString, "dd-MMM-yyyy"));
+                tietDobNominee.setText(dtString);
+            }
+        };
         getCreatorByOem.enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
@@ -180,6 +318,47 @@ int size=0;
 
             @Override
             public void onFailure(Call<BrandResponse> call, Throwable t) {
+
+            }
+        });
+        howOldAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(FiFormSecond.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                                String dateInString = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                try {
+                                    Date date = formatter.parse(dateInString);
+                                    Log.e("DATATIMEhowOldAccountSTRING",formatter.format(date));
+                                    howOldAccount.setText(formatter.format(date));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                // Log.e("DATATIMEhowOldAccountNEWWDATA",DateUtils.getsmallDate(howOldAccount.getText().toString(),"dd-MM-yyyy")+"");
+
+
+                            }
+                        },
+                        // on below line we are passing year,
+                        // month and day for selected date in our date picker.
+                        year, month, day);
+                // at last we are calling show to
+                // display our date picker dialog.
+                datePickerDialog.show();
+
+
+
 
             }
         });
@@ -206,7 +385,16 @@ int size=0;
         relationSips.add(new RangeCategory("Mother", ""));
 
         acspRelationshipNominee.setAdapter(new AdapterListRange(this, relationSips, false));
-
+        checkBankAccountNuber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!etLoanAppFinanceBankAccountNo.getText().toString().equals("") && !etLoanAppFinanceBankIfsc.getText().toString().equals("")){
+                    cardValidate(etLoanAppFinanceBankAccountNo.getText().toString().trim(),etLoanAppFinanceBankIfsc.getText().toString().trim());
+                }else{
+                    Toast.makeText(FiFormSecond.this, "Please enter account number and IFCS code Properly", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         addFemIncomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -221,7 +409,12 @@ int size=0;
                 Toast.makeText(FiFormSecond.this, "New Member Added!!", Toast.LENGTH_SHORT).show();
             }
         });
-
+        etLoanAppFinanceBankIfsc.addTextChangedListener(new MyTextWatcher(etLoanAppFinanceBankIfsc) {
+            @Override
+            public void validate(EditText editText, String text) {
+                validateIFSC(editText, text);
+            }
+        });
         imgViewScanQRNominee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,6 +423,427 @@ int size=0;
                 scanIntegrator.initiateScan(Collections.singleton("QR_CODE"));
             }
         });
+
+        BtnFinalSaveKYCDataABF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (validateAllFields())
+                {
+                    if (borrower != null) {
+
+
+                        borrower.Oth_Prop_Det = null;
+                        borrower.save();
+                        borrower.fiExtraBank.setMotherName(MotherFName);
+                        borrower.fiExtraBank.setFatherName(FatherFName);
+                       // String occCode = Utils.getSpinnerStringValue(acspOccupation);
+//                        borrower.fiExtraBank.setCkycOccupationCode(occCode);
+                        borrower.associateExtraBank(borrower.fiExtraBank);
+                        borrower.fiExtraBank.save();
+                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                        borrowerDTO.fiFamExpenses = null;
+                        borrowerDTO.fiExtra = null;
+                        Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank.getActivityType());
+                        Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank.getCode());
+                        Log.d("TAG", "onSuccess1: "+borrower.fiExtraBank);
+                        Log.d("TAG", "onSuccess1: "+WebOperations.convertToJson(borrower.fiExtraBank));
+
+                        AsyncResponseHandler dataAsyncResponseHandler = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application", "Submitting Borrower Information") {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                String jsonString = new String(responseBody);
+                                Log.d("Response Data",jsonString);
+                                try {
+
+                                    JSONObject jo = new JSONObject(jsonString);
+                                    long FiCode = jo.getLong("FiCode");
+                                    borrower.updateFiCode(FiCode, borrower.Tag);
+                                    borrower.Oth_Prop_Det = null;
+                                    borrower.save();
+
+//                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
+//                                    fiDocGeoLoc.save();
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra(FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgriIncome),Utils.getNotNullText(tietOtherIncome),"",0,MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,0,Utils.getNotNullInt(tietIntrestIncome));
+                                    Log.d("TAG", "onCreate: "+FatherFName);
+                                    Log.d("TAG", "onCreate: "+FatherLName);
+                                    Log.d("TAG", "onCreate: "+FatherMName);
+                                    Log.d("TAG", "onCreate: "+MotherFName);
+                                    Log.d("TAG", "onCreate: "+MotherLName);
+                                    Log.d("TAG", "onCreate: "+MotherMName);
+                                    Log.d("TAG", "onCreate: "+SpouseLName);
+                                    Log.d("TAG", "onCreate: "+SpouseMName);
+                                    Log.d("TAG", "onCreate: "+SpouseFName);
+//                                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG,FiCode);
+
+//                                    borrower.associateExtraBank(borrowerExtraBank);
+
+                                    borrower.fiExtra=borrowerExtra;
+                                    borrower.fiFamMems=borrowerFamilyMembersList;
+
+
+
+                                    borrower.fiExtra.save();
+//                                    borrower.associateExtraBank(borrower.fiExtraBank);
+//                                    borrower.fiExtraBank.save();
+                                    borrower.save();
+                                    Log.d("TAG", "onSuccess: "+borrower.fiExtra);
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.fiExtraBank));
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
+
+                                    AsyncResponseHandler dataAsyncResponseHandlerUpdateFI = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application","Submitting Borrower Information") {
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                            String jsonString = new String(responseBody);
+                                            //Log.d("Response Data",jsonString);
+                                            Utils.showSnakbar(findViewById(android.R.id.content), "Borrower Loan Application Saved");
+
+                                            try {
+                                                JSONObject jo = new JSONObject(jsonString);
+
+
+                                                Log.d("CHeckJsonFinancing",jo+"");
+                                                Log.d("CHeckJsonFinancing1",jsonString+"");
+
+
+                                                borrower.Code = jo.getLong("FiCode");
+                                                borrower.Oth_Prop_Det = "U";
+
+                                                borrower.save();
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                            super.onFailure(statusCode, headers, responseBody, error);
+                                        }
+                                    };
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
+                                    (new WebOperations()).postEntity(FiFormSecond.this, "posfi", "updatefi", WebOperations.convertToJson(borrower), dataAsyncResponseHandlerUpdateFI);
+
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(FiFormSecond.this);
+                                    builder.setTitle("Borrower KYC");
+                                    builder.setCancelable(false);
+                                    builder.setMessage("KYC Saved with " + manager.Creator + " / " + FiCode + "\nPlease capture / scan documents");
+                                    builder.setPositiveButton("Want to E-Sign", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            OperationItem operationItem=new OperationItem(6, "E-Sign", R.color.colorMenuPremature, "POSDB", "Getmappedfo");
+
+                                            Intent intent = new Intent(FiFormSecond.this, ActivityManagerSelect.class);
+                                            intent.putExtra(Global.OPTION_ITEM, operationItem);
+                                            intent.putExtra("Title", operationItem.getOprationName());
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                                    builder.setNegativeButton("Done", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent=new Intent(FiFormSecond.this, ActivityOperationSelect.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                                    builder.create().show();
+
+                                    UpdatefiVerificationDocName(FiCode,manager.Creator);
+
+                                } catch (JSONException jo) {
+                                    Log.d("TAG", "onSuccess: "+jo.getMessage());
+                                    Utils.showSnakbar(findViewById(android.R.id.content), jo.getMessage());
+                                }
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                super.onFailure(statusCode, headers, responseBody, error);
+                                Log.d("TAG", "onFailure: "+error.getMessage());
+                                //btnSubmit.setEnabled(true);
+                                invalidateOptionsMenu();
+                            }
+                        };
+
+
+                        //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
+                        String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
+                        //Log.d("Borrower Json", borrowerJsonString);
+                        Log.d("TAG", "updateBorrower: "+borrowerJsonString);
+                        (new WebOperations()).postEntity(getApplicationContext(), "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
+
+                    }else{
+                        Utils.alert(FiFormSecond.this, "There is at least one errors in the above data");
+
+
+
+                    }
+
+                }else  {
+                    Utils.alert(FiFormSecond.this, "There is at least one errors in the above data");
+                }
+
+            }
+        });
+    } private void UpdatefiVerificationDocName(long fiCode, String creator) {
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getJsonOfDocName(fiCode, creator));
+        Call<JsonObject> call=apiInterface.getDocNameDate(getJsonOfDocName(fiCode,creator));
+        call.enqueue(new Callback<JsonObject>(){
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response){
+                Log.d("TAG", "onResponse: "+response.body());
+                if(response.body() != null){
+
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
+    private JsonObject getJsonOfDocName(long fiCode, String creator) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type","basic");
+        jsonObject.addProperty("pan_Name",PANName);
+        jsonObject.addProperty("voterId_Name",VoterIdName);
+        jsonObject.addProperty("aadhar_Name",AadharName);
+        jsonObject.addProperty("drivingLic_Name",DLName);
+        jsonObject.addProperty("bankAcc_Name","");
+        jsonObject.addProperty("bank_Name","");
+        jsonObject.addProperty("fiCode",fiCode+"");
+        jsonObject.addProperty("creator",creator);
+        return jsonObject;
+    }
+
+    private boolean validateAllFields() {
+         if (Objects.requireNonNull(tietIncomeMonthly.getText()).length()<1){
+             tietIncomeMonthly.setError("Please enter personal income");
+             return false;
+         }else if (Objects.requireNonNull(tietRentalIncome.getText()).length()<1){
+             tietRentalIncome.setError("Please enter rental income");
+             return false;
+         }else if (Objects.requireNonNull(tietFutureIncome.getText()).length()<1){
+             tietFutureIncome.setError("Please enter future income");
+             return false;
+         }else  if (Objects.requireNonNull(tietAgriIncome.getText()).length()<1){
+             tietAgriIncome.setError("Please enter agriculture income");
+             return false;
+         }else if (Objects.requireNonNull(tietIntrestIncome.getText()).length()<1){
+             tietIntrestIncome.setError("Please enter interest income");
+             return false;
+         }else if (Objects.requireNonNull(tietOtherIncome.getText()).length()<1){
+             tietOtherIncome.setError("Please enter other income");
+             return false;
+         }else if (Objects.requireNonNull(tietRentExpense.getText()).length()<1){
+             tietRentExpense.setError("Please enter rent expense");
+             return false;
+         }else if (Objects.requireNonNull(tietFoodExpense.getText()).length()<1){
+             tietFoodExpense.setError("Please enter food expense");
+             return false;
+         }else if (Objects.requireNonNull(tietEduExpense.getText()).length()<1){
+             tietEduExpense.setError("Please enter education expense");
+             return false;
+         }else if (Objects.requireNonNull(tietHealthExpense.getText()).length()<1){
+             tietHealthExpense.setError("Please enter health expense");
+             return false;
+         }else if (Objects.requireNonNull(tietUtilExpense.getText()).length()<1){
+             tietUtilExpense.setError("Please enter utility expense");
+             return false;
+         }else if (Objects.requireNonNull(tietOtherExpense.getText()).length()<1){
+             tietOtherExpense.setError("Please enter other expense");
+             return false;
+         }else if (Objects.requireNonNull(etLoanAppFinanceBankAccountNo.getText()).length()<1){
+             etLoanAppFinanceBankAccountNo.setError("Please enter bank account number");
+             return false;
+         }else if (Objects.requireNonNull(etLoanAppFinanceBankIfsc.getText()).length()<1){
+             etLoanAppFinanceBankIfsc.setError("Please enter bank IFSC");
+             return false;
+         }else if (Objects.requireNonNull(tietAadharNominee.getText()).length()<1){
+             tietAadharNominee.setError("Please enter nominee aadhaar id");
+             return false;
+         }else if (Objects.requireNonNull(tietNameNominee.getText()).length()<1){
+             tietNameNominee.setError("Please enter nominee name");
+             return false;
+         }else if (Objects.requireNonNull(tietAgeNominee.getText()).length()<1){
+             tietAgeNominee.setError("Please enter nominee age");
+             return false;
+         }else if (Objects.requireNonNull(tietDobNominee.getText()).length()<1){
+             tietDobNominee.setError("Please enter nominee DOB");
+             return false;
+         }else if (Objects.requireNonNull(tietGuardianNominee.getText()).length()<1){
+             tietGuardianNominee.setError("Please enter nominee Father Name");
+             return false;
+         }else if (Objects.requireNonNull(tietMobileNominee.getText()).length()<1){
+             tietMobileNominee.setError("Please enter nominee mobile number");
+             return false;
+         }
+
+        return true;
+
+    }
+
+    private void validateIFSC(final EditText editText, String text) {
+        editText.setError(null);
+        if (editText.length() != 11) {
+            editText.setError("Must be 11 Character");
+        } else if (!Verhoeff.validateIFSC(text)) {
+            editText.setError("Please input a valid IFSC. " + " " + text + "is not a valid IFSC");
+        } else {
+            DataAsyncHttpResponseHandler dataAsyncHttpResponseHandler = new DataAsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String jsonString = new String(responseBody);
+                    try {
+                        TextView tvBankName = (TextView) findViewById(R.id.tvLoanAppFinanceBankName);
+                        TextView tvBankBranch = (TextView) findViewById(R.id.tvLoanAppFinanceBankBranch);
+                        tvBankName.setText("");
+                        tvBankBranch.setText("");
+                        BankData bankData = WebOperations.convertToObject(jsonString, BankData.class);
+                        if (bankData.BANK == null) {
+                            editText.setError("This IFSC not available");
+                        } else
+                          //  if (borrower != null)
+                            {
+                          //  borrower.BankName = bankData.BANK.replace("á", "").replace("┬", "").replace("û", "").replace("ô", "");
+                          //  borrower.Bank_Address = bankData.ADDRESS.replace("á", "").replace("┬", "").replace("û", "").replace("ô", "");
+                            tvBankName.setText(bankData.BANK.replace("á", "").replace("┬", "").replace("û", "").replace("ô", ""));
+                            tvBankBranch.setText(bankData.ADDRESS.replace("á", "").replace("┬", "").replace("û", "").replace("ô", ""));
+                        }
+                    } catch (NullPointerException ne) {
+
+                    } catch (Exception e) {
+                        editText.setError("Try Again");
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(FiFormSecond.this, "IFSC not found ", Toast.LENGTH_LONG).show();
+                }
+            };
+            RequestParams params = new RequestParams();
+            params.add("IFSC", text);
+            (new WebOperations()).getEntity(FiFormSecond.this, "bankname", "getbankname", params, dataAsyncHttpResponseHandler);
+        }
+    }
+    private boolean validateControls(EditText editText, String text) {
+        boolean retVal = true;
+        editText.setError(null);
+        switch (editText.getId()) {
+            case R.id.tietAadhar:
+                if (editText.length() != 12) {
+                    editText.setError("Should be of 12 Characters");
+                    retVal = false;
+                } else if (!Verhoeff.validateVerhoeff(editText.getText().toString())) {
+                    editText.setError("Aadhar is not Valid");
+                    retVal = false;
+                }
+                break;
+            case R.id.tietDob:
+            case R.id.tietGuardian:
+            case R.id.tietName:
+                if (editText.length() < 3) {
+                    editText.setError("Should be more than 3 Characters");
+                    retVal = false;
+                }
+                break;
+
+            case R.id.tietAge:
+                try {
+                    if (text.length() == 0) text = "0";
+                    int age = Integer.parseInt(text);
+                    if (age < 18) {
+                        editText.setError("Age should be greater than 17");
+                        retVal = false;
+                    } else if (age > 65) {
+                        editText.setError("Age should be less than 66");
+                        retVal = false;
+                    }
+                    tietDobNominee.setEnabled(retVal);
+                }catch (Exception e){
+                    editText.setError("Age should be greater than 17");
+                }
+                break;
+
+        }
+        return retVal;
+    }
+
+    private void cardValidate(String id,String bankIfsc) {
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setTitle("Fetching Details");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        Retrofit retrofit = null;
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(SEILIGL.NEW_SERVERAPIAGARA)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+
+
+        ApiInterface apiInterface= retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,bankIfsc));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                try {
+                    tilBankAccountName.setVisibility(View.VISIBLE);
+
+                    tilBankAccountName.setText(response.body().get("data").getAsJsonObject().get("full_name").getAsString());
+                    checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                    checkBankAccountNuber.setEnabled(false);
+                }catch (Exception e){
+                    tilBankAccountName.setVisibility(View.VISIBLE);
+                    tilBankAccountName.setText("Card Holder Name Not Found");
+                    checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                    checkBankAccountNuber.setEnabled(true);
+
+                }
+                progressDialog.cancel();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                tilBankAccountName.setText(t.getMessage());
+                progressDialog.cancel();
+                checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+
+
+
+            }
+        });
+    }
+
+
+    private JsonObject getJsonOfString(String id, String bankIfsc) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("type","bankaccount");
+        jsonObject.addProperty("txtnumber",id);
+        jsonObject.addProperty("ifsc",bankIfsc);
+        jsonObject.addProperty("userdob","");
+        return  jsonObject;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -744,5 +1358,37 @@ int size=0;
 
 
         dialog.show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            /*
+            case R.id.btnSubmitKyc:
+                updateBorrower();
+                break;
+            case R.id.btnCancel:
+                finish();
+                break;
+            case R.id.btnCapturePhoto:
+                launchScanning();
+                break;
+                */
+            case R.id.tietDobNominee:
+                Date dob = DateUtils.getParsedDate(tietDobNominee.getText().toString(), "dd-MMM-yyyy");
+                try{
+                    if (!dob.equals(null)){
+                        myCalendar.setTime(dob);
+                    }
+                }catch (Exception e){
+
+                }
+
+                new DatePickerDialog(this, dateSetListner,
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
+                break;
+        }
     }
 }
