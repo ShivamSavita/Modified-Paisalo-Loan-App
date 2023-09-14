@@ -556,7 +556,7 @@ public class Borrower extends BaseModel implements Serializable {
     @PrimaryKey(autoincrement = true)
     public long FiID;
 
-    List<Guarantor> fiGuarantors;
+    public List<Guarantor> fiGuarantors;
 
     @Expose
     public List<BorrowerFamilyMember> fiFamMems;
@@ -756,6 +756,10 @@ public class Borrower extends BaseModel implements Serializable {
                 F_mname += (i > 1 ? " " : "") + bNames[i];
             }
         }
+    }
+
+    public void setFiGuarantors(List<Guarantor> fiGuarantors) {
+        this.fiGuarantors = fiGuarantors;
     }
 
     public String getBorrowerName() {
@@ -1347,7 +1351,6 @@ public class Borrower extends BaseModel implements Serializable {
                 ", fiExtra=" + fiExtra +
                 ", fiExtraBank=" + fiExtraBank +
                 ", FiID=" + FiID +
-                ", fiGuarantors=" + fiGuarantors +
                 ", fiFamMems=" + fiFamMems +
                 ", fiFamLoans=" + fiFamLoans +
                 ", fiFamExpenses=" + fiFamExpenses +
@@ -1505,6 +1508,11 @@ public class Borrower extends BaseModel implements Serializable {
         this.fiFamLoans = this.getFamilyLoans(borrowerDTO.fiFamLoans);
         this.fiFamMems = this.getFamilyMembers(borrowerDTO.fiFamMems);
         this.save();
+    }
+
+    public void setFiFamMems(List<BorrowerFamilyMember> borrowerFamilyMembers){
+
+        this.fiFamMems=borrowerFamilyMembers;
     }
 
     private List<BorrowerFamilyLoan> getFamilyLoans(List<BorrowerFamilyLoanDTO> fiFamLoans) {

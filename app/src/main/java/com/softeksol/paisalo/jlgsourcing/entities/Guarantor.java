@@ -1284,6 +1284,18 @@ public class Guarantor extends BaseModel implements Serializable {
     public Guarantor() {
     }
 
+    public Guarantor(String code, long fi_Code, int grNo, String name, String gurName, Date DOB, int age, String voterid, String isAadharVerified) {
+        Code = code;
+        this.fi_Code = fi_Code;
+        GrNo = grNo;
+        Name = name;
+        GurName = gurName;
+        this.DOB = DOB;
+        Age = age;
+        this.voterid = voterid;
+        this.isAadharVerified = isAadharVerified;
+    }
+
     public Guarantor(String code, long fi_Code, int grNo, String initials, String name, String gurInitials, String gurName, int corrAddr, String firmName, String offAdd1, String offAdd2, String offAdd3, String offCity, String offPh1, String offPh2, String offPh3, String offFax, String offMob1, String offMob2, String resAdd1, String resAdd2, String resAdd3, String resCity, String resPh1, String resPh2, String resPh3, String resFax, String resMob1, String resMob2, String perAdd1, String perAdd2, String perAdd3, String perCity, String perPh1, String perPh2, String perPh3, String perFax, String perMob1, String perMob2, String occupation, String occupTypeDesig, Date DOB, int age, String location, String PANNo, String bankAcNo, String bankName, String bankBranch, String otherCase, String remarks, String recoveryAuth, String recoveryExec, String type, String FDflag, String relation, String incomeTax, int minor, String creator, String userID, String auth_UserID, Date auth_Date, Date creation_Date, String mod_Type, String last_Mod_UserID, Date last_Mod_Date, String groupCode, String cityCode, String gender, String religion, int landHolding, String exServiceMan, int p_pin, int t_pin, int o_pin, String identityType, String identity_no, String p_StateID, String aadharid, String voterid, String drivinglic, String ESignSucceed, String isAadharVerified, String KYCUUID, long id, long concent, long fiID) {
         Code = code;
         this.fi_Code = fi_Code;

@@ -53,6 +53,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
+import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
@@ -727,6 +728,9 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             Toast.makeText(getApplicationContext(), "Enter Loan amount", Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(FiFormActivity.this, FiFormSecond.class);
+
+
+
             intent.putExtra("FatherFName", tietFatherFName.getText().toString());
             intent.putExtra("FatherLName", tietFatherLName.getText().toString());
             intent.putExtra("FatherMName", tietFatherMName.getText().toString());
@@ -755,6 +759,8 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             startActivity(intent);
         }
     }
+
+
 
 
     @Override

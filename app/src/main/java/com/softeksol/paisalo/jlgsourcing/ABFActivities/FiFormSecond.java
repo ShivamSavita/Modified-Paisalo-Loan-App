@@ -59,12 +59,15 @@ import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.BankData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyMember;
+import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
+import com.softeksol.paisalo.jlgsourcing.fragments.FragmentKycSubmit;
 import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
@@ -112,7 +115,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FiFormSecond extends AppCompatActivity implements View.OnClickListener{
 Button addFemIncomeBtn;
-
+String borrowerProfilePic,nomineeProfilePic;
     private TextWatcher ageTextWatcher;
 
     String FatherFName,FatherLName,FatherMName,MotherFName,MotherLName,MotherMName,SpouseLName,SpouseMName,SpouseFName,VoterIdName,PANName,DLName,AadharName,spinReligion,spinCaste,spinPresentHouseOwner,spinResidingFrom,spinHouseType,spinRoofType,PlaceOfBirth,FamHeadIncome,Occupation,HouseRent;
@@ -174,6 +177,7 @@ int size=0;
         PANName=i.getStringExtra("PANName");
         DLName=i.getStringExtra("DLName");
         AadharName=i.getStringExtra("AadharName");
+
 
         Log.d("TAG", "onCreate: FatherFName"+FatherFName);
         Log.d("TAG", "onCreate: FatherLName"+FatherLName);
@@ -427,6 +431,8 @@ int size=0;
         BtnFinalSaveKYCDataABF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if (validateAllFields())
                 {
                     if (borrower != null) {
@@ -436,8 +442,9 @@ int size=0;
                         borrower.save();
                         borrower.fiExtraBank.setMotherName(MotherFName);
                         borrower.fiExtraBank.setFatherName(FatherFName);
-                       // String occCode = Utils.getSpinnerStringValue(acspOccupation);
-//                        borrower.fiExtraBank.setCkycOccupationCode(occCode);
+
+//                       String occCode = Utils.getSpinnerStringValue(acspOccupation);
+                        borrower.fiExtraBank.setCkycOccupationCode(Occupation);
                         borrower.associateExtraBank(borrower.fiExtraBank);
                         borrower.fiExtraBank.save();
                         BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
@@ -459,36 +466,58 @@ int size=0;
                                     long FiCode = jo.getLong("FiCode");
                                     borrower.updateFiCode(FiCode, borrower.Tag);
                                     borrower.Oth_Prop_Det = null;
+                                    BorrowerFamilyExpenses expense=new BorrowerFamilyExpenses();
+                                    expense.setRent(Integer.valueOf(tietRentExpense.getText().toString()));
+                                    expense.setFooding(Integer.valueOf(tietFoodExpense.getText().toString()));
+                                    expense.setEducation(Integer.valueOf(tietEduExpense.getText().toString()));
+                                    expense.setHealth(Integer.valueOf(tietHealthExpense.getText().toString()));
+                                    expense.setTravelling(Integer.valueOf(tietTravelExpense.getText().toString()));
+                                    expense.setEntertainment(0);
+                                    expense.setOthers(Integer.valueOf(tietOtherExpense.getText().toString()));
+                                    expense.setHomeType(spinHouseType);
+                                    expense.setHomeRoofType(spinRoofType);
+                                    expense.setToiletType("");
+                                    expense.setLivingWSpouse("");
+                                    borrower.associateBorrowerFamilyExpenses(expense);
+                                    expense.save();
+                                    borrower.fiGuarantors=borrower.getFiGuarantors();
                                     borrower.save();
 
 //                                    fiDocGeoLoc=new FiDocGeoLoc(FiCode,borrower.Creator,isAdhaarEntry,isNameMatched);
 //                                    fiDocGeoLoc.save();
-                                    BorrowerExtra borrowerExtra=new BorrowerExtra(FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgriIncome),Utils.getNotNullText(tietOtherIncome),"",0,MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,0,Utils.getNotNullInt(tietIntrestIncome));
-                                    Log.d("TAG", "onCreate: "+FatherFName);
-                                    Log.d("TAG", "onCreate: "+FatherLName);
-                                    Log.d("TAG", "onCreate: "+FatherMName);
-                                    Log.d("TAG", "onCreate: "+MotherFName);
-                                    Log.d("TAG", "onCreate: "+MotherLName);
-                                    Log.d("TAG", "onCreate: "+MotherMName);
-                                    Log.d("TAG", "onCreate: "+SpouseLName);
-                                    Log.d("TAG", "onCreate: "+SpouseMName);
-                                    Log.d("TAG", "onCreate: "+SpouseFName);
+
+
+                                    BorrowerExtra borrowerExtra=new BorrowerExtra(FiCode,manager.Creator,Utils.getNotNullInt(tietIncomeMonthly),Utils.getNotNullInt(tietFutureIncome),Utils.getNotNullText(tietAgriIncome),Utils.getNotNullText(tietOtherIncome),"",0,MotherFName,MotherLName,MotherMName, FatherFName,FatherLName, FatherMName,borrower.Tag,SpouseLName,SpouseMName,SpouseFName,0,Utils.getNotNullInt(tietIntrestIncome),PlaceOfBirth);
+
 //                                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG,FiCode);
 
 //                                    borrower.associateExtraBank(borrowerExtraBank);
 
                                     borrower.fiExtra=borrowerExtra;
-                                    borrower.fiFamMems=borrowerFamilyMembersList;
 
+
+                                    for (BorrowerFamilyMember b:borrowerFamilyMembersList) {
+                                        b.associateBorrower(borrower);
+                                        b.save();
+                                    }
+
+
+
+                                    Log.d("TAG", "onSuccess borrower fiid: "+borrower.FiID);
+                                    Log.d("TAG", "onSuccess borrower fiid: "+borrower.getFiFamilyMembers().size());
+
+
+                                    Log.d("TAG", "onSuccess: famMemDetails "+WebOperations.convertToJson(borrower.fiFamMems));
 
 
                                     borrower.fiExtra.save();
-//                                    borrower.associateExtraBank(borrower.fiExtraBank);
-//                                    borrower.fiExtraBank.save();
+//
                                     borrower.save();
                                     Log.d("TAG", "onSuccess: "+borrower.fiExtra);
                                     Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.fiExtraBank));
+                                    Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.fiGuarantors));
                                     Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
+
 
                                     AsyncResponseHandler dataAsyncResponseHandlerUpdateFI = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application","Submitting Borrower Information") {
                                         @Override
@@ -500,9 +529,25 @@ int size=0;
                                             try {
                                                 JSONObject jo = new JSONObject(jsonString);
 
+                                                Guarantor guarantor=new Guarantor();
+                                                guarantor.setName(tietNameNominee.getText().toString());
+                                                guarantor.setAadharid(tietAadharNominee.getText().toString());
+                                                guarantor.setAge(Integer.parseInt(tietAgeNominee.getText().toString()));
+                                                guarantor.setFi_Code(borrower.Code);
 
+                                                guarantor.setCreator(borrower.Creator);
+
+                                                guarantor.setDOB(myCalendar.getTime());
+                                                guarantor.setGender(Utils.getSpinnerStringValue(acspGenderNominee));
+                                                guarantor.setGurName(tietGuardianNominee.getText().toString());
+                                                guarantor.setRelation(Utils.getSpinnerStringValue(acspRelationshipNominee));
+                                                guarantor.setVoterid(tietVoterNominee.getText().toString());
+                                                List<Guarantor> guarantorArrayList=new ArrayList<>();
+                                                guarantorArrayList.add(guarantor);
                                                 Log.d("CHeckJsonFinancing",jo+"");
                                                 Log.d("CHeckJsonFinancing1",jsonString+"");
+
+                                                saveDataOfGuarntor(guarantorArrayList);
 
 
                                                 borrower.Code = jo.getLong("FiCode");
@@ -521,6 +566,8 @@ int size=0;
                                         }
                                     };
                                     Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower));
+
+
                                     (new WebOperations()).postEntity(FiFormSecond.this, "posfi", "updatefi", WebOperations.convertToJson(borrower), dataAsyncResponseHandlerUpdateFI);
 
 
@@ -583,11 +630,39 @@ int size=0;
 
                 }else  {
                     Utils.alert(FiFormSecond.this, "There is at least one errors in the above data");
+
+
+
+
+
                 }
 
             }
         });
-    } private void UpdatefiVerificationDocName(long fiCode, String creator) {
+    }
+
+    private void saveDataOfGuarntor(List<Guarantor> guarantorArrayList) {
+        final AsyncResponseHandler guarantorAsyncResponseHandler = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application", "Updating Guarantor Information") {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String jsonString = new String(responseBody);
+                //Log.d("Response Data",jsonString);
+                Utils.showSnakbar(findViewById(android.R.id.content), "Guarantors saved with Loan Application Saved");
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                super.onFailure(statusCode, headers, responseBody, error);
+                Log.d("TAG", "onFailure: "+error.getMessage()+responseBody);
+            }
+        };
+        Log.d("TAG", "onClick: "+ WebOperations.convertToJson(guarantorArrayList));
+        (new WebOperations()).postEntity(FiFormSecond.this, "posguarantor", "saveguarantors", WebOperations.convertToJson(guarantorArrayList), guarantorAsyncResponseHandler);
+
+    }
+
+    private void UpdatefiVerificationDocName(long fiCode, String creator) {
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfDocName(fiCode, creator));
         Call<JsonObject> call=apiInterface.getDocNameDate(getJsonOfDocName(fiCode,creator));
@@ -911,6 +986,7 @@ int size=0;
                                     Log.e("CroppedImageFile4", croppedImage.getParent()+"");
                                     Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
                                     Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
+                                    nomineeProfilePic=croppedImage.getPath();
 
                                     setImagepath(croppedImage);
 
@@ -1206,6 +1282,7 @@ int size=0;
             //tietDob.setEnabled(true);
         }else{
             tietDobNominee.setText(DateUtils.getFormatedDate(date, "dd-MMM-yyyy"));
+            myCalendar.setTime(date);
            // borrower.DOB = date;
         }
         if (decodedData.get(6-inc).equals("")||decodedData.get(6-inc).equals(null)){
@@ -1299,10 +1376,17 @@ int size=0;
         AppCompatSpinner acspEducationDetail=dialogView.findViewById(R.id.acspEducationDetail);
         AppCompatSpinner acspBussinessType=dialogView.findViewById(R.id.acspBussinessType);
         AppCompatSpinner spinIncomeFamMemType=dialogView.findViewById(R.id.spinIncomeFamMemType);
+        AppCompatSpinner acspGenderFememem=dialogView.findViewById(R.id.acspGenderFememem);
         EditText spinIncomeFamMem=dialogView.findViewById(R.id.acspIncomeFamMem);
         EditText tietFamMemName=dialogView.findViewById(R.id.tietFamMemName);
         EditText txtFemMemBussiness=dialogView.findViewById(R.id.txtFemMemBussiness);
         Button femDialogaddBtn=dialogView.findViewById(R.id.femDialogaddBtn);
+        List<RangeCategory> genders = new ArrayList<>();
+        genders.add(new RangeCategory("Female", "Gender"));
+        genders.add(new RangeCategory("Male", "Gender"));
+        genders.add(new RangeCategory("Transgender", "Gender"));
+
+        acspGenderFememem.setAdapter(new AdapterListRange(this, genders, false));
         ArrayList<RangeCategory> relationSips = new ArrayList<>();
         relationSips.add(new RangeCategory("Husband", ""));
         relationSips.add(new RangeCategory("Father", ""));
@@ -1336,14 +1420,24 @@ int size=0;
                     spinIncomeFamMem.setError("Please enter member income");
 
                 }else  {
+
+
+
+
                     BorrowerFamilyMember borrowerFamilyMember=new BorrowerFamilyMember();
                     borrowerFamilyMember.setMemName(tietFamMemName.getText().toString());
                     borrowerFamilyMember.setRelationWBorrower(Utils.getSpinnerStringValue(acspRelationship));
+                    borrowerFamilyMember.setGender(Utils.getSpinnerStringValue(acspGenderFememem));
                     borrowerFamilyMember.setEducatioin(Utils.getSpinnerStringValue(acspEducationDetail));
                     borrowerFamilyMember.setBusiness(txtFemMemBussiness.getText().toString());
                     borrowerFamilyMember.setBusinessType(Utils.getSpinnerStringValue(acspBussinessType));
                     borrowerFamilyMember.setIncome(Integer.parseInt(spinIncomeFamMem.getText().toString().length()<1?"0":spinIncomeFamMem.getText().toString()));
                     borrowerFamilyMember.setIncomeType(Utils.getSpinnerStringValue(spinIncomeFamMemType));
+                    borrowerFamilyMember.setSchoolType("");
+
+                    borrowerFamilyMember.setHealth("");
+
+
                     borrowerFamilyMembersList.add(borrowerFamilyMember);
                     Log.d("TAG", "onClick: "+ borrowerFamilyMembersList.size());
                     addFemIncomeRecView.setAdapter(new AddFemIncomeAdapter(FiFormSecond.this,borrowerFamilyMembersList));

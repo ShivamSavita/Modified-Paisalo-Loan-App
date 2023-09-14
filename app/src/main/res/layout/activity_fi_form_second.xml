@@ -107,8 +107,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -171,8 +171,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -244,8 +244,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -309,8 +309,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -382,8 +382,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -447,8 +447,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -550,7 +550,8 @@
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
 
-                                    android:inputType="textCapCharacters"
+
+                                    android:inputType="number"
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -612,8 +613,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -685,8 +685,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -750,8 +749,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -823,8 +821,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -888,8 +886,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -962,8 +960,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />
@@ -1027,8 +1025,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
-                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"
-                                    android:inputType="textCapCharacters"
+                                    android:inputType="number"
+
 
                                     android:paddingStart="8dp"
                                     android:textSize="15dp" />

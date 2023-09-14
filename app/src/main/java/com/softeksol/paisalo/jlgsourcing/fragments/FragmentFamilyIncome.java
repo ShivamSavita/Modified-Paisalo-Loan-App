@@ -159,7 +159,6 @@ public class FragmentFamilyIncome extends AbsFragment {
         familyMember.setMemName(tietName.getText().toString());
         familyMember.setBusiness(tietBusiness.getText().toString());
         familyMember.setIncome(Integer.parseInt(tietIncome.getText().toString()));
-
         familyMember.setRelationWBorrower(Utils.getSpinnerStringValue(acsRelationship));
         familyMember.setGender(Utils.getSpinnerStringValue(acsGender));
         familyMember.setHealth(Utils.getSpinnerStringValue(acsHealth));

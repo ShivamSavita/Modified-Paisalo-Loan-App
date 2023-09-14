@@ -6,6 +6,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
+import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
 
 import java.util.Date;
 import java.util.List;
@@ -415,6 +416,8 @@ public class BorrowerDTO {
     @Expose
     public String IsNameVerify;
 
+    public List<Guarantor> fiGuarantors;
+
 
     public BorrowerDTO() {
     }
@@ -549,6 +552,8 @@ public class BorrowerDTO {
         this.VoterID = borrower.voterid;
         this.isAdhaarEntry = borrower.isAdhaarEntry;
         this.IsNameVerify = borrower.IsNameVerify;
+        this.fiGuarantors=borrower.fiGuarantors;
+
 
         BorrowerExtraBank borrowerExtraBank = borrower.getBorrowerExtraBank();
         if (borrowerExtraBank == null) {
@@ -715,6 +720,7 @@ public class BorrowerDTO {
                 ", fiExtra=" + fiExtra +
                 ", fiExtraBank=" + fiExtraBankBo +
                 ", fiFamExpenses=" + fiFamExpenses +
+                ", fiGuarantors=" + fiGuarantors +
                 ", fiFamLoans=" + fiFamLoans +
                 '}';
     }

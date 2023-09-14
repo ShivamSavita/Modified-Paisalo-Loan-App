@@ -48,6 +48,7 @@ public class AddFemIncomeAdapter extends RecyclerView.Adapter<AddFemIncomeAdapte
         holder.acspEduDetail.setText(list.get(position).getEducatioin());
          holder.acspBusinessType.setText(list.get(position).getBusinessType());
         holder.famMemIncomeType.setText(list.get(position).getIncomeType());
+        holder.tietMemberGender.setText(list.get(position).getGender());
         holder.femMemRemoveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,7 @@ public class AddFemIncomeAdapter extends RecyclerView.Adapter<AddFemIncomeAdapte
     }
 
     public class FemIncomeViewHolder extends RecyclerView.ViewHolder {
-        TextInputEditText tietMemberName,tietBusinessFemMe;
+        TextInputEditText tietMemberName,tietBusinessFemMe,tietMemberGender;
         EditText acspRelationship,acspEduDetail,acspBusinessType,famMemIncomeType,famMemIncome;
         TextView FamMemNumberTxt;
         ImageButton femMemRemoveBtn;
@@ -80,6 +81,7 @@ public class AddFemIncomeAdapter extends RecyclerView.Adapter<AddFemIncomeAdapte
             acspEduDetail=itemView.findViewById(R.id.acspEduDetail);
             acspBusinessType=itemView.findViewById(R.id.acspBusinessType);
             famMemIncomeType=itemView.findViewById(R.id.famMemIncomeType);
+            tietMemberGender=itemView.findViewById(R.id.tietMemberGender);
         }
     }
 }
