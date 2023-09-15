@@ -290,6 +290,8 @@ public class ActivityESingList extends AppCompatActivity {
         unsignedDocRequest.FiCode = eSigner.FiCode;
         unsignedDocRequest.DocName = "loan_application" + (IglPreferences.getPrefString(this, SEILIGL.IS_ACTUAL, "").equals("Y") ? "_sample" : "");
         unsignedDocRequest.UserID = IglPreferences.getPrefString(this, SEILIGL.USER_ID, "");
+
+        Log.d("TAG", "downloadUnsignedDoc: "+WebOperations.convertToJson(unsignedDocRequest));
         (new WebOperations()).postEntityESign(this, "DocESignLoanApplication", "downloadunsigneddoc", WebOperations.convertToJson(unsignedDocRequest), fileAsyncResponseHandler);
     }
 

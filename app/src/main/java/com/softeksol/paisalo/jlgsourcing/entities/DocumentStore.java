@@ -3,6 +3,7 @@ package com.softeksol.paisalo.jlgsourcing.entities;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.loopj.android.http.AsyncHttpClient;
@@ -176,6 +177,8 @@ DocumentStore extends BaseModel {
         if (file.exists()) {
             byte[] bytes = Utils.getBytesFromFile(file);
             dto.Document = Base64.encodeToString(bytes, Base64.DEFAULT);
+        }else {
+            Log.d("TAG", "getDocumentDTO: guarntor file not found");
         }
         return dto;
     }

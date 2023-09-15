@@ -330,6 +330,8 @@ public class BorrowerExtra extends BaseModel implements Serializable {
         this.PensionIncome=pensionIncome;
         this.InterestIncome=interestIncome;
         this.PLACE_OF_BIRTH=placeOfBirth;
+
+
     }
 
     public BorrowerExtra(){}

@@ -41,6 +41,7 @@ import com.softeksol.paisalo.dealers.Adapters.AddFemIncomeAdapter;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Adapter.OEMByDealerAdapter;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.OEMByCreatorModel;
+import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -61,14 +62,20 @@ import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyMember;
+import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.DocumentStoreDTO;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumApiPath;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumFieldName;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumImageTags;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentKycSubmit;
 import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -437,11 +444,20 @@ int size=0;
                 {
                     if (borrower != null) {
 
+                        borrower.bank_ac_no = Utils.getNotNullText(etLoanAppFinanceBankAccountNo);
+                        borrower.BankAcOpenDt = DateUtils.getParsedDate(howOldAccount.getText().toString(),"dd-MM-yyyy");
 
+                        borrower.Enc_Property = Utils.getNotNullText(etLoanAppFinanceBankIfsc);
+//            borrower.fiExtraBank.setBankCif(Utils.getNotNullText(etCIF));
+                        borrower.BankName = Utils.getNotNullText((TextView) findViewById(R.id.tvLoanAppFinanceBankName));
+                        borrower.Bank_Address = Utils.getNotNullText((TextView) findViewById(R.id.tvLoanAppFinanceBankBranch));
                         borrower.Oth_Prop_Det = null;
                         borrower.save();
                         borrower.fiExtraBank.setMotherName(MotherFName);
                         borrower.fiExtraBank.setFatherName(FatherFName);
+                        borrower.Enc_Property=etLoanAppFinanceBankAccountNo.getText().toString().trim();
+                        borrower.bank_ac_no=etLoanAppFinanceBankAccountNo.getText().toString().trim();
+
 
 //                       String occCode = Utils.getSpinnerStringValue(acspOccupation);
                         borrower.fiExtraBank.setCkycOccupationCode(Occupation);
@@ -542,13 +558,16 @@ int size=0;
                                                 guarantor.setGurName(tietGuardianNominee.getText().toString());
                                                 guarantor.setRelation(Utils.getSpinnerStringValue(acspRelationshipNominee));
                                                 guarantor.setVoterid(tietVoterNominee.getText().toString());
+                                                guarantor.setPicture(nomineeProfilePic);
+                                                guarantor.associateBorrower(borrower);
                                                 List<Guarantor> guarantorArrayList=new ArrayList<>();
                                                 guarantorArrayList.add(guarantor);
                                                 Log.d("CHeckJsonFinancing",jo+"");
                                                 Log.d("CHeckJsonFinancing1",jsonString+"");
 
                                                 saveDataOfGuarntor(guarantorArrayList);
-
+                                                saveDataOfImages(borrower,borrower.getPicture().getPath(),"B");
+                                                saveDataOfImages(borrower,nomineeProfilePic,"N");
 
                                                 borrower.Code = jo.getLong("FiCode");
                                                 borrower.Oth_Prop_Det = "U";
@@ -641,12 +660,98 @@ int size=0;
         });
     }
 
+    private void saveDataOfImages(Borrower borrower, String borrowerProfilePic,String imgTag) {
+        DocumentStore documentStore = new DocumentStore();
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"",
+//                "FICode":272664,"GrNo":0,"ImageTag":"CUSTIMG",
+//                "Tag":"CLAG","UserID":"GRST000223","latitude":0.0,
+//                "longitude":0.0,"timestamp":"01-Jul-1996"}
+
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"","FICode":272678,
+//                "GrNo":1,"ImageTag":"GUARPIC","Tag":"CLAG",
+//                "UserID":"GRST000223","latitude":0.0,"longitude":0.0,"timestamp":"01-Jul-1996"}
+
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"",
+//                "FICode":266173,"GrNo":1,"ImageTag":"GUARPIC",
+//                "Tag":"CLAG","UserID":"","latitude":0.0,"longitude":0.0,"timestamp":"01-Jul-1996"}
+
+        documentStore.Creator = borrower.Creator;
+        documentStore.ficode = borrower.Code;
+        documentStore.fitag = borrower.Tag;
+
+        documentStore.remarks = "Picture";
+        documentStore.checklistid = 0;
+        documentStore.userid = borrower.UserID;
+        documentStore.latitude = 0;
+        documentStore.longitude = 0;
+        documentStore.DocId = 0;
+        documentStore.FiID =0;
+        documentStore.updateStatus = false;
+        //documentStore.imagePath = mDocumentStore.imagePath;
+        //documentStore.imagePath = "file:" + mDocumentStore.imagePath;
+        if (imgTag.equals("B")){
+            documentStore.GuarantorSerial = 0;
+            documentStore.imageTag = EnumImageTags.Borrower.getImageTag();
+            documentStore.fieldname = EnumFieldName.Borrower.getFieldName();
+            documentStore.apiRelativePath = EnumApiPath.BorrowerApiJson.getApiPath();
+        }else{
+            documentStore.GuarantorSerial = 1;
+            documentStore.imageTag = EnumImageTags.Guarantor.getImageTag();
+            documentStore.fieldname = EnumFieldName.Guarantor.getFieldName();
+            documentStore.apiRelativePath = EnumApiPath.GuarantorApi.getApiPath();
+        }
+
+
+        documentStore.imagePath = borrowerProfilePic;
+        Toast.makeText(this, documentStore.imagePath+"", Toast.LENGTH_SHORT).show();
+        Log.d("TAG", "saveDataOfImages: "+documentStore.imagePath);
+
+
+
+        DataAsyncResponseHandler responseHandler = new DataAsyncResponseHandler(FiFormSecond.this, "Loan Financing", "Uploading " + DocumentStore.getDocumentName(documentStore.checklistid)) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String responseString = new String(responseBody);
+                //Utils.showSnakbar( findViewById(android.R.id.content).getRootView(), responseString);
+                //if(responseString.equals("")) {
+
+
+                Log.d("TAG", "onSuccess: "+responseString);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                super.onFailure(statusCode, headers, responseBody, error);
+
+            }
+        };
+        DocumentStoreDTO documentStore1=documentStore.getDocumentDTO();
+        documentStore1.Document="";
+        Log.d("TAG", "uploadKycJson: "+WebOperations.convertToJson(documentStore1));
+
+        String jsonString = WebOperations.convertToJson(documentStore.getDocumentDTO());
+       // Log.d("Document Json",jsonString);
+        String apiPath = documentStore.checklistid == 0 ? "/api/uploaddocs/savefipicjson" : "/api/uploaddocs/savefidocsjson";
+        (new WebOperations()).postEntity(FiFormSecond.this, BuildConfig.BASE_URL + apiPath, jsonString, responseHandler);
+
+
+
+
+
+
+
+
+
+
+    }
+
     private void saveDataOfGuarntor(List<Guarantor> guarantorArrayList) {
         final AsyncResponseHandler guarantorAsyncResponseHandler = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application", "Updating Guarantor Information") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
-                //Log.d("Response Data",jsonString);
+                Log.d("Response Data",jsonString);
                 Utils.showSnakbar(findViewById(android.R.id.content), "Guarantors saved with Loan Application Saved");
 
             }
@@ -756,7 +861,10 @@ int size=0;
          }else if (Objects.requireNonNull(tietMobileNominee.getText()).length()<1){
              tietMobileNominee.setError("Please enter nominee mobile number");
              return false;
-         }
+         }else if (nomineeProfilePic==null ){
+            Toast.makeText(getApplicationContext(), "Please Capture Borrower Picture First!!", Toast.LENGTH_SHORT).show();
+             return false;
+        }
 
         return true;
 
@@ -986,7 +1094,9 @@ int size=0;
                                     Log.e("CroppedImageFile4", croppedImage.getParent()+"");
                                     Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
                                     Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
+
                                     nomineeProfilePic=croppedImage.getPath();
+                                    Log.d("TAG", "onActivityResult: "+nomineeProfilePic);
 
                                     setImagepath(croppedImage);
 

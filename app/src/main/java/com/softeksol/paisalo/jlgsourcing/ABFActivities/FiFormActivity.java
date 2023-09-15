@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
@@ -58,6 +59,11 @@ import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.DocumentStoreDTO;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumApiPath;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumFieldName;
+import com.softeksol.paisalo.jlgsourcing.enums.EnumImageTags;
+import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
@@ -91,6 +97,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import a.a.e.d;
+import cz.msebera.android.httpclient.Header;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -115,6 +122,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
     private Uri uriPicture;
     private BorrowerExtra borrowerExtra;
     protected static final byte SEPARATOR_BYTE = (byte)255;
+    String borrowerPics;
     protected static final int VTC_INDEX = 15;
     AdapterListRange genderAdapter;
     private TextInputEditText tietAadharId, tietName, tietAge, tietDob, tietGuardian,
@@ -385,8 +393,8 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         BtnFinalSaveKYCData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                updateBorrower();
+                saveDataOfImages(borrowerPics);
+//                updateBorrower();
 
 
 
@@ -479,6 +487,9 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
     private void  updateBorrower() {
         if(stateData.equalsIgnoreCase("APO Address")){
             Toast.makeText(getApplicationContext(), "Select State Name", Toast.LENGTH_SHORT).show();
+        }else if (borrower.getPicture()==null ){
+            Toast.makeText(getApplicationContext(), "Please Capture Borrower Picture First!!", Toast.LENGTH_SHORT).show();
+
         }else{
             if (borrower != null) {
                 getDataFromView(this.findViewById(android.R.id.content).getRootView());
@@ -676,6 +687,108 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             }
         }
     }
+
+
+
+    private void saveDataOfImages( String borrowerProfilePic) {
+        DocumentStore documentStore = new DocumentStore();
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"",
+//                "FICode":272664,"GrNo":0,"ImageTag":"CUSTIMG",
+//                "Tag":"CLAG","UserID":"GRST000223","latitude":0.0,
+//                "longitude":0.0,"timestamp":"01-Jul-1996"}
+
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"","FICode":272678,
+//                "GrNo":1,"ImageTag":"GUARPIC","Tag":"CLAG",
+//                "UserID":"GRST000223","latitude":0.0,"longitude":0.0,"timestamp":"01-Jul-1996"}
+
+//        {"ChecklistID":0,"Creator":"AGRA","DocRemark":"Picture","Document":"",
+//                "FICode":266173,"GrNo":1,"ImageTag":"GUARPIC",
+//                "Tag":"CLAG","UserID":"","latitude":0.0,"longitude":0.0,"timestamp":"01-Jul-1996"}
+
+        documentStore.Creator = "Agra";
+        documentStore.ficode = 272654;
+        documentStore.fitag = "CLAG";
+
+        documentStore.remarks = "Picture";
+        documentStore.checklistid = 0;
+        documentStore.userid = "";
+        documentStore.latitude = 0;
+        documentStore.longitude = 0;
+        documentStore.DocId = 0;
+        documentStore.FiID =0;
+        documentStore.updateStatus = false;
+        //documentStore.imagePath = mDocumentStore.imagePath;
+        //documentStore.imagePath = "file:" + mDocumentStore.imagePath;
+//        if (imgTag.equals("B")){
+//            documentStore.GuarantorSerial = 0;
+//            documentStore.imageTag = EnumImageTags.Borrower.getImageTag();
+//            documentStore.fieldname = EnumFieldName.Borrower.getFieldName();
+//            documentStore.apiRelativePath = EnumApiPath.BorrowerApiJson.getApiPath();
+//        }else{
+//            documentStore.GuarantorSerial = 1;
+//            documentStore.imageTag = EnumImageTags.Guarantor.getImageTag();
+//            documentStore.fieldname = EnumFieldName.Guarantor.getFieldName();
+//            documentStore.apiRelativePath = EnumApiPath.GuarantorApi.getApiPath();
+//        }
+
+        documentStore.GuarantorSerial = 1;
+        documentStore.imageTag = EnumImageTags.Guarantor.getImageTag();
+        documentStore.fieldname = EnumFieldName.Guarantor.getFieldName();
+        documentStore.apiRelativePath = EnumApiPath.GuarantorApiJson.getApiPath();
+
+
+        documentStore.imagePath = borrowerProfilePic;
+        Toast.makeText(this, documentStore.imagePath+"", Toast.LENGTH_SHORT).show();
+        Log.d("TAG", "saveDataOfImages: "+documentStore.imagePath);
+
+
+
+        DataAsyncResponseHandler responseHandler = new DataAsyncResponseHandler(FiFormActivity.this, "Loan Financing", "Uploading " + DocumentStore.getDocumentName(documentStore.checklistid)) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String responseString = new String(responseBody);
+                //Utils.showSnakbar( findViewById(android.R.id.content).getRootView(), responseString);
+                //if(responseString.equals("")) {
+
+
+                Log.d("TAG", "onSuccess: "+responseString);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                super.onFailure(statusCode, headers, responseBody, error);
+
+            }
+        };
+        DocumentStoreDTO documentStore1=documentStore.getDocumentDTO();
+        documentStore1.Document="";
+        Log.d("TAG", "uploadKycJson: "+WebOperations.convertToJson(documentStore1));
+
+        String jsonString = WebOperations.convertToJson(documentStore.getDocumentDTO());
+        Log.d("Document Json",jsonString);
+        String apiPath = documentStore.checklistid == 0 ? "/api/uploaddocs/savefipicjson" : "/api/uploaddocs/savefidocsjson";
+        (new WebOperations()).postEntity(FiFormActivity.this, BuildConfig.BASE_URL + apiPath, jsonString, responseHandler);
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
     private void getDataFromView(View v) {
         GpsTracker gpsTracker=new GpsTracker(FiFormActivity.this);
         borrower.aadharid = Utils.getNotNullText(tietAadharId);
@@ -719,6 +832,8 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
 
 
     private void sendingDataToNewPage() {
+
+
         if(txtPlaceOfBirth.getText().toString().length()==0){
             Toast.makeText(getApplicationContext(), "Enter Place of Birth", Toast.LENGTH_SHORT).show();
         }else if(txtFamHeadIncome.getText().toString().length()==0){
@@ -850,6 +965,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
 
 //                                    borrower.setPicture(croppedImage.getPath(),ImageString);
                                     borrower.setPicture(croppedImage.getPath());
+                                    borrowerPics=croppedImage.getPath();
                                     borrower.Oth_Prop_Det = null;
                                     borrower.save();
                                     showPicture(borrower);

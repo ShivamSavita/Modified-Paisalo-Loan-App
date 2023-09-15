@@ -616,6 +616,7 @@ public class ActivityFinancing extends AppCompatActivity
                     borrower.save();
                     if (borrower.getFiGuarantors().size() > 0) {
                         borrower.updateFiGuarantors();
+                        Log.d("TAG", "onSuccess: "+WebOperations.convertToJson(borrower.getFiGuarantors()));
                         (new WebOperations()).postEntity(context, "posguarantor", "saveguarantors", WebOperations.convertToJson(borrower.getFiGuarantors()), guarantorAsyncResponseHandler);
                     } else {
                         fragment = FragmentKycSubmit.newInstance(borrower.FiID);

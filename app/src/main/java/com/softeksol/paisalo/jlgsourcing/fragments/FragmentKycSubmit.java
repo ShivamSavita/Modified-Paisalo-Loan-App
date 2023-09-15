@@ -29,6 +29,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore_Table;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.DocumentStoreDTO;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 
 import java.io.File;
@@ -151,7 +152,6 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
         documentStores.clear();
 //        Log.e("DOCUMENTStoreChecking2",borrower.getPicture()+"");
         if (borrower == null) {
-
             documentStores.addAll(SQLite.select().from(DocumentStore.class)
                     .where(DocumentStore_Table.updateStatus.eq(false))
                     .and(DocumentStore_Table.ficode.greaterThan(0))
@@ -295,6 +295,9 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
                 view.setActivated(true);
             }
         };
+        DocumentStoreDTO documentStore1=documentStore.getDocumentDTO();
+        documentStore1.Document="";
+        Log.d("TAG", "uploadKycJson: "+WebOperations.convertToJson(documentStore1));
 
         String jsonString = WebOperations.convertToJson(documentStore.getDocumentDTO());
         Log.d("Document Json",jsonString);

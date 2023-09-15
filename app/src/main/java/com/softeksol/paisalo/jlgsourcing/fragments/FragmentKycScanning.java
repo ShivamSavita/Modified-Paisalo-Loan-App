@@ -170,9 +170,9 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         mDocumentStore = (DocumentStore) adapterView.getItemAtPosition(i);
-
+        Log.d("TAG", "onItemClick: "+mDocumentStore.updateStatus);
         if (mDocumentStore.remarks.equals("PANCard")){
-            if(IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals("")){
+            if(IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals("") && mDocumentStore.updateStatus!=false){
                 Utils.alert(activity,"Please capture Aadhar Front first");
             }else{
                 //Utils.showSnakbar(getView(),String.valueOf(mDocumentStore.checklistid));
@@ -190,7 +190,6 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
 
                     ImagePicker.with(this)
                             .cameraOnly()
-                            .compress(500)
                             .start(CameraUtils.REQUEST_TAKE_PHOTO);
 //            try {
 //                CameraUtils.dispatchTakePictureIntent(this);
