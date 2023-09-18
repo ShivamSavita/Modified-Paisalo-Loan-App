@@ -565,9 +565,7 @@ int size=0;
                                                 Log.d("CHeckJsonFinancing",jo+"");
                                                 Log.d("CHeckJsonFinancing1",jsonString+"");
 
-                                                saveDataOfGuarntor(guarantorArrayList);
-                                                saveDataOfImages(borrower,borrower.getPicture().getPath(),"B");
-                                                saveDataOfImages(borrower,nomineeProfilePic,"N");
+                                                saveDataOfGuarntor(guarantorArrayList,borrower);
 
                                                 borrower.Code = jo.getLong("FiCode");
                                                 borrower.Oth_Prop_Det = "U";
@@ -746,13 +744,16 @@ int size=0;
 
     }
 
-    private void saveDataOfGuarntor(List<Guarantor> guarantorArrayList) {
+    private void saveDataOfGuarntor(List<Guarantor> guarantorArrayList ,Borrower borrower) {
         final AsyncResponseHandler guarantorAsyncResponseHandler = new AsyncResponseHandler(FiFormSecond.this, "Loan Financing\nSubmittiong Loan Application", "Updating Guarantor Information") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
                 Log.d("Response Data",jsonString);
                 Utils.showSnakbar(findViewById(android.R.id.content), "Guarantors saved with Loan Application Saved");
+
+                saveDataOfImages(borrower,borrower.getPicture().getPath(),"B");
+                saveDataOfImages(borrower,nomineeProfilePic,"N");
 
             }
 
