@@ -313,6 +313,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         svOldCase.setVisibility(View.GONE);
         svOldCase.setIconified(false);
         svOldCase.setOnClickListener(this);
+        TextView Capture_Aadhar=findViewById(R.id.Capture_Aadhar);
+        Capture_Aadhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
         /*svOldCase.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

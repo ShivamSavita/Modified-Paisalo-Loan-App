@@ -190,7 +190,7 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
 
                     ImagePicker.with(this)
                             .cameraOnly()
-                            .compress(500)
+                           // .compress(500)
                             .start(CameraUtils.REQUEST_TAKE_PHOTO);
 //            try {
 //                CameraUtils.dispatchTakePictureIntent(this);

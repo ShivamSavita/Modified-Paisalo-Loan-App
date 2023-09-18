@@ -44,7 +44,7 @@
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/slider"
                         android:layout_width="0dp"
-                        android:layout_height="170dp"
+                        android:layout_height="140dp"
                         android:layout_centerInParent="true"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -78,6 +78,49 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                     tools:ignore="MissingConstraints">
 
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:background="@drawable/spinner_bggrey"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:text="INDICATIVE INCENTIVE"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/text_earnedMessage"
+                            android:layout_marginTop="3dp"
+                            android:textStyle="bold"
+                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text=""
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:textStyle="bold"
+                            android:textSize="32dp"
+                            android:gravity="center"
+                            android:textColor="@color/dull_green2"
+                            android:text="₹ Upcoming..."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:textStyle="italic"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            android:text="(Final incentive as per prevailing incentive scheme)"
+                            android:textSize="11dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
                     <GridView
                         android:id="@+id/lvcOpSelect"
                         android:layout_width="match_parent"
@@ -99,6 +142,7 @@
 
 
         <androidx.cardview.widget.CardView
+            android:visibility="gone"
             android:id="@+id/cardView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

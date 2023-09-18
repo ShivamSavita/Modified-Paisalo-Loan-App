@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -55,7 +56,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -166,6 +173,15 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
 //        }
 
         GridView lv = (GridView) findViewById(R.id.lvcOpSelect);
+        TextView text_earnedMessage=findViewById(R.id.text_earnedMessage);
+        DateTimeFormatter dtf = null;
+        SimpleDateFormat  simpleformat = new SimpleDateFormat("MMMM");
+        String strMonth= simpleformat.format(new Date());
+        text_earnedMessage.setText("Indicative Incentive Earned for the Month of "+ strMonth+" is:");
+
+
+
+
 
         lv.setAdapter(new AdapterOperation(ActivityOperationSelect.this, operationItems));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -203,7 +219,13 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
 
     }
 
-
+    private static int getMonth(String date) throws ParseException {
+        Date d = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        int month = cal.get(Calendar.MONTH);
+        return month + 1;
+    }
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ActivityOperationSelect.this);
 
