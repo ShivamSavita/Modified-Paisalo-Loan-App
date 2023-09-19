@@ -56,6 +56,8 @@ import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 
 
@@ -104,14 +106,20 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             eSignerborower = (ESignBorrower) data.getSerializableExtra("ESIGN_BORROWER");
             esignType = data.getIntExtra(ESIGN_TYPE_TAG, 1);
         }
+        Log.d("TAG", "onResponse: DPL "+eSigner.docPath);
 
 
         if (eSigner.docPath != null) {
+          //  String[] filePaths=eSigner.docPath.split(",");
             fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            Fragment frag = MuPDFFragment.newInstance(eSigner.docPath, false);
-            ft.add(R.id.pdfview, frag);
+          //  for (String path:filePaths) {
+                Fragment frag = MuPDFFragment.newInstance(eSigner.docPath, false);
+                ft.add(R.id.pdfview, frag);
+
+            //}
             ft.commit();
+
         }
         ((TextView) findViewById(R.id.tvESignName)).setText(eSigner.Name);
         ((TextView) findViewById(R.id.tvESignGuardian)).setText(eSigner.FatherName);
