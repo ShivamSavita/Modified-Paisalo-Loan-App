@@ -443,7 +443,7 @@ public class ActivityFinancing extends AppCompatActivity
                 input.setLayoutParams(lp);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFinancing.this);
                 builder.setTitle("Aadhar eKYC ");
-                builder.setMessage("Father /Husband name missing, please input below");
+                builder.setMessage("Father/Husband name missing, please input below");
                 builder.setView(input);
                 DialogInterface.OnClickListener onSaveClickListener = new DialogInterface.OnClickListener() {
                     @Override

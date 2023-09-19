@@ -158,7 +158,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     String loanDurationData,stateData,genderData;
     boolean aadharNumberentry=false;
     String isAdhaarEntry ="N";
-    String isNameMatched ="0";
+    String isNameMatched ="N";
     int isPanverify=0;
     int isDLverify=0;
     int isVoterverify=0;
@@ -196,10 +196,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         });
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
 
-// Storing data into SharedPreferences
+        // Storing data into SharedPreferences
         sharedPreferences = getSharedPreferences("KYCData",MODE_PRIVATE);
 
-// Creating an Editor object to edit(write to the file)
+       // Creating an Editor object to edit(write to the file)
         editor = sharedPreferences.edit();
         //borrower = new Borrower();
         borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, ""));
@@ -1441,8 +1441,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     }
                                     else{
                                         if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])) {
-
-
                                             AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
                                             builder.setTitle("Caution!!");
                                             builder.setMessage("want to save  data without Voter Id Name and Aadhaar Name matching");
@@ -1798,7 +1796,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         panCheckSign.setEnabled(false);
-                        isNameMatched="1";
+                        isNameMatched="Y";
                         isPanverify=1;
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
@@ -1814,7 +1812,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         voterIdCheckSign.setEnabled(false);
-                        isNameMatched="1";
+                        isNameMatched="Y";
                         isVoterverify=1;
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
@@ -1832,7 +1830,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                         dLCheckSign.setEnabled(false);
-                        isNameMatched="1";
+                        isNameMatched="Y";
                         isDLverify=1;
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
@@ -2004,9 +2002,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             e.printStackTrace();
         }
     }
-
-
-
 
     public static Retrofit getClientPan(String BASE_URL) {
         Retrofit retrofit = null;
