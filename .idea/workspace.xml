@@ -25,8 +25,6 @@
   <component name="ChangeListManager">
     <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/Utilities/AadharUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/Utilities/AadharUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,13 +245,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677736548092</updated>
-    </task>
-    <task id="LOCAL-00012" summary="            Some UI changes are done with">
-      <created>1678865825440</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1678865825440</updated>
     </task>
     <task id="LOCAL-00013" summary="            Some UI changes are done with">
       <created>1678865843981</created>
@@ -591,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695118628220</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="All the things are done with PAN card and Aadhar Crad">
+      <created>1695127466628</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1695127466628</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -646,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bank scheme dynamic set in Crif Score page" />
     <MESSAGE value="validation done in OEM basic detailes" />
     <MESSAGE value="Error solve in 1.5.0 version" />
     <MESSAGE value="Document work in process" />
@@ -671,7 +668,8 @@
     <MESSAGE value="Address,Expense%,OCR data 18-08-23" />
     <MESSAGE value="Address,Expense%,OCR data 29-08-23" />
     <MESSAGE value="PAN Adhar data fetching by ocr" />
-    <option name="LAST_COMMIT_MESSAGE" value="PAN Adhar data fetching by ocr" />
+    <MESSAGE value="All the things are done with PAN card and Aadhar Crad" />
+    <option name="LAST_COMMIT_MESSAGE" value="All the things are done with PAN card and Aadhar Crad" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
