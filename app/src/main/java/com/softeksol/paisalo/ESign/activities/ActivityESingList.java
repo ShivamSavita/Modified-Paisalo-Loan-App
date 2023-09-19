@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -34,17 +37,30 @@ import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.handlers.FileAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityESingList extends AppCompatActivity {
     private List<ESignBorrower> eSignBorrowers = new ArrayList<>();
@@ -273,12 +289,15 @@ public class ActivityESingList extends AppCompatActivity {
                 if (statusCode == 200) {
                     Utils.showSnakbar(findViewById(android.R.id.content), R.string.loan_detail_doc_download_success);
                     Log.d("TAG", "onSuccess: "+file.getPath());
-                    eSigner.docPath = file.getPath();
-                    Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
-                    intent.putExtra(Global.ESIGNER_TAG, eSigner);
-                    intent.putExtra(ESIGN_TYPE_TAG, esignType);
-                    intent.putExtra("ESIGN_BORROWER", borrower);
-                    startActivity(intent);
+
+
+                       getVHAccOpenForm(file.getPath(),eSigner,esignType,borrower);
+////                    eSigner.docPath = file.getPath();
+//                    Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
+//                    intent.putExtra(Global.ESIGNER_TAG, eSigner);
+//                    intent.putExtra(ESIGN_TYPE_TAG, esignType);
+//                    intent.putExtra("ESIGN_BORROWER", borrower);
+//                    startActivity(intent);
                     //startActivityForResult(intent, Global.ESIGN_REQUEST_CODE);
 
                 }
@@ -291,6 +310,120 @@ public class ActivityESingList extends AppCompatActivity {
         unsignedDocRequest.DocName = "loan_application" + (IglPreferences.getPrefString(this, SEILIGL.IS_ACTUAL, "").equals("Y") ? "_sample" : "");
         unsignedDocRequest.UserID = IglPreferences.getPrefString(this, SEILIGL.USER_ID, "");
         (new WebOperations()).postEntityESign(this, "DocESignLoanApplication", "downloadunsigneddoc", WebOperations.convertToJson(unsignedDocRequest), fileAsyncResponseHandler);
+    }
+
+    private void getVHAccOpenForm(String path, ESigner eSigner, int esignType, ESignBorrower borrower) {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPISERVISE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+
+
+
+        ApiInterface apiInterface= retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getFileApplicationFormPdfForVHAccOpen(SEILIGL.NEW_TOKEN,eSigner.Creator,250003);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+
+                byte[] pdfAsBytes = Base64.decode(response.body().get("data").getAsString(), 0);
+
+                File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), eSigner.FiCode+eSigner.Creator+"getVHAccOpenForm.pdf");
+                Log.d("TAG", "onResponse: "+filePath.getPath());
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(filePath, true);
+                    os.write(pdfAsBytes);
+                    os.flush();
+                    os.close();
+                }  catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                eSigner.docPath = filePath.getPath();
+               // eSigner.docPath = path+","+filePath.getPath();
+                AadharSehmatiFromPdf(eSigner.docPath,eSigner,esignType,borrower);
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+    }
+
+
+
+
+    private void AadharSehmatiFromPdf(String path, ESigner eSigner, int esignType, ESignBorrower borrower) {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPISERVISE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+
+
+
+        ApiInterface apiInterface= retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getFile(SEILIGL.NEW_TOKEN,eSigner.Creator,eSigner.FiCode);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+
+                byte[] pdfAsBytes = Base64.decode(response.body().get("data").getAsString(), 0);
+
+                File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "AadharSehmatiFromPdf_"+eSigner.FiCode+eSigner.Creator+".pdf");
+                Log.d("TAG", "onResponse: "+filePath.getPath());
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(filePath, true);
+                    os.write(pdfAsBytes);
+                    os.flush();
+                    os.close();
+                }  catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+             //   eSigner.docPath = path+","+filePath.getPath();
+                    Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
+                    intent.putExtra(Global.ESIGNER_TAG, eSigner);
+                    intent.putExtra(ESIGN_TYPE_TAG, esignType);
+                    intent.putExtra("ESIGN_BORROWER", borrower);
+                    startActivity(intent);
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
     }
 
 }

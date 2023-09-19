@@ -14,7 +14,10 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -67,6 +70,18 @@ public interface ApiInterface {
 
     @POST("OCR/DocVerifyByOCR")
     Call<OCRResponseModel> getFileValidateByOCR(@Query("imgData") String type, @Body RequestBody file);
+
+    @GET("FI/AadharSehmatiFromPdf")
+    Call<JsonObject> getFile(@Header ("Authorization") String token,@Query("creator") String creator, @Query("ficode") int ficode);
+    @GET("FI/ApplicationFormPdfForVHAccOpen")
+    Call<JsonObject> getFileApplicationFormPdfForVHAccOpen(@Header ("Authorization") String token,@Query("creator") String creator, @Query("ficode") int ficode);
+
+
+    @POST("OCR/GetAdhardata")
+    Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
+
+
+
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
