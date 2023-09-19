@@ -68,12 +68,10 @@ public class AadharUtils {
         if (aadharDataMap.containsKey("u")) aadharData = getAadharNew(aadharDataMap);
         return aadharData;
     }
-    public boolean comparedateofbirth(Date aadharDOB,String panDOB){
+    public static boolean comparedateofbirth(Date aadharDOB,String panDOB){
         boolean datematched;
-        Date panDOb=(DateUtils.getParsedDate(panDOB, "dd-MMM-yyyy"));
-        if (aadharDOB.compareTo(panDOb)<=0){
+        Date panDOb=(DateUtils.getParsedDate(panDOB, "dd/MM/yyyy"));
 
-        }
         if (aadharDOB.before(panDOb)) {
             datematched=false;
         } else if (aadharDOB.after(panDOb)) {
@@ -619,6 +617,3 @@ public class AadharUtils {
         return mappedFields;
     }
 }
-
-
-

@@ -130,6 +130,9 @@ import java.time.ZonedDateTime;
 public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnClickListener,AdapterRecViewListDocuments.ItemListener, CameraUtils.OnCameraCaptureUpdate { //, CameraUtils.OnCameraCaptureUpdate
 
     private final AppCompatActivity activity = this;
+
+    int PAN_CARD_CAPTURE=1100;
+
     AdapterListRange rlaMarritalStatus;
     ImageView adharBackImg;
     ImageView adharFrontImg;
@@ -165,7 +168,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     protected static final int VTC_INDEX = 15;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
     protected ArrayList<String> decodedData;
-    int adharImageType;
+    int ImageType=0;
     protected String signature,email,mobile;
     ArrayList<RangeCategory> genders;
     String loanDurationData,stateData,genderData;
@@ -331,49 +334,53 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         capturePanCardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final View dialogView = ActivityBorrowerKyc.this.getLayoutInflater().inflate(R.layout.dialog_card_pan_capture, null);
-                CardView AdharFront_acrdView=dialogView.findViewById(R.id.newPAN_acrdView);
-                CardView AdharBack_acrdView=dialogView.findViewById(R.id.olPAN_acrdView);
-                Button submitORCadharBtn=dialogView.findViewById(R.id.submitORCadharBtn);
-                TextView sampleCardOldPan=dialogView.findViewById(R.id.sampleCardOldPan);
-                TextView sampleCardNewPan=dialogView.findViewById(R.id.sampleCardNewPan);
-                adharBackImg=dialogView.findViewById(R.id.adharBackImg);
-                adharFrontImg=dialogView.findViewById(R.id.adharFrontImg);
-
-                AdharFront_acrdView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        sampleCardNewPan.setVisibility(View.GONE);
-//                        adharImageType=1;
+                ImageType=3;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(PAN_CARD_CAPTURE);
+//                final View dialogView = ActivityBorrowerKyc.this.getLayoutInflater().inflate(R.layout.dialog_card_pan_capture, null);
+//                CardView AdharFront_acrdView=dialogView.findViewById(R.id.newPAN_acrdView);
+//                CardView AdharBack_acrdView=dialogView.findViewById(R.id.olPAN_acrdView);
+//                Button submitORCadharBtn=dialogView.findViewById(R.id.submitORCadharBtn);
+//                TextView sampleCardOldPan=dialogView.findViewById(R.id.sampleCardOldPan);
+//                TextView sampleCardNewPan=dialogView.findViewById(R.id.sampleCardNewPan);
+//                adharBackImg=dialogView.findViewById(R.id.adharBackImg);
+//                adharFrontImg=dialogView.findViewById(R.id.adharFrontImg);
+//
+//                AdharFront_acrdView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        sampleCardNewPan.setVisibility(View.GONE);
+//                        ImageType=3;
 //                        ImagePicker.with(ActivityBorrowerKyc.this)
 //                                .cameraOnly()
-//                                .start(1000);
-                    }
-                });
-                AdharBack_acrdView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        sampleCardOldPan.setVisibility(View.GONE);
-//                        adharImageType=2;
+//                                .start(PAN_CARD_CAPTURE);
+//                    }
+//                });
+//                AdharBack_acrdView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        sampleCardOldPan.setVisibility(View.GONE);
+//                        ImageType=4;
 //                        ImagePicker.with(ActivityBorrowerKyc.this)
 //                                .cameraOnly()
-//                                .start(1000);
-                    }
-                });
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-
-                submitORCadharBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+//                                .start(PAN_CARD_CAPTURE);
+//                    }
+//                });
+//
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+//                builder.setView(dialogView);
+//                final AlertDialog dialog = builder.create();
+//                dialog.setCancelable(false);
+//                dialog.show();
+//
+//                submitORCadharBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
             }
         });
         Capture_Aadhar.setOnClickListener(new View.OnClickListener() {
@@ -391,7 +398,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 AdharFront_acrdView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        adharImageType=1;
+                        ImageType=1;
                         ImagePicker.with(ActivityBorrowerKyc.this)
                                 .cameraOnly()
                                 .start(1000);
@@ -400,7 +407,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 AdharBack_acrdView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        adharImageType=2;
+                        ImageType=2;
                         ImagePicker.with(ActivityBorrowerKyc.this)
                                 .cameraOnly()
                                 .start(1000);
@@ -1021,6 +1028,13 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         .setAllowFlipping(true)
                         .setMultiTouchEnabled(true)
                         .start(  ActivityBorrowerKyc.this);
+            }else if(requestCode == PAN_CARD_CAPTURE){
+                uriPicture = data.getData();
+                CropImage.activity(uriPicture)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAllowFlipping(true)
+                        .setMultiTouchEnabled(true)
+                        .start(  ActivityBorrowerKyc.this);
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 Toast.makeText(activity, "CROP_IMAGE_ACTIVITY_REQUEST_CODE", Toast.LENGTH_SHORT).show();
@@ -1062,17 +1076,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                         if (myBitmap!=null) {
                             Toast.makeText(activity, "Bitmap: "+myBitmap+"", Toast.LENGTH_SHORT).show();
-                            if (adharImageType==1){
+                            if (ImageType==1){
                                 adharFrontImg.setImageBitmap(myBitmap);
 
-                                setDataOfAdhar(croppedImage,"aadharfront");
+                                setDataOfAdhar(croppedImage,"aadharfront","aadhar");
 
 
 
 
-                            }else if (adharImageType==2){
+                            }else if (ImageType==2){
                                 adharBackImg.setImageBitmap(myBitmap);
-                                setDataOfAdhar(croppedImage,"aadharback");
+                                setDataOfAdhar(croppedImage,"aadharback","aadhar");
+
+                            }else if (ImageType==3){
+
+                                setDataOfAdhar(croppedImage,"pan","pan");
 
                             }
 
@@ -1088,7 +1106,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
     }
 
-    private void setDataOfAdhar(File croppedImage,String imageData) {
+    private void setDataOfAdhar(File croppedImage,String imageData,String type) {
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.setCancelable(false);//you can cancel it by pressing back button.
         progressBar.setMessage("Data Fetching from Aadhaar Please wait...");
@@ -1114,7 +1132,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         RequestBody requestBody = builder.build();
         ApiInterface apiInterface=retrofit.create(ApiInterface.class);
-        Call<JsonObject> call=apiInterface.getAdharDataByOCR(imageData,"aadhar",requestBody);
+        Call<JsonObject> call=apiInterface.getAdharDataByOCR(imageData,type,requestBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -1124,6 +1142,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                     if (response.body().get("data")!=null){
                         if (imageData.equals("aadharfront")){
                             if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
+
                                 String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
                                 switch (borrowerNames.length){
                                     case 1:
@@ -1164,33 +1183,41 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
                                 }
                                 borrower.DOB=date;
-
                                 borrower.save();
                                 setDataToView(activity.findViewById(android.R.id.content).getRootView());
+
                             }else{
                                 Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
                             }
                             progressBar.dismiss();
-                        }else{
+                        }else if(imageData.equals("aadharback")){
                             if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
                                 borrower.p_pin = Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim());
-                                try {
-
-                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
-                                } catch (Exception e) {
-                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
-
-                                }
+                                JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
+                                String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
+                                String[] arrOfAdd=fullAddress.split(",");
+                                String city=arrOfAdd[arrOfAdd.length-2];
+                                borrower.P_city=city;
+//                                try {
+//
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
+//                                } catch (Exception e) {
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
+//
+//                                }
                                 if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
 
                                     borrower.P_add3 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim();
                                 }
                                 borrower.P_add2 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString();
-                                borrower.setGuardianNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",")[0].trim());
+
+
                                 String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
                                 for (int i = 0; i < address1.length; i++) {
-                                    if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O"))
+                                    if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
+                                        borrower.setGuardianNames(address1[i]);
                                         continue;
+                                    }
                                     borrower.P_Add1 = borrower.P_Add1 + address1[i];
 
                                 }
@@ -1202,6 +1229,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                             }else{
                                 Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.dismiss();
+                        }else if(imageData.equals("pan")){
+                            if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
+
+                                if (AadharUtils.comparedateofbirth(borrower.DOB,response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString())){
+                                    borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
+                                    borrower.save();
+                                    setDataToView(activity.findViewById(android.R.id.content).getRootView());
+                                }else{
+                                    Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
+                                        }
+
+                            }else {
+                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
                             }
                             progressBar.dismiss();
                         }
@@ -1216,6 +1258,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 Log.d("TAG", "onFailure: "+t.getMessage());
             }
         });
+
 
 
 
@@ -2316,3 +2359,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 
 }
+
+
+
+
