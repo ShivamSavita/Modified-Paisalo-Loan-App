@@ -231,20 +231,5 @@ public class DateUtils {
         return today;
     }
 
-    public boolean comparedateofbirth(Date aadharDOB,String panDOB){
-        boolean datematched;
-        Date panDOb=(DateUtils.getParsedDate(panDOB, "dd-MMM-yyyy"));
-        if (aadharDOB.compareTo(panDOb)<=0){
 
-        }
-        if (aadharDOB.before(panDOb)) {
-            datematched=false;
-        } else if (aadharDOB.after(panDOb)) {
-            datematched=false;
-        } else {
-            // System.out.println("Date 1 is equal to Date 2.");
-            datematched=true;
-        }
-        return  datematched;
-    }
 }
