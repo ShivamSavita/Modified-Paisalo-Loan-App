@@ -331,6 +331,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         svOldCase.setIconified(false);
         svOldCase.setOnClickListener(this);
         TextView Capture_Aadhar=findViewById(R.id.Capture_Aadhar);
+        TextView Capture_Aadharback=findViewById(R.id.Capture_Aadharback);
         capturePanCardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -387,46 +388,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             @Override
             public void onClick(View v) {
 
+                ImageType = 1;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(1000);
 
-                final View dialogView = ActivityBorrowerKyc.this.getLayoutInflater().inflate(R.layout.dialog_card_adhar_front_back, null);
-                CardView AdharFront_acrdView=dialogView.findViewById(R.id.AdharFront_acrdView);
-                CardView AdharBack_acrdView=dialogView.findViewById(R.id.AdharBack_acrdView);
-                Button submitORCadharBtn=dialogView.findViewById(R.id.submitORCadharBtn);
-                adharBackImg=dialogView.findViewById(R.id.adharBackImg);
-                adharFrontImg=dialogView.findViewById(R.id.adharFrontImg);
+            }
+        });
+        Capture_Aadharback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                AdharFront_acrdView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ImageType=1;
-                        ImagePicker.with(ActivityBorrowerKyc.this)
-                                .cameraOnly()
-                                .start(1000);
-                    }
-                });
-                AdharBack_acrdView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ImageType=2;
-                        ImagePicker.with(ActivityBorrowerKyc.this)
-                                .cameraOnly()
-                                .start(1000);
-                    }
-                });
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-              dialog.show();
-
-                submitORCadharBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    dialog.dismiss();
-                    }
-                });
+                ImageType=2;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(1000);
 
             }
         });

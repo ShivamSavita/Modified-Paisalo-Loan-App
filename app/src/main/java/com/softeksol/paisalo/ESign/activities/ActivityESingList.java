@@ -291,13 +291,13 @@ public class ActivityESingList extends AppCompatActivity {
                     Log.d("TAG", "onSuccess: "+file.getPath());
 
 
-                       getVHAccOpenForm(file.getPath(),eSigner,esignType,borrower);
-////                    eSigner.docPath = file.getPath();
-//                    Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
-//                    intent.putExtra(Global.ESIGNER_TAG, eSigner);
-//                    intent.putExtra(ESIGN_TYPE_TAG, esignType);
-//                    intent.putExtra("ESIGN_BORROWER", borrower);
-//                    startActivity(intent);
+                //       getVHAccOpenForm(file.getPath(),eSigner,esignType,borrower);
+                    eSigner.docPath = file.getPath();
+                    Intent intent = new Intent(ActivityESingList.this, ActivityESignWithDocumentPL.class);
+                    intent.putExtra(Global.ESIGNER_TAG, eSigner);
+                    intent.putExtra(ESIGN_TYPE_TAG, esignType);
+                    intent.putExtra("ESIGN_BORROWER", borrower);
+                    startActivity(intent);
                     //startActivityForResult(intent, Global.ESIGN_REQUEST_CODE);
 
                 }

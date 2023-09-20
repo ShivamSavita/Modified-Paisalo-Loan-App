@@ -99,7 +99,7 @@
 
                     <LinearLayout
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1.2"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -112,10 +112,32 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/scada_regular"
-                            android:text="Capture Aadhar"
+                            android:text="Aadhar Front"
                             android:textColor="@color/white"
                             android:textSize="15dp"/>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="MissingConstraints">
+                        <TextView
+                            android:id="@+id/Capture_Aadharback"
+                            android:background="@color/red"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/scada_regular"
+                            android:text="Aadhar Back"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -995,6 +1017,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView26">
 
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -1018,6 +1041,8 @@
 
                             android:textSize="15dp" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
                 </androidx.cardview.widget.CardView>
 
                 <Button
