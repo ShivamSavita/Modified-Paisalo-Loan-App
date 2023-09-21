@@ -1176,7 +1176,8 @@ public class Borrower extends BaseModel implements Serializable {
         ConditionGroup conditionGroup1 = ConditionGroup.clause();
         conditionGroup1.and(DocumentStore_Table.updateStatus.eq(false)).and(DocumentStore_Table.imagePath.isNotNull());
         return SQLite.select().from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.Creator.eq(this.Creator))
+                .and(DocumentStore_Table.ficode.eq(this.Code))
                 .and(conditionGroup.or(DocumentStore_Table.updateStatus.eq(true)).or(conditionGroup1))
                 .queryList();
 

@@ -192,6 +192,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     Spinner spinnerMarritalStatus;
     String requestforVerification="";
     String ResponseforVerification="";
+    boolean panaadharDOBMatched=false;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -964,7 +965,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("TAG", "onActivityResult: "+data);
+        Log.d("TAG", "onActivityResult: "+data+""+ requestCode);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             //Log.d("QR Scan","Executed");
@@ -975,6 +976,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 Log.d("CheckXMLDATA3","AadharData:->" + scanContent);
                 if (scanFormat != null) {
                     try {
+                        panaadharDOBMatched=true;
                         setAadharContent(scanContent);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -999,21 +1001,24 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
             }else if(requestCode == 1000){
                 uriPicture = data.getData();
-                CropImage.activity(uriPicture)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAllowFlipping(true)
-                        .setMultiTouchEnabled(true)
-                        .start(  ActivityBorrowerKyc.this);
+                if(uriPicture!=null){
+                    CropImage.activity(uriPicture)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAllowFlipping(true)
+                            .setMultiTouchEnabled(true)
+                            .start(  ActivityBorrowerKyc.this);
+                }
             }else if(requestCode == PAN_CARD_CAPTURE){
                 uriPicture = data.getData();
-                CropImage.activity(uriPicture)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAllowFlipping(true)
-                        .setMultiTouchEnabled(true)
-                        .start(  ActivityBorrowerKyc.this);
+                if(uriPicture!=null){
+                    CropImage.activity(uriPicture)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAllowFlipping(true)
+                            .setMultiTouchEnabled(true)
+                            .start(  ActivityBorrowerKyc.this);
+                }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                Toast.makeText(activity, "CROP_IMAGE_ACTIVITY_REQUEST_CODE", Toast.LENGTH_SHORT).show();
 
                 Exception error = null;
                 if (documentPic!=null){
@@ -1047,27 +1052,17 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                     try {
                         File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage1, true);
                         Bitmap myBitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
                         //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
-
                         if (myBitmap!=null) {
-                            Toast.makeText(activity, "Bitmap: "+myBitmap+"", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(activity, "Bitmap: "+myBitmap+"", Toast.LENGTH_SHORT).show();
                             if (ImageType==1){
-                                adharFrontImg.setImageBitmap(myBitmap);
-
+                                //adharFrontImg.setImageBitmap(myBitmap);
                                 setDataOfAdhar(croppedImage,"aadharfront","aadhar");
-
-
-
-
                             }else if (ImageType==2){
-                                adharBackImg.setImageBitmap(myBitmap);
+                                //adharBackImg.setImageBitmap(myBitmap);
                                 setDataOfAdhar(croppedImage,"aadharback","aadhar");
-
                             }else if (ImageType==3){
-
                                 setDataOfAdhar(croppedImage,"pan","pan");
-
                             }
 
                         }else{
@@ -1079,6 +1074,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
                 }
             }
+
         }
     }
 
@@ -1117,63 +1113,74 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 if (response.body()!=null){
                     if (response.body().get("data")!=null){
                         if (imageData.equals("aadharfront")){
-                            if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
 
-                                String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
-                                switch (borrowerNames.length){
-                                    case 1:
-                                        borrower.Fname=borrowerNames[0];
-                                        break;
-                                    case 2:
-                                        borrower.Fname=borrowerNames[0];
-                                        borrower.Lname=borrowerNames[1];
-                                        break;
-                                    case 3:
-                                        borrower.Fname=borrowerNames[0];
-                                        borrower.Mname=borrowerNames[1];
-                                        borrower.Lname=borrowerNames[2];
-                                        break;
+                                    String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
+                                    switch (borrowerNames.length){
+                                        case 1:
+                                            borrower.Fname=borrowerNames[0];
+                                            break;
+                                        case 2:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Lname=borrowerNames[1];
+                                            break;
+                                        case 3:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Mname=borrowerNames[1];
+                                            borrower.Lname=borrowerNames[2];
+                                            break;
+                                    }
+
+
+
+                                    borrower.Gender=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("gender").getAsString().charAt(0)+"";
+                                    borrower.aadharid=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("aadharno").getAsString().replace(" ","");
+
+                                    Date date;
+                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                    try {
+                                        date = formatter.parse(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    Instant instant = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        instant = date.toInstant();
+                                        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                                        LocalDate givenDate = zone.toLocalDate();
+
+                                        Period period = Period.between(givenDate, LocalDate.now());
+
+                                        borrower.Age = period.getYears();
+                                        System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
+                                    }
+                                    borrower.DOB=date;
+                                    borrower.isAadharVerified="O";
+                                    borrower.save();
+                                    setDataToView(activity.findViewById(android.R.id.content).getRootView());
+
+                                }else{
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar front image!!");
+
+                                    Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
                                 }
+                            }else {
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar front image!!");
 
-
-
-                                borrower.Gender=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("gender").getAsString().charAt(0)+"";
-                                borrower.aadharid=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("aadharno").getAsString().replace(" ","");
-
-                                Date date;
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                                try {
-                                    date = formatter.parse(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString());
-                                } catch (ParseException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                Instant instant = null;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    instant = date.toInstant();
-                                    ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-                                    LocalDate givenDate = zone.toLocalDate();
-
-                                    Period period = Period.between(givenDate, LocalDate.now());
-
-                                    borrower.Age = period.getYears();
-                                    System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
-                                }
-                                borrower.DOB=date;
-                                borrower.save();
-                                setDataToView(activity.findViewById(android.R.id.content).getRootView());
-
-                            }else{
-                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
                             }
+
                             progressBar.dismiss();
                         }else if(imageData.equals("aadharback")){
-                            if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
-                                borrower.p_pin = Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim());
-                                JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
-                                String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
-                                String[] arrOfAdd=fullAddress.split(",");
-                                String city=arrOfAdd[arrOfAdd.length-2];
-                                borrower.P_city=city;
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
+
+                                    borrower.p_pin = Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim());
+                                    JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
+                                    String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
+                                    String[] arrOfAdd=fullAddress.split(",");
+                                    String city=arrOfAdd[arrOfAdd.length-2];
+                                    borrower.P_city=city;
 //                                try {
 //
 //                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
@@ -1181,50 +1188,69 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 //                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
 //
 //                                }
-                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
+                                    if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
 
-                                    borrower.P_add3 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim();
-                                }
-                                borrower.P_add2 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString();
-
-
-                                String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
-                                for (int i = 0; i < address1.length; i++) {
-                                    if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
-                                        borrower.setGuardianNames(address1[i]);
-                                        continue;
+                                        borrower.P_add3 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim();
                                     }
-                                    borrower.P_Add1 = borrower.P_Add1 + address1[i];
-
-                                }
-                                borrower.p_state = AadharUtils.getStateCode(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("state").getAsString().trim());
-
-                                borrower.save();
-                                setDataToView(activity.findViewById(android.R.id.content).getRootView());
+                                    borrower.P_add2 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString();
 
 
-                            }else{
-                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
-                            }
-                            progressBar.dismiss();
-                        }else if(imageData.equals("pan")){
-                            if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
+                                    String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
+                                    for (int i = 0; i < address1.length; i++) {
+                                        if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
+                                            borrower.setGuardianNames(address1[i]);
+                                            continue;
+                                        }
+                                        borrower.P_Add1 = borrower.P_Add1 + address1[i];
 
-                                if (AadharUtils.comparedateofbirth(borrower.DOB,response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString())){
-                                    borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
+                                    }
+                                    borrower.p_state = AadharUtils.getStateCode(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("state").getAsString().trim());
+                                    borrower.isAadharVerified="O";
+
                                     borrower.save();
                                     setDataToView(activity.findViewById(android.R.id.content).getRootView());
-                                }else{
-                                    Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
-                                        }
 
-                            }else {
-                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
+
+                                }else{
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar back image!!");
+                                    //   Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar back image again!!");
+
+                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image again!!", Toast.LENGTH_SHORT).show();
                             }
+
+                            progressBar.dismiss();
+                        }else if(imageData.equals("pan")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
+
+                                    if (AadharUtils.comparedateofbirth(borrower.DOB,response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString())){
+                                        borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
+                                        borrower.isAadharVerified="O";
+
+                                        borrower.save();
+                                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
+                                    }else{
+                                        Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
+                                    }
+
+                                }else {
+                                    Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture PAN image again!!");
+
+                                }
+                            }else{
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture PAN image again!!");
+
+                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN image again!!", Toast.LENGTH_SHORT).show();
+                            }
+
                             progressBar.dismiss();
                         }
 
-                     //   borrower.setNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+                        //   borrower.setNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
                     }
                 }
             }
@@ -1822,29 +1848,30 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void sendingDataToNewPage() {
-
-        Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-        intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-        intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-        intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-        intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-        intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-        intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-        intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-        intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-        intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-        intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-        intent.putExtra("PANName", tilPAN_Name.getText().toString());
-        intent.putExtra("DLName", tilDL_Name.getText().toString());
-        intent.putExtra("AadharName", tietName.getText().toString());
-        intent.putExtra("manager", manager);
-        intent.putExtra("borrower", borrower);
-        startActivity(intent);
-
+        if(panaadharDOBMatched==true){
+            Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+            intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+            intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+            intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+            intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+            intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+            intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+            intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+            intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+            intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+            intent.putExtra("PANName", tilPAN_Name.getText().toString());
+            intent.putExtra("DLName", tilDL_Name.getText().toString());
+            intent.putExtra("AadharName", tietName.getText().toString());
+            intent.putExtra("manager", manager);
+            intent.putExtra("borrower", borrower);
+            startActivity(intent);
+        }else{
+            Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
+        }
     }
 
     private void fetchTopupDetails(final String oldCaseCode) {
-
         DataAsyncResponseHandler dataAsyncResponseHandler = new DataAsyncResponseHandler(this, "Borrower KYC", "Fetching Topup Details") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -2105,6 +2132,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         panCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isPanverify=1;
+                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");
@@ -2121,6 +2149,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         voterIdCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isVoterverify=1;
+                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText("Card Holder Name Not Found");
@@ -2139,6 +2168,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         dLCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isDLverify=1;
+                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
                         tilDL_Name.setText("Card Holder Name Not Found");
