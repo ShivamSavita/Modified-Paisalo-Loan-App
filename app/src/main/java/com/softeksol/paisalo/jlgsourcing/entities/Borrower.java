@@ -3,6 +3,7 @@ package com.softeksol.paisalo.jlgsourcing.entities;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -1101,6 +1102,8 @@ public class Borrower extends BaseModel implements Serializable {
                 messages.put("Guarantor", "At least one Guarantor should be present");
         }
         if (getFiDocuments().size() < docCount) {
+            Log.d("TAG", "validateLoanApplication: "+getFiDocuments().size());
+            Log.d("TAG", "validateLoanApplication: "+docCount);
             messages.put("Loan Application KYC", "Capture all the required KYC Documents");
         }
         return messages;
@@ -1176,7 +1179,8 @@ public class Borrower extends BaseModel implements Serializable {
         ConditionGroup conditionGroup1 = ConditionGroup.clause();
         conditionGroup1.and(DocumentStore_Table.updateStatus.eq(false)).and(DocumentStore_Table.imagePath.isNotNull());
         return SQLite.select().from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.Creator.eq(this.Creator))
+                        .and(DocumentStore_Table.ficode.eq(this.Code))
                 .and(conditionGroup.or(DocumentStore_Table.updateStatus.eq(true)).or(conditionGroup1))
                 .queryList();
 
