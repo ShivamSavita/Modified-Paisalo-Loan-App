@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.BrandResponse;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 
@@ -79,6 +80,14 @@ public interface ApiInterface {
 
     @POST("OCR/GetAdhardata")
     Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
+
+
+    @GET("PFL.ABF.API/api/Dealer/GetOems")
+    Call<BrandResponse> getOEMbyCreator(@Header("Authorization") String authHeader, @Query("Creator") String creator);
+
+
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
 
 
 

@@ -556,7 +556,7 @@ public class Borrower extends BaseModel implements Serializable {
     @PrimaryKey(autoincrement = true)
     public long FiID;
 
-    List<Guarantor> fiGuarantors;
+    public List<Guarantor> fiGuarantors;
 
     @Expose
     public List<BorrowerFamilyMember> fiFamMems;
