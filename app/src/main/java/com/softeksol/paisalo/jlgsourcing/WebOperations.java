@@ -478,6 +478,7 @@ public class WebOperations {
             Log.d("Url", url);
 
             Log.d("Urlcheck", params.toString());
+            Log.d("Urlcheck", params.toString());
             //Log.d("JsonData",jsonString);
             client.get(context, url, params, responseHandler);
         } catch (Exception e) {

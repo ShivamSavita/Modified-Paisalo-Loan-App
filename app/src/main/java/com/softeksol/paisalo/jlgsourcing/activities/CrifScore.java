@@ -384,35 +384,47 @@ public class CrifScore extends AppCompatActivity {
                             text_srifScore.setText(score);
                             textView5.setText(score);
 
-                            if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
-                                gifImageView.setImageResource(R.drawable.checksign);
-                                textView8.setText("Congrats!!");
-                                textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.green));
-                                textView7.setText(message);
-                                textView13.setVisibility(View.VISIBLE);
-                                textView6.setVisibility(View.VISIBLE);
-                                textView_emi.setVisibility(View.VISIBLE);
-                                textView_valueEmi.setVisibility(View.VISIBLE);
-                                textView6.setText(amount+" ₹");
-                                textView_valueEmi.setText(emi+" ₹");
-                                btnSrifScoreSave.setVisibility(View.VISIBLE);
-                                btnSrifScore.setVisibility(View.GONE);
-                                saveBREData();
-                                updateSourcingStatus();
-                                //spinner.setEnabled(false);
+                            if (Integer.parseInt(score)>650 || Integer.parseInt(score)<300){
+                                if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
+                                    gifImageView.setImageResource(R.drawable.checksign);
+                                    textView8.setText("Congrats!!");
+                                    textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.green));
+                                    textView7.setText(message);
+                                    textView13.setVisibility(View.VISIBLE);
+                                    textView6.setVisibility(View.VISIBLE);
+                                    textView_emi.setVisibility(View.VISIBLE);
+                                    textView_valueEmi.setVisibility(View.VISIBLE);
+                                    textView6.setText(amount+" ₹");
+                                    textView_valueEmi.setText(emi+" ₹");
+                                    btnSrifScoreSave.setVisibility(View.VISIBLE);
+                                    btnSrifScore.setVisibility(View.GONE);
+                                    saveBREData();
+                                    updateSourcingStatus();
+                                    //spinner.setEnabled(false);
+                                }
+                                else{
+                                    gifImageView.setImageResource(R.drawable.crosssign);
+                                    textView8.setText("Sorry!!");
+                                    textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.red));
+                                    textView7.setText(message);
+                                    textView13.setVisibility(View.GONE);
+                                    textView6.setVisibility(View.GONE);
+                                    textView_valueEmi.setVisibility(View.GONE);
+                                    textView_emi.setVisibility(View.GONE);
+                                    btnSrifScoreSave.setVisibility(View.GONE);
+                                    btnSrifScore.setVisibility(View.VISIBLE);
+                                    btnSrifScore.setText("TRY AGAIN");
+                                }
                             }else{
-                                gifImageView.setImageResource(R.drawable.crosssign);
-                                textView8.setText("Sorry!!");
-                                textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.red));
-                                textView7.setText(message);
-                                textView13.setVisibility(View.GONE);
-                                textView6.setVisibility(View.GONE);
-                                textView_valueEmi.setVisibility(View.GONE);
-                                textView_emi.setVisibility(View.GONE);
-                                btnSrifScoreSave.setVisibility(View.GONE);
-                                btnSrifScore.setVisibility(View.VISIBLE);
-                                btnSrifScore.setText("TRY AGAIN");
+
+                                restictBorrower();
+
+
                             }
+
+
+
+
                             progressBar.setMax(1000);
                             progressBar.setProgress(0);
                             new Thread(new Runnable() {
@@ -456,6 +468,84 @@ public class CrifScore extends AppCompatActivity {
             }
         });
     }
+
+    private void restictBorrower() {
+
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.restrictBorrower(ficode,creator,"NO");
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+                if (response.body()!=null){
+                    JsonObject jsonObject=response.body();
+                    if (jsonObject.get("statusCode").getAsInt()==200){
+
+                        AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                        alertD.setCancelable(false);
+                     alertD.setTitle("This case can not be further proceed due to our internal credit policy!!");
+                     alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
+                             dialogInterface.dismiss();
+                        finish();
+
+                         }
+                     });
+                     alertD.show();
+
+
+                    }else{
+                        AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                        alertD.setCancelable(false);
+                        alertD.setTitle("Please Don't Process this case It will be failed in future!!");
+                        alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                finish();
+
+                            }
+                        });
+                        alertD.show();
+
+                    }
+
+                }else{
+                    AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                    alertD.setCancelable(false);
+                    alertD.setTitle("Please Don't Process this case It will be failed in future!!");
+                    alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            finish();
+
+                        }
+                    });
+                    alertD.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void updateSourcingStatus(){
         ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
         Call<JsonObject> call=apiInterface.updateStatus(checkCrifData.getData().getFiCode()+"",checkCrifData.getData().getCreator());
