@@ -197,16 +197,12 @@ public class CrifScore extends AppCompatActivity {
             }
         });
         checkCrifScore();
-
-
         String[] arraySpinner = new String[] {
                 "UCO", "BOB","PNB","SBI"
         };
 
         rlaBankType = new AdapterListRange(this,
                 SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("banks")).queryList(), false);
-
-
         spinner = (Spinner) findViewById(R.id.spinSelectBank);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
@@ -220,7 +216,6 @@ public class CrifScore extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editor.putString("Bank",((RangeCategory) spinner.getSelectedItem()).DescriptionEn);
                 editor.apply();
-
                 btnSrifScore.setText("TRY AGAIN");
                 Log.d("TAG", "onItemSelected: "+sharedPreferences.getString("Bank",""));
             }

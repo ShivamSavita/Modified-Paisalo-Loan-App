@@ -4,6 +4,7 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
+import com.softeksol.paisalo.jlgsourcing.homevisit.FIDataModel;
 
 import java.util.Calendar;
 
@@ -81,7 +82,11 @@ public interface ApiInterface {
     Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
 
 
+    @GET("FI/FiMasterData")
+    Call<FIDataModel> getDataById(@Header("Authorization") String bearerToken, @Query("creator") String param1, @Query("ficode") String param2);
 
+    @POST("UserMobile/CreateHomeVisit")
+    Call<JsonObject> saveHouseVerificationDetails(@Body RequestBody file);
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
