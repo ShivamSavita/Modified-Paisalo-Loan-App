@@ -1521,11 +1521,11 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                 try {
                     if (text.length() == 0) text = "0";
                     int age = Integer.parseInt(text);
-                    if (age < 18) {
-                        editText.setError("Age should be greater than 17");
+                    if (age < 21) {
+                        editText.setError("Age should be greater than 21");
                         retVal = false;
-                    } else if (age > 65) {
-                        editText.setError("Age should be less than 66");
+                    } else if (age > 57) {
+                        editText.setError("Age should be less than 55");
                         retVal = false;
                     }
                     tietDob.setEnabled(retVal);
