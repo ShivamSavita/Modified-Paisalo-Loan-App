@@ -81,6 +81,11 @@ public interface ApiInterface {
     @POST("OCR/GetAdhardata")
     Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
 
+ @POST("LiveTrack/UpdateFiStatus")
+    Call<JsonObject> restrictBorrower(@Query("ficode") String ficode,@Query("creator") String creator,@Query("Approved") String Approved);
+
+
+
 
     @GET("FI/FiMasterData")
     Call<FIDataModel> getDataById(@Header("Authorization") String bearerToken, @Query("creator") String param1, @Query("ficode") String param2);
