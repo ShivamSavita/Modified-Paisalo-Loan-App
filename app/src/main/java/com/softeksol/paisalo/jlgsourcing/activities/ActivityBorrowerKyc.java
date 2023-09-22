@@ -2004,10 +2004,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 try {
                     if (text.length() == 0) text = "0";
                     int age = Integer.parseInt(text);
-                    if (age < 18) {
+                    if (age < 21) {
                         editText.setError("Age should be greater than 17");
                         retVal = false;
-                    } else if (age > 65) {
+                    } else if (age > 57) {
                         editText.setError("Age should be less than 66");
                         retVal = false;
                     }

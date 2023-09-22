@@ -845,7 +845,8 @@ public class Borrower extends BaseModel implements Serializable {
     public DocumentStore getPictureStore() {
         DocumentStore documentStore = SQLite.select()
                 .from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.ficode.eq(this.Code))
+                .and(DocumentStore_Table.Creator.eq(this.Creator))
                 .and(DocumentStore_Table.GuarantorSerial.eq(0))
                 .and(DocumentStore_Table.checklistid.eq(0))
                 .querySingle();
@@ -1027,7 +1028,7 @@ public class Borrower extends BaseModel implements Serializable {
             messages.put("Bank Account", "Account Open Date");
         }
 
-        if (this.Enc_Property == null || this.Enc_Property.length() < 11 && this.BankName.length() < 2) {
+        if (this.Enc_Property == null || this.Enc_Property.length() < 11) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
         }
         if (this.DelCode == null || this.DelCode.length()==0) {

@@ -297,7 +297,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             checkBankAccountNuber.setEnabled(false);
                             UpdatefiVerificationDocName();
                             borrower.DelCode="V";
-                            //borrower.save();
+                            borrower.save();
                         }else{
                             etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
