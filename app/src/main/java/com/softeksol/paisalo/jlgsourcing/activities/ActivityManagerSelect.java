@@ -43,6 +43,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OperationItem;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.homevisit.HomeVisitManagerList;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -218,6 +219,11 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
                 }else{
                     Utils.alert(this,"eSign Disabled");
                 }
+                break;
+            case 8:
+                intent = new Intent(ActivityManagerSelect.this, HomeVisitManagerList.class);
+                intent.putExtra(Global.MANAGER_TAG, manager);
+                startActivity(intent);
                 break;
         }
 

@@ -171,6 +171,9 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
 //        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("C")) {
 //            operationItems.add(new OperationItem(7, "ABF Module", R.color.colorMenuPremature, "", ""));
 //        }
+        if (IglPreferences.getPrefString(this, SEILIGL.ALLOW_COLLECTION, "N").contains("S")) {
+            operationItems.add(new OperationItem(8, "Home Visit", R.color.colorMenuDeposit, "POSDB", "Getmappedfo"));
+        }
 
         GridView lv = (GridView) findViewById(R.id.lvcOpSelect);
         TextView text_earnedMessage=findViewById(R.id.text_earnedMessage);
@@ -294,6 +297,10 @@ public class ActivityOperationSelect extends AppCompatActivity implements Naviga
                         intent = new Intent(ActivityOperationSelect.this, ActivityManagerSelect.class);
                         break;
                     case 6:
+                        intent = new Intent(ActivityOperationSelect.this, ActivityManagerSelect.class);
+                        break;
+
+                     case 8:
                         intent = new Intent(ActivityOperationSelect.this, ActivityManagerSelect.class);
                         break;
                 }

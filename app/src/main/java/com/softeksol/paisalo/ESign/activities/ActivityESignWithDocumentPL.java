@@ -289,6 +289,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 
         Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
         Log.d("Esign Req Json",esignType+"");
+        Log.d("TAG", "processApkESign: "+WebOperations.convertToJson(eSingParms));
         if (esignType == 1) {
             (new WebOperations()).postEntityESign(this, "docsESignPvn", "signdoc", WebOperations.convertToJson(eSingParms), asyncResponseHandler);
         } else {

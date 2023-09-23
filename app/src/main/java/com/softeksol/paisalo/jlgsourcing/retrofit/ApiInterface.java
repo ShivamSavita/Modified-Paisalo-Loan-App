@@ -2,6 +2,8 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitFiList;
+import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitListModel;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 import com.softeksol.paisalo.jlgsourcing.homevisit.FIDataModel;
@@ -92,6 +94,10 @@ public interface ApiInterface {
 
     @POST("UserMobile/CreateHomeVisit")
     Call<JsonObject> saveHouseVerificationDetails(@Body RequestBody file);
+
+
+    @GET("LiveTrack/GetFiListForHomeVisit")
+    Call<HomeVisitListModel> getHVManagerList(@Query("creator") String creator, @Query("groupCode") String groupCode, @Query("citycode") String citycode, @Query("imei") String imei);
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

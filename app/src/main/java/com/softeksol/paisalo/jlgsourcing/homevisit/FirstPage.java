@@ -49,11 +49,13 @@ public class FirstPage extends AppCompatActivity {
     String ficode = "250003";
     String bearerToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1MzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxNTM5IiwiUm9sZSI6WyJBRE1JTiIsIkFETUlOIl0sIkJyYW5jaENvZGUiOiIiLCJDcmVhdG9yIjoiIiwiVU5hbWUiOiJSQUpBTiBLVU1BUiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IlNlcCBUaHUgMjEgMjAyMyAwNjoyOTozOSBBTSIsIm5iZiI6MTY5NTE5MTM3OSwiZXhwIjoxNjk1MjU3OTc5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE4OCJ9.lMtcP2gwW0UsBjq4U-iv8TZXnfxKVDe14XB6HVhzSgM";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_page);
-
+        ficode=getIntent().getStringExtra("ficode");
+        creator=getIntent().getStringExtra("creator");
 
 
 
