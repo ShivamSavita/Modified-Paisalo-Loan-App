@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
@@ -37,14 +36,11 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower;
-import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
-import com.softeksol.paisalo.jlgsourcing.fragments.FragmentCollection;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
-import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ScrifData;
 
@@ -393,7 +389,7 @@ public class CrifScore extends AppCompatActivity {
                                     textView_valueEmi.setText(emi+" ₹");
                                     btnSrifScoreSave.setVisibility(View.VISIBLE);
                                     btnSrifScore.setVisibility(View.GONE);
-                                    saveBREData();
+                                    saveBREData(score);
                                     updateSourcingStatus();
                                     //spinner.setEnabled(false);
                                 }
@@ -557,7 +553,7 @@ public class CrifScore extends AppCompatActivity {
             }
         });
     }
-    private void saveBREData() {
+    private void saveBREData(String score) {
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -572,7 +568,8 @@ public class CrifScore extends AppCompatActivity {
                 Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
             }
         };
-        (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi,sharedPreferences.getString("Bank",""))), asyncResponseHandler);
+        String emiorScore=emi+","+score;
+        (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emiorScore,sharedPreferences.getString("Bank",""))), asyncResponseHandler);
     }
 
     private JsonObject getJSOnOfCheckDataResponse(CheckCrifData checkCrifData) {
@@ -631,9 +628,7 @@ public class CrifScore extends AppCompatActivity {
         if (retrofit==null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
-
-            );
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.connectTimeout(1, TimeUnit.MINUTES);
             httpClient.readTimeout(1,TimeUnit.MINUTES);
             httpClient.addInterceptor(logging);
