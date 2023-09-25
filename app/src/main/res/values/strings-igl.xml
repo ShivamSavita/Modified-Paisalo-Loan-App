@@ -136,8 +136,8 @@
     <string name="paid_by_borrower">Borrower</string>
     <string name="paid_by_fm">Field M.</string>
 
-    <string name="mother">Mother</string>
-    <string name="father">Father</string>
+    <string name="mother_hv">Mother</string>
+    <string name="father_hv">Father</string>
     <string name="bank_cif">Bank CIF</string>
 
     <string name="bank_customerID">Bank Customer ID</string>

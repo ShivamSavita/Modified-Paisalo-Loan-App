@@ -54,6 +54,7 @@ public class HomeVisitManagerList extends AppCompatActivity {
         recViewHVManagerList.setLayoutManager(new LinearLayoutManager(this));
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         Log.d("TAG", "onCreate: "+ WebOperations.convertToJson(manager));
+        getToken();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -88,6 +89,41 @@ public class HomeVisitManagerList extends AppCompatActivity {
             public void onFailure(Call<HomeVisitListModel> call, Throwable t) {
                 Log.d("TAG", "onFailure: "+t.getMessage());
 
+            }
+        });
+    }
+
+    private void getToken() {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("emailId", "dotnetdev2@paisalo.in");
+        jsonObject.addProperty("password", "admin@123");
+        jsonObject.addProperty("location", "string");
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://erpservice.paisalo.in:980/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getTokenForABF(jsonObject);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+                SEILIGL.NEW_TOKEN="Bearer "+ response.body().get("token").getAsString();
+                Log.d("TAGs", "onCreate: "+SEILIGL.NEW_TOKEN);
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAGs", "onFailure: "+t.getMessage());
             }
         });
     }

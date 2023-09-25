@@ -86,6 +86,10 @@ public class AdapterOperation extends ArrayAdapter<OperationItem> {
                     holder.imageView.setImageResource(R.drawable.dealercheclist_ic);
                     holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.kyc_color));
                     holder.module_desc.setText("Uploading Documents and files in this module");
+                }else if (operationItem.getOprationName().equals("Home Visit")){
+                    holder.imageView.setImageResource(R.drawable.home_ic_png);
+                    holder.kyc_card.setBackgroundColor(context.getResources().getColor(R.color.dull_yello));
+                    holder.module_desc.setText("Fill Form of House Visit and check details");
                 }
             }
         }

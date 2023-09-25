@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
-<!--        <string-array name="residing_with">-->
-<!--            <item>@string/family</item>-->
-<!--            <item>@string/separately</item>-->
+        <string-array name="residing_with">
+            <item>@string/family</item>
+            <item>@string/separately</item>
 
-<!--        </string-array>-->
+        </string-array>
 
-<!--    <string-array name="residing_type">-->
-<!--        <item>@string/pucca</item>-->
-<!--        <item>@string/kaccha</item>-->
-<!--    </string-array>-->
+    <string-array name="residing_type">
+        <item>@string/pucca</item>
+        <item>@string/kaccha</item>
+    </string-array>
 
     <string-array name="years">
         <item>1</item>
@@ -20,25 +20,25 @@
         <item>5++</item>
     </string-array>
 
-<!--    <string-array name="ratings">-->
-<!--        <item>@string/good</item>-->
-<!--        <item>@string/bad</item>-->
-<!--        <item>@string/dontKnow</item>-->
-<!--    </string-array>-->
+    <string-array name="ratings">
+        <item>@string/good</item>
+        <item>@string/bad</item>
+        <item>@string/dontKnow</item>
+    </string-array>
 
-<!--    <string-array name="relations">-->
-<!--        <item>@string/spouse</item>-->
-<!--        <item>@string/parents</item>-->
-<!--        <item>@string/siblings</item>-->
-<!--    </string-array>-->
+    <string-array name="relations">
+        <item>@string/spouse</item>
+        <item>@string/parents</item>
+        <item>@string/siblings</item>
+    </string-array>
 
-<!--    <string-array name="relation">-->
-<!--        <item>@string/mother</item>-->
-<!--        <item>@string/father</item>-->
-<!--        <item>@string/husband</item>-->
-<!--        <item>@string/wife</item>-->
-<!--        <item>@string/brother</item>-->
-<!--        <item>@string/sister</item>-->
-<!--    </string-array>-->
+    <string-array name="relation">
+        <item>@string/mother_hv</item>
+        <item>@string/father_hv</item>
+        <item>@string/husband</item>
+        <item>@string/wife</item>
+        <item>@string/brother</item>
+        <item>@string/sister</item>
+    </string-array>
 
     </resources>

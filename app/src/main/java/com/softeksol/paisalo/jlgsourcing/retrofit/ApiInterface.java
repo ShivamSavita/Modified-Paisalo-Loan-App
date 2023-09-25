@@ -99,6 +99,9 @@ public interface ApiInterface {
     @GET("LiveTrack/GetFiListForHomeVisit")
     Call<HomeVisitListModel> getHVManagerList(@Query("creator") String creator, @Query("groupCode") String groupCode, @Query("citycode") String citycode, @Query("imei") String imei);
 
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
+
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
     @Field("co") String co, @Field("address") String address, @Field("city") String city, @Field("state") String state,
