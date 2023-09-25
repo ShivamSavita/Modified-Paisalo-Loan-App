@@ -1,5 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.homevisit;
 
+import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TAKE_PHOTO;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,9 +42,18 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.JsonObject;
+import com.raizlabs.android.dbflow.sql.language.Condition;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
+import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
+import com.softeksol.paisalo.jlgsourcing.activities.CrifScore;
+import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,6 +114,7 @@ public class SecondPage extends AppCompatActivity {
     public static final String CAMERA_PREF = "camera_pref";
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private static final String ALLOW_KEY = "ALLOWED";
+    private Uri uriPicture;
     Uri imageUri;
 
     private ProgressDialog progressDialog;
@@ -122,7 +134,8 @@ public class SecondPage extends AppCompatActivity {
 
     Spinner relationWithApplicant,residingWith,residence_type,residental_stability,businessExperience,neighbourhood_verification,intervieweeRelation;
 
-    Button submit,click,view;
+    Button submit,click;
+    ImageView view;
 
     String buildType_value="Y",approvedLocation_value="Y",cpfCriteria_value="Y",cpfAddressVerification_value="Y",IdVerification_value="Y",addressVerification_value="Y",ageVerification_value="Y",cpfRecentAddressVerification_value="Y"
             ,stampOnPhotocopy_value="Y",lastLoanVerification_value="Y",absentReason_value="Y",repaymentFault_value="Y",reasonVerification_value="Y",isAppliedAmountAppropriate_value="Y",familyAwareness_value="Y",loanRelatedToBusiness_value="Y",
@@ -141,11 +154,56 @@ public class SecondPage extends AppCompatActivity {
 //        setContentView(R.layout.secondactivity_home);
 //    }
 
-        @Override
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertD=new AlertDialog.Builder(SecondPage.this);
+        alertD.setCancelable(false);
+        alertD.setTitle("Do you want to close this page?");
+        alertD.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+              finish();
+
+            }
+        });
+        alertD.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertD.show();
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        AlertDialog.Builder alertD=new AlertDialog.Builder(SecondPage.this);
+        alertD.setCancelable(false);
+        alertD.setTitle("Do you want to close this page?");
+        alertD.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                finish();
+
+            }
+        });
+        alertD.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertD.show();
+        return true;
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondactivity_home);
-
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
           Intent intent = getIntent();
          fiNo = intent.getStringExtra("FiCode");
          rentOfHouse = intent.getStringExtra("Rent_of_House");
@@ -238,8 +296,9 @@ public class SecondPage extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            GpsTracker gpsTracker=new GpsTracker(SecondPage.this);
 
-                validateFields();
+
                 if(validateFields()){
 
                     progressDialog = new ProgressDialog(SecondPage.this);
@@ -333,8 +392,8 @@ public class SecondPage extends AppCompatActivity {
                     builder.addFormDataPart("Applicant_Status", "N");
                     builder.addFormDataPart("FamilymemberfromPaisalo", "0");
                     builder.addFormDataPart("HouseMonthlyRent", rentOfHouse);
-                    builder.addFormDataPart("Latitude", latitude);
-                    builder.addFormDataPart("Longitude", longitude);
+                    builder.addFormDataPart("Latitude", String.valueOf(gpsTracker.getLatitude()));
+                    builder.addFormDataPart("Longitude", String.valueOf(gpsTracker.getLongitude()));
                     builder.addFormDataPart("FICode", fiNo);
                     builder.addFormDataPart("Creator", creator);
                     builder.addFormDataPart("AreaCode", cityCode);
@@ -342,10 +401,8 @@ public class SecondPage extends AppCompatActivity {
                     builder.addFormDataPart("Address", address.getText().toString());
                     builder.addFormDataPart("EmpCode", empCode);
 
-
-
                     RequestBody requestBody = builder.build();
-
+                    Log.d("TAG", "onClick: "+requestBody.toString());
                     Call<JsonObject> call=jsonPlaceholder.saveHouseVerificationDetails(requestBody);
 
                     call.enqueue(new Callback<JsonObject>() {
@@ -353,6 +410,18 @@ public class SecondPage extends AppCompatActivity {
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                             Log.d("Sunny", "onResponse: "+ response.body());
+                            if (response.body()!=null){
+                                if (response.body().get("statusCode")!=null && response.body().get("statusCode").getAsInt()==200){
+                                    Intent i=new Intent(SecondPage.this,HomeVisitManagerList.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(i);
+                                    finish();
+
+                                }else{
+                                    Utils.alert(SecondPage.this,"Something went wrong please try again");
+                                }
+                            }
                             progressDialog.dismiss();
                             showToasts("Data Saved");
                         }
@@ -364,6 +433,8 @@ public class SecondPage extends AppCompatActivity {
                         }
                     });
 
+                }else{
+                    Utils.alert(SecondPage.this,"There's one or more errors in house visit form");
                 }
             }
         });
@@ -385,16 +456,25 @@ public class SecondPage extends AppCompatActivity {
                         }
                     }
                 } else {
-                    openCamera();
+                    ImagePicker.with(SecondPage.this)
+                            .cameraOnly()
+                            .start(REQUEST_TAKE_PHOTO);
                 }
             }
         });
 
         this.view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { Intent intent = new Intent(SecondPage.this, Preview.class);
-                intent.putExtra("imageUri", imageUri.toString());
-                startActivity(intent);
+            public void onClick(View v) {
+                if (photoFile!=null){
+
+                    Intent intent = new Intent(SecondPage.this, Preview.class);
+                    intent.putExtra("imageFilePath", photoFile.getAbsoluteFile().toString());
+                    startActivity(intent);
+
+                }else{
+                    Utils.alert(SecondPage.this,"First Please capture house image with borrower");
+                }
             }
         });
 
@@ -943,49 +1023,113 @@ public class SecondPage extends AppCompatActivity {
     }
 
     private boolean validateFields() {
-        String branchNameText = branchName.getText().toString().trim();
-        String areaText = area.getText().toString().trim();
-        String centreText = centre.getText().toString().trim();
-        String groupText = group.getText().toString().trim();
-        String residingWithText = residingWith.getSelectedItem().toString().trim();
-        String loanUsagePercentageText = loanUsagePercentage.getText().toString().trim();
-        String intervieweeNameText = interviewee_name.getText().toString().trim();
-        String intervieweeAgeText = interviewee_age.getText().toString().trim();
-        String intervieweeRelationText = intervieweeRelation.getSelectedItem().toString().trim();
-        String residenceTypeText = residence_type.getSelectedItem().toString().trim();
-        String residentialStabilityText = residental_stability.getSelectedItem().toString().trim();
-        String distanceApplicantToDealerText = distance_ApplicantToDealer.getText().toString().trim();
-        String timeApplicantToDealerText = time_ApplicantToDealer.getText().toString().trim();
-        String approxMonthlySalesText = approxMonthlySales.getText().toString().trim();
-        String approxMonthlyIncomeText = approxMonthlyIncome.getText().toString().trim();
-        String businessExperienceText = businessExperience.getSelectedItem().toString().trim();
-        String businessExpenditureText = businessExpenditure.getText().toString().trim();
-        String expectedIncomeText = expectedIncome.getText().toString().trim();
-        String houseExpenditureText = houseExpenditure.getText().toString().trim();
-        String familyNetIncomeText = familyNetIncome.getText().toString().trim();
-        String relationWithApplicantText = relationWithApplicant.getSelectedItem().toString().trim();
-        String reference1Text = reference1.getText().toString().trim();
-        String referencePhoneNo1Text = reference_PhoneNo1.getText().toString().trim();
-        String reference2Text = reference2.getText().toString().trim();
-        String referencePhoneNo2Text = reference_PhoneNo2.getText().toString().trim();
-        String addressText = address.getText().toString().trim();
-        String neighbourVerificationText = neighbourhood_verification.getSelectedItem().toString().trim();
+//        String branchNameText = branchName.getText().toString().trim();
+//        String areaText = area.getText().toString().trim();
+//        String centreText = centre.getText().toString().trim();
+//        String groupText = group.getText().toString().trim();
+//        String residingWithText = residingWith.getSelectedItem().toString().trim();
+//        String loanUsagePercentageText = loanUsagePercentage.getText().toString().trim();
+//        String intervieweeNameText = interviewee_name.getText().toString().trim();
+//        String intervieweeAgeText = interviewee_age.getText().toString().trim();
+//        String intervieweeRelationText = intervieweeRelation.getSelectedItem().toString().trim();
+//        String residenceTypeText = residence_type.getSelectedItem().toString().trim();
+//        String residentialStabilityText = residental_stability.getSelectedItem().toString().trim();
+//        String distanceApplicantToDealerText = distance_ApplicantToDealer.getText().toString().trim();
+//        String timeApplicantToDealerText = time_ApplicantToDealer.getText().toString().trim();
+//        String approxMonthlySalesText = approxMonthlySales.getText().toString().trim();
+//        String approxMonthlyIncomeText = approxMonthlyIncome.getText().toString().trim();
+//        String businessExperienceText = businessExperience.getSelectedItem().toString().trim();
+//        String businessExpenditureText = businessExpenditure.getText().toString().trim();
+//        String expectedIncomeText = expectedIncome.getText().toString().trim();
+//        String houseExpenditureText = houseExpenditure.getText().toString().trim();
+//        String familyNetIncomeText = familyNetIncome.getText().toString().trim();
+//        String relationWithApplicantText = relationWithApplicant.getSelectedItem().toString().trim();
+//        String reference1Text = reference1.getText().toString().trim();
+//        String referencePhoneNo1Text = reference_PhoneNo1.getText().toString().trim();
+//        String reference2Text = reference2.getText().toString().trim();
+//        String referencePhoneNo2Text = reference_PhoneNo2.getText().toString().trim();
+//        String addressText = address.getText().toString().trim();
+//        String neighbourVerificationText = neighbourhood_verification.getSelectedItem().toString().trim();
 
-        if (branchNameText.isEmpty() || areaText.isEmpty() || centreText.isEmpty() || groupText.isEmpty()
-                || residingWithText.isEmpty() || loanUsagePercentageText.isEmpty() || intervieweeNameText.isEmpty()
-                || intervieweeAgeText.isEmpty() || intervieweeRelationText.isEmpty() || residenceTypeText.isEmpty()
-                || residentialStabilityText.isEmpty() || distanceApplicantToDealerText.isEmpty() || timeApplicantToDealerText.isEmpty()
-                || approxMonthlySalesText.isEmpty() || approxMonthlyIncomeText.isEmpty() || businessExperienceText.isEmpty()
-                || businessExpenditureText.isEmpty() || expectedIncomeText.isEmpty() || houseExpenditureText.isEmpty()
-                || familyNetIncomeText.isEmpty() || relationWithApplicantText.isEmpty() || reference1Text.isEmpty()
-                || reference2Text.isEmpty() || neighbourVerificationText.isEmpty() || addressText.isEmpty()) {
-            showToasts("Please enter all fields");
+        if (branchName.getText().toString().trim().length()<1){
+            branchName.setError("Please enter branch name");
+            return false;
+        }else if (area.getText().toString().trim().length()<1){
+            area.setError("Please enter area name");
+            return false;
+        }else  if (group.getText().toString().trim().length()<1){
+            group.setError("Please enter group name");
+            return false;
+        }else if (loanUsagePercentage.getText().toString().trim().length()<1){
+            loanUsagePercentage.setError("Please enter loan Usage Percentage");
+            return false;
+        }else if (interviewee_name.getText().toString().trim().length()<1){
+            interviewee_name.setError("Please enter interviewee name");
+            return false;
+        }else if (interviewee_age.getText().toString().trim().length()<1){
+            interviewee_age.setError("Please enter interviewee age");
+            return false;
+        }else if (distance_ApplicantToDealer.getText().toString().trim().length()<1){
+            distance_ApplicantToDealer.setError("Please enter distance");
+            return false;
+        }else if (time_ApplicantToDealer.getText().toString().trim().length()<1){
+            time_ApplicantToDealer.setError("Please enter time in minutes");
+            return false;
+        }else if (approxMonthlySales.getText().toString().trim().length()<1){
+            approxMonthlySales.setError("Please enter monthly sales");
+            return false;
+        }else if (approxMonthlyIncome.getText().toString().trim().length()<1){
+            approxMonthlyIncome.setError("Please enter monthly income");
+            return false;
+        }else if (businessExpenditure.getText().toString().trim().length()<1){
+            businessExpenditure.setError("Please enter monthly expense");
+            return false;
+        }else if (expectedIncome.getText().toString().trim().length()<1){
+            expectedIncome.setError("Please enter expected income");
+            return false;
+        }else if (houseExpenditure.getText().toString().trim().length()<1){
+            houseExpenditure.setError("Please enter house expenses");
+            return false;
+        }else if (familyNetIncome.getText().toString().trim().length()<1){
+            familyNetIncome.setError("Please enter net family income");
+            return false;
+        }else if (reference1.getText().toString().trim().length()<1){
+            reference1.setError("Please enter Name");
+            return false;
+        }else if (reference_PhoneNo1.getText().toString().trim().length()!=10){
+            reference_PhoneNo1.setError("Please enter mobile number");
+            return false;
+        }else if (reference2.getText().toString().trim().length()<1){
+            reference2.setError("Please enter Name");
+            return false;
+        }else if (reference_PhoneNo2.getText().toString().trim().length()!=10){
+            reference_PhoneNo2.setError("Please enter mobile number");
+            return false;
+        }else if (address.getText().toString().trim().length()<4){
+            address.setError("Please enter current address");
+            return false;
+        } else if(photoFile==null){
+            Toast.makeText(this, "Please capture image of borrower's house with them", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!isValidMobileNumber(referencePhoneNo1Text) || !isValidMobileNumber(referencePhoneNo2Text)) {
-            showToasts("Invalid mobile numbers");
-            return false;
-        }
+
+
+
+//        if (branchNameText.isEmpty() || areaText.isEmpty() || centreText.isEmpty() || groupText.isEmpty()
+//                || residingWithText.isEmpty() || loanUsagePercentageText.isEmpty() || intervieweeNameText.isEmpty()
+//                || intervieweeAgeText.isEmpty() || intervieweeRelationText.isEmpty() || residenceTypeText.isEmpty()
+//                || residentialStabilityText.isEmpty() || distanceApplicantToDealerText.isEmpty() || timeApplicantToDealerText.isEmpty()
+//                || approxMonthlySalesText.isEmpty() || approxMonthlyIncomeText.isEmpty() || businessExperienceText.isEmpty()
+//                || businessExpenditureText.isEmpty() || expectedIncomeText.isEmpty() || houseExpenditureText.isEmpty()
+//                || familyNetIncomeText.isEmpty() || relationWithApplicantText.isEmpty() || reference1Text.isEmpty()
+//                || reference2Text.isEmpty() || neighbourVerificationText.isEmpty() || addressText.isEmpty()) {
+//            showToasts("Please enter all fields");
+//            return false;
+//        }
+//        if (!isValidMobileNumber(referencePhoneNo1Text) || !isValidMobileNumber(referencePhoneNo2Text)) {
+//            showToasts("Invalid mobile numbers");
+//            return false;
+//        }
 
         return true;
     }
@@ -1151,14 +1295,104 @@ public class SecondPage extends AppCompatActivity {
         return image;
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA && resultCode == RESULT_OK) {
+//            // Display the captured image in the ImageView
+//
+//            imageUri = Uri.fromFile(new File(currentPhotoPath));
+//        }
+//    }
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
 
-        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA && resultCode == RESULT_OK) {
-            // Display the captured image in the ImageView
+            if (data != null) {
+                uriPicture = data.getData();
+                CropImage.activity(uriPicture)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(45, 52)
+                        .start(this);
+            } else {
+                Log.e("ImageData", "Null");
+                Toast.makeText(SecondPage.this, "Image Data Null", Toast.LENGTH_SHORT).show();
+            }
 
-            imageUri = Uri.fromFile(new File(currentPhotoPath));
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Exception error = null;
+
+
+            if (data != null) {
+                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
+                //Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
+                File tempCroppedImage = new File(imageUri.getPath());
+                Log.e("tempCroppedImage", tempCroppedImage.getPath() + "");
+
+
+                if (error == null) {
+
+                    if (imageUri != null) {
+
+                        if (tempCroppedImage.length() > 100) {
+
+
+                                (new File(uriPicture.getPath())).delete();
+                                try {
+
+
+//                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+//                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
+//                                    } else {
+//                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
+//                                    }
+//
+//
+//                                    ImageString = bitmapToBase64(bitmap);
+
+                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+//                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+//                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
+//                                    } else {
+//                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
+//                                    }
+//                                    //Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                    Log.e("CroppedImageFile1", croppedImage.getPath() + "");
+                                    Log.e("CroppedImageFile2", croppedImage.getAbsolutePath() + "");
+                                    Log.e("CroppedImageFile3", croppedImage.getCanonicalPath() + "");
+                                    Log.e("CroppedImageFile4", croppedImage.getParent() + "");
+                                    Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath() + "");
+                                    Log.e("CroppedImageFile6", croppedImage.getParentFile().getName() + "");
+                                    photoFile=croppedImage;
+                                    Bitmap myBitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+                                    view.setImageBitmap(myBitmap);
+//
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                        } else {
+                            Toast.makeText(this, "CroppedImage FIle Length:" + tempCroppedImage.length() + "", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, imageUri.toString() + "", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, error.toString() + "", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+//                Log.e("Error",data.getData()+"");
+                Toast.makeText(this, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

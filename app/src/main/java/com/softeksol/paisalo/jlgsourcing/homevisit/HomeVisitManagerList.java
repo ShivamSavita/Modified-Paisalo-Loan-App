@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.dealers.Adapters.HomeVisitMnagerAdapter;
@@ -22,6 +25,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import a.a.e.d;
@@ -38,6 +42,7 @@ public class HomeVisitManagerList extends AppCompatActivity {
     RecyclerView recViewHVManagerList;
     HomeVisitMnagerAdapter adapter;
     private Manager manager;
+    EditText edt_tvSearchGroupHV;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -52,6 +57,27 @@ public class HomeVisitManagerList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recViewHVManagerList=findViewById(R.id.recViewHVManagerList);
         recViewHVManagerList.setLayoutManager(new LinearLayoutManager(this));
+
+        edt_tvSearchGroupHV=findViewById(R.id.edt_tvSearchGroupHV);
+        edt_tvSearchGroupHV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (adapter != null) {
+                    adapter.getFilter().filter(charSequence);
+                }
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(adapter != null) {
+                    String text = edt_tvSearchGroupHV.getText().toString().toLowerCase(Locale.getDefault());
+                    adapter.getFilter().filter(text);
+                }
+            }
+        });
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         Log.d("TAG", "onCreate: "+ WebOperations.convertToJson(manager));
         getToken();

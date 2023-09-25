@@ -50,6 +50,9 @@
         </activity>
 
         <activity
+            android:name="com.softeksol.paisalo.jlgsourcing.homevisit.Preview"
+            android:exported="false"/>
+        <activity
             android:name="com.softeksol.paisalo.jlgsourcing.homevisit.FirstPage"
             android:exported="false"/>
         <activity
