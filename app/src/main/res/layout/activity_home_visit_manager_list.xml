@@ -6,9 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".homevisit.HomeVisitManagerList">
 
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#E8E8E8"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edt_tvSearchGroupHV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/scada_regular"
+            android:hint="Search by Ficode"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/recViewHVManagerList"
-        android:layout_height="match_parent"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
