@@ -61,6 +61,10 @@ String CreatedBy;
             @Override
             public void onClick(View view) {
                 if (edit_textdevSrNum.getText().toString().trim().length()>4){
+
+                    String character=edit_textdevSrNum.getText().toString().trim();
+                if (character.matches("[0-9]{4}[i][0-9]{6}")) {
+
                     Call<JsonObject> call=apiInterface.sendDataForMorphoRecharge(getJsonObject());
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
@@ -81,17 +85,15 @@ String CreatedBy;
                                     , Toast.LENGTH_SHORT).show();
                         }
                     });
+                } else {
+                    Toast.makeText(Morpho_Recharge_Entry.this, "Serial no not valid!!", Toast.LENGTH_SHORT).show();
+
+                }
+//
                 }else{
                     Toast.makeText(Morpho_Recharge_Entry.this, "Please Enter Device Serial Number!!", Toast.LENGTH_SHORT).show();
                 }
-//                String character=edit_textdevSrNum.getText().toString().trim();
-//                if (character.matches(".*[A-Za-z].*") && character.matches(".*[0-9].*") && character.matches("[A-Za-z0-9]*")) {
 //
-//
-//                } else {
-//                    Toast.makeText(Morpho_Recharge_Entry.this, "Serial no not valid!!", Toast.LENGTH_SHORT).show();
-//
-//                }
 
             }
         });
