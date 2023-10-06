@@ -81,6 +81,16 @@ public class HomeVisitManagerList extends AppCompatActivity {
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         Log.d("TAG", "onCreate: "+ WebOperations.convertToJson(manager));
         getToken();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getFilIST();
+    }
+
+    private void getFilIST(){
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -101,9 +111,9 @@ public class HomeVisitManagerList extends AppCompatActivity {
                 Log.d("TAG", "onResponse of hv manager: "+response.body().getData());
                 List<HomeVisitFiList> homeVisitManagerLists=response.body().getData();
                 if (homeVisitManagerLists.size()>1){
-                        adapter=new HomeVisitMnagerAdapter(HomeVisitManagerList.this,homeVisitManagerLists);
-                        recViewHVManagerList.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+                    adapter=new HomeVisitMnagerAdapter(HomeVisitManagerList.this,homeVisitManagerLists);
+                    recViewHVManagerList.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
                 }else{
                     Utils.alert(HomeVisitManagerList.this,"You Have not any case in this branch");
@@ -117,8 +127,8 @@ public class HomeVisitManagerList extends AppCompatActivity {
 
             }
         });
-    }
 
+    }
     private void getToken() {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("emailId", "dotnetdev2@paisalo.in");

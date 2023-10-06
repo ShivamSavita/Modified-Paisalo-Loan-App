@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.homevisit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +51,7 @@ public class FirstPage extends AppCompatActivity {
     String creator ,Rent_of_House,GroupCode,CityCode,Latitude,FiCode,Longitude;
     String ficode ;
     String bearerToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1MzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxNTM5IiwiUm9sZSI6WyJBRE1JTiIsIkFETUlOIl0sIkJyYW5jaENvZGUiOiIiLCJDcmVhdG9yIjoiIiwiVU5hbWUiOiJSQUpBTiBLVU1BUiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IlNlcCBUaHUgMjEgMjAyMyAwNjoyOTozOSBBTSIsIm5iZiI6MTY5NTE5MTM3OSwiZXhwIjoxNjk1MjU3OTc5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE4OCJ9.lMtcP2gwW0UsBjq4U-iv8TZXnfxKVDe14XB6HVhzSgM";
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,46 @@ public class FirstPage extends AppCompatActivity {
         ficode=getIntent().getStringExtra("ficode");
         creator=getIntent().getStringExtra("creator");
 
+        /*EditText*/
+        applicantName = findViewById(R.id.applicantName);
+        maritalStatus = findViewById(R.id.maritalStatus);
+        LoanAmount = findViewById(R.id.loanAmount);
+        loanPurpose = findViewById(R.id.purpose);
+        loanDuration = findViewById(R.id.duration);
+        applicantStatus = findViewById(R.id.applicantStatus);
+        currentOccupation = findViewById(R.id.currentOccupation);
+        occupationType = findViewById(R.id.occupationType);
+        landOwnership = findViewById(R.id.landOwnership);
+        residenceOwnership = findViewById(R.id.residenceOwnership);
+        applicantName.setEnabled(false);
+        maritalStatus.setEnabled(false);
+        LoanAmount.setEnabled(false);
+        loanPurpose.setEnabled(false);
+        loanDuration.setEnabled(false);
+        applicantStatus.setEnabled(false);
+        currentOccupation.setEnabled(false);
+        occupationType.setEnabled(false);
+        landOwnership.setEnabled(false);
+        residenceOwnership.setEnabled(false);
 
 
+        /*Image View*/
+        aplicantImage = findViewById(R.id.applicantImage);
+
+        /*Check Box*/
+        confirmationBox = findViewById(R.id.confirmationBox);
+
+        /*Button*/
+        fillForm = findViewById(R.id.fillForm);
+        fillForm.setEnabled(false);
+
+
+
+        progressDialog = new ProgressDialog(FirstPage.this);
+        progressDialog.setMessage("Saving...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://erpservice.paisalo.in:980/PDL.FIService.API/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -73,6 +112,7 @@ public class FirstPage extends AppCompatActivity {
             @Override
             public void onResponse(Call<FIDataModel> call, Response<FIDataModel> response) {
                 Log.d("TAG", "onResponse: "+response.body());
+                progressDialog.dismiss();
                 try {
                     String responseString = response.body().getData();
                     JSONArray jsonArray = new JSONArray(responseString);
@@ -83,6 +123,7 @@ public class FirstPage extends AppCompatActivity {
                     String tag = jsonObjectAtIndex0.getString("Tag");
 
                     applicantName.setText(jsonObjectAtIndex0.getString("Fname"));
+
                     maritalStatus.setText(jsonObjectAtIndex0.getString("isMarried"));
                     LoanAmount.setText(jsonObjectAtIndex0.getString("Loan_Amt"));
                     loanPurpose.setText(jsonObjectAtIndex0.getString("Loan_Reason"));
@@ -120,34 +161,13 @@ public class FirstPage extends AppCompatActivity {
             @Override
             public void onFailure(Call<FIDataModel> call, Throwable t) {
                 Log.d("TAG", "onFailure: "+t.getMessage());
+                progressDialog.dismiss();
             }
         });
 
 
 
-        /*EditText*/
-        applicantName = findViewById(R.id.applicantName);
-        maritalStatus = findViewById(R.id.maritalStatus);
-        LoanAmount = findViewById(R.id.loanAmount);
-        loanPurpose = findViewById(R.id.purpose);
-        loanDuration = findViewById(R.id.duration);
-        applicantStatus = findViewById(R.id.applicantStatus);
-        currentOccupation = findViewById(R.id.currentOccupation);
-        occupationType = findViewById(R.id.occupationType);
-        landOwnership = findViewById(R.id.landOwnership);
-        residenceOwnership = findViewById(R.id.residenceOwnership);
 
-
-
-        /*Image View*/
-        aplicantImage = findViewById(R.id.applicantImage);
-
-        /*Check Box*/
-        confirmationBox = findViewById(R.id.confirmationBox);
-
-        /*Button*/
-        fillForm = findViewById(R.id.fillForm);
-        fillForm.setEnabled(false);
 
         confirmationBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -157,7 +177,7 @@ public class FirstPage extends AppCompatActivity {
                 if (isChecked){
                     fillForm.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }else {
-                    fillForm.setBackgroundColor(getResources().getColor(R.color.dull_grey));
+                    fillForm.setBackgroundColor(getResources().getColor(R.color.defaultTextColor));
 
                 }
             }
@@ -177,8 +197,8 @@ public class FirstPage extends AppCompatActivity {
                 intent.putExtra("Latitude", Latitude);
                 intent.putExtra("Longitude", Longitude);
                 intent.putExtra("Creator", creator);
-
                 startActivity(intent);
+                finish();
             }
         });
        // getFidata();

@@ -1,5 +1,6 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -193,6 +194,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     String requestforVerification="";
     String ResponseforVerification="";
     boolean panaadharDOBMatched=false;
+    boolean isgetPanwithOCR=false;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -976,7 +978,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 Log.d("CheckXMLDATA3","AadharData:->" + scanContent);
                 if (scanFormat != null) {
                     try {
-                        panaadharDOBMatched=true;
                         setAadharContent(scanContent);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1225,14 +1226,15 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         }else if(imageData.equals("pan")){
                             if (response.body().get("data").getAsJsonArray().size()>0){
                                 if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
-
+                                       isgetPanwithOCR=true;
                                     if (AadharUtils.comparedateofbirth(borrower.DOB,response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString())){
                                         borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
                                         borrower.isAadharVerified="O";
-
+                                        panaadharDOBMatched=true;
                                         borrower.save();
                                         setDataToView(activity.findViewById(android.R.id.content).getRootView());
                                     }else{
+                                         panaadharDOBMatched=false;
                                         Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
                                     }
 
@@ -1848,27 +1850,58 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void sendingDataToNewPage() {
-        if(panaadharDOBMatched==true){
-            Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
-            intent.putExtra("FatherFName", tietFatherFName.getText().toString());
-            intent.putExtra("FatherLName", tietFatherLName.getText().toString());
-            intent.putExtra("FatherMName", tietFatherMName.getText().toString());
-            intent.putExtra("MotherFName", tietMotherFName.getText().toString());
-            intent.putExtra("MotherLName", tietMotherLName.getText().toString());
-            intent.putExtra("MotherMName", tietMotherMName.getText().toString());
-            intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
-            intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
-            intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
-            intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
-            intent.putExtra("PANName", tilPAN_Name.getText().toString());
-            intent.putExtra("DLName", tilDL_Name.getText().toString());
-            intent.putExtra("AadharName", tietName.getText().toString());
-            intent.putExtra("manager", manager);
-            intent.putExtra("borrower", borrower);
-            startActivity(intent);
+        if(isgetPanwithOCR==true){
+            if(panaadharDOBMatched==true){
+                if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
+                    Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+                    intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+                    intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+                    intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+                    intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+                    intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+                    intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+                    intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+                    intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+                    intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                    intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                    intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                    intent.putExtra("DLName", tilDL_Name.getText().toString());
+                    intent.putExtra("AadharName", tietName.getText().toString());
+                    intent.putExtra("manager", manager);
+                    intent.putExtra("borrower", borrower);
+                    startActivity(intent);
+
+                }else{
+                    Utils.alert(ActivityBorrowerKyc.this,"Verify any one ID from PAN|DL|Voter ID");
+                }
+            }else{
+                Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
+            }
         }else{
-            Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
+            if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
+                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                intent.putExtra("AadharName", tietName.getText().toString());
+                intent.putExtra("manager", manager);
+                intent.putExtra("borrower", borrower);
+                startActivity(intent);
+
+            }else{
+                Utils.alert(ActivityBorrowerKyc.this,"Verify any one ID from PAN|DL|Voter ID");
+            }
         }
+
     }
 
     private void fetchTopupDetails(final String oldCaseCode) {
@@ -2119,6 +2152,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         requestforVerification= String.valueOf(getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.body() != null){
@@ -2132,10 +2166,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         panCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isPanverify=1;
-                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Card Holder Name Not Found");
+                        tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         panCheckSign.setEnabled(true);
                         isPanverify=0;
@@ -2149,10 +2183,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         voterIdCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isVoterverify=1;
-                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText("Card Holder Name Not Found");
+                        tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         voterIdCheckSign.setEnabled(true);
                         isVoterverify=0;
@@ -2168,10 +2202,10 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         dLCheckSign.setEnabled(false);
                         isNameMatched="1";
                         isDLverify=1;
-                        panaadharDOBMatched=true;
                     }catch (Exception e){
                         tilDL_Name.setVisibility(View.VISIBLE);
                         tilDL_Name.setText("Card Holder Name Not Found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         dLCheckSign.setEnabled(true);
                         isDLverify=0;
@@ -2181,21 +2215,34 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
                 }else{
                     progressDialog.cancel();
-                    tilVoterId_Name.setText("Not found");
+                    if(type.equals("pancard")){
+                        tilPAN_Name.setText("Not found");
+                    }else if(type.equals("voterid")){
+                        tilVoterId_Name.setText("Not found");
+                    }else{
+                        tilDL_Name.setText("Not found");
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.cancel();
                 if (type.equals("pancard")){
                     tilPAN_Name.setText(t.getMessage());
+                    tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                    progressDialog.cancel();
+
+                }if(type.equals("voterid")){
+                    tilVoterId_Name.setText(t.getMessage());
+                    tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
+                    voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }else{
-                    tilVoterId_Name.setText(t.getMessage());
-                    progressDialog.cancel();
-                    voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                    tilDL_Name.setText(t.getMessage());
+                    tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                    dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }
             }

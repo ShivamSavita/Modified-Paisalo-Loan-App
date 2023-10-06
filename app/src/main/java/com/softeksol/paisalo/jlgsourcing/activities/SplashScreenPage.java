@@ -34,17 +34,17 @@ public class SplashScreenPage extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-      //  getAppUpdate();
+        getAppUpdate();
 
-       new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                finish();
-            }
-        }, 1700);
+//       new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(SplashScreenPage.this, ActivityLogin.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+//                finish();
+//            }
+//        }, 1700);
 
     }
     private void getAppUpdate(){

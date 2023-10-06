@@ -297,17 +297,13 @@ public class SecondPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             GpsTracker gpsTracker=new GpsTracker(SecondPage.this);
-
-
                 if(validateFields()){
-
                     progressDialog = new ProgressDialog(SecondPage.this);
                     progressDialog.setMessage("Saving...");
                     progressDialog.setCancelable(false);
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDialog.show();
-
-                            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY);
                     OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
                     );
@@ -412,10 +408,10 @@ public class SecondPage extends AppCompatActivity {
                             Log.d("Sunny", "onResponse: "+ response.body());
                             if (response.body()!=null){
                                 if (response.body().get("statusCode")!=null && response.body().get("statusCode").getAsInt()==200){
-                                    Intent i=new Intent(SecondPage.this,HomeVisitManagerList.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(i);
+//                                    Intent i=new Intent(SecondPage.this,HomeVisitManagerList.class);
+//                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                    startActivity(i);
                                     finish();
 
                                 }else{
@@ -1113,23 +1109,6 @@ public class SecondPage extends AppCompatActivity {
             return false;
         }
 
-
-
-//        if (branchNameText.isEmpty() || areaText.isEmpty() || centreText.isEmpty() || groupText.isEmpty()
-//                || residingWithText.isEmpty() || loanUsagePercentageText.isEmpty() || intervieweeNameText.isEmpty()
-//                || intervieweeAgeText.isEmpty() || intervieweeRelationText.isEmpty() || residenceTypeText.isEmpty()
-//                || residentialStabilityText.isEmpty() || distanceApplicantToDealerText.isEmpty() || timeApplicantToDealerText.isEmpty()
-//                || approxMonthlySalesText.isEmpty() || approxMonthlyIncomeText.isEmpty() || businessExperienceText.isEmpty()
-//                || businessExpenditureText.isEmpty() || expectedIncomeText.isEmpty() || houseExpenditureText.isEmpty()
-//                || familyNetIncomeText.isEmpty() || relationWithApplicantText.isEmpty() || reference1Text.isEmpty()
-//                || reference2Text.isEmpty() || neighbourVerificationText.isEmpty() || addressText.isEmpty()) {
-//            showToasts("Please enter all fields");
-//            return false;
-//        }
-//        if (!isValidMobileNumber(referencePhoneNo1Text) || !isValidMobileNumber(referencePhoneNo2Text)) {
-//            showToasts("Invalid mobile numbers");
-//            return false;
-//        }
 
         return true;
     }

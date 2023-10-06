@@ -996,7 +996,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/scada_regular"
                     android:text="@string/applicant_pan"
                     android:textColor="@color/black"
@@ -1013,7 +1013,7 @@
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="7dp"
                     app:cardElevation="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/capturePanCardImage"
+                    app:layout_constraintEnd_toStartOf="@+id/panCheckSign"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView26">
 
@@ -1046,16 +1046,18 @@
                 </androidx.cardview.widget.CardView>
 
                 <Button
+                    android:layout_marginTop="10dp"
                     android:id="@+id/capturePanCardImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/white"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="Click PAN"
-                    app:layout_constraintBottom_toBottomOf="@+id/tilPAN"
-                    app:layout_constraintEnd_toStartOf="@+id/panCheckSign"
-                    app:layout_constraintTop_toTopOf="@+id/tilPAN" />
+                    android:text="PAN with OCR"
+                    android:textSize="11dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/tilVoterId_Name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight=".5"/>
 
                 <Button
                     android:id="@+id/panCheckSign"
@@ -1068,19 +1070,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tilPAN" />
 
+
                 <TextView
                     android:id="@+id/tilPAN_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/dull_green"
                     android:textSize="15dp"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tilPAN" />
-
 
                 <TextView
                     android:id="@+id/textView27"

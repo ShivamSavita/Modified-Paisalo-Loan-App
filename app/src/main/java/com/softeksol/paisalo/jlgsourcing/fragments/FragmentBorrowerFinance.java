@@ -96,7 +96,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     String requestforVerification="";
     String ResponseforVerification="";
     TextView tvBankName,tvBankBranch;
-
+    public String[] restrictBanks={"PAYTM","AIRTEL","ADITYA","FINO","JIO","ISG"};
+    boolean isAccountVerify=false;
     public FragmentBorrowerFinance() {
         // Required empty public constructor
     }
@@ -295,10 +296,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                             checkBankAccountNuber.setEnabled(false);
+                            isAccountVerify=true;
                             UpdatefiVerificationDocName();
-                            borrower.DelCode="V";
-                            borrower.save();
                         }else{
+                            isAccountVerify=false;
                             etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText("Account Holder Name Not Found");
@@ -306,10 +307,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                             checkBankAccountNuber.setEnabled(true);
                         }
-
                     }catch (Exception e){
+                        isAccountVerify=false;
                         tilBankAccountName.setVisibility(View.VISIBLE);
-                        tilBankAccountName.setText("Card Holder Name Not Found");
+                        tilBankAccountName.setText("Name Not Found");
                         checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                         checkBankAccountNuber.setEnabled(true);
                         etBankAccount.setText("");
@@ -479,9 +480,9 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.Bank_Address = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch));
             borrower.T_ph3 = Utils.getSpinnerStringValue(spinnerSchemeType);
             borrowerExtra.RentalIncome= Utils.getNotNullInt(tietRentalIncome);
-
-
-
+            if( isAccountVerify==true){
+                borrower.DelCode="V";
+            }
             expense.setRent(Utils.getNotNullInt(tietRent));
             expense.setFooding(Utils.getNotNullInt(tietFooding));
             expense.setEducation(Utils.getNotNullInt(tietEducation));
@@ -584,16 +585,33 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                 TextView tvBankBranch = (TextView) getView().findViewById(R.id.tvLoanAppFinanceBankBranch);
                 if(response.body() != null){
                     try {
+                        boolean bankNotAllowed=false;
                         tvBankName.setText("");
                         tvBankBranch.setText("");
                         JSONObject jo = new JSONObject(String.valueOf(response.body()));
                         String bankname=jo.getString("BANK");
                         String address=jo.getString("ADDRESS");
                         if (borrower != null) {
-                            borrower.BankName = bankname;
-                            borrower.Bank_Address =address;
-                            tvBankName.setText(borrower.BankName);
-                            tvBankBranch.setText(borrower.Bank_Address);
+                            for (String restrictBank:restrictBanks) {
+                                Log.d("TAG", "onResponse: "+restrictBank+"///"+bankname);
+                                if (bankname.toUpperCase().trim().contains(restrictBank)){
+                                    bankNotAllowed =true;
+                                    break;
+                                }
+                            }
+                            if (bankNotAllowed){
+                                Utils.alert(activity,"This bank is not allowed please try with another");
+                                etIFSC.setText("");
+                                etBankAccount.setText("");
+                                etBankAccount.setEnabled(true);
+                            }else{
+                                borrower.BankName = bankname;
+                                borrower.Bank_Address =address;
+                                tvBankName.setText(borrower.BankName);
+                                tvBankBranch.setText(borrower.Bank_Address);
+                                borrower.save();
+                            }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

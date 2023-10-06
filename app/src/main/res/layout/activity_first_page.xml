@@ -19,10 +19,10 @@
 
             <ImageView
                 android:id="@+id/applicantImage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:src="@drawable/user_icon"/>
+                android:background="@drawable/user_icon"/>
 
             <!--Linear Layout 3-->
             <LinearLayout
@@ -63,6 +63,7 @@
                             android:layout_height="match_parent">
 
                             <EditText
+                                android:enabled="false"
                                 android:id="@+id/applicantName"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
@@ -410,6 +411,7 @@
 
             <!--Linear Layout 10-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/layout10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -465,6 +467,7 @@
 
             <!--Linear Layout 11-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/layout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -577,14 +580,13 @@
                 android:id="@+id/confirmationBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Check this box,If above information is absolutely correct."/>
+                android:text="Check this box,If above information is correct."/>
 
             <Button
                 android:id="@+id/fillForm"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="#E40808"
                 android:textColor="@color/white"
                 android:text="Fill Form"
                 android:textStyle="bold"

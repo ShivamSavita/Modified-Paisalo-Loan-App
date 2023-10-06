@@ -1031,8 +1031,36 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.Enc_Property == null || this.Enc_Property.length() < 11) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
         }
-        if (this.DelCode == null || this.DelCode.length()==0) {
-            messages.put("Bank Account", "Verify Bank Account with click on Mark");
+        if (this.DelCode == null) {
+            messages.put("Bank Account", "Verify Bank Account");
+        }
+
+        if (this.Income<1){
+            messages.put("Income", "Please Enter borrower's monthly income");
+
+        }
+        if (!this.fiExtra.FamOtherIncomeType.toUpperCase().equals("NONE")){
+            if (this.fiExtra.FamIncomeSource.length()<1){
+                messages.put("Income", "Please Enter borrower's monthly future");
+
+            }
+        }
+        if (this.fiExtra.MOTHER_FIRST_NAME.length()<1 && this.fiExtra.MOTHER_LAST_NAME.length()<1){
+            messages.put("Mother Name","Please enter mother name properly");
+        }
+
+        if (this.fiExtra.FATHER_FIRST_NAME.length()<1 && this.fiExtra.FATHER_LAST_NAME.length()<1){
+            messages.put("Father Name","Please enter father name properly");
+        }
+        if (this.isMarried.toUpperCase().equals("M")){
+            if (this.fiExtra.SPOUSE_FIRST_NAME.length()<1 && this.fiExtra.SPOUSE_LAST_NAME.length()<1){
+                messages.put("Spouse Name","Please enter spouse name properly");
+            }
+        }
+
+        if (this.Expense<1){
+            messages.put("Expense", "Please Enter borrower's monthly Expense");
+
         }
 
         if (!this.getPictureUpdated()) {
