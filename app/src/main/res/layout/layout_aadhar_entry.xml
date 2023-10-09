@@ -7,6 +7,73 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
+    <LinearLayout
+        android:id="@+id/textView10"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tilUidAadhar"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/scada_regular"
+                android:text="@string/aadhar_id"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/Capture_Aadhar"
+                android:background="@color/red"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/scada_regular"
+                android:text="Aadhar Front"
+                android:textColor="@color/white"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/Capture_Aadharback"
+                android:background="@color/red"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/scada_regular"
+                android:text="Aadhar Back"
+                android:textColor="@color/white"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/tilUidAadhar"
@@ -17,7 +84,7 @@
         app:cardElevation="5dp"
         app:layout_constraintEnd_toStartOf="@+id/imgViewScanQR"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

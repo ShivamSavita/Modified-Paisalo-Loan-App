@@ -3,6 +3,7 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 import static com.softeksol.paisalo.jlgsourcing.activities.ActivityBorrowerKyc.bytesToHex;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +30,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.RequestParams;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.DateUtils;
@@ -50,6 +54,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
 import com.softeksol.paisalo.jlgsourcing.entities.Guarantor_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -75,14 +80,26 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ActivityGuarantorEntry extends AppCompatActivity implements View.OnClickListener, CameraUtils.OnCameraCaptureUpdate {
     private Guarantor guarantor;
     private Borrower borrower;
+    int ImageType=0;
     protected String signature,email,mobile;
     private Uri uriPicture;
     private ImageView imageView, imgViewScanQR;
@@ -218,7 +235,31 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 validateControls(editText, text);
             }
         });
+        TextView Capture_Aadhar=findViewById(R.id.Capture_Aadhar);
+        TextView Capture_Aadharback=findViewById(R.id.Capture_Aadharback);
 
+        Capture_Aadhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType = 1;
+                ImagePicker.with(ActivityGuarantorEntry.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
+        Capture_Aadharback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType=2;
+                ImagePicker.with(ActivityGuarantorEntry.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
         tietDrivingLic = findViewById(R.id.tietDrivingLlicense);
         tietDrivingLic.addTextChangedListener(new MyTextWatcher(tietDrivingLic) {
             @Override
@@ -433,8 +474,17 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
             } else {
                 Utils.alert(this, "Could not take Picture");
             }
+        }else if(requestCode == 1000){
+            uriPicture = data.getData();
+            if(uriPicture!=null){
+                CropImage.activity(uriPicture)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAllowFlipping(true)
+                        .setMultiTouchEnabled(true)
+                        .start(  ActivityGuarantorEntry.this);
+            }
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ) {
             Exception error = null;
 
             if (data!=null){
@@ -445,12 +495,19 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 if (error ==null){
 
                     if (imageUri!=null){
-                        if (tempCroppedImage.length()>100){
-                            if (guarantor != null) {
-                                (new File(this.uriPicture.getPath())).delete();
+                        if (ImageType==1){
+                            //adharFrontImg.setImageBitmap(myBitmap);
+                            setDataOfAdhar(tempCroppedImage,"aadharfront","aadhar");
+                        }else if (ImageType==2){
+                            //adharBackImg.setImageBitmap(myBitmap);
+                            setDataOfAdhar(tempCroppedImage,"aadharback","aadhar");
+                        }else{
+                            if (tempCroppedImage.length()>100){
+                                if (guarantor != null) {
+                                    (new File(this.uriPicture.getPath())).delete();
 
 
-                                try {
+                                    try {
 
 //                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
 //                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getContentResolver(), imageUri));
@@ -461,21 +518,23 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
 //
 //                                    ImageString = bitmapToBase64(bitmap);
 
-                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-                                    Log.e("croppedImageGRN",croppedImage.getAbsolutePath()+"");
-                                    Log.e("croppedImageGRN1",croppedImage.getPath()+"");
-                                    guarantor.setPicture(croppedImage.getPath());
-                                    //guarantor.setPictureGuarantor(croppedImage.getPath(),ImageString);
-                                    guarantor.save();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                        File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+                                        Log.e("croppedImageGRN",croppedImage.getAbsolutePath()+"");
+                                        Log.e("croppedImageGRN1",croppedImage.getPath()+"");
+                                        guarantor.setPicture(croppedImage.getPath());
+                                        //guarantor.setPictureGuarantor(croppedImage.getPath(),ImageString);
+                                        guarantor.save();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
+                            else {
+                                Log.e("tempCroppedImage",tempCroppedImage.length()+"");
+                                //Toast.makeText(ActivityGuarantorEntry.this, tempCroppedImage.length()+"", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            Log.e("tempCroppedImage",tempCroppedImage.length()+"");
-                            //Toast.makeText(ActivityGuarantorEntry.this, tempCroppedImage.length()+"", Toast.LENGTH_SHORT).show();
-                        }
+
 
                     }else {
                         Log.e("imageUriguarantor",imageUri.toString()+"");
@@ -492,8 +551,240 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
             }
 
         }
-    }
 
+//        else{
+//            Exception error = null;
+//
+//            if (data!=null){
+//                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
+//                File tempCroppedImage = new File(imageUri.getPath());
+//
+//                Log.e("tempCroppedImageGrntr",tempCroppedImage.getAbsolutePath()+"");
+//                if (error ==null){
+//
+//                    if (imageUri!=null){
+//                        if (tempCroppedImage.length()>100){
+//                            if (guarantor != null) {
+//                                (new File(this.uriPicture.getPath())).delete();
+//
+//
+//                                try {
+//
+////                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+////                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getContentResolver(), imageUri));
+////                                    } else {
+////                                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+////                                    }
+////
+////
+////                                    ImageString = bitmapToBase64(bitmap);
+//
+//                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+//                                    if (ImageType==1){
+//                                        //adharFrontImg.setImageBitmap(myBitmap);
+//                                        setDataOfAdhar(croppedImage,"aadharfront","aadhar");
+//                                    }else if (ImageType==2){
+//                                        //adharBackImg.setImageBitmap(myBitmap);
+//                                        setDataOfAdhar(croppedImage,"aadharback","aadhar");
+//                                    }
+//                                    Log.e("croppedImageGRN",croppedImage.getAbsolutePath()+"");
+//                                    Log.e("croppedImageGRN1",croppedImage.getPath()+"");
+//
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            Log.e("tempCroppedImage",tempCroppedImage.length()+"");
+//                            //Toast.makeText(ActivityGuarantorEntry.this, tempCroppedImage.length()+"", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }else {
+//                        Log.e("imageUriguarantor",imageUri.toString()+"");
+//                        //Toast.makeText(ActivityGuarantorEntry.this, imageUri.toString()+"", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }else {
+//                    Log.e("ErrorGuarantor",error.toString()+"");
+//                    //Toast.makeText(ActivityGuarantorEntry.this, error.toString()+"", Toast.LENGTH_SHORT).show();
+//                }
+//            }else {
+//                Log.e("CropImageDataGuarantor","Null");
+//                //Toast.makeText(ActivityGuarantorEntry.this, "CropImage data: NULL" , Toast.LENGTH_SHORT).show();
+//            }
+//        }
+    }
+    private void setDataOfAdhar(File croppedImage,String imageData,String type) {
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);//you can cancel it by pressing back button.
+        progressBar.setMessage("Data Fetching from Aadhaar Please wait...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.show();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), croppedImage);
+        builder.addFormDataPart("file",croppedImage.getName(),surveyBody);
+
+
+        RequestBody requestBody = builder.build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getAdharDataByOCR(imageData,type,requestBody);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponsews: "+response.body());
+
+                if (response.body()!=null){
+                    if (response.body().get("data")!=null){
+                        if (imageData.equals("aadharfront")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
+
+                                    String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
+                                    switch (borrowerNames.length){
+                                        case 1:
+                                            guarantor.setName(borrowerNames[0]);                                            break;
+                                        case 2:
+                                            guarantor.setName(borrowerNames[0]+" "+borrowerNames[1]);
+
+                                            break;
+                                        case 3:
+                                            guarantor.setName(borrowerNames[0]+" "+borrowerNames[1]+" "+borrowerNames[2]);
+
+                                            break;
+                                    }
+
+
+
+                                    guarantor.setGender(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("gender").getAsString().charAt(0)+"");
+                                    guarantor.setAadharid(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("aadharno").getAsString().replace(" ",""));
+
+                                    Date date;
+                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                    try {
+                                        date = formatter.parse(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    Instant instant = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        instant = date.toInstant();
+                                        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                                        LocalDate givenDate = zone.toLocalDate();
+
+                                        Period period = Period.between(givenDate, LocalDate.now());
+
+                                        guarantor.setAge(period.getYears());
+                                        System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
+                                    }
+                                    guarantor.setDOB(date);
+                                    guarantor.setIsAadharVerified("O");
+                                    guarantor.save();
+                                    setDataToView(findViewById(android.R.id.content).getRootView());
+
+                                }else{
+                                    Utils.alert(ActivityGuarantorEntry.this,"Please capture aadhaar front image!!");
+
+                                    Toast.makeText(ActivityGuarantorEntry.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Utils.alert(ActivityGuarantorEntry.this,"Please capture aadhaar front image!!");
+
+                            }
+
+                            progressBar.dismiss();
+                        }else if(imageData.equals("aadharback")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
+
+                                    guarantor.setP_pin( Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim()));
+                                    JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
+                                    String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
+                                    String[] arrOfAdd=fullAddress.split(",");
+                                    String city=arrOfAdd[arrOfAdd.length-2];
+
+                                    guarantor.setPerCity(city);
+//                                try {
+//
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
+//                                } catch (Exception e) {
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
+//
+//                                }
+                                    if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
+
+                                        guarantor.setPerAdd1(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim());
+                                    }
+                                    guarantor.setPerAdd2(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString());
+
+
+                                    String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
+                                    for (int i = 0; i < address1.length; i++) {
+                                        if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
+                                            guarantor.setGurName(address1[i]);
+                                            continue;
+                                        }
+                                        guarantor.setPerAdd1(guarantor.getPerAdd1() + address1[i]);
+
+                                    }
+                                    guarantor.setP_StateID(AadharUtils.getStateCode(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("state").getAsString().trim()));
+                                    guarantor.setIsAadharVerified("O");
+
+                                    guarantor.save();
+                                    setDataToView(findViewById(android.R.id.content).getRootView());
+
+
+                                }else{
+                                    Utils.alert(ActivityGuarantorEntry.this,"Please capture aadhaar back image!!");
+                                    //   Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Utils.alert(ActivityGuarantorEntry.this,"Please capture aadhaar back image again!!");
+
+                                Toast.makeText(ActivityGuarantorEntry.this, "Please capture aadhaar back image again!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            progressBar.dismiss();
+                        }
+
+                        //   borrower.setNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+                    }else{
+                        progressBar.dismiss();
+                    }
+                }else{
+                    progressBar.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+                progressBar.dismiss();
+            }
+        });
+
+
+
+
+
+
+
+
+
+    }
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);

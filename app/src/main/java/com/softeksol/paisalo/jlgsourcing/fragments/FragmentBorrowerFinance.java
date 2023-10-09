@@ -97,7 +97,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     String ResponseforVerification="";
     TextView tvBankName,tvBankBranch;
     public String[] restrictBanks={"PAYTM","AIRTEL","ADITYA","FINO","JIO","ISG"};
-    boolean isAccountVerify=false;
+    String isAccountVerify="N";
     public FragmentBorrowerFinance() {
         // Required empty public constructor
     }
@@ -296,10 +296,10 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             //tilBankAccountName.setTextColor(getResources().getColor(R.color.green));
                             checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
                             checkBankAccountNuber.setEnabled(false);
-                            isAccountVerify=true;
+                            isAccountVerify="V";
                             UpdatefiVerificationDocName();
                         }else{
-                            isAccountVerify=false;
+                            isAccountVerify="N";
                             etBankAccount.setText("");
                             tilBankAccountName.setVisibility(View.VISIBLE);
                             tilBankAccountName.setText("Account Holder Name Not Found");
@@ -308,7 +308,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
                             checkBankAccountNuber.setEnabled(true);
                         }
                     }catch (Exception e){
-                        isAccountVerify=false;
+                        isAccountVerify="N";
                         tilBankAccountName.setVisibility(View.VISIBLE);
                         tilBankAccountName.setText("Name Not Found");
                         checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
@@ -438,7 +438,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         etBankAccount.setEnabled(Utils.NullIf(borrower.bank_ac_no, "").length() < 3);
         howOldAccount.setText(DateUtils.getFormatedDateOpen(borrower.BankAcOpenDt,"dd-MM-yyyy"));
        // howOldAccount.setEnabled(Utils.NullIf(borrower.bank_ac_month, "").length() < 1);
-
+        isAccountVerify= borrower.DelCode;
         Utils.setSpinnerPosition(spinnerBankAcType, borrower.BankAcType);
         etIFSC.setText(Utils.NullIf(borrower.Enc_Property, ""));
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName)).setText(Utils.NullIf(borrower.BankName, ""));
@@ -464,6 +464,11 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         Utils.setSpinnerPosition(acspHomeRoofType, expense.getHomeRoofType());
         Utils.setSpinnerPosition(acspToiletType, expense.getToiletType());
         Utils.setSpinnerPosition(acspLiveingWithSpouse, expense.getLivingWSpouse());
+        if(isAccountVerify.equalsIgnoreCase("V")){
+            checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+        }
+
+        Log.e("Account",isAccountVerify);
     }
 
     private void getDataFromView(View v) {
@@ -480,9 +485,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
             borrower.Bank_Address = Utils.getNotNullText((TextView) v.findViewById(R.id.tvLoanAppFinanceBankBranch));
             borrower.T_ph3 = Utils.getSpinnerStringValue(spinnerSchemeType);
             borrowerExtra.RentalIncome= Utils.getNotNullInt(tietRentalIncome);
-            if( isAccountVerify==true){
-                borrower.DelCode="V";
-            }
+            borrower.DelCode=isAccountVerify;
             expense.setRent(Utils.getNotNullInt(tietRent));
             expense.setFooding(Utils.getNotNullInt(tietFooding));
             expense.setEducation(Utils.getNotNullInt(tietEducation));
