@@ -2139,7 +2139,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
         return retVal;
     }
-
     private void cardValidate(String id,String type,String bankIfsc,String dob) {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -2155,72 +2154,86 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: this called");
                 if(response.body() != null){
-                ResponseforVerification= String.valueOf(response.body().get("data"));
-                saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
-                if (type.equals("pancard")){
-                    try {
-                        tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        panCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isPanverify=1;
-                    }catch (Exception e){
-                        tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText("Card Holder Name Not Found");
-                        tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
-                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        panCheckSign.setEnabled(true);
-                        isPanverify=0;
-                    }
-                    progressDialog.cancel();
-                }else if(type.equals("voterid")){
-                    try {
-                        tilVoterId_Name.setVisibility(View.VISIBLE);
-                        tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        voterIdCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isVoterverify=1;
-                    }catch (Exception e){
-                        tilVoterId_Name.setVisibility(View.VISIBLE);
-                        tilVoterId_Name.setText("Card Holder Name Not Found");
-                        tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
-                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        voterIdCheckSign.setEnabled(true);
-                        isVoterverify=0;
+                    Log.d("TAG", "onResponse: this called");
+
+                    ResponseforVerification= String.valueOf(response.body().get("data"));
+                    saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
+                    if (type.equals("pancard")){
+                        try {
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            panCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isPanverify=1;
+                        }catch (Exception e){
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText("Card Holder Name Not Found");
+                            tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            panCheckSign.setEnabled(true);
+                            isPanverify=0;
+                        }
+                        progressDialog.cancel();
+                    }else if(type.equals("voterid")){
+                        try {
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            voterIdCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isVoterverify=1;
+                        }catch (Exception e){
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText("Card Holder Name Not Found");
+                            tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            voterIdCheckSign.setEnabled(true);
+                            isVoterverify=0;
+
+                        }
+                        progressDialog.cancel();
+
+                    }else if(type.equals("drivinglicense")){
+                        try {
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            dLCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isDLverify=1;
+                        }catch (Exception e){
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText("Card Holder Name Not Found");
+                            tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            dLCheckSign.setEnabled(true);
+                            isDLverify=0;
+                        }
+                        progressDialog.cancel();
 
                     }
-                    progressDialog.cancel();
-
-                }else if(type.equals("drivinglicense")){
-                    try {
-                        tilDL_Name.setVisibility(View.VISIBLE);
-                        tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        dLCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isDLverify=1;
-                    }catch (Exception e){
-                        tilDL_Name.setVisibility(View.VISIBLE);
-                        tilDL_Name.setText("Card Holder Name Not Found");
-                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
-                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        dLCheckSign.setEnabled(true);
-                        isDLverify=0;
-                    }
-                    progressDialog.cancel();
-
-                }
                 }else{
                     progressDialog.cancel();
                     if(type.equals("pancard")){
+                        tilPAN_Name.setVisibility(View.VISIBLE);
                         tilPAN_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                     }else if(type.equals("voterid")){
+                        tilVoterId_Name.setVisibility(View.VISIBLE);
+
                         tilVoterId_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                     }else{
+                        tilDL_Name.setVisibility(View.VISIBLE);
+
                         tilDL_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                     }
 
                 }
@@ -2228,19 +2241,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: this called"+t.getMessage());
+
                 progressDialog.cancel();
                 if (type.equals("pancard")){
-                    tilPAN_Name.setText(t.getMessage());
+                    tilPAN_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
                     tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }if(type.equals("voterid")){
-                    tilVoterId_Name.setText(t.getMessage());
+                    tilVoterId_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
                     tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
                     voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }else{
-                    tilDL_Name.setText(t.getMessage());
+                    tilDL_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
                     tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                     dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
