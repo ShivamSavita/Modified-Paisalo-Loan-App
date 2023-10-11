@@ -46,7 +46,9 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.sql.language.Condition;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
+import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.activities.CrifScore;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
@@ -203,8 +205,8 @@ public class SecondPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondactivity_home);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-          Intent intent = getIntent();
+         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+         Intent intent = getIntent();
          fiNo = intent.getStringExtra("FiCode");
          rentOfHouse = intent.getStringExtra("Rent_of_House");
          groupCode = intent.getStringExtra("GroupCode");
@@ -212,7 +214,7 @@ public class SecondPage extends AppCompatActivity {
          latitude = intent.getStringExtra("Latitude");
          longitude = intent.getStringExtra("Longitude");
          creator = intent.getStringExtra("Creator");
-         empCode = "121";
+         empCode = IglPreferences.getPrefString(this, SEILIGL.USER_ID, "");
 
         /*Edit Text*/
         branchName = findViewById(R.id.branchName);

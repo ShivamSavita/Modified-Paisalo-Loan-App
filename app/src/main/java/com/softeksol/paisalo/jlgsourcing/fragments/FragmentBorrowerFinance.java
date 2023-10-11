@@ -438,7 +438,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         etBankAccount.setEnabled(Utils.NullIf(borrower.bank_ac_no, "").length() < 3);
         howOldAccount.setText(DateUtils.getFormatedDateOpen(borrower.BankAcOpenDt,"dd-MM-yyyy"));
        // howOldAccount.setEnabled(Utils.NullIf(borrower.bank_ac_month, "").length() < 1);
-        isAccountVerify= borrower.DelCode;
+        isAccountVerify= Utils.NullIf(borrower.DelCode, "N");
         Utils.setSpinnerPosition(spinnerBankAcType, borrower.BankAcType);
         etIFSC.setText(Utils.NullIf(borrower.Enc_Property, ""));
         ((TextView) v.findViewById(R.id.tvLoanAppFinanceBankName)).setText(Utils.NullIf(borrower.BankName, ""));

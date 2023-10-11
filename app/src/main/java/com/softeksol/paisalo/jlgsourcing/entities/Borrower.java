@@ -1031,7 +1031,7 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.Enc_Property == null || this.Enc_Property.length() < 11) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
         }
-        if (this.DelCode.equalsIgnoreCase("N")) {
+        if (this.DelCode == null || this.DelCode.equals("N")) {
             messages.put("Bank Account", "Verify Bank Account");
         }
 

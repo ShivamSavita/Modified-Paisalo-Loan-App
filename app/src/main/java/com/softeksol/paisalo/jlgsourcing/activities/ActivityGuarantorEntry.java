@@ -373,7 +373,10 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 tietCity.setEnabled(false);
             if (Utils.NullIf(guarantor.getP_pin(), 0) > 0) tietPinCode.setEnabled(false);
         }
-        showPicture();
+
+            showPicture();
+
+
     }
 
     private void getDataFromView(View v) {
@@ -417,6 +420,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 //guarantor = null;
                 break;
             case R.id.imgViewAadharPhoto:
+                ImageType=0;
                 cropState = true;
                 ImagePicker.with(this)
                         .cameraOnly()
@@ -501,7 +505,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                         }else if (ImageType==2){
                             //adharBackImg.setImageBitmap(myBitmap);
                             setDataOfAdhar(tempCroppedImage,"aadharback","aadhar");
-                        }else{
+                        }else if(ImageType==0){
                             if (tempCroppedImage.length()>100){
                                 if (guarantor != null) {
                                     (new File(this.uriPicture.getPath())).delete();
@@ -656,7 +660,8 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                                     String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
                                     switch (borrowerNames.length){
                                         case 1:
-                                            guarantor.setName(borrowerNames[0]);                                            break;
+                                            guarantor.setName(borrowerNames[0]);
+                                            break;
                                         case 2:
                                             guarantor.setName(borrowerNames[0]+" "+borrowerNames[1]);
 
