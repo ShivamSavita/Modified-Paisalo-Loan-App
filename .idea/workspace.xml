@@ -23,9 +23,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="11-10-2023- Ver28">
+    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="11-10-2023-2 Ver28">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityGuarantorEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityGuarantorEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_aadhar_entry.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,13 +255,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677736548092</updated>
-    </task>
-    <task id="LOCAL-00022" summary="application form fisrt time opening crashing issue solved">
-      <created>1680873306022</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1680873306022</updated>
     </task>
     <task id="LOCAL-00023" summary="application form fisrt time opening crashing issue solved">
       <created>1681304745585</created>
@@ -596,7 +592,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697007363379</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="11-10-2023-2 Ver28">
+      <created>1697031174793</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1697031174793</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -651,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="App live 28-07-23" />
     <MESSAGE value="App live 02-08-23" />
     <MESSAGE value="Crif data 02-08-23" />
     <MESSAGE value="Add rental data 03-08-23" />
@@ -676,7 +678,8 @@
     <MESSAGE value="06-10-2023" />
     <MESSAGE value="09-10-2023" />
     <MESSAGE value="11-10-2023- Ver28" />
-    <option name="LAST_COMMIT_MESSAGE" value="11-10-2023- Ver28" />
+    <MESSAGE value="11-10-2023-2 Ver28" />
+    <option name="LAST_COMMIT_MESSAGE" value="11-10-2023-2 Ver28" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

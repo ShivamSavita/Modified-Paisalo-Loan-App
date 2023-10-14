@@ -1524,7 +1524,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         if (decodedData.get(6-inc).equals("")||decodedData.get(6-inc).equals(null)){
 
         }else{
-            borrower.setGuardianNames(decodedData.get(6-inc));
+            if (decodedData.get(6-inc).startsWith("S/O:") ||decodedData.get(6-inc).startsWith("D/O:") ||decodedData.get(6-inc).startsWith("W/O:")){
+                borrower.setGuardianNames(decodedData.get(6-inc).split(":")[1].trim());
+
+            }else{
+
+                borrower.setGuardianNames(decodedData.get(6-inc));
+            }
+            if (decodedData.get(6-inc).startsWith("S/O:") ||decodedData.get(6-inc).startsWith("D/O:")){
+                Utils.setSpinnerPosition(acspRelationship, "Father", false);
+                acspRelationship.setEnabled(false);
+            }else if (decodedData.get(6-inc).startsWith("W/O:")){
+                Utils.setSpinnerPosition(acspRelationship, "Husband", false);
+                acspRelationship.setEnabled(false);
+
+            }
         }
 
         if (decodedData.get(7-inc).equals("")||decodedData.get(7-inc).equals(null)){
@@ -2061,6 +2075,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         editText.setError("Only number not allowed.");
                         retVal = false;
                     } catch (NumberFormatException e) {
+                        retVal = true;
                         System.out.println("Input String cannot be parsed to Integer.");
                     }
 

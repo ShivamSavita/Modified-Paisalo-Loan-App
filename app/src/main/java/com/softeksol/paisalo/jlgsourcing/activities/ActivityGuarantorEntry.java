@@ -122,6 +122,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
     protected static final byte SEPARATOR_BYTE = (byte)255;
     protected static final int VTC_INDEX = 15;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
+    ImageView imgViewCal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +134,8 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
         guarantor = getGuarantor(guarantor_id, borrower_id);
 
         btnAdd = findViewById(R.id.btnGuarantorAdd);
+        imgViewCal = findViewById(R.id.imgViewCal);
+        imgViewCal.setOnClickListener(this);
         BtnSaveKYCData = findViewById(R.id.BtnSaveKYCData);
         BtnSaveKYCData.setVisibility(View.GONE);
         btnUpdate = findViewById(R.id.btnGuarantorUpdate);
@@ -175,6 +178,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
         });
 
         tietAge = findViewById(R.id.tietAge);
+        tietAge.setEnabled(false);
         tietAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -312,7 +316,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 tietDob.setText(DateUtils.getFormatedDate(myCalendar.getTime(), "dd-MMM-yyyy"));
             }
         };
-        tietDob.setOnClickListener(this);
+       // tietDob.setOnClickListener(this);
     }
 
     private void setDataToView(View v) {
@@ -431,13 +435,16 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
 //                    e.printStackTrace();
 //                }
                 break;
-            case R.id.tietDob:
+            case R.id.imgViewCal:
                 Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
                 myCalendar.setTime(dob);
                 new DatePickerDialog(ActivityGuarantorEntry.this, dateSetListner,
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
                 ).show();
                 break;
+            case R.id.tietDob:
+                 Toast.makeText(getApplicationContext(), "Click Calendar Icon", Toast.LENGTH_SHORT).show();
+                 break;
         }
     }
 
