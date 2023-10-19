@@ -346,9 +346,9 @@ public class FragmentCollection extends AbsCollectionFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-                    if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
+                   /* if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
                         saveDepositOwn(SchmCode,dueData, collectedAmount,latePmtAmount,depBy);
-                    }
+                    }*/
                     ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
                 }
             }

@@ -324,7 +324,7 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                                     if (ocrResponseModel.getData().getStatus()){
                                                         if (mDocumentStore.remarks.equals("PANCard")){
                                                             IglPreferences.setSharedPref(activity, SEILIGL.DOBPan, ocrResponseModel.getData().getDob());
-                                                            if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
+                                                            if(IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").trim().length()<=6){
 
                                                                 File croppedImage = null;
                                                                 try {
@@ -351,8 +351,38 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                                                     throw new RuntimeException(e);
                                                                 }
                                                             }else{
-                                                                Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
+                                                                if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
+
+                                                                    File croppedImage = null;
+                                                                    try {
+                                                                        croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
+                                                                        Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+
+                                                                        //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+
+                                                                        Log.e("CroppedImageMyBitmap", bitmap+ "");
+                                                                        mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+                                                                        mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+                                                                        mDocumentStore.imagePath = croppedImage.getPath();
+
+                                                                        //mDocumentStore.imageshow = ImageString;
+                                                                        mDocumentStore.save();
+                                                                        documentStores.clear();
+                                                                        Log.d("TAG", "onResume: "+activity.getBorrower());
+                                                                        documentStores.addAll(getDocumentStore(activity.getBorrower()));
+                                                                        Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+                                                                        adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+                                                                        listView.setAdapter(adapterListDocuments);
+                                                                        adapterListDocuments.notifyDataSetChanged();
+                                                                    } catch (IOException e) {
+                                                                        throw new RuntimeException(e);
+                                                                    }
+                                                                }else{
+                                                                    Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
+                                                                }
                                                             }
+
+
                                                         } else if (mDocumentStore.remarks.equals("AadharFront")) {
                                                             IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
                                                             File croppedImage = null;

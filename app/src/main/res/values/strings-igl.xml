@@ -225,6 +225,12 @@
         <item>UCO</item>
     </array>
 
+    <array name="issuetypedata">
+        <item>New User Mapping</item>
+        <item>Login Issue</item>
+        <item>Update or mapping with Branch</item>
+    </array>
+
     <array name="loanduration">
         <item>"12"</item>
         <item>"18"</item>

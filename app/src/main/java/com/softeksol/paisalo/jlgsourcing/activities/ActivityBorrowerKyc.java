@@ -103,6 +103,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
@@ -1082,7 +1083,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     private void setDataOfAdhar(File croppedImage,String imageData,String type) {
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.setCancelable(false);//you can cancel it by pressing back button.
-        progressBar.setMessage("Data Fetching from Aadhaar Please wait...");
+        progressBar.setMessage("Data Fetching from "+type.toUpperCase()+" Please wait...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.show();
 
@@ -1227,16 +1228,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                             if (response.body().get("data").getAsJsonArray().size()>0){
                                 if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
                                        isgetPanwithOCR=true;
-                                    if (AadharUtils.comparedateofbirth(borrower.DOB,response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString())){
                                         borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
                                         borrower.isAadharVerified="O";
                                         panaadharDOBMatched=true;
                                         borrower.save();
                                         setDataToView(activity.findViewById(android.R.id.content).getRootView());
-                                    }else{
-                                         panaadharDOBMatched=false;
-                                        Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
-                                    }
 
                                 }else {
                                     Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
@@ -1694,92 +1690,20 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                             Log.d("TAG", "updateBorrower: "+borrowerJsonString);
 
                             if (!tietPanNo.getText().toString().equals("") && !tietVoterId.getText().toString().equals("") && !tietDrivingLic.getText().toString().equals("")){
-                                if (tilPAN_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("") || tilDL_Name.getText().toString().trim().equals("")){
+                                if (tilPAN_Name.getText().toString().trim().equals("") && tilVoterId_Name.getText().toString().trim().equals("") && tilDL_Name.getText().toString().trim().equals("")){
                                     Toast.makeText(activity, "Please Verify PAN Card, Voter ID and Driving License", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    if(!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) || !tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])){
-
-
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without PAN Card name, Driving License Name, Voter Id Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                sendingDataToNewPage();
-
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-
-                                    }else{
                                         sendingDataToNewPage();
-
-                                    }
                                 }
                             }else{
                                 if(!tilPAN_Name.getText().toString().trim().equals("") ||!tilVoterId_Name.getText().toString().trim().equals("") ||!tilDL_Name.getText().toString().trim().equals("") ){
-                                    if((!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0]) && !tilPAN_Name.getText().toString().trim().equals("")) || (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]) && !tilVoterId_Name.getText().toString().trim().equals("") )|| (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0]) && !tilDL_Name.getText().toString().trim().equals(""))){
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without Matching Documents Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                sendingDataToNewPage();
-
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }else{
                                         sendingDataToNewPage();
-
-                                    }
                                 }else if (!tietPanNo.getText().toString().equals("")){
                                     if (tilPAN_Name.getText().toString().trim().equals("")){
                                         Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
                                     }else {
-                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])) {
-
-
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                            builder.setTitle("Caution!!");
-                                            builder.setMessage("want to save  data without PAN card Name and Aadhaar Name matching");
-                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                    sendingDataToNewPage();
-
-                                                }
-                                            });
-                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                            builder.create().show();
-                                        }
-                                        else{
                                             sendingDataToNewPage();
-
-                                        }
                                     }
                                 }
                                 else if(!tietVoterId.getText().toString().equals("")){
@@ -1787,32 +1711,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                         Toast.makeText(activity, "Please verify the Voter ID", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0])) {
-
-
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                            builder.setTitle("Caution!!");
-                                            builder.setMessage("want to save  data without Voter Id Name and Aadhaar Name matching");
-                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                    sendingDataToNewPage();
-
-                                                }
-                                            });
-                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                            builder.create().show();
-                                        }
-                                        else{
                                             sendingDataToNewPage();
-
-                                        }
                                     }
 
                                 }
@@ -1820,33 +1719,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                                     if (tilDL_Name.getText().toString().trim().equals("")){
                                         Toast.makeText(activity, "Please Verify the Driving License ", Toast.LENGTH_SHORT).show();
                                     }else{
-                                        if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilDL_Name.getText().toString().trim().split(" ")[0])) {
-
-
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                            builder.setTitle("Caution!!");
-                                            builder.setMessage("want to save  data without Driving License Name and Aadhaar Name matching");
-                                            builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    // Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                    sendingDataToNewPage();
-
-                                                }
-                                            });
-                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                            builder.create().show();
-                                        }
-                                        else{
                                             sendingDataToNewPage();
-
                                         }
-                                    }
+
 
 
                                 }
@@ -1864,8 +1739,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void sendingDataToNewPage() {
-        if(isgetPanwithOCR==true){
-            if(panaadharDOBMatched==true){
+        if(isgetPanwithOCR){
                 if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
                     Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
                     intent.putExtra("FatherFName", tietFatherFName.getText().toString());
@@ -1888,9 +1762,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }else{
                     Utils.alert(ActivityBorrowerKyc.this,"Verify any one ID from PAN|DL|Voter ID");
                 }
-            }else{
-                Utils.alert(ActivityBorrowerKyc.this,"Date of Birth did not matched with Aadhar");
-            }
+
         }else{
             if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
                 Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
@@ -2243,6 +2115,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         tilVoterId_Name.setText("Not found");
                         tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                        isVoterverify=1;
                     }else{
                         tilDL_Name.setVisibility(View.VISIBLE);
 

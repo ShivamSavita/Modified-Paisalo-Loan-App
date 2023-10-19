@@ -2,6 +2,7 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.entities.CreatorModel;
 import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitFiList;
 import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitListModel;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
@@ -9,6 +10,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 import com.softeksol.paisalo.jlgsourcing.homevisit.FIDataModel;
 
 import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -101,6 +103,16 @@ public interface ApiInterface {
 
     @POST("PDL.UserService.API/api/User/GetToken")
     Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
+
+
+    @POST("PDL.Mobile.API/api/IMEIMapping/InsertDevicedata")
+    Call<JsonObject> insertDeviceData(@Body JsonObject jsonObject);
+
+
+
+
+    @GET("PDL.Userservice.api/api/DDLHelper/GetCreator")
+    Call<List<CreatorModel>> getCreatorList();
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
