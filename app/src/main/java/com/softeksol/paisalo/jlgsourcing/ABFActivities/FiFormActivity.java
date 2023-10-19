@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,7 +50,9 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.activities.ActivityBorrowerKyc;
+import com.softeksol.paisalo.jlgsourcing.activities.ActivityLogin;
 import com.softeksol.paisalo.jlgsourcing.activities.KYC_Form_New;
+import com.softeksol.paisalo.jlgsourcing.activities.SplashScreenPage;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
@@ -287,6 +291,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         imgViewAadharPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
 
                 ImagePicker.with(FiFormActivity.this)
@@ -920,77 +925,38 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             Exception error = null;
 
 
-            if (data != null) {
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
                 Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
-                //Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
                 File tempCroppedImage = new File(imageUri.getPath());
-                Log.e("tempCroppedImage",tempCroppedImage.getPath()+"");
+                Log.d("TAG", "onActivityResult: "+tempCroppedImage.length());
+                if (tempCroppedImage.length() > 100) {
+                    if (borrower != null) {
+                        (new File(this.uriPicture.getPath())).delete();
+                        try {
+                            File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+                            borrower.setPicture(croppedImage.getPath());
+                            borrower.Oth_Prop_Det = null;
+                            borrower.save();
+                            showPicture(borrower);
 
 
-                if (error == null) {
-
-                    if (imageUri != null) {
-
-                        if (tempCroppedImage.length() > 100) {
-
-                            if (borrower != null) {
-                                (new File(uriPicture.getPath())).delete();
-                                try {
-
-
-//                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
-//                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
-//                                    } else {
-//                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
-//                                    }
-//
-//
-//                                    ImageString = bitmapToBase64(bitmap);
-
-                                    File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-//                                    if (android.os.Build.VERSION.SDK_INT >= 29) {
-//                                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.getActivity().getContentResolver(), imageUri));
-//                                    } else {
-//                                        bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);
-//                                    }
-//                                    //Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                    Log.e("CroppedImageFile1", croppedImage.getPath()+"");
-                                    Log.e("CroppedImageFile2", croppedImage.getAbsolutePath()+"");
-                                    Log.e("CroppedImageFile3", croppedImage.getCanonicalPath()+"");
-                                    Log.e("CroppedImageFile4", croppedImage.getParent()+"");
-                                    Log.e("CroppedImageFile5", croppedImage.getParentFile().getCanonicalPath()+"");
-                                    Log.e("CroppedImageFile6", croppedImage.getParentFile().getName()+"");
-//
-//                                    ImageString = bitmapToBase64(bitmap);
-
-//                                    borrower.setPicture(croppedImage.getPath(),ImageString);
-                                    borrower.setPicture(croppedImage.getPath());
-                                    borrowerPics=croppedImage.getPath();
-                                    borrower.Oth_Prop_Det = null;
-                                    borrower.save();
-                                    showPicture(borrower);
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                        } catch (IOException e) {
+                            Log.d("TAG", "onActivityResult: "+e.getMessage());
+                            e.printStackTrace();
                         }
-                        else {
-                            Toast.makeText(this, "CroppedImage FIle Length:"+tempCroppedImage.length() + "", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(this, imageUri.toString() + "", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Borrower is null", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(this, error.toString() + "", Toast.LENGTH_SHORT).show();
                 }
+            }
             } else {
 //                Log.e("Error",data.getData()+"");
                 Toast.makeText(this, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
             }
 
         }
-    }
+
 
 
     private void showPicture(Borrower borrower) {
@@ -1655,75 +1621,113 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         requestforVerification= String.valueOf(getJsonOfString(id,type,bankIfsc,dob));
         Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                ResponseforVerification= String.valueOf(response.body().get("data"));
-                saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
-                if (type.equals("pancard")){
-                    try {
+                Log.d("TAG", "onResponse: this called");
+                if(response.body() != null){
+                    Log.d("TAG", "onResponse: this called");
+
+                    ResponseforVerification= String.valueOf(response.body().get("data"));
+                    saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
+                    if (type.equals("pancard")){
+                        try {
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            panCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isPanverify=1;
+                        }catch (Exception e){
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText("Card Holder Name Not Found");
+                            tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            panCheckSign.setEnabled(true);
+                            isPanverify=0;
+                        }
+                        progressDialog.cancel();
+                    }else if(type.equals("voterid")){
+                        try {
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            voterIdCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isVoterverify=1;
+                        }catch (Exception e){
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText("Card Holder Name Not Found");
+                            tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            voterIdCheckSign.setEnabled(true);
+                            isVoterverify=0;
+
+                        }
+                        progressDialog.cancel();
+
+                    }else if(type.equals("drivinglicense")){
+                        try {
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            dLCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isDLverify=1;
+                        }catch (Exception e){
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText("Card Holder Name Not Found");
+                            tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            dLCheckSign.setEnabled(true);
+                            isDLverify=0;
+                        }
+                        progressDialog.cancel();
+
+                    }
+                }else{
+                    progressDialog.cancel();
+                    if(type.equals("pancard")){
                         tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        panCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isPanverify=1;
-                    }catch (Exception e){
-                        tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText("Card Holder Name Not Found");
+                        tilPAN_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        panCheckSign.setEnabled(true);
-                        isPanverify=0;
-                    }
-                    progressDialog.cancel();
-                }else if(type.equals("voterid")){
-                    try {
+                    }else if(type.equals("voterid")){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
-                        tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        voterIdCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isVoterverify=1;
-                    }catch (Exception e){
-                        tilVoterId_Name.setVisibility(View.VISIBLE);
-                        tilVoterId_Name.setText("Card Holder Name Not Found");
+
+                        tilVoterId_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        voterIdCheckSign.setEnabled(true);
-                        isVoterverify=0;
-
-                    }
-                    progressDialog.cancel();
-
-                }else if(type.equals("drivinglicense")){
-                    try {
+                    }else{
                         tilDL_Name.setVisibility(View.VISIBLE);
-                        tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        dLCheckSign.setEnabled(false);
-                        isNameMatched="1";
-                        isDLverify=1;
-                    }catch (Exception e){
-                        tilDL_Name.setVisibility(View.VISIBLE);
-                        tilDL_Name.setText("Card Holder Name Not Found");
+
+                        tilDL_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        dLCheckSign.setEnabled(true);
-                        isDLverify=0;
                     }
-                    progressDialog.cancel();
 
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: this called"+t.getMessage());
+
+                progressDialog.cancel();
                 if (type.equals("pancard")){
-                    tilPAN_Name.setText(t.getMessage());
+                    tilPAN_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                    progressDialog.cancel();
+
+                }if(type.equals("voterid")){
+                    tilVoterId_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
+                    voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }else{
-                    tilVoterId_Name.setText(t.getMessage());
-                    progressDialog.cancel();
-                    voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                    tilDL_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                    dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }
             }

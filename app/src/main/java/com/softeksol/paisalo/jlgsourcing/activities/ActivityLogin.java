@@ -740,6 +740,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 .withPermissions(Manifest.permission.CAMERA,
                         // below is the list of permissions
                         Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.READ_PHONE_STATE)
                 // after adding permissions we are calling an with listener method.
                 .withListener(new MultiplePermissionsListener() {

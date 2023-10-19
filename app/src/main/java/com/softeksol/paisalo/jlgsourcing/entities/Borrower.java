@@ -789,13 +789,13 @@ public class Borrower extends BaseModel implements Serializable {
     public void setPicture(String imagePath) {
         DocumentStore documentStore = SQLite.select()
                 .from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.FiID.eq(this.Code))
                 .and(DocumentStore_Table.GuarantorSerial.eq(0))
                 .and(DocumentStore_Table.checklistid.eq(0))
                 .querySingle();
         if (documentStore == null) {
             documentStore = new DocumentStore();
-            documentStore.FiID = this.FiID;
+            documentStore.FiID = this.Code;
             documentStore.Creator = this.Creator;
             documentStore.ficode = this.Code;
             documentStore.fitag = this.Tag;
@@ -850,7 +850,7 @@ public class Borrower extends BaseModel implements Serializable {
     public DocumentStore getPictureStore() {
         DocumentStore documentStore = SQLite.select()
                 .from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.FiID.eq(this.Code))
                 .and(DocumentStore_Table.GuarantorSerial.eq(0))
                 .and(DocumentStore_Table.checklistid.eq(0))
                 .querySingle();

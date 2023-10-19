@@ -364,7 +364,7 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
 
             if (data != null) {
                 Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
-                //Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, imageUri.toString(), Toast.LENGTH_SHORT).show();
                 File tempCroppedImage = new File(imageUri.getPath());
                 Log.e("tempCroppedImage",tempCroppedImage.getPath()+"");
 

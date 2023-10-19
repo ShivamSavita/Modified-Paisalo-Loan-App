@@ -1797,7 +1797,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                         isPanverify=0;
                     }
                     progressDialog.cancel();
-                }else if(type.equals("voterid")){
+                }
+                else if(type.equals("voterid")){
                     try {
                         tilVoterId_Name.setVisibility(View.VISIBLE);
                         tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
@@ -1840,6 +1841,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 if (type.equals("pancard")){
                     tilPAN_Name.setText(t.getMessage());
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                    progressDialog.cancel();
+
+                }else if (type.equals("drivinglicense")){
+                    tilDL_Name.setText(t.getMessage());
+                    dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                     progressDialog.cancel();
 
                 }else{
