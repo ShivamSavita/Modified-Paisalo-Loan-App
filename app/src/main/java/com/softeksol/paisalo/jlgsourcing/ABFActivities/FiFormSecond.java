@@ -149,9 +149,11 @@ TextInputEditText tietDobNominee, tietAgeNominee,tietNameNominee,tietAadharNomin
     protected ArrayList<String> decodedData;
     protected static final int VTC_INDEX = 15;
     protected String signature,email,mobile;
+    TextInputEditText tietPANNominee;
     Manager manager;
     Borrower borrower;
     Intent i;
+    String borrowerImagePath;
 int size=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +186,7 @@ int size=0;
         PANName=i.getStringExtra("PANName");
         DLName=i.getStringExtra("DLName");
         AadharName=i.getStringExtra("AadharName");
+        borrowerImagePath=borrower.getPicture().getPath();
 
 
         Log.d("TAG", "onCreate: FatherFName"+FatherFName);
@@ -209,6 +212,7 @@ int size=0;
         Log.d("TAG", "onCreate: FamHeadIncome"+FamHeadIncome);
         Log.d("TAG", "onCreate: Occupation"+Occupation);
         Log.d("TAG", "onCreate: HouseRent"+HouseRent);
+        Log.d("TAG", "borrower: HouseRent"+borrower.getPicture().getPath());
 
 
 
@@ -253,6 +257,7 @@ int size=0;
         tietAgeNominee=findViewById(R.id.tietAgeNominee);
         tietDobNominee=findViewById(R.id.tietDobNominee);
         checkBankAccountNuber=findViewById(R.id.checkBankAccountNuber);
+        tietPANNominee=findViewById(R.id.tietPANNominee);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -557,7 +562,8 @@ int size=0;
                                                 guarantor.setGender(Utils.getSpinnerStringValue(acspGenderNominee));
                                                 guarantor.setGurName(tietGuardianNominee.getText().toString());
                                                 guarantor.setRelation(Utils.getSpinnerStringValue(acspRelationshipNominee));
-                                                guarantor.setVoterid(tietVoterNominee.getText().toString());
+                                                guarantor.setVoterid(Utils.getNotNullText(tietVoterNominee));
+                                                guarantor.setVoterid(Utils.getNotNullText(tietPANNominee));
                                                 guarantor.setPicture(nomineeProfilePic);
                                                 guarantor.associateBorrower(borrower);
                                                 List<Guarantor> guarantorArrayList=new ArrayList<>();
@@ -751,8 +757,7 @@ int size=0;
                 String jsonString = new String(responseBody);
                 Log.d("Response Data",jsonString);
                 Utils.showSnakbar(findViewById(android.R.id.content), "Guarantors saved with Loan Application Saved");
-
-                saveDataOfImages(borrower,borrower.getPicture().getPath(),"B");
+                saveDataOfImages(borrower,borrowerImagePath,"B");
                 saveDataOfImages(borrower,nomineeProfilePic,"N");
 
             }
