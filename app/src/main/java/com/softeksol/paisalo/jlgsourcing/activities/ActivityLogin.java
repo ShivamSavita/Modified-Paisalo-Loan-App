@@ -740,7 +740,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 .withPermissions(Manifest.permission.CAMERA,
                         // below is the list of permissions
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.READ_PHONE_STATE)
                 // after adding permissions we are calling an with listener method.
                 .withListener(new MultiplePermissionsListener() {
@@ -912,14 +911,15 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
           //  Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
 
         }
-             deviceId = lastThreeChars + //we make this look like a valid IMEI
-                    Build.BOARD.length()%10+ Build.BRAND.length()%10 +
-                    Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
-                    Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
-                    Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
-                    Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
-                    Build.TAGS.length()%10 + Build.TYPE.length()%10 +
-                    Build.USER.length()%10 ; //13 digits
+             deviceId = lastThreeChars + "9713985787240"; //13 digits
+//  deviceId = lastThreeChars + //we make this look like a valid IMEI
+//                    Build.BOARD.length()%10+ Build.BRAND.length()%10 +
+//                    Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
+//                    Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
+//                    Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
+//                    Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
+//                    Build.TAGS.length()%10 + Build.TYPE.length()%10 +
+//                    Build.USER.length()%10 ; //13 digits
 
         Log.e("DirectoryDeviceID", deviceId + "");
 

@@ -23,10 +23,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="11-10-2023-2 Ver28">
+    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form_second.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form_second.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityManagerSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityManagerSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/SplashScreenPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/SplashScreenPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fi_form.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +40,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" show_ignored="true" />
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[MFDEBAAMOZE64PAA]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[RZ8T40D7MGM]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -87,8 +93,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/.gradle/caches/transforms-3/8287b930b575a12b68503a2c829edce8/transformed/cardview-1.0.0/res/values/values.xml" root0="SKIP_INSPECTION" />
-    <setting file="file://$USER_HOME$/.gradle/caches/transforms-3/bd72443796817583641b0f33489866a9/transformed/appcompat-1.4.1/res/values/values.xml" root0="SKIP_INSPECTION" />
+    <setting file="jrt://C:/Program Files/Android/Android Studio/jbr!/java.base/java/lang/Integer.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-28/android.jar!/android/text/SpannableStringBuilder.class" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-32/data/res/values/attrs.xml" root0="SKIP_INSPECTION" />
   </component>
@@ -110,8 +115,7 @@
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_directory_selection&quot;: &quot;D:/Android New Projects/paisaloloanapp/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Android New Projects/paisaloloanapp/app/src/main/res/drawable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Android New Projects/paisaloloanapp/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/Model&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
@@ -125,8 +129,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.softeksol.paisalo.jlgsourcing.entities" />
       <recent name="com.softeksol.paisalo.dealers.Adapters" />
+      <recent name="com.softeksol.paisalo.jlgsourcing.entities" />
       <recent name="com.softeksol.paisalo.dealers" />
     </key>
     <key name="android.template.1030029898">
@@ -138,22 +142,28 @@
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.softeksol.paisalo.dealers.Adapters" />
     </key>
+    <key name="android.template.1046477886">
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities" />
+    </key>
+    <key name="android.template.719125638">
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities" />
+    </key>
     <key name="android.template.1751305344">
       <recent name="com.softeksol.paisalo.dealers" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities.Adapter" />
+      <recent name="com.softeksol.paisalo.jlgsourcing.ABFActivities.Model" />
       <recent name="com.softeksol.paisalo.jlgsourcing.retrofit" />
       <recent name="com.softeksol.paisalo" />
       <recent name="com.softeksol.paisalo.dealers.Utilities" />
-      <recent name="com.softeksol.paisalo.dealers" />
-      <recent name="com.softeksol.paisalo.dealers.Adapters" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Android New Projects\paisaloloanapp\app\src\main\res\drawable" />
-      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\Utilities" />
-      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\entities\dto" />
+      <recent name="D:\Android New Projects\paisaloloanapp\app\src\main\java\com\softeksol\paisalo\jlgsourcing\ABFActivities\Model" />
+      <recent name="D:\Android New Projects\paisaloloanapp\app\src\main\java\com\softeksol\paisalo\jlgsourcing\Utilities" />
       <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\res\drawable" />
       <recent name="D:\Modified-Paisalo-Loan-App\app" />
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\retrofit" />
     </key>
     <key name="android.template.1436590464">
       <recent name="com.softeksol.paisalo.dealers" />
@@ -249,13 +259,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677736548092</updated>
-    </task>
-    <task id="LOCAL-00015" summary="all things are done">
-      <created>1678963734595</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1678963734595</updated>
     </task>
     <task id="LOCAL-00016" summary="all things are done">
       <created>1678964459295</created>
@@ -544,56 +547,63 @@
       <option name="project" value="LOCAL" />
       <updated>1692855883360</updated>
     </task>
-    <task id="LOCAL-00057" summary="Address,Expense%,OCR data 29-08-23">
-      <created>1693284641685</created>
+    <task id="LOCAL-00057" summary="tested">
+      <created>1693286272336</created>
       <option name="number" value="00057" />
       <option name="presentableId" value="LOCAL-00057" />
       <option name="project" value="LOCAL" />
-      <updated>1693284641685</updated>
+      <updated>1693286272336</updated>
     </task>
-    <task id="LOCAL-00058" summary="Address,Expense%,OCR data 29-08-23">
-      <created>1695012443920</created>
+    <task id="LOCAL-00058" summary="Kyc form UI Created">
+      <created>1694003228108</created>
       <option name="number" value="00058" />
       <option name="presentableId" value="LOCAL-00058" />
       <option name="project" value="LOCAL" />
-      <updated>1695012443920</updated>
+      <updated>1694003228108</updated>
     </task>
-    <task id="LOCAL-00059" summary="Address,Expense%,OCR data 29-08-23">
-      <created>1695012487626</created>
+    <task id="LOCAL-00059" summary="Both form are done in ABF">
+      <created>1694526308930</created>
       <option name="number" value="00059" />
       <option name="presentableId" value="LOCAL-00059" />
       <option name="project" value="LOCAL" />
-      <updated>1695012487626</updated>
+      <updated>1694526308930</updated>
     </task>
-    <task id="LOCAL-00060" summary="PAN Adhar data fetching by ocr">
-      <created>1695118628219</created>
+    <task id="LOCAL-00060" summary="Both form are done in ABF">
+      <created>1694588140905</created>
       <option name="number" value="00060" />
       <option name="presentableId" value="LOCAL-00060" />
       <option name="project" value="LOCAL" />
-      <updated>1695118628220</updated>
+      <updated>1694588140906</updated>
     </task>
-    <task id="LOCAL-00061" summary="All the things are done with PAN card and Aadhar Crad">
-      <created>1695127466628</created>
+    <task id="LOCAL-00061" summary="Both form are done in ABF">
+      <created>1694604007390</created>
       <option name="number" value="00061" />
       <option name="presentableId" value="LOCAL-00061" />
       <option name="project" value="LOCAL" />
-      <updated>1695127466628</updated>
+      <updated>1694604007390</updated>
     </task>
-    <task id="LOCAL-00062" summary="All the things are done with PAN card and Aadhar Crad">
-      <created>1695376603469</created>
+    <task id="LOCAL-00062" summary="All the data sending donw from the form only Image sending to server remaining&#10;&#10;thnaks">
+      <created>1694696735585</created>
       <option name="number" value="00062" />
       <option name="presentableId" value="LOCAL-00062" />
       <option name="project" value="LOCAL" />
-      <updated>1695376603469</updated>
+      <updated>1694696735585</updated>
     </task>
-    <task id="LOCAL-00063" summary="All the changes done of home visit form with validation and filter list also">
-      <created>1695627302117</created>
+    <task id="LOCAL-00063" summary="all things are done now testing remains">
+      <created>1694785407531</created>
       <option name="number" value="00063" />
       <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1695627302117</updated>
+      <updated>1694785407531</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="all things are done now testing remains">
+      <created>1694785783878</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1694785783878</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -668,18 +678,18 @@
     <MESSAGE value="Filter Search data 16-08-23" />
     <MESSAGE value="Filter2 Search data 16-08-23" />
     <MESSAGE value="Kyc verify Search data 18-08-23" />
-    <MESSAGE value="Address,Expense%,OCR data 18-08-23" />
-    <MESSAGE value="Address,Expense%,OCR data 29-08-23" />
-    <MESSAGE value="PAN Adhar data fetching by ocr" />
-    <MESSAGE value="All the things are done with PAN card and Aadhar Crad" />
-    <MESSAGE value="All the changes done of home visit form with validation and filter list also" />
-    <option name="LAST_COMMIT_MESSAGE" value="All the changes done of home visit form with validation and filter list also" />
+    <MESSAGE value="tested" />
+    <MESSAGE value="Kyc form UI Created" />
+    <MESSAGE value="Both form are done in ABF" />
+    <MESSAGE value="All the data sending donw from the form only Image sending to server remaining&#10;&#10;thnaks" />
+    <MESSAGE value="all things are done now testing remains" />
+    <option name="LAST_COMMIT_MESSAGE" value="all things are done now testing remains" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$USER_HOME$/StudioProjects/Paisalo-Loan-App/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
           <line>103</line>
           <properties class="com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank">
             <option name="WATCH_EXIT" value="false" />
@@ -687,22 +697,22 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$USER_HOME$/StudioProjects/Paisalo-Loan-App/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
           <line>104</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$USER_HOME$/StudioProjects/Paisalo-Loan-App/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java</url>
-          <line>269</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java</url>
+          <line>274</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$USER_HOME$/StudioProjects/Paisalo-Loan-App/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java</url>
-          <line>270</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/ABFActivities/FiFormSecond.java</url>
+          <line>275</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$USER_HOME$/StudioProjects/Paisalo-Loan-App/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java</url>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/Borrower.java</url>
           <line>1234</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>

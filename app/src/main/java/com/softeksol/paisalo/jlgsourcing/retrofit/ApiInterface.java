@@ -80,6 +80,11 @@ public interface ApiInterface {
     Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
 
 
+    @POST("OCR/GetAdhardata")
+    Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
+
+
+
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,
     @Field("co") String co, @Field("address") String address, @Field("city") String city, @Field("state") String state,

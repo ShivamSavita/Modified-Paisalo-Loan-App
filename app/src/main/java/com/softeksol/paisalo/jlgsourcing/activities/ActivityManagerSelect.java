@@ -171,11 +171,12 @@ public class ActivityManagerSelect extends AppCompatActivity implements View.OnC
         Intent intent = null;
         switch (operationItem.getId()) {
             case 1:
-                if (!manager.Creator.toUpperCase().startsWith("VH")){
-                    intent = new Intent(ActivityManagerSelect.this, FiFormActivity.class);
-                }else{
-                    intent = new Intent(ActivityManagerSelect.this, ActivityBorrowerKyc.class);
-                }
+                intent = new Intent(ActivityManagerSelect.this, FiFormActivity.class);
+//                if (!manager.Creator.toUpperCase().startsWith("VH")){
+//                    intent = new Intent(ActivityManagerSelect.this, FiFormActivity.class);
+//                }else{
+//                    intent = new Intent(ActivityManagerSelect.this, ActivityBorrowerKyc.class);
+//                }
 
                 intent.putExtra(Global.MANAGER_TAG, manager);
                 startActivity(intent);

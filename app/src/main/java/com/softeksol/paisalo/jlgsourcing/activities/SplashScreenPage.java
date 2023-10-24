@@ -34,7 +34,7 @@ public class SplashScreenPage extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-     //   getAppUpdate();
+       // getAppUpdate();
 
        new Handler().postDelayed(new Runnable() {
             @Override

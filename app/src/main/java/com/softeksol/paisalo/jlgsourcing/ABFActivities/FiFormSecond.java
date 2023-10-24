@@ -462,7 +462,7 @@ int size=0;
                         borrower.fiExtraBank.setFatherName(FatherFName);
                         borrower.Enc_Property=etLoanAppFinanceBankAccountNo.getText().toString().trim();
                         borrower.bank_ac_no=etLoanAppFinanceBankAccountNo.getText().toString().trim();
-
+                        borrower.Income=Utils.getNotNullInt(tietIntrestIncome)+Utils.getNotNullInt(tietIncomeMonthly)+Utils.getNotNullInt(tietFutureIncome)+Utils.getNotNullInt(tietAgriIncome);
 
 //                       String occCode = Utils.getSpinnerStringValue(acspOccupation);
                         borrower.fiExtraBank.setCkycOccupationCode(Occupation);

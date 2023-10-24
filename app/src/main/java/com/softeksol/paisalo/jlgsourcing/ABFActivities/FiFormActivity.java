@@ -102,7 +102,10 @@ import java.util.zip.GZIPInputStream;
 
 import a.a.e.d;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,9 +155,11 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
     String ResponseforVerification="";
     String isNameMatched ="0";
     int isPanverify=0;
+    ImageView imgViewCal;
     int isDLverify=0;
     int isVoterverify=0;
     String bankName;
+    int ImageType=0;
 
 
     @Override
@@ -187,9 +192,36 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         tietSpouseLName=findViewById(R.id.tietSpouseLName);
         tietSpouseMName=findViewById(R.id.tietSpouseMName);
         tietSpouseFName=findViewById(R.id.tietSpouseFName);
+        TextView Capture_Aadhar=findViewById(R.id.Capture_Aadhar);
+        TextView Capture_Aadharback=findViewById(R.id.Capture_Aadharback);
+        Capture_Aadhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType = 1;
+                ImagePicker.with(FiFormActivity.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
+        Capture_Aadharback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType=2;
+                ImagePicker.with(FiFormActivity.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
+        tietAge.setEnabled(false);
+        tietDob.setEnabled(false);
+        imgViewCal=findViewById(R.id.imgViewCal);
+        imgViewCal.setOnClickListener(this);
         //textViewFiDetails = ((TextView) findViewById(R.id.tv_fi_details));
         acspGender = findViewById(R.id.acspGender);
-        tietAge = findViewById(R.id.tietAge);
         imgViewAadharPhoto = findViewById(R.id.imgViewAadharPhoto);
         txtFamHeadIncome = findViewById(R.id.txtFamHeadIncome);
         txtPlaceOfBirth = findViewById(R.id.txtPlaceOfBirth);
@@ -292,7 +324,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             @Override
             public void onClick(View view) {
 
-
+                ImageType=0;
 
                 ImagePicker.with(FiFormActivity.this)
                         .cameraOnly()
@@ -906,20 +938,26 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                     }
                 }
             }
-        }else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+        }else if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
 
+                    CropImage.activity(this.uriPicture)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAspectRatio(45, 52)
+                            .start(this);
 
-            if (data != null) {
-                uriPicture = data.getData();
+            } else {
+                Utils.alert(this, "Could not take Picture");
+            }
+        }else if(requestCode == 1000){
+            uriPicture = data.getData();
+            if(uriPicture!=null){
                 CropImage.activity(uriPicture)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(45, 52)
+                        .setAllowFlipping(true)
+                        .setMultiTouchEnabled(true)
                         .start(  FiFormActivity.this);
-            } else {
-                Log.e("ImageData","Null");
-                Toast.makeText(this, "Image Data Null", Toast.LENGTH_SHORT).show();
             }
-
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             Exception error = null;
@@ -927,27 +965,57 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
 
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
+
+
                 Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
                 File tempCroppedImage = new File(imageUri.getPath());
                 Log.d("TAG", "onActivityResult: "+tempCroppedImage.length());
                 if (tempCroppedImage.length() > 100) {
-                    if (borrower != null) {
-                        (new File(this.uriPicture.getPath())).delete();
-                        try {
-                            File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-                            borrower.setPicture(croppedImage.getPath());
-                            borrower.Oth_Prop_Det = null;
-                            borrower.save();
-                            showPicture(borrower);
+                    if (ImageType==0){
+                        if (borrower != null) {
+                            (new File(this.uriPicture.getPath())).delete();
+                            try {
+                                File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+                                borrower.setPicture(croppedImage.getPath());
+                                borrower.Oth_Prop_Det = null;
+                                borrower.save();
+                                showPicture(borrower);
 
 
-                        } catch (IOException e) {
-                            Log.d("TAG", "onActivityResult: "+e.getMessage());
-                            e.printStackTrace();
+                            } catch (IOException e) {
+                                Log.d("TAG", "onActivityResult: "+e.getMessage());
+                                e.printStackTrace();
+                            }
+                        }else {
+                            Toast.makeText(this, "Borrower is null", Toast.LENGTH_SHORT).show();
                         }
-                    }else {
-                        Toast.makeText(this, "Borrower is null", Toast.LENGTH_SHORT).show();
+                    }else{
+                        try {
+                            Uri imageUri1 = CameraUtils.finaliseImageCropUri(resultCode, data, 1000, error, false);
+                            File tempCroppedImage1 = new File(imageUri1.getPath());
+                            File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage1, true);
+                            Bitmap myBitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+                            //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+                            if (myBitmap!=null) {
+                                // Toast.makeText(activity, "Bitmap: "+myBitmap+"", Toast.LENGTH_SHORT).show();
+                                if (ImageType==1){
+                                    //adharFrontImg.setImageBitmap(myBitmap);
+                                    setDataOfAdhar(croppedImage,"aadharfront","aadhar");
+                                }else if (ImageType==2){
+                                    //adharBackImg.setImageBitmap(myBitmap);
+                                    setDataOfAdhar(croppedImage,"aadharback","aadhar");
+                                }else if (ImageType==3){
+                                    setDataOfAdhar(croppedImage,"pan","pan");
+                                }
+
+                            }else{
+                                Toast.makeText(FiFormActivity.this, "Image adata null", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
+
                 }
             }
             } else {
@@ -957,6 +1025,201 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
 
         }
 
+
+    private void setDataOfAdhar(File croppedImage,String imageData,String type) {
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);//you can cancel it by pressing back button.
+        progressBar.setMessage("Data Fetching from "+type.toUpperCase()+" Please wait...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.show();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), croppedImage);
+        builder.addFormDataPart("file",croppedImage.getName(),surveyBody);
+
+
+        RequestBody requestBody = builder.build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getAdharDataByOCR(imageData,type,requestBody);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponsews: "+response.body());
+
+                if (response.body()!=null){
+                    if (response.body().get("data")!=null){
+                        if (imageData.equals("aadharfront")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
+
+                                    String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
+                                    switch (borrowerNames.length){
+                                        case 1:
+                                            borrower.Fname=borrowerNames[0];
+                                            break;
+                                        case 2:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Lname=borrowerNames[1];
+                                            break;
+                                        case 3:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Mname=borrowerNames[1];
+                                            borrower.Lname=borrowerNames[2];
+                                            break;
+                                    }
+
+
+
+                                    borrower.Gender=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("gender").getAsString().charAt(0)+"";
+                                    borrower.aadharid=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("aadharno").getAsString().replace(" ","");
+
+                                    Date date;
+                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                    try {
+                                        date = formatter.parse(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString());
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    Instant instant = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        instant = date.toInstant();
+                                        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                                        LocalDate givenDate = zone.toLocalDate();
+
+                                        Period period = Period.between(givenDate, LocalDate.now());
+
+                                        borrower.Age = period.getYears();
+                                        System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
+                                    }
+                                    borrower.DOB=date;
+                                    borrower.isAadharVerified="O";
+                                    borrower.save();
+                                    setDataToView(findViewById(android.R.id.content).getRootView());
+
+                                }else{
+                                    Utils.alert(FiFormActivity.this,"Please capture aadhaar front image!!");
+
+                                    Toast.makeText(FiFormActivity.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Utils.alert(FiFormActivity.this,"Please capture aadhaar front image!!");
+
+                            }
+
+                            progressBar.dismiss();
+                        }else if(imageData.equals("aadharback")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
+
+                                    borrower.p_pin = Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim());
+                                    JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
+                                    String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
+                                    String[] arrOfAdd=fullAddress.split(",");
+                                    String city=arrOfAdd[arrOfAdd.length-2];
+                                    borrower.P_city=city;
+//                                try {
+//
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
+//                                } catch (Exception e) {
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
+//
+//                                }
+                                    if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
+
+                                        borrower.P_add3 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim();
+                                    }
+                                    borrower.P_add2 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString();
+
+
+                                    String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
+                                    for (int i = 0; i < address1.length; i++) {
+                                        if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
+                                            borrower.setGuardianNames(address1[i]);
+                                            continue;
+                                        }
+                                        borrower.P_Add1 = borrower.P_Add1 + address1[i];
+
+                                    }
+                                    borrower.p_state = AadharUtils.getStateCode(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("state").getAsString().trim());
+                                    borrower.isAadharVerified="O";
+
+                                    borrower.save();
+                                    setDataToView(findViewById(android.R.id.content).getRootView());
+
+
+                                }else{
+                                    Utils.alert(FiFormActivity.this,"Please capture aadhaar back image!!");
+                                    //   Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Utils.alert(FiFormActivity.this,"Please capture aadhaar back image again!!");
+
+                                Toast.makeText(FiFormActivity.this, "Please capture aadhaar back image again!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            progressBar.dismiss();
+                        }
+
+//                        else if(imageData.equals("pan")){
+//                            if (response.body().get("data").getAsJsonArray().size()>0){
+//                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
+//                                    isgetPanwithOCR=true;
+//                                    borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
+//                                    borrower.isAadharVerified="O";
+//                                    panaadharDOBMatched=true;
+//                                    borrower.save();
+//                                    setDataToView(findViewById(android.R.id.content).getRootView());
+//
+//                                }else {
+//                                    Toast.makeText(FiFormActivity.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
+//                                    Utils.alert(FiFormActivity.this,"Please capture PAN image again!!");
+//
+//                                }
+//                            }else{
+//                                Utils.alert(FiFormActivity.this,"Please capture PAN image again!!");
+//
+//                                Toast.makeText(FiFormActivity.this, "Please capture PAN image again!!", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            progressBar.dismiss();
+//                        }
+
+                        //   borrower.setNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+                    }
+                }
+                progressBar.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+                Utils.alert(FiFormActivity.this,"Something went Wrong ");
+
+                progressBar.dismiss();
+            }
+        });
+
+
+
+
+
+
+
+
+
+    }
 
 
     private void showPicture(Borrower borrower) {
@@ -1414,9 +1677,12 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                     int age = Integer.parseInt(text);
                     if (age < 18) {
                         editText.setError("Age should be greater than 17");
+                        Utils.alert(FiFormActivity.this,"Age should be greater than 17");
                         retVal = false;
                     } else if (age > 65) {
                         editText.setError("Age should be less than 66");
+                        Utils.alert(FiFormActivity.this,"Age should be less than 66");
+
                         retVal = false;
                     }
                     tietDob.setEnabled(retVal);
@@ -1811,7 +2077,23 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                 launchScanning();
                 break;
                 */
-            case R.id.tietDob:
+//            case R.id.tietDob:
+//                Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
+//                try{
+//                    if (!dob.equals(null)){
+//                        myCalendar.setTime(dob);
+//                    }
+//                }catch (Exception e){
+//
+//                }
+//
+//                new DatePickerDialog(this, dateSetListner,
+//                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
+//                ).show();
+//                break;
+
+
+            case R.id.imgViewCal:
                 Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
                 try{
                     if (!dob.equals(null)){
