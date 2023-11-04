@@ -56,6 +56,8 @@ import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 
 
@@ -104,13 +106,20 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             eSignerborower = (ESignBorrower) data.getSerializableExtra("ESIGN_BORROWER");
             esignType = data.getIntExtra(ESIGN_TYPE_TAG, 1);
         }
+        Log.d("TAG", "onResponse: DPL "+eSigner.docPath);
+
 
         if (eSigner.docPath != null) {
+          //  String[] filePaths=eSigner.docPath.split(",");
             fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            Fragment frag = MuPDFFragment.newInstance(eSigner.docPath, false);
-            ft.add(R.id.pdfview, frag);
+          //  for (String path:filePaths) {
+                Fragment frag = MuPDFFragment.newInstance(eSigner.docPath, false);
+                ft.add(R.id.pdfview, frag);
+
+            //}
             ft.commit();
+
         }
         ((TextView) findViewById(R.id.tvESignName)).setText(eSigner.Name);
         ((TextView) findViewById(R.id.tvESignGuardian)).setText(eSigner.FatherName);
@@ -144,10 +153,28 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: "+resultCode);
+        Log.d("TAG", "onActivityResult: "+resultCode);
+        Log.d("TAG", "onActivityResult:APK_ESIGN_REQUEST_CODE "+APK_ESIGN_REQUEST_CODE);
+
+
         if (requestCode == APK_ESIGN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                String eSignResponse = data.getStringExtra("signedResponse");
-                sendESign(eSignResponse);
+                try {
+                    String eSignResponse = data.getStringExtra("signedResponse");
+                    Log.d("TAG", "onActivityResult: "+eSignResponse);
+                    if (eSignResponse.trim().equals("Something went wrong during Esign Processing. Please contact administrator"))
+                    {
+                        Utils.alert(ActivityESignWithDocumentPL.this,"Something went wrong during Esign Processing. Please contact administrator(NSDL)");
+                    }else{
+                        sendESign(eSignResponse);
+                    }
+                }catch (Exception e){
+                    Utils.alert(ActivityESignWithDocumentPL.this,"Something went wrong during Esign Processing. Please contact administrator(NSDL)");
+
+                }
+
+
 
             } else {
                 Toast.makeText(getBaseContext(),
@@ -224,6 +251,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         appStartIntent.putExtra("env", "PROD"); //Possible values PREPROD or PROD (case insensative).
                         appStartIntent.putExtra("returnUrl", responseUrl); // your package name where esign response failure/success will be sent.
                         startActivityForResult(appStartIntent, APK_ESIGN_REQUEST_CODE);
+
+
                     } catch (JSONException je) {
                         je.printStackTrace();
                     }
@@ -258,7 +287,9 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         }
         eSingParms.Concent = consent;
 
-        //Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
+        Log.d("Esign Req Json",WebOperations.convertToJson(eSingParms));
+        Log.d("Esign Req Json",esignType+"");
+        Log.d("TAG", "processApkESign: "+WebOperations.convertToJson(eSingParms));
         if (esignType == 1) {
             (new WebOperations()).postEntityESign(this, "docsESignPvn", "signdoc", WebOperations.convertToJson(eSingParms), asyncResponseHandler);
         } else {
@@ -273,7 +304,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-                    //Log.d("Final Esing Response", new String(responseBody));
                     try {
                         JSONObject jsonObject = new JSONObject(new String(responseBody));
                         if (jsonObject.getBoolean("isSuccess")) {
@@ -281,7 +311,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                         } else {
                             Utils.alert(ActivityESignWithDocumentPL.this, jsonObject.getString("ErrMsg"));
                         }
-                    } catch (JSONException je) {
+                    } catch (Exception je) {
+                        Utils.alert(ActivityESignWithDocumentPL.this, "Something went wrong in ESigning OR response is not correct");
                         je.printStackTrace();
                     }
                 }
@@ -289,7 +320,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                //Log.d("Failed ESign Response", new String(responseBody));
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     if (!jsonObject.getBoolean("isSuccess")) {
@@ -297,6 +327,8 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                     }
                 } catch (JSONException je) {
                     je.printStackTrace();
+                    Utils.alert(ActivityESignWithDocumentPL.this, "Failed ESign Response");
+
                 }
             }
         };
@@ -314,6 +346,7 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
     private void showAadharDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ") ");
+
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View alertLayout = layoutInflater.inflate(R.layout.layout_aadhar_consent, null);
@@ -397,7 +430,6 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name + " (" + BuildConfig.VERSION_NAME + ")");
         builder.setMessage("eSignature Stamping");
-
         DialogInterface.OnClickListener onDialogSubmitListner = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -407,10 +439,11 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
                 JSONObject jo = new JSONObject();
                 try {
                     jo.put("CustCode", jsonObject.get("CustCode"));
-                    jo.put("Creator", jsonObject.get("Creator"));
-                    jo.put("GrNo", eSigner.GrNo);
-                    jo.put("TxnID", jsonObject.get("TxnID"));
+                    jo.put("Creator",  jsonObject.get("Creator"));
+                    jo.put("GrNo",     eSigner.GrNo);
+                    jo.put("TxnID",    jsonObject.get("TxnID"));
                     jo.put("isAccepted", whichButton == DialogInterface.BUTTON_POSITIVE);
+
                     /*if(whichButton == DialogInterface.BUTTON_NEGATIVE){
                         eSigner.ESignSucceed="BLK";
                     }*/
@@ -499,7 +532,5 @@ public class  ActivityESignWithDocumentPL extends AppCompatActivity implements V
             }
         });
     }
-
-    ;
 
 }

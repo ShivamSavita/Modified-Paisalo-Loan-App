@@ -1,12 +1,15 @@
 package com.softeksol.paisalo.jlgsourcing.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -32,6 +35,7 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.activities.ActivityCollection;
+import com.softeksol.paisalo.jlgsourcing.activities.OnlinePaymentActivity;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterDueData;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterInstallment;
 import com.softeksol.paisalo.jlgsourcing.entities.DueData;
@@ -62,6 +66,8 @@ public class FragmentCollection extends AbsCollectionFragment {
     private boolean isDialogActive;
     private int collectionAmount;
     private int latePmtIntAmt;
+    private boolean isProcessingEMI=false;
+    private String SchmCode;
 
     public FragmentCollection() {
         // Required empty public constructor
@@ -107,6 +113,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                 AdapterDueData adapterDueData = (AdapterDueData) parent.getAdapter();
                 final DueData dueData = (DueData) adapterDueData.getItem(position);
                 Log.d("DueData",dueData.toString());
+                Log.d("DueDataSchmCode",dueData.getSchmCode());
+                SchmCode=dueData.getSchmCode();
                 latePmtIntAmt=0;
                 adapterDueData.notifyDataSetChanged();
                 final int maxDue = dueData.getMaxDueAmount();
@@ -124,12 +132,40 @@ public class FragmentCollection extends AbsCollectionFragment {
                 collect.setEnabled(false);
 
                 final LinearLayout llLatePayment = dialogView.findViewById(R.id.llLatePmtInterest);
+                final Button onlinepayment = dialogView.findViewById(R.id.onlinepayment);
+                final Button prossingFees = dialogView.findViewById(R.id.prossingFees);
                 final CheckBox chkLatePayment = dialogView.findViewById(R.id.chkLatePmtInterest);
                 final TextView tvLatePayAmount = dialogView.findViewById(R.id.tvLatePmtInterestAmt);
                 if (latePaymentInterest > 0) {
                     llLatePayment.setVisibility(View.VISIBLE);
                     tvLatePayAmount.setText(String.valueOf(latePaymentInterest));
                 }
+                onlinepayment.setEnabled(false);
+                onlinepayment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int totCollectAmt;
+                        if(radioGroup.getCheckedRadioButtonId()==R.id.rbLumpSumAmount){
+                            totCollectAmt=collectionAmount;
+                        }else{
+                            totCollectAmt=collectionAmount+latePmtIntAmt;
+                        }
+
+                        Intent intent=new Intent(getContext(), OnlinePaymentActivity.class);
+                        intent.putExtra("Price",totCollectAmt);
+                        getActivity().startActivity(intent);
+                    }
+                });
+                if(isProcessingEMI==false){
+                    prossingFees.setVisibility(View.INVISIBLE);
+                }
+                prossingFees.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
                 final ToggleButton tglBtnPaidBy = (ToggleButton) dialogView.findViewById(R.id.tglPaidBy);
                 tglBtnPaidBy.setVisibility(BuildConfig.APPLICATION_ID.equals("com.softeksol.paisalo.jlgsourcing") ? View.VISIBLE : View.GONE);
@@ -156,6 +192,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                         collectionAmount = amt;
                         tvTotDue.setText(text);
                         collect.setEnabled(false);
+                        onlinepayment.setEnabled(false);
 
                         if (amt < 1) {
                             editText.setError("Amount should be greater than or equals to 1");
@@ -167,23 +204,22 @@ public class FragmentCollection extends AbsCollectionFragment {
                         }
                         //collectEnableDisable(latePaymentInterest, collect, tvTotDue);
                         collect.setEnabled(true);
+                        onlinepayment.setEnabled(true);
 
                         editText.setError(null);
                     }
                 });
-                tilLumpsumAccount.setVisibility(View.INVISIBLE);
 
+                tilLumpsumAccount.setVisibility(View.INVISIBLE);
                 final ListView lvc = (ListView) dialogView.findViewById(R.id.lvcCollectInstallments);
                 lvc.setItemsCanFocus(false);
                 lvc.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 lvc.setAdapter(new AdapterInstallment(getContext(), R.layout.layout_item_installment, installments));
-
                 lvc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
                         //System.out.println("clicked" + position);
-
                         Installment installment = (Installment) parent.getItemAtPosition(position);
                         installment.setSelected(!installment.isSelected());
                         CheckBox chb = (CheckBox) view.findViewById(R.id.cbItemInstallmentSelected);
@@ -194,6 +230,8 @@ public class FragmentCollection extends AbsCollectionFragment {
                         tvSelectedCount.setText(String.valueOf(selectedCount));
 
                         collect.setEnabled(collectionAmount + latePmtIntAmt> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+                        onlinepayment.setEnabled(collectionAmount + latePmtIntAmt> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+
                         tvTotDue.setText(String.valueOf(collectionAmount+ latePmtIntAmt));
                     }
                 });
@@ -212,6 +250,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                             tvTotDue.setText(String.valueOf(collectionAmount+latePmtIntAmt));
                         }
                         collect.setEnabled(collectionAmount> (latePmtIntAmt>0?latePmtIntAmt-1:0));
+                        onlinepayment.setEnabled(collectionAmount> (latePmtIntAmt>0?latePmtIntAmt-1:0));
 
                     }
                 });
@@ -238,6 +277,7 @@ public class FragmentCollection extends AbsCollectionFragment {
                                 tilLumpsumAccount.setVisibility(View.VISIBLE);
                                 tilLumpsumAccount.setHint(getResources().getString(R.string.lump_sum_amount) + " (Max " + maxDue + ")");
                                 collect.setEnabled(false);
+                                onlinepayment.setEnabled(false);
                                 teitLumpSumAccount.setText("0");
                                 break;
                         }
@@ -256,14 +296,14 @@ public class FragmentCollection extends AbsCollectionFragment {
                     public void onClick(View v) {
                         dueData.setEnabled(false);
                         collect.setEnabled(false);
+                        onlinepayment.setEnabled(false);
                         int totCollectAmt;
                         if(radioGroup.getCheckedRadioButtonId()==R.id.rbLumpSumAmount){
                             totCollectAmt=collectionAmount;
                         }else{
                             totCollectAmt=collectionAmount+latePmtIntAmt;
                         }
-                        saveDeposit(dueData, totCollectAmt,latePmtIntAmt,
-                                tglBtnPaidBy.isChecked() ? "F" : "B");
+                        saveDeposit(SchmCode,dueData, totCollectAmt,latePmtIntAmt,tglBtnPaidBy.isChecked() ? "F" : "B");
                         dialog.dismiss();
                     }
                 });
@@ -301,16 +341,17 @@ public class FragmentCollection extends AbsCollectionFragment {
         //collect.setEnabled(latePaymentInterest > 0);
     }
 
-    private void saveDeposit(DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
+    private void saveDeposit(String SchmCode,DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
         DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(getContext(), "Loan Collection", "Saving Collection Entry") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-
+                   /* if(SchmCode.substring(0,2).equalsIgnoreCase("SD") && SchmCode.substring(4).equalsIgnoreCase("A")){
+                        saveDepositOwn(SchmCode,dueData, collectedAmount,latePmtAmount,depBy);
+                    }*/
                     ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(getContext(), error.getMessage() + "\n" + (new String(responseBody)), Toast.LENGTH_LONG).show();
@@ -322,7 +363,6 @@ public class FragmentCollection extends AbsCollectionFragment {
         instRcv.setCaseCode(dueData.getCaseCode());
         instRcv.setCreator(dueData.getCreator());
         instRcv.setDataBaseName(dueData.getDb());
-        //instRcv.setDataBaseName("SBIPDL_TEST");
         instRcv.setIMEI(IglPreferences.getPrefString(getContext(), SEILIGL.DEVICE_IMEI, "0"));
         instRcv.setInstRcvAmt(collectedAmount - latePmtAmount);
         instRcv.setInstRcvDateTimeUTC(new Date());
@@ -331,15 +371,45 @@ public class FragmentCollection extends AbsCollectionFragment {
         instRcv.setPartyCd(dueData.getPartyCd());
         instRcv.setInterestAmt(latePmtAmount);
         instRcv.setPayFlag(depBy);
-
-
-
         //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
-
         Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
-
-        (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv), asyncResponseHandler);
+       (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv),asyncResponseHandler);
     }
+
+
+    private void saveDepositOwn(String SchmCode,DueData dueData, int collectedAmount, int latePmtAmount, String depBy) {
+        DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(getContext(), "Loan Collection", "Saving Collection Entry") {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode == 200) {
+                   // ((ActivityCollection) getActivity()).refreshData(FragmentCollection.this);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getContext(), error.getMessage() + "\n" + (new String(responseBody)), Toast.LENGTH_LONG).show();
+                Log.d("eKYC Response",error.getLocalizedMessage());
+            }
+        };
+
+        PosInstRcv instRcv = new PosInstRcv();
+        instRcv.setCaseCode(dueData.getCaseCode());
+        instRcv.setCreator(dueData.getCreator());
+        instRcv.setDataBaseName("PDL_OWN");
+        instRcv.setIMEI(IglPreferences.getPrefString(getContext(), SEILIGL.DEVICE_IMEI, "0"));
+        instRcv.setInstRcvAmt(collectedAmount - latePmtAmount);
+        instRcv.setInstRcvDateTimeUTC(new Date());
+        instRcv.setFoCode(dueData.getFoCode());
+        instRcv.setCustName(dueData.getCustName());
+        instRcv.setPartyCd(dueData.getPartyCd());
+        instRcv.setInterestAmt(latePmtAmount);
+        instRcv.setPayFlag(depBy);
+        //Log.d("Json", String.valueOf(instRcv.getInstRcvDateTimeUTC()));
+        Log.d("JsonInstRcv", String.valueOf(WebOperations.convertToJson(instRcv)));
+        (new WebOperations()).postEntity(getContext(), "POSDATA", "instcollection", "savereceipt", WebOperations.convertToJson(instRcv),asyncResponseHandler);
+    }
+
+
 
     public void refreshData() {
         AdapterDueData adapterDueData = (AdapterDueData) lv.getAdapter();

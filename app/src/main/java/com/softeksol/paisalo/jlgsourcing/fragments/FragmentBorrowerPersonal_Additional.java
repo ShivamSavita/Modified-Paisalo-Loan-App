@@ -247,6 +247,7 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         super.onResume();
         borrower = activity.getBorrower();
         borrowerExtra = borrower.getBorrowerExtra();
+        Log.d("TAG", "onResume: "+borrower.F_lname+"////////"+borrowerExtra.FATHER_LAST_NAME);
         if (borrowerExtra == null) {
             borrowerExtra = new BorrowerExtra();
             activity.getBorrower().associateExtra(borrowerExtra);
@@ -319,10 +320,10 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.OTHER_THAN_AGRICULTURAL_INCOME=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinOTHER_THAN_AGRICULTURAL_INCOME));
         borrowerExtra.VISUALLY_IMPAIRED_YN=((Spinner) view.findViewById(R.id.spinVisuallyImpaired)).getSelectedItem().toString();
         borrowerExtra.SOC_ATTR_5_SPL_SOC_CTG=((Spinner) view.findViewById(R.id.spinSpecialSocialCategory)).getSelectedItem().toString();
+        borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) view.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.FORM60_PAN_APPLIED_YN=((Spinner) view.findViewById(R.id.spinFORM60_PAN_APPLIED_YN)).getSelectedItem().toString();
         borrowerExtra.MARITAL_STATUS=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinMARITAL_STATUS));
         borrowerExtra.RESERVATN_CATEGORY=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinRESERVATN_CATEGORY));
-        borrowerExtra.SOC_ATTR_4_SPL_ABLD=((Spinner) view.findViewById(R.id.spinSpecialAbility)).getSelectedItem().toString();
         borrowerExtra.OCCUPATION_TYPE=Utils.getSpinnerStringValue((Spinner) view.findViewById(R.id.spinOCCUPATION_TYPE));
 
         borrowerExtra.SOC_ATTR_3_LAND_HOLD=((EditText) view.findViewById(R.id.editLandHold)).getText().toString();
@@ -346,7 +347,7 @@ public class FragmentBorrowerPersonal_Additional extends AbsFragment {
         borrowerExtra.FATHER_FIRST_NAME=((EditText) view.findViewById(R.id.editFather_FIRST_NAME)).getText().toString();
         borrowerExtra.FATHER_MIDDLE_NAME=((EditText) view.findViewById(R.id.editFATHER_MIDDLE_NAME)).getText().toString();
         borrowerExtra.FATHER_LAST_NAME=((EditText) view.findViewById(R.id.editFATHER_LAST_NAME)).getText().toString();
-        borrowerExtra.Years_In_Business=((EditText) view.findViewById(R.id.editYearsInBusiness)).getText().toString();
+        borrowerExtra.Years_In_Business=Integer.parseInt(((EditText) view.findViewById(R.id.editYearsInBusiness)).getText().toString());
         Log.d("TAG", "getDataFromView: yha tk chal rha h 1");
         borrowerExtra.save();
 

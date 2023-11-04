@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softeksol.paisalo.dealers.DealerOnBoard">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/layout_basic_details"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/scada_bold"
+                    android:textSize="25dp"
+                    android:text="OEM Basic Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietOEMName"
+                            android:hint="Name"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Val_mobile"
+                            android:hint="Mobile"
+                            android:inputType="number"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:maxLength="10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Val_email"
+                            android:hint="Email"
+                            android:inputType="textWebEmailAddress"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="90dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Val_address"
+                            android:hint="Address"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Val_pancard"
+                            android:hint="Pan No."
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="City" />
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="District" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/acspAadharCity"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/acspAadharDistrict"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="State" />
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/stateSpinnerOEM"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                            <LinearLayout
+                                android:padding="1.5dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/Val_pincode"
+                                    android:hint="PinCode"
+                                    android:inputType="number"
+                                    android:background="@color/white"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="36dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select OEM" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/btnSaveBasic"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="NEXT"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <!-- Business Details Layout-->
+
+            <LinearLayout
+                android:id="@+id/layout_BusinessDetails"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/scada_bold"
+                    android:textSize="25dp"
+                    android:text="Business Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/firmName"
+                            android:hint="Firm Name"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:fontFamily="@font/scada_bold"
+                            android:text="Firm Type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <CheckBox
+                                android:text="PROPRIETOR"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:text="PARTNERSHIP"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <CheckBox
+                            android:text="PRIVATE LIMITED"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="90dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Val_firmaddress"
+                            android:hint="Firm Address"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="City" />
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="District" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/firm_City"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/firm_District"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:padding="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="State" />
+                            <TextView
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/scada_regular"
+                                style="@style/InputLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/firm_State"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+                            <LinearLayout
+                                android:padding="1.5dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bggrey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/Val_firmpincode"
+                                    android:hint="PinCode"
+                                    android:inputType="number"
+                                    android:background="@color/white"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scada_bold"
+                    android:textSize="15dp"
+                    android:text="Vehicle Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/vehicleType"
+                            android:hint="Vehicle Type"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/manufacturer"
+                            android:hint="Manufacturer"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/brand"
+                            android:hint="Brand"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/btnSaveBusiness"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="NEXT"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <!-- Bank Details Layout-->
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/layout_BankDetails"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/scada_bold"
+                    android:textSize="25dp"
+                    android:text="Bank Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/bankUserName"
+                            android:hint="Name"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/bankName"
+                            android:hint="Bank Name"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Account_Number"
+                            android:hint="Account Number"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ifscCode"
+                            android:hint="IFSC"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:layout_height="45dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/branchName"
+                            android:hint="Branch"
+                            android:inputType="textCapWords"
+                            android:capitalize="characters"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/scada_bold"
+                    android:text="Account Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+
+                    <LinearLayout
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/firm_accountType"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="@dimen/input_label_horizontal_spacing" /> </LinearLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:orientation="horizontal"
+                 android:gravity="center_vertical"
+                 android:layout_height="wrap_content">
+
+                 <TextView
+                     android:layout_marginTop="5dp"
+                     android:layout_weight="1"
+                     android:fontFamily="@font/scada_bold"
+                     android:text="Signature Here"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"/>
+                 <Button
+                     android:id="@+id/clearSignatureBtn"
+                     android:elevation="10dp"
+                     android:layout_width="wrap_content"
+                     android:text="Clear"
+                     android:textColor="@color/white"
+                     android:backgroundTint="@color/colorPrimary"
+                     android:layout_height="40dp"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintTop_toTopOf="parent" />
+             </LinearLayout>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tilUidDob"
+                    android:layout_marginBottom="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilUidDob"
+                    app:cardCornerRadius="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardElevation="5dp">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_bggrey">
+
+
+                        <com.kyanogen.signatureview.SignatureView
+                            android:id="@+id/signatureView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="260dp"
+                            app:backgroundColor="#E4E4E4"
+                            app:enableSignature="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:penColor="#000000"
+                            app:penSize="2dp" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <Button
+                    android:id="@+id/btnSaveAccount"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="SAVE"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+    </ScrollView>
+</LinearLayout>

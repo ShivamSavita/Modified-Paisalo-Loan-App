@@ -275,9 +275,11 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
         chkCurrentAddressDifferent.setChecked(isCurrentAddressVisible);
 
         tietBusinessDetail.setText(Utils.getNotNullString(borrower.Business_Detail));
-        ;
         tietLoanReason.setText(Utils.getNotNullString(borrower.Loan_Reason));
         tieBankAcNo.setText(Utils.getNotNullString(borrower.bank_ac_no));
+
+        Log.d("TAG", "setDataToView: "+borrower.Code);
+        Log.d("TAG", "setDataToView: "+borrower.Loan_Amt);
         tietLoanAMount.setText(Utils.getNotNullString(borrower.Loan_Amt));
 
         //v.findViewById(R.id.loCurrentAddress).setVisibility(isCurrentAddressVisible?View.VISIBLE:View.GONE);
@@ -344,7 +346,6 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
 
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-
 
             if (data != null) {
                 uriPicture = data.getData();
@@ -446,7 +447,7 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
 //        Log.e("CHeckingNewCondition",borrower.getPictureborrower()+"");
         if (borrower != null) {
 
-
+            Log.d("TAG", "showPicture: "+borrower.toString());
 //            if (borrower.getPictureborrower()!=null){
 //                imageView.setImageBitmap(StringToBitmap(borrower.getPictureborrower()));
 //            }

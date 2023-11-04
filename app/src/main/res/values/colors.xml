@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff1744</color>
+    <color name="colorPrimary">#FF1845</color>
     <color name="colorPrimaryDark">#b71c1c</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorNachBg">#8df2e6</color>
+    <color name="colorAccent">#f93e7e</color>
+    <color name="colorNachBg">#8CF1E5</color>
     <color name="colorLightGreen">#6fa0e698</color>
     <color name="colorLightRed">#6ff4a0a2</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorMenuKyc">#e5f3f98f</color>
-    <color name="colorMenuApplicationForm">#e5a4f98f</color>
-    <color name="colorMenuCollection">#e58feef9</color>
-    <color name="colorMenuDeposit">#e58fa6f9</color>
+    <color name="colorMenuKyc">#E5EEF48B</color>
+    <color name="colorMenuApplicationForm">#E5A6FA91</color>
+    <color name="colorMenuCollection">#E593F2FD</color>
+    <color name="colorMenuDeposit">#E58FA6FA</color>
     <color name="colorMenuPremature">#3949AB</color>
-    <color name="defaultTextColor">#9F9F9F</color>
+    <color name="defaultTextColor">#515151</color>
     <color name="blueTextColor">#1DA1F2</color>
     <color name="red">#FF0000</color>
     <color name="green">#52D600</color>
     <color name="dull_green">#42BD00</color>
+    <color name="dull_green2">#347512</color>
+    <color name="dull_red">#FFE5E7</color>
+    <color name="dull_grey">#FAFAFA</color>
+    <color name="dull_yello">#FFFCE4</color>
+
+    <color name="kyc_color">#FFEDED</color>
+    <color name="loan_color">#E5F8FE</color>
+    <color name="collection_color">#E9E6FF</color>
+    <color name="esign_color">#EEF5E3</color>
+    <color name="vh_color">#F5EEE3</color>
+
+
+
+
 </resources>

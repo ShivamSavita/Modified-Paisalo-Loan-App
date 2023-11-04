@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -50,6 +51,8 @@ import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.Aadhar;
 import com.softeksol.paisalo.jlgsourcing.entities.AadharData;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
+import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
@@ -67,18 +70,27 @@ import com.softeksol.paisalo.jlgsourcing.fragments.FragmentLoanAppSubmitList;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentSubmittedApplications;
 import com.softeksol.paisalo.jlgsourcing.handlers.AsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityFinancing extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -431,7 +443,7 @@ public class ActivityFinancing extends AppCompatActivity
                 input.setLayoutParams(lp);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFinancing.this);
                 builder.setTitle("Aadhar eKYC ");
-                builder.setMessage("Father /Husband name missing, please input below");
+                builder.setMessage("Father/Husband name missing, please input below");
                 builder.setView(input);
                 DialogInterface.OnClickListener onSaveClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -469,9 +481,51 @@ public class ActivityFinancing extends AppCompatActivity
     }
 
     private void showScreen(Borrower borrower) {
-        Intent intent = new Intent(this, ActivityLoanApplication.class);
+        Log.d("TAG", "showScreen: "+borrower.toString());
+        Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
         intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
         startActivity(intent);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+//        Date date2 = null;
+//        try {
+//            date2 = simpleDateFormat.parse("Thu Dec 31 00:00:00 GMT+05:30 2023");
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (date2.compareTo(borrower.DT)<=0){
+//            Log.d("TAG", "showScreen: "+borrower.DT);
+//            ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+//            Log.d("TAG", "showScreen: "+borrower.Creator+"////"+borrower.Code);
+//            Call<JsonObject> call=apiInterface.getBreStatus(String.valueOf(borrower.Code),borrower.Creator);
+//            call.enqueue(new Callback<JsonObject>() {
+//                @Override
+//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                    Log.d("TAG", "onResponse: "+response.body());
+//                    JsonObject jsonObject=response.body();
+//                    try {
+//                        if (jsonObject.get("data").getAsInt()==0){
+//                            Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else {
+//                            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+//                            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+//                            startActivity(intent);
+//                        }
+//                    }catch (Exception e){
+//                        Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                //
+//                @Override
+//                public void onFailure(Call<JsonObject> call, Throwable t) {
+//                    Log.d("TAG", "onFailure: "+t.getMessage());
+//                }
+//            });
+//        }else{
+//            Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
+//            intent.putExtra(Global.BORROWER_TAG, borrower.FiID);
+//            startActivity(intent);
+//        }
     }
 
     @Override
@@ -498,7 +552,7 @@ public class ActivityFinancing extends AppCompatActivity
 
     private void submitLoanApplication(Borrower borrowerToSubmit) {
         final Context context = this;
-        final Borrower borrower = Borrower.getBorrower(borrowerToSubmit.FiID);
+        final Borrower borrower = Borrower.getBorrower(borrowerToSubmit.Code);
         if (borrower.UserID == null)
             borrower.UserID = IglPreferences.getPrefString(ActivityFinancing.this, SEILIGL.USER_ID, "");
 
@@ -712,7 +766,7 @@ public class ActivityFinancing extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
                     String jsonString = new String(responseBody);
-                    //Log.d("Pending FI List", jsonString);
+                    Log.d("Pending FI List", jsonString);
                     Type listType = new TypeToken<List<PendingFi>>() {
                     }.getType();
                     pendingFis = WebOperations.convertToObjectArray(jsonString, listType);
@@ -748,7 +802,7 @@ public class ActivityFinancing extends AppCompatActivity
                 .and(Borrower_Table.CityCode.eq(manager.AreaCd))
                 .and(Borrower_Table.Oth_Prop_Det.isNull())
                 .queryList();
-        //Log.d("Borrowers", borrowers.toString());
+        Log.d("Borrowers", borrowers.toString());
         return borrowers;
     }
 
@@ -758,15 +812,24 @@ public class ActivityFinancing extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
                     String jsonString = new String(responseBody);
+                    Log.d("Borrower from JSON ", jsonString);
                     jsonString = jsonString
                             .replace("{\"Fi", ",\"fi").replace(",\"Fi", ",\"fi");
 
-                    //Log.d("Borrower from JSON ", jsonString);
-                    BorrowerDTO borrowerDto = WebOperations.convertToObject(jsonString, BorrowerDTO.class);
-                    //Log.d("Borrower from DTO ", borrowerDto.toString());
+                    BorrowerDTO borrowerDto =new BorrowerDTO();
+                    borrowerDto= WebOperations.convertToObject(jsonString, BorrowerDTO.class);
+
+                    Log.d("Borrower from DTO ", borrowerDto.toString());
+                    Log.d("Borrower from DTO1 ", borrowerDto.fiExtraBankBo.toString());
                     //borrower=borrowerDto.getBorrower();
                     //borrower=Borrower.getBorrower(borrower.Code,borrower.Creator);
                     borrower = new Borrower(borrowerDto);
+                    BorrowerExtra borrowerExtra=new BorrowerExtra(borrowerDto.fiExtra);
+                    borrowerExtra.save();
+                    Log.d("TAG", "onSuccess: yha ana chahiye"+borrowerDto.fiExtraBankBo);
+                    BorrowerExtraBank borrowerExtraBank=new BorrowerExtraBank(borrowerDto.fiExtraBankBo);
+                    borrowerExtraBank.save();
+                    borrower.save();
                     fetchUploadedGuarantor(borrower);
                 }
             }
@@ -774,7 +837,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                //Log.d("eKYC Response", error.getLocalizedMessage());
+                Log.d("eKYC Response", error.getMessage());
             }
 
         };
@@ -792,6 +855,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
+                Log.d("TAG", "onSuccess: "+jsonString);
                 jsonString = jsonString.replace("FiCode", "FICode");
 
                 Type listType = new TypeToken<List<DocumentStoreDTO>>() {
@@ -823,7 +887,7 @@ public class ActivityFinancing extends AppCompatActivity
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String jsonString = new String(responseBody);
-                //Log.d("Guarantor Json", jsonString);
+                Log.d("Guarantor Json", jsonString);
 
                 //jsonString=jsonString.replace("FiCode","FICode");
 

@@ -228,6 +228,7 @@ public class Borrower extends BaseModel implements Serializable {
     @Column
     public String bank_ac_no;
 
+
     @Expose
     @Column
     public String Bank_Address;
@@ -597,6 +598,15 @@ public class Borrower extends BaseModel implements Serializable {
         return fiExtra;
     }
 
+
+    public BorrowerExtra getBorrowerExtraByFI(long code) {
+        fiExtra = SQLite.select()
+                .from(BorrowerExtra.class)
+                .where(BorrowerExtra_Table.Code.eq(code))
+                .querySingle();
+        return fiExtra;
+    }
+
     public void associateExtra(BorrowerExtra borrowerExtra) {
         borrowerExtra.Code = this.Code;
         borrowerExtra.Creator = this.Creator;
@@ -628,19 +638,19 @@ public class Borrower extends BaseModel implements Serializable {
 
         Borrower borrower = SQLite.select()
                 .from(Borrower.class)
-                .where(Borrower_Table.FiID.eq(borrowerID))
+                .where(Borrower_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiExtra = SQLite.select()
                 .from(BorrowerExtra.class)
-                .where(BorrowerExtra_Table.FiID.eq(borrowerID))
+                .where(BorrowerExtra_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiExtraBank = SQLite.select()
                 .from(BorrowerExtraBank.class)
-                .where(BorrowerExtraBank_Table.FiID.eq(borrowerID))
+                .where(BorrowerExtraBank_Table.Code.eq(borrowerID))
                 .querySingle();
         borrower.fiFamExpenses = SQLite.select()
                 .from(BorrowerFamilyExpenses.class)
-                .where(BorrowerFamilyExpenses_Table.FiID.eq(borrowerID))
+                .where(BorrowerFamilyExpenses_Table.Code.eq(borrowerID))
                 .querySingle();
         return borrower;
     }
@@ -835,7 +845,8 @@ public class Borrower extends BaseModel implements Serializable {
     public DocumentStore getPictureStore() {
         DocumentStore documentStore = SQLite.select()
                 .from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.ficode.eq(this.Code))
+                .and(DocumentStore_Table.Creator.eq(this.Creator))
                 .and(DocumentStore_Table.GuarantorSerial.eq(0))
                 .and(DocumentStore_Table.checklistid.eq(0))
                 .querySingle();
@@ -1012,8 +1023,44 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.bank_ac_no == null || this.bank_ac_no.length() < 5) {
             messages.put("Bank Account", "Check Bank Account No");
         }
-        if (this.Enc_Property == null || this.Enc_Property.length() < 11 && this.BankName.length() < 2) {
+
+        if (this.BankAcOpenDt == null) {
+            messages.put("Bank Account", "Account Open Date");
+        }
+
+        if (this.Enc_Property == null || this.Enc_Property.length() < 11) {
             messages.put("Bank IFSC", "Check Bank IFSC Code");
+        }
+        if (this.DelCode == null || this.DelCode.equals("N")) {
+            messages.put("Bank Account", "Verify Bank Account");
+        }
+
+        if (this.Income<1){
+            messages.put("Income", "Please Enter borrower's monthly income");
+
+        }
+        if (!this.fiExtra.FamOtherIncomeType.toUpperCase().equals("NONE")){
+            if (this.fiExtra.FamIncomeSource.length()<1){
+                messages.put("Income", "Please Enter borrower's monthly future");
+
+            }
+        }
+        if (this.fiExtra.MOTHER_FIRST_NAME.length()<1 && this.fiExtra.MOTHER_LAST_NAME.length()<1){
+            messages.put("Mother Name","Please enter mother name properly");
+        }
+
+        if (this.fiExtra.FATHER_FIRST_NAME.length()<1 && this.fiExtra.FATHER_LAST_NAME.length()<1){
+            messages.put("Father Name","Please enter father name properly");
+        }
+        if (this.isMarried.toUpperCase().equals("M")){
+            if (this.fiExtra.SPOUSE_FIRST_NAME.length()<1 && this.fiExtra.SPOUSE_LAST_NAME.length()<1){
+                messages.put("Spouse Name","Please enter spouse name properly");
+            }
+        }
+
+        if (this.Expense<1){
+            messages.put("Expense", "Please Enter borrower's monthly Expense");
+
         }
 
         if (!this.getPictureUpdated()) {
@@ -1103,14 +1150,14 @@ public class Borrower extends BaseModel implements Serializable {
         if (this.P_ph3 == null || this.P_ph3.length() < 10) {
             messages.put("Mobile", "Mobile Number should be of 10 Digits");
         }
-        if (this.P_Add1 == null || this.P_Add1.length() < 1) {
-            messages.put("Address", "Address 1 is not specified");
+        if (this.P_Add1 == null || this.P_Add1.length() < 4) {
+            messages.put("Address", "Address 1 is not specified. Add minimum 5 letter");
         }
-        if (this.P_add2 == null || this.P_add2.length() < 1) {
-            messages.put("Address", "Address 2 is not specified");
+        if (this.P_add2 == null || this.P_add2.length() < 4) {
+            messages.put("Address", "Address 2 is not specified. Add minimum 4 letter");
         }
-        if (this.P_add3 == null || this.P_add3.length() < 1) {
-            messages.put("Address", "Address 3 is not specified");
+        if (this.P_add3 == null || this.P_add3.length() < 2) {
+            messages.put("Address", "Address 3 is not specified. Add minimum 2 letter");
         }
         if (this.P_city == null || this.P_city.length() < 2) {
             messages.put("City", "Address City is not specified");
@@ -1158,7 +1205,8 @@ public class Borrower extends BaseModel implements Serializable {
         ConditionGroup conditionGroup1 = ConditionGroup.clause();
         conditionGroup1.and(DocumentStore_Table.updateStatus.eq(false)).and(DocumentStore_Table.imagePath.isNotNull());
         return SQLite.select().from(DocumentStore.class)
-                .where(DocumentStore_Table.FiID.eq(this.FiID))
+                .where(DocumentStore_Table.Creator.eq(this.Creator))
+                .and(DocumentStore_Table.ficode.eq(this.Code))
                 .and(conditionGroup.or(DocumentStore_Table.updateStatus.eq(true)).or(conditionGroup1))
                 .queryList();
 
@@ -1464,20 +1512,13 @@ public class Borrower extends BaseModel implements Serializable {
         this.voterid = borrowerDTO.VoterID;
         this.isAdhaarEntry = borrowerDTO.isAdhaarEntry;
         this.IsNameVerify = borrowerDTO.IsNameVerify;
-
         this.save();
 
-        if (borrowerDTO.fiExtra == null)
-            this.fiExtra = new BorrowerExtra();
-        else
-            this.fiExtra = new BorrowerExtra(borrowerDTO.fiExtra);
-        this.associateExtra(this.fiExtra);
-        this.fiExtra.save();
 
-        if (borrowerDTO.fiExtraBank == null)
+        if (borrowerDTO.fiExtraBankBo == null)
             this.fiExtraBank = new BorrowerExtraBank();
         else
-            this.fiExtraBank = new BorrowerExtraBank(borrowerDTO.fiExtraBank);
+            this.fiExtraBank = new BorrowerExtraBank(borrowerDTO.fiExtraBankBo);
         this.associateExtraBank(this.fiExtraBank);
         this.fiExtraBank.save();
 

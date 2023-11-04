@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <device id="4.65in 720p (Galaxy Nexus)" />
+        <device id="4in WVGA (Nexus S)" />
+        <device id="3.4in WQVGA" />
+        <device id="3.7 FWVGA slider" />
+        <device id="5.1in WVGA" />
+        <device id="4.7in WXGA" />
+        <device id="7.4in Rollable" />
+        <device id="7.6in Foldable" />
+        <option name="nonWearDeviceLastStateName" value="Portrait" />
+      </config>
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="14-10-2023-2 Ver28">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/onListCReatorInteraction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/adapters/CreatorListAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/CreatorModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_searchable_spinner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/mappingpopup_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/WebOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityBorrowerKyc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/activities/ActivityLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentCollection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentKycScanning.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/fragments/FragmentKycScanning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/retrofit/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings-igl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings-igl.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" show_ignored="true" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[BIIJIJJFTGOR69IB]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="JLGSourcing" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="valueResourceFile" />
+        <option value="Class" />
+        <option value="resourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ver_1_testing" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-32/data/res/values/attrs.xml" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-28/android.jar!/android/text/SpannableStringBuilder.class" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2MRhxKAk95Px7UUCCvrIurVuULD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Signing Configs" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="Push.Settings">
+    <option name="SHOW_DETAILS_PANEL" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.softeksol.paisalo.jlgsourcing.activities" />
+      <recent name="com.softeksol.paisalo.dealers.Adapters" />
+      <recent name="com.softeksol.paisalo.jlgsourcing.entities" />
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="android.template.1030029898">
+      <recent name="com.softeksol.paisalo.jlgsourcing" />
+    </key>
+    <key name="android.template.-1308454566">
+      <recent name="com.softeksol.paisalo.jlgsourcing.activities" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.softeksol.paisalo.dealers.Adapters" />
+    </key>
+    <key name="android.template.823065856">
+      <recent name="com.softeksol.paisalo.jlgsourcing.homevisit" />
+    </key>
+    <key name="android.template.1751305344">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.softeksol.paisalo.jlgsourcing.fragments" />
+      <recent name="com.softeksol.paisalo.jlgsourcing.retrofit" />
+      <recent name="com.softeksol.paisalo" />
+      <recent name="com.softeksol.paisalo.dealers.Utilities" />
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\entities" />
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\adapters" />
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\res\layout" />
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\activities" />
+      <recent name="D:\Modified-Paisalo-Loan-App\app\src\main\java\com\softeksol\paisalo\jlgsourcing\fragments" />
+    </key>
+    <key name="android.template.1436590464">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="android.template.-980494636">
+      <recent name="com.softeksol.paisalo.jlgsourcing.activities" />
+    </key>
+    <key name="android.template.-2129392362">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="android.template.-368475221">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="android.template.1060924502">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+    <key name="android.template.906969908">
+      <recent name="com.softeksol.paisalo.dealers" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="AndroidRunConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="JLGSourcing.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+        <option name="PROFILING_MODE" value="NOT_SET" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="777f62d9-0b07-46ca-b68d-a5630df9eb8e" name="Changes" comment="validation done in OEM basic detailes" />
+      <created>1677736548092</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677736548092</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Dealer Module Added">
+      <created>1681475524412</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1681475524412</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1681820250256</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1681820250256</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1681821334497</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1681821334497</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1681821436865</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1681821436865</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1681821458373</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1681821458373</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1682427335950</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1682427335950</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Geo tracking done and also with installation of geo tracking app">
+      <created>1682603372942</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1682603372942</updated>
+    </task>
+    <task id="LOCAL-00031" summary="bank scheme dynamic set in Crif Score page">
+      <created>1683008112986</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1683008112986</updated>
+    </task>
+    <task id="LOCAL-00032" summary="validation done in OEM basic detailes">
+      <created>1683119514688</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1683119514688</updated>
+    </task>
+    <task id="LOCAL-00033" summary="validation done in OEM basic detailes">
+      <created>1683715038963</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1683715038963</updated>
+    </task>
+    <task id="LOCAL-00034" summary="validation done in OEM basic detailes">
+      <created>1683807595824</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1683807595824</updated>
+    </task>
+    <task id="LOCAL-00035" summary="validation done in OEM basic detailes">
+      <created>1684500519246</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1684500519246</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Error solve in 1.5.0 version">
+      <created>1685969859707</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1685969859707</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Document work in process">
+      <created>1686054912847</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1686054912847</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Only PDF picking is not done">
+      <created>1686141139552</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1686141139552</updated>
+    </task>
+    <task id="LOCAL-00039" summary="App live 15-06">
+      <created>1686830387055</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1686830387055</updated>
+    </task>
+    <task id="LOCAL-00040" summary="App live 22-06 For RND">
+      <created>1687438800331</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1687438800331</updated>
+    </task>
+    <task id="LOCAL-00041" summary="App live 03-07 For RND">
+      <created>1688389424315</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1688389424315</updated>
+    </task>
+    <task id="LOCAL-00042" summary="App live 06-07 For RND">
+      <created>1688639151109</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1688639151109</updated>
+    </task>
+    <task id="LOCAL-00043" summary="App live 07-07-23">
+      <created>1688732895322</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1688732895322</updated>
+    </task>
+    <task id="LOCAL-00044" summary="App live 28-07-23">
+      <created>1690546601065</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1690546601065</updated>
+    </task>
+    <task id="LOCAL-00045" summary="App live 02-08-23">
+      <created>1690970800221</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1690970800221</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Crif data 02-08-23">
+      <created>1690979241671</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1690979241671</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Add rental data 03-08-23">
+      <created>1691043959762</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1691043959763</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Add rental data 03-08-23">
+      <created>1691047770979</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1691047770979</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Intent morpho device data 03-08-23">
+      <created>1691066859467</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1691066859467</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Intent IFSC device data 03-08-23">
+      <created>1691153597102</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1691153597103</updated>
+    </task>
+    <task id="LOCAL-00051" summary="BRE data data 08-08-23">
+      <created>1691499579859</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1691499579860</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Finance data 11-08-23">
+      <created>1691758213927</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1691758213927</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Filter Search data 16-08-23">
+      <created>1692190054459</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1692190054460</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Filter2 Search data 16-08-23">
+      <created>1692190885140</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1692190885140</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Kyc verify Search data 18-08-23">
+      <created>1692362208112</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1692362208112</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Kyc verify Search data 18-08-23">
+      <created>1692855883360</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1692855883360</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Address,Expense%,OCR data 29-08-23">
+      <created>1693284641685</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1693284641685</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Address,Expense%,OCR data 29-08-23">
+      <created>1693481142346</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1693481142346</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Address,Expense%,OCR data 9-09-23">
+      <created>1694232564219</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1694232564220</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Sep-18-03-2023 new form validation">
+      <created>1695011928713</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1695011928713</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Sep-19-03-2023 aadhar OCR">
+      <created>1695118722558</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1695118722558</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Sep-20-03-2023 aadhar OCR">
+      <created>1695186170816</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1695186170831</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Sep-22-03-2023 aadhar OCR">
+      <created>1695380725766</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1695380725766</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Sep-22-03-2023 latestUpdate Age">
+      <created>1695388459700</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1695388459700</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Home Visit Api added on saturday">
+      <created>1695461250307</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1695461250307</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Home Visit Api added on saturday 25-09-2023">
+      <created>1695618108640</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1695618108640</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Home Visit Api added on saturday add EMI 25-09-2023">
+      <created>1695638881912</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1695638881912</updated>
+    </task>
+    <task id="LOCAL-00068" summary="06-10-2023">
+      <created>1696574017012</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1696574017012</updated>
+    </task>
+    <task id="LOCAL-00069" summary="09-10-2023">
+      <created>1696856172121</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1696856172122</updated>
+    </task>
+    <task id="LOCAL-00070" summary="11-10-2023- Ver28">
+      <created>1697007363379</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1697007363379</updated>
+    </task>
+    <task id="LOCAL-00071" summary="11-10-2023-2 Ver28">
+      <created>1697031174793</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1697031174793</updated>
+    </task>
+    <task id="LOCAL-00072" summary="14-10-2023-2 Ver28">
+      <created>1697283086481</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1697283086481</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="0ac0dd76-7624-4e09-b51a-96a865be9cf2">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/New Customized Sourcing App/Customized_JLGSourcing/JLGSourcing/app/src/main/res/raw" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="0ac0dd76-7624-4e09-b51a-96a865be9cf2" value="TOOL_WINDOW" />
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Crif data 02-08-23" />
+    <MESSAGE value="Add rental data 03-08-23" />
+    <MESSAGE value="Intent morpho device data 03-08-23" />
+    <MESSAGE value="Intent IFSC device data 03-08-23" />
+    <MESSAGE value="BRE data data 08-08-23" />
+    <MESSAGE value="Finance data 11-08-23" />
+    <MESSAGE value="Filter Search data 16-08-23" />
+    <MESSAGE value="Filter2 Search data 16-08-23" />
+    <MESSAGE value="Kyc verify Search data 18-08-23" />
+    <MESSAGE value="Address,Expense%,OCR data 18-08-23" />
+    <MESSAGE value="Address,Expense%,OCR data 29-08-23" />
+    <MESSAGE value="Address,Expense%,OCR data 9-09-23" />
+    <MESSAGE value="Sep-18-03-2023 new form validation" />
+    <MESSAGE value="Sep-19-03-2023 aadhar OCR" />
+    <MESSAGE value="Sep-20-03-2023 aadhar OCR" />
+    <MESSAGE value="Sep-22-03-2023 aadhar OCR" />
+    <MESSAGE value="Sep-22-03-2023 latestUpdate Age" />
+    <MESSAGE value="Home Visit Api added on saturday" />
+    <MESSAGE value="Home Visit Api added on saturday 25-09-2023" />
+    <MESSAGE value="Home Visit Api added on saturday add EMI 25-09-2023" />
+    <MESSAGE value="06-10-2023" />
+    <MESSAGE value="09-10-2023" />
+    <MESSAGE value="11-10-2023- Ver28" />
+    <MESSAGE value="11-10-2023-2 Ver28" />
+    <MESSAGE value="14-10-2023-2 Ver28" />
+    <option name="LAST_COMMIT_MESSAGE" value="14-10-2023-2 Ver28" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
+          <line>103</line>
+          <properties class="com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank" method="toString">
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/softeksol/paisalo/jlgsourcing/entities/BorrowerExtraBank.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

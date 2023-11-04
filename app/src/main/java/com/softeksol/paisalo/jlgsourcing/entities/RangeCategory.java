@@ -22,9 +22,6 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 
-/**
- * Created by sachindra on 2016-10-04.
- */
 @ModelContainer
 @Table(database = DbIGL.class)
 public class RangeCategory extends BaseModel {
@@ -83,7 +80,6 @@ public class RangeCategory extends BaseModel {
                 Type listType = new TypeToken<List<RangeCategory>>() {
                 }.getType();
                 List<RangeCategory> rangeCategoryList = WebOperations.convertToObjectArray(jsonString, listType);
-
                 SQLite.delete().from(RangeCategory.class).query();
                 for (RangeCategory rangeCategory : rangeCategoryList) {
                     rangeCategory.insert();

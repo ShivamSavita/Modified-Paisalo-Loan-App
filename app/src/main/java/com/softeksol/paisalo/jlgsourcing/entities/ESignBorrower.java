@@ -99,6 +99,8 @@ public class ESignBorrower extends BaseModel implements Serializable {
     @Column
     public String VoterID;
     @Column
+    public String drivinglic;
+    @Column
     public String P_State;
 
 

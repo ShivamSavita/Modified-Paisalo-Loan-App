@@ -17,6 +17,7 @@ import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.entities.PendingFi;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentLoanAppList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,11 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         mValues = items;
         mListener = listener;
         this.context=context;
+    }
+
+    public void filterList(ArrayList<PendingFi> filterlist) {
+        mValues = filterlist;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -68,7 +74,7 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         if (Integer.parseInt(Utils.NullIf(mValues.get(position).SEL, "0")) > 0) {
             holder.mainCardBG.setBackgroundColor(context.getResources().getColor(R.color.colorLightGreen));
         } else {
-            holder.mainCardBG.setBackgroundColor(context.getResources().getColor(R.color.zxing_transparent));
+            holder.mainCardBG.setBackgroundColor(context.getResources().getColor(com.google.zxing.client.android.R.color.zxing_transparent));
         }
 //        Log.d("checkStatus",mValues.get(position).BorrLoanAppSignStatus + "");
 //        Log.d("checkApproved",holder.mItem.Approved + "");
@@ -92,8 +98,12 @@ public class AdapterRecViewPendingFI extends RecyclerView.Adapter<AdapterRecView
         return mValues.size();
     }
 
-    public void updateList(List<PendingFi> data) {
+    public void updateList(List<PendingFi> data){
         mValues = data;
+        notifyDataSetChanged();
+    }
+    public void updateListClear(){
+        mValues.clear();
         notifyDataSetChanged();
     }
 

@@ -55,12 +55,19 @@ public class ActivityCollection extends AppCompatActivity {
     private AbsCollectionFragment fragSettlement = null;
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_viewpager);
         manager = (Manager) getIntent().getSerializableExtra(Global.MANAGER_TAG);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         absFragments = new ArrayList<>();
 
         // Create the adapter that will return a fragment for each of the three
@@ -122,11 +129,9 @@ public class ActivityCollection extends AppCompatActivity {
                     }.getType();
                     settlementDataList.clear();
                     String jsonString = (new String(responseBody));
-
                     List<PosInstRcv> dueData = WebOperations.convertToObjectArray(jsonString, listType);
                     settlementDataList.addAll(getSettlementDataByDbName(dueData, manager.FOCode, manager.Creator));
                     if (settlementDataList.size() > 0) {
-
                         if (fragSettlement == null) {
                             Log.d("checking","yha tak 2");
                             fragSettlement = FragmentCollectionSettlement.newInstance("POSDB", "Settlement");
@@ -136,7 +141,7 @@ public class ActivityCollection extends AppCompatActivity {
                             fragmentPagerAdapter.notifyDataSetChanged();
                         }
                         fragSettlement.refreshData();
-                    } else {
+                    }else{
                         Log.d("checking","yha tak 3");
                         if (absFragments != null) {
                             Log.d("checking","yha tak 4");

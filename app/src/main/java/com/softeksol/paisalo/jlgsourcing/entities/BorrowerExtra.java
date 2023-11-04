@@ -261,17 +261,50 @@ public class BorrowerExtra extends BaseModel implements Serializable {
 
     @Expose
     @Column
-    public String Years_In_Business;
+    public int Years_In_Business;
 
-    public BorrowerExtra( String tietMotherFName,String tietMotherLName,String tietMotherMName, String tietFatherFName,  String tietFatherLName, String tietFatherMName) {
+     @Expose
+    @Column
+    public int PensionIncome;
+
+     @Expose
+    @Column
+    public int InterestIncome;
+
+     @Expose
+    @Column
+    public String IsBorrowerHandicap;
+     @Expose
+    @Column
+    public int RentalIncome;
+
+
+
+
+    public BorrowerExtra(long Code, String creator,int incomeMonthly, int futureIncome, String agricultureIncome, String otherIncome, String earningMemberType, int earningMemberIncome, String tietMotherFName, String tietMotherLName, String tietMotherMName, String tietFatherFName, String tietFatherLName, String tietFatherMName, String tag,String SpouseLName,String SpouseMName,String SpouseFName,int pensionIncome,int interestIncome) {
+        this.Code=Code;
+        this.Creator=creator;
+        this.FutureIncome=futureIncome;
+        this.OTHER_THAN_AGRICULTURAL_INCOME=otherIncome;
+        this.FamMonthlyIncome=earningMemberIncome;
+        this.FamIncomeSource=earningMemberType;
+        this.AGRICULTURAL_INCOME= agricultureIncome;
         this.MOTHER_FIRST_NAME=tietMotherFName;
         this.MOTHER_LAST_NAME=tietMotherLName;
         this.MOTHER_MIDDLE_NAME=tietMotherMName;
         this.FATHER_FIRST_NAME=tietFatherFName;
         this.FATHER_LAST_NAME=tietFatherLName;
         this.FATHER_MIDDLE_NAME=tietFatherMName;
+        this.Tag=tag;
+        this.SPOUSE_FIRST_NAME=SpouseFName;
+        this.SPOUSE_MIDDLE_NAME=SpouseMName;
+        this.SPOUSE_LAST_NAME=SpouseLName;
+        this.ANNUAL_INCOME=(futureIncome+(incomeMonthly*12)+agricultureIncome+otherIncome);
+        this.PensionIncome=pensionIncome;
+        this.InterestIncome=interestIncome;
     }
 
+    public BorrowerExtra(){}
 
     @Override
     public String toString() {
@@ -300,40 +333,44 @@ public class BorrowerExtra extends BaseModel implements Serializable {
                 ", IMEINO='" + IMEINO + '\'' +
                 ", id=" + id +
                 ", FiID=" + FiID +
-        ", AGRICULTURAL_INCOME='"+AGRICULTURAL_INCOME+'\''+
+                ", AGRICULTURAL_INCOME='"+AGRICULTURAL_INCOME+'\''+
                 ", SOC_ATTR_2_INCOME='"+SOC_ATTR_2_INCOME+'\''+
-        ", SOC_ATTR_3_LAND_HOLD='"+SOC_ATTR_3_LAND_HOLD+'\''+
+                ", SOC_ATTR_3_LAND_HOLD='"+SOC_ATTR_3_LAND_HOLD+'\''+
                 ", SOC_ATTR_4_SPL_ABLD='"+SOC_ATTR_4_SPL_ABLD+'\''+
-        ", SOC_ATTR_5_SPL_SOC_CTG='"+SOC_ATTR_5_SPL_SOC_CTG+'\''+
+                ", SOC_ATTR_5_SPL_SOC_CTG='"+SOC_ATTR_5_SPL_SOC_CTG+'\''+
                 ", EDUCATION_CODE='"+EDUCATION_CODE+'\''+
-        ", ANNUAL_INCOME='"+ANNUAL_INCOME+'\''+
+                ", ANNUAL_INCOME='"+ANNUAL_INCOME+'\''+
                 ", PLACE_OF_BIRTH='"+PLACE_OF_BIRTH+'\''+
-            ", EMAIL_ID='"+EMAIL_ID+'\''+
+                ", EMAIL_ID='"+EMAIL_ID+'\''+
                 ", VISUALLY_IMPAIRED_YN='"+VISUALLY_IMPAIRED_YN+'\''+
-        ", FORM60_TNX_DT='"+FORM60_TNX_DT+'\''+
+                ", FORM60_TNX_DT='"+FORM60_TNX_DT+'\''+
                 ", FORM60_SUBMISSIONDATE='"+FORM60_SUBMISSIONDATE+'\''+
-        ", FORM60_PAN_APPLIED_YN='"+FORM60_PAN_APPLIED_YN+'\''+
+                ", FORM60_PAN_APPLIED_YN='"+FORM60_PAN_APPLIED_YN+'\''+
                 ", MOTHER_TITLE='"+MOTHER_TITLE+'\''+
-        ", MOTHER_FIRST_NAME='"+MOTHER_FIRST_NAME+'\''+
+                 ", MOTHER_FIRST_NAME='"+MOTHER_FIRST_NAME+'\''+
                 ", MOTHER_MIDDLE_NAME='"+MOTHER_MIDDLE_NAME+'\''+
-        ", MOTHER_LAST_NAME='"+MOTHER_LAST_NAME+'\''+
+                ", MOTHER_LAST_NAME='"+MOTHER_LAST_NAME+'\''+
                 ", MOTHER_MAIDEN_NAME='"+MOTHER_MAIDEN_NAME+'\''+
-        ", SPOUSE_TITLE='"+SPOUSE_TITLE+'\''+
+                ", SPOUSE_TITLE='"+SPOUSE_TITLE+'\''+
                 ", SPOUSE_FIRST_NAME='"+SPOUSE_FIRST_NAME+'\''+
-        ", SPOUSE_MIDDLE_NAME='"+SPOUSE_MIDDLE_NAME+'\''+
+                ", SPOUSE_MIDDLE_NAME='"+SPOUSE_MIDDLE_NAME+'\''+
                 ", SPOUSE_LAST_NAME='"+SPOUSE_LAST_NAME+'\''+
-        ", FORM60SUBMISSIONDATE='"+FORM60SUBMISSIONDATE+'\''+
+                ", FORM60SUBMISSIONDATE='"+FORM60SUBMISSIONDATE+'\''+
                 ", PAN_APPLIED_FLAG='"+PAN_APPLIED_FLAG+'\''+
-        ", OTHER_THAN_AGRICULTURAL_INCOME='"+OTHER_THAN_AGRICULTURAL_INCOME+'\''+
+                 ", OTHER_THAN_AGRICULTURAL_INCOME='"+OTHER_THAN_AGRICULTURAL_INCOME+'\''+
                 ", APPLICNT_TITLE='"+APPLICNT_TITLE+'\''+
-        ", MARITAL_STATUS='"+MARITAL_STATUS+'\''+
+                 ", MARITAL_STATUS='"+MARITAL_STATUS+'\''+
                 ", OCCUPATION_TYPE='"+OCCUPATION_TYPE+'\''+
-        ", RESERVATN_CATEGORY='"+RESERVATN_CATEGORY+'\''+
+                ", RESERVATN_CATEGORY='"+RESERVATN_CATEGORY+'\''+
                 ", FATHER_TITLE='"+FATHER_TITLE+'\''+
-        ", FATHER_FIRST_NAME='"+FATHER_FIRST_NAME+'\''+
+                ", FATHER_FIRST_NAME='"+FATHER_FIRST_NAME+'\''+
                 ", FATHER_MIDDLE_NAME='"+FATHER_MIDDLE_NAME+'\''+
-        ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
-                ", years_in_business='"+Years_In_Business+'\''+
+                ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
+                ", Years_in_business='"+Years_In_Business+'\''+
+                ", InterestIncome='"+InterestIncome+'\''+
+                ", PensionIncome='"+PensionIncome+'\''+
+                ", IsBorrowerHandicap='"+IsBorrowerHandicap+'\''+
+                ", RentalIncome='"+RentalIncome+'\''+
         '}';
     }
 
@@ -398,12 +435,14 @@ public class BorrowerExtra extends BaseModel implements Serializable {
        borrowerExtraDTO.setFATHER_MIDDLE_NAME(this.FATHER_MIDDLE_NAME);
                borrowerExtraDTO.setFATHER_LAST_NAME(this.FATHER_LAST_NAME);
         borrowerExtraDTO.setYears_in_business(this.Years_In_Business);
+        borrowerExtraDTO.setPensionIncome(this.PensionIncome);
+        borrowerExtraDTO.setInterestIncome(this.InterestIncome);
+        borrowerExtraDTO.setIsBorrowerHandicap(this.IsBorrowerHandicap);
+        borrowerExtraDTO.setRentalIncome(this.RentalIncome);
 
         return borrowerExtraDTO;
     }
 
-    public BorrowerExtra() {
-    }
 
     public BorrowerExtra(BorrowerExtraDTO borrowerExtraDTO) {
         this.Code = borrowerExtraDTO.getCode();
@@ -462,6 +501,10 @@ public class BorrowerExtra extends BaseModel implements Serializable {
                 this.FATHER_MIDDLE_NAME=borrowerExtraDTO.getFATHER_MIDDLE_NAME();
         this.FATHER_LAST_NAME=borrowerExtraDTO.getFATHER_LAST_NAME();
         this.Years_In_Business=borrowerExtraDTO.getYears_in_business();
+        this.PensionIncome= borrowerExtraDTO.getPensionIncome();
+        this.InterestIncome= borrowerExtraDTO.getInterestIncome();
+        this.IsBorrowerHandicap= borrowerExtraDTO.getIsBorrowerHandicap();
+        this.RentalIncome= borrowerExtraDTO.getRentalIncome();
 
     }
 }

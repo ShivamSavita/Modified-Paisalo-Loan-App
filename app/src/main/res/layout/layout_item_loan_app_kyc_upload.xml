@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/aadhar_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:fontFamily="@font/scada_regular"
         android:textSize="12sp"
         android:visibility="visible" />
 
@@ -26,6 +27,7 @@
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/scada_regular"
             android:textSize="10sp"
             android:layout_toEndOf="@+id/tvKycItemLayoutAadhar"
             android:layout_toStartOf="@+id/tvKycItemLayoutFiCode"
@@ -38,6 +40,7 @@
             android:text="@string/aadhar_id"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/scada_regular"
             android:textSize="10sp"
             android:visibility="invisible"
             android:layout_alignParentTop="true"
@@ -49,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/loan_application_ficode"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:fontFamily="@font/scada_regular"
             android:textSize="10sp"
             android:visibility="visible"
             android:layout_alignParentTop="true"
@@ -65,6 +69,7 @@
             android:layout_height="wrap_content"
             android:text="@string/upload_kyc_and_document"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:fontFamily="@font/scada_regular"
             android:textSize="10sp"
             android:layout_alignParentStart="true"
             android:visibility="visible" />
@@ -75,6 +80,7 @@
             android:layout_height="wrap_content"
             android:text="@string/document_remarks"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:fontFamily="@font/scada_regular"
             android:textSize="10sp"
             android:layout_alignParentEnd="true"
             android:visibility="visible" />

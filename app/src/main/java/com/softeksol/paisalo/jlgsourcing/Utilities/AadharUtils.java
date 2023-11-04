@@ -68,7 +68,20 @@ public class AadharUtils {
         if (aadharDataMap.containsKey("u")) aadharData = getAadharNew(aadharDataMap);
         return aadharData;
     }
+    public static boolean comparedateofbirth(Date aadharDOB,String panDOB){
+        boolean datematched;
+        Date panDOb=(DateUtils.getParsedDate(panDOB, "dd/MM/yyyy"));
 
+        if (aadharDOB.before(panDOb)) {
+            datematched=false;
+        } else if (aadharDOB.after(panDOb)) {
+            datematched=false;
+        } else {
+            // System.out.println("Date 1 is equal to Date 2.");
+            datematched=true;
+        }
+        return  datematched;
+    }
     public static AadharData getAadhar(String xmlString) {
 
         Log.d("CheckXMLDATA","AadharData:->" + xmlString);
@@ -571,6 +584,18 @@ public class AadharUtils {
                 .from(RangeCategory.class)
                 .where(RangeCategory_Table.cat_key.eq("state"))
                 .and(RangeCategory_Table.DescriptionEn.eq(stateName))
+                .querySingle();
+        if (rangeCategory != null) {
+            stateCode = rangeCategory.RangeCode;
+        }
+        return stateCode;
+    }
+    public static String getBankCode(String bankName) {
+        String stateCode = "";
+        RangeCategory rangeCategory = SQLite.select()
+                .from(RangeCategory.class)
+                .where(RangeCategory_Table.DescriptionEn.eq(bankName))
+//                .and(RangeCategory_Table.DescriptionEn.eq(bankName))
                 .querySingle();
         if (rangeCategory != null) {
             stateCode = rangeCategory.RangeCode;

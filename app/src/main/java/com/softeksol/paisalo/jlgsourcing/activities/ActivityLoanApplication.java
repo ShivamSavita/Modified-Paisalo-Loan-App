@@ -23,6 +23,7 @@ import com.softeksol.paisalo.jlgsourcing.fragments.AbsFragment;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerAadhar;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerFinance;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerGuarantors;
+import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerPendingVhData;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerPersonal;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentBorrowerPersonal_Additional;
 import com.softeksol.paisalo.jlgsourcing.fragments.FragmentFamilyExpense;
@@ -38,6 +39,7 @@ public class ActivityLoanApplication extends AppCompatActivity implements
         FragmentBorrowerPersonal.OnFragmentBorrowerPersonalInteractionListener,
         FragmentBorrowerPersonal_Additional.OnFragmentBorrowerPersonal_AddInteractionListener,
         FragmentBorrowerFinance.OnFragmentBorrowerFinanceInteractionListener,
+        FragmentBorrowerPendingVhData.OnFragmentBorrowerPendingVHDataInteractionListener,
         //FragmentBorrowerExtra.OnFragmentBorrowerExtraInteractionListener,
         FragmentBorrowerGuarantors.OnListFragmentBorrowerGuarantorsInteractionListener,
         FragmentKycScanning.OnListFragmentKycScanInteractionListener {
@@ -73,7 +75,7 @@ public class ActivityLoanApplication extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         fragments = new ArrayList<>();
-            loadFragments();
+        loadFragments();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new AdapterFragmentPager(getSupportFragmentManager(), fragments);
@@ -154,10 +156,11 @@ public class ActivityLoanApplication extends AppCompatActivity implements
 
     }
 
-    private void loadFragments() {
+    private void loadFragments(){
         fragments.add(FragmentBorrowerAadhar.newInstance(borrower_id));
         fragments.add(FragmentBorrowerPersonal.newInstance(borrower_id));
-        fragments.add(FragmentBorrowerPersonal_Additional.newInstance(borrower_id));
+        fragments.add(FragmentBorrowerPendingVhData.newInstance(borrower_id));
+//        fragments.add(FragmentBorrowerPersonal_Additional.newInstance(borrower_id));
         fragments.add(FragmentBorrowerFinance.newInstance(borrower_id));
         //fragments.add(FragmentBorrowerExtra.newInstance(borrower_id));
         if (BuildConfig.APPLICATION_ID.equals("net.softeksol.seil.groupfin")
@@ -165,7 +168,7 @@ public class ActivityLoanApplication extends AppCompatActivity implements
                 || BuildConfig.APPLICATION_ID.equals("net.softeksol.seil.groupfin.sbicolending")
                 || BuildConfig.APPLICATION_ID.equals("net.softeksol.seil.paisalo.loan.app")) {
             fragments.add(FragmentFamilyIncome.newInstance());
-            fragments.add(FragmentFamilyExpense.newInstance());
+//            fragments.add(FragmentFamilyExpense.newInstance());
             fragments.add(FragmentFamilyLoans.newInstance());
             //fragments.add(FragmentHouseDetails.newInstance());
         }
@@ -200,4 +203,8 @@ public class ActivityLoanApplication extends AppCompatActivity implements
         view.setOnClickListener(navOnClikListner);
     }
 
+    @Override
+    public void onBorrowerPendingVHDataInteraction(Borrower borrower) {
+
+    }
 }

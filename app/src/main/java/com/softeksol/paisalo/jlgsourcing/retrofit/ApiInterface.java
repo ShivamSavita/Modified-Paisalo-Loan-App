@@ -2,21 +2,41 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.softeksol.paisalo.jlgsourcing.entities.CreatorModel;
+import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitFiList;
+import com.softeksol.paisalo.jlgsourcing.entities.HomeVisitListModel;
+import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
+import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
+import com.softeksol.paisalo.jlgsourcing.homevisit.FIDataModel;
 
+import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
     /*@FormUrlEncoded
     @POST("token")
     public Call<LoginResponse> login(@Field("grant_type") String grantType, @Field("username") String  userName, @Field("password") String password);
+   */
 
-*/
+
+    @POST("UserMobile/CreateFiVerfiedInfo")
+    public  Call<JsonObject> getDocNameDate(@Body JsonObject object);
+
     @POST("CrifReport/CheckCrifReport")
     public  Call<CheckCrifData> checkCrifScore(@Body JsonObject object);
 
@@ -25,12 +45,74 @@ public interface ApiInterface {
     public  Call<ScrifData> getCrifScore(@Body JsonObject object);
 
 
-
     @POST("IdentityVerification/Get")
     public Call<JsonObject> cardValidate(@Body JsonObject object);
 
+    @POST("LiveTrack/CreateKycVerification")
+    public Call<JsonObject> kycVerficationlog(@Body JsonObject object);
+
+    @POST("LiveTrack/CreateLiveTrack")
+    public Call<JsonObject> livetrack(@Body JsonObject object);
+
+    @GET("LiveTrack/GetAppLink")
+    Call<AppUpdateResponse> getAppLinkStatus(@Query("version") String version, @Query("AppName") String AppName, @Query("action") int action);
+
+    @POST("LiveTrack/SourcingStatus")
+    Call<JsonObject> updateStatus(@Query("ficode") String Ficode, @Query("creator") String Creator);
+
+    @GET("InstCollection/GetProcessingFeeEmi")
+    Call<ProcessingEmiData> processingFee(@Query("ficode") String Ficode, @Query("creator") String Creator);
 
 
+    @POST("LiveTrack/CreateMorphoDeviceData")
+    Call<JsonObject> sendDataForMorphoRecharge(@Body JsonObject jsonObject);
+
+    @GET("LiveTrack/GetBreStatus")
+    Call<JsonObject> getBreStatus(@Query("code") String code,@Query("creator") String creator);
+
+    @GET("{ifsccode}")
+    Call<JsonObject> getIfscCode(@Path("ifsccode") String ifsccode);
+
+    @POST("OCR/DocVerifyByOCR")
+    Call<OCRResponseModel> getFileValidateByOCR(@Query("imgData") String type, @Body RequestBody file);
+
+    @GET("FI/AadharSehmatiFromPdf")
+    Call<JsonObject> getFile(@Header ("Authorization") String token,@Query("creator") String creator, @Query("ficode") int ficode);
+    @GET("FI/ApplicationFormPdfForVHAccOpen")
+    Call<JsonObject> getFileApplicationFormPdfForVHAccOpen(@Header ("Authorization") String token,@Query("creator") String creator, @Query("ficode") int ficode);
+
+
+    @POST("OCR/GetAdhardata")
+    Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
+
+ @POST("LiveTrack/UpdateFiStatus")
+    Call<JsonObject> restrictBorrower(@Query("ficode") String ficode,@Query("creator") String creator,@Query("Approved") String Approved);
+
+
+
+
+    @GET("FI/FiMasterData")
+    Call<FIDataModel> getDataById(@Header("Authorization") String bearerToken, @Query("creator") String param1, @Query("ficode") String param2);
+
+    @POST("UserMobile/CreateHomeVisit")
+    Call<JsonObject> saveHouseVerificationDetails(@Body RequestBody file);
+
+
+    @GET("LiveTrack/GetFiListForHomeVisit")
+    Call<HomeVisitListModel> getHVManagerList(@Query("creator") String creator, @Query("groupCode") String groupCode, @Query("citycode") String citycode, @Query("imei") String imei);
+
+    @POST("PDL.UserService.API/api/User/GetToken")
+    Call<JsonObject> getTokenForABF(@Body JsonObject jsonObject);
+
+
+    @POST("PDL.Mobile.API/api/IMEIMapping/InsertDevicedata")
+    Call<JsonObject> insertDeviceData(@Body JsonObject jsonObject);
+
+
+
+
+    @GET("PDL.Userservice.api/api/DDLHelper/GetCreator")
+    Call<List<CreatorModel>> getCreatorList();
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

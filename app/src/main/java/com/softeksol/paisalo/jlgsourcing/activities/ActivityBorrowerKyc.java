@@ -1,10 +1,13 @@
 package com.softeksol.paisalo.jlgsourcing.activities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -21,21 +24,29 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.RequestParams;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.Global;
 import com.softeksol.paisalo.jlgsourcing.R;
@@ -57,6 +68,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtraBank;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
+import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.BorrowerDTO;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OldFIById;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
@@ -91,16 +103,27 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TAKE_PHOTO;
 import static com.softeksol.paisalo.jlgsourcing.Utilities.Verhoeff.validateCaseCode;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -110,6 +133,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
     private final AppCompatActivity activity = this;
 
+    int PAN_CARD_CAPTURE=1100;
+
+    AdapterListRange rlaMarritalStatus;
+    ImageView adharBackImg;
+    ImageView adharFrontImg;
     private Borrower borrower;
     private BorrowerExtra borrowerExtra;
     private DocumentStore documentStore;
@@ -121,16 +149,17 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private CheckBox chkTvTopup;
-    private AppCompatSpinner acspGender, acspAadharState;
+    private AppCompatSpinner acspGender, acspAadharState,acspRelationship;
     private TextInputEditText tietAadharId, tietName, tietAge, tietDob, tietGuardian,
             tietAddress1, tietAddress2, tietAddress3, tietCity, tietPinCode, tietMobile,
-            tietDrivingLic, tietPanNo, tietVoterId, tietMotherMName,tietMotherFName,tietMotherLName, tietFatherMName,tietFatherFName,tietFatherLName;
+            tietDrivingLic, tietPanNo, tietVoterId, tietMotherMName,tietMotherFName,tietMotherLName, tietFatherMName,tietFatherFName,tietFatherLName
+            ,tietSpouseLName,tietSpouseMName,tietSpouseFName;
     private SearchView svOldCase;
-    private TextView textViewFiDetails,tilPAN_Name,tilVoterId_Name;
+    private TextView textViewFiDetails,tilPAN_Name,tilVoterId_Name,tilDL_Name;
     private TextWatcher ageTextWatcher;
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener dateSetListner;
-    Button voterIdCheckSign,panCheckSign;
+    Button voterIdCheckSign,panCheckSign,dLCheckSign;
     private MyTextWatcher aadharTextChangeListner;
     private AdapterRecViewListDocuments adapterRecViewListDocuments;
     private DocumentStore documentPic;
@@ -141,24 +170,45 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     protected static final int VTC_INDEX = 15;
     protected int emailMobilePresent, imageStartIndex, imageEndIndex;
     protected ArrayList<String> decodedData;
+    int ImageType=0;
     protected String signature,email,mobile;
     ArrayList<RangeCategory> genders;
     String loanDurationData,stateData,genderData;
     boolean aadharNumberentry=false;
-    String isAdhaarEntry ="M";
+    String isAdhaarEntry ="N";
     String isNameMatched ="0";
+    int isPanverify=0;
+    int isDLverify=0;
+    int isVoterverify=0;
     String bankName;
     String PANHolderName, VoterIdName, BankAccountHolderName;
 
+    CardView cardView_SpouseFirstName;
+    LinearLayout linearLayout433;
 
+    TextView textView35;
 
+    Button BtnNextOnFirstKyc,capturePanCardImage;
+    ImageView imgViewCal;
 
-    Button BtnNextOnFirstKyc;
+    Spinner spinnerMarritalStatus;
+    String requestforVerification="";
+    String ResponseforVerification="";
+    boolean panaadharDOBMatched=false;
+    boolean isgetPanwithOCR=false;
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrower_entry);
         BtnNextOnFirstKyc=findViewById(R.id.BtnSaveKYCData);
+        capturePanCardImage=findViewById(R.id.capturePanCardImage);
         BtnNextOnFirstKyc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,23 +222,22 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 // Creating an Editor object to edit(write to the file)
         editor = sharedPreferences.edit();
-
         //borrower = new Borrower();
         borrower = new Borrower(manager.Creator, manager.TAG, manager.FOCode, manager.AreaCd, IglPreferences.getPrefString(ActivityBorrowerKyc.this, SEILIGL.USER_ID, ""));
         borrowerExtra=new BorrowerExtra();
-
         //borrowerExtraBank=new BorrowerExtraBank(manager.Creator,manager.TAG);
         borrower.associateExtraBank(new BorrowerExtraBank(manager.Creator, manager.TAG));
-
         //borrower.fi
         borrower.isAadharVerified = "N";
+        rlaMarritalStatus = new AdapterListRange(this,
+                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("marrital_status")).queryList(), false);
+        spinnerMarritalStatus = (Spinner) findViewById(R.id.spinLoanAppPersonalMarritalStatus);
+        spinnerMarritalStatus.setAdapter(rlaMarritalStatus);
 
-
-        Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
+        //  Log.d("TAG", "onCreate233: "+DocumentStore.getFiData(222333));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(actionBar.getTitle() + "    Borrower KYC");
-
-
+        actionBar.setTitle(" Borrower KYC"); //actionBar.getTitle();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 //        ArrayList<RangeCategory> genders = new ArrayList<>();
 //        genders.add(new RangeCategory("Female", "Gender"));
 
@@ -220,26 +269,55 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 genders.add(new RangeCategory("Female", "Gender"));
                 genders.add(new RangeCategory("Transgender", "Gender"));
         }*/
+        tietDob = findViewById(R.id.tietDob);
+        tietMotherMName=findViewById(R.id.tietIncomeMonthly);
+        tietMotherFName=findViewById(R.id.tietMotherFName);
+        tietMotherLName=findViewById(R.id.tietMotherLName);
+        tietFatherMName=findViewById(R.id.tietFatherMName);
+        tietFatherFName=findViewById(R.id.tietFatherFName);
+        tietFatherLName=findViewById(R.id.tietFatherLName);
+        tietGuardian = findViewById(R.id.tietGuardian);
+        cardView_SpouseFirstName = findViewById(R.id.cardView_SpouseFirstName);
+        tietSpouseLName = findViewById(R.id.tietSpouseLName);
+        tietSpouseMName = findViewById(R.id.tietSpouseMName);
+        tietSpouseFName = findViewById(R.id.tietSpouseFName);
+        imgViewCal = findViewById(R.id.imgViewCal);
+        textView35 = findViewById(R.id.textView35);
+        textView35.setVisibility(View.GONE);
+        cardView_SpouseFirstName.setVisibility(View.GONE);
+        linearLayout433 = findViewById(R.id.linearLayout433);
+        linearLayout433.setVisibility(View.GONE);
         panCheckSign = findViewById(R.id.panCheckSign);
+        dLCheckSign = findViewById(R.id.dLCheckSign);
+
         voterIdCheckSign = findViewById(R.id.voterIdCheckSign);
         acspGender = findViewById(R.id.acspGender);
         tilPAN_Name = findViewById(R.id.tilPAN_Name);
         tilVoterId_Name = findViewById(R.id.tilVoterId_Name);
+        tilDL_Name = findViewById(R.id.tilDL_Name);
         tilPAN_Name.setVisibility(View.GONE);
+        tilDL_Name.setVisibility(View.GONE);
         tilVoterId_Name.setVisibility(View.GONE);
         genderAdapter=new AdapterListRange(this, genders, false);
         acspGender.setAdapter(genderAdapter);
 
         myCalendar = Calendar.getInstance();
         myCalendar.setTime(new Date());
+        acspRelationship = findViewById(R.id.acspRelationship);
+        ArrayList<RangeCategory> relationSips = new ArrayList<>();
+        relationSips.add(new RangeCategory("Husband", ""));
+        relationSips.add(new RangeCategory("Father", ""));
+        relationSips.add(new RangeCategory("Mother", ""));
 
+        acspRelationship.setAdapter(new AdapterListRange(this, relationSips, false));
         //acspRelationship.setVisibility(View.GONE);
         //findViewById(R.id.llUidRelationship).setVisibility(View.GONE);
 
         findViewById(R.id.imgViewAadharPhoto).setVisibility(View.VISIBLE);
 
         acspAadharState = findViewById(R.id.acspAadharState);
-        Log.d("TAG", "onCreate: "+RangeCategory.getRangesByCatKey("state", "DescriptionEn", true));
+        Log.d("TAG", "onCreate: "+RangeCategory.getRangesByCatKey("state", "RangeCode", false));
+
         acspAadharState.setAdapter(new AdapterListRange(this, RangeCategory.getRangesByCatKey("state", "DescriptionEn", true), false));
 
         tietName = findViewById(R.id.tietName);
@@ -249,13 +327,89 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 validateControls(editText, text);
             }
         });
+
         llTopupCode = findViewById(R.id.llTopupCode);
         llTopupCode.setVisibility(View.INVISIBLE);
-
         svOldCase = findViewById(R.id.svTopupCaseNumber);
         svOldCase.setVisibility(View.GONE);
         svOldCase.setIconified(false);
         svOldCase.setOnClickListener(this);
+        TextView Capture_Aadhar=findViewById(R.id.Capture_Aadhar);
+        TextView Capture_Aadharback=findViewById(R.id.Capture_Aadharback);
+        capturePanCardImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImageType=3;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(PAN_CARD_CAPTURE);
+//                final View dialogView = ActivityBorrowerKyc.this.getLayoutInflater().inflate(R.layout.dialog_card_pan_capture, null);
+//                CardView AdharFront_acrdView=dialogView.findViewById(R.id.newPAN_acrdView);
+//                CardView AdharBack_acrdView=dialogView.findViewById(R.id.olPAN_acrdView);
+//                Button submitORCadharBtn=dialogView.findViewById(R.id.submitORCadharBtn);
+//                TextView sampleCardOldPan=dialogView.findViewById(R.id.sampleCardOldPan);
+//                TextView sampleCardNewPan=dialogView.findViewById(R.id.sampleCardNewPan);
+//                adharBackImg=dialogView.findViewById(R.id.adharBackImg);
+//                adharFrontImg=dialogView.findViewById(R.id.adharFrontImg);
+//
+//                AdharFront_acrdView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        sampleCardNewPan.setVisibility(View.GONE);
+//                        ImageType=3;
+//                        ImagePicker.with(ActivityBorrowerKyc.this)
+//                                .cameraOnly()
+//                                .start(PAN_CARD_CAPTURE);
+//                    }
+//                });
+//                AdharBack_acrdView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        sampleCardOldPan.setVisibility(View.GONE);
+//                        ImageType=4;
+//                        ImagePicker.with(ActivityBorrowerKyc.this)
+//                                .cameraOnly()
+//                                .start(PAN_CARD_CAPTURE);
+//                    }
+//                });
+//
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
+//                builder.setView(dialogView);
+//                final AlertDialog dialog = builder.create();
+//                dialog.setCancelable(false);
+//                dialog.show();
+//
+//                submitORCadharBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
+            }
+        });
+        Capture_Aadhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType = 1;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
+        Capture_Aadharback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageType=2;
+                ImagePicker.with(ActivityBorrowerKyc.this)
+                        .cameraOnly()
+                        .start(1000);
+
+            }
+        });
         /*svOldCase.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,6 +435,33 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 return validationStatus;
             }
         });
+        spinnerMarritalStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                RangeCategory rangeCategory;
+                adapterView.getId();
+                rangeCategory = (RangeCategory) adapterView.getSelectedItem();
+                Spinner spinnerMaritalStatus = (Spinner) findViewById(R.id.spinMARITAL_STATUS);
+
+                if (rangeCategory.RangeCode.equals("Unmarried")) {
+                    linearLayout433.setVisibility(View.GONE);
+                    cardView_SpouseFirstName.setVisibility(View.GONE);
+                    textView35.setVisibility(View.GONE);
+                } else {
+                    linearLayout433.setVisibility(View.VISIBLE);
+                    cardView_SpouseFirstName.setVisibility(View.VISIBLE);
+                    textView35.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
         chkTvTopup = findViewById(R.id.chkTopup);
         chkTvTopup.setChecked(false);
@@ -296,26 +477,26 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         });
 
         tietAadharId = findViewById(R.id.tietAadhar);
-        aadharTextChangeListner = new MyTextWatcher(tietAadharId) {
-            @Override
-            public void validate(EditText editText, String text) {
-                String aadharId = editText.getText().toString();
-                if (validateControls(editText, text)) {
-                    llTopupCode.setVisibility(View.VISIBLE);
-                    Borrower borrower1 = Borrower.getBorrower(aadharId);
-                    if (borrower1 != null) {
-                        borrower = borrower1;
-                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
-                        aadharNumberentry=false;
-                    } else {
-                        fetchAadharDetails(aadharId);
-                    }
-                } else {
-                    llTopupCode.setVisibility(View.INVISIBLE);
-                }
-            }
-        };
-        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        aadharTextChangeListner = new MyTextWatcher(tietAadharId) {
+//            @Override
+//            public void validate(EditText editText, String text) {
+//                String aadharId = editText.getText().toString();
+//                if (validateControls(editText, text)) {
+//                    llTopupCode.setVisibility(View.VISIBLE);
+//                    Borrower borrower1 = Borrower.getBorrower(aadharId);
+//                    if (borrower1 != null) {
+//                        borrower = borrower1;
+//                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
+//                        aadharNumberentry=false;
+//                    } else {
+//                        fetchAadharDetails(aadharId);
+//                    }
+//                } else {
+//                    llTopupCode.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        };
 
         tietAge = findViewById(R.id.tietAge);
         tietAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -335,15 +516,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             }
         });
 
-        tietDob = findViewById(R.id.tietDob);
-        tietMotherMName=findViewById(R.id.tietIncomeMonthly);
-        tietMotherFName=findViewById(R.id.tietMotherFName);
-        tietMotherLName=findViewById(R.id.tietMotherLName);
-        tietFatherMName=findViewById(R.id.tietFatherMName);
-        tietFatherFName=findViewById(R.id.tietFatherFName);
-        tietFatherLName=findViewById(R.id.tietFatherLName);
 
-        tietGuardian = findViewById(R.id.tietGuardian);
         tietGuardian.addTextChangedListener(new MyTextWatcher(tietGuardian) {
             @Override
             public void validate(EditText editText, String text) {
@@ -375,6 +548,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             }
         });
         ImageView imageView = ((ImageView) findViewById(R.id.imgViewAadharPhoto));
+        imageView.setVisibility(View.GONE);
         imageView.setOnClickListener(this);
         imgViewScanQR = (ImageView) findViewById(R.id.imgViewScanQR);
         imgViewScanQR.setOnClickListener(this);
@@ -411,8 +585,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 tietDob.setText(DateUtils.getFormatedDate(myCalendar.getTime(), "dd-MMM-yyyy"));
             }
         };
-        tietDob.setOnClickListener(this);
-
+        imgViewCal.setOnClickListener(this);
         tietMobile = findViewById(R.id.tietMobile);
         tietMobile.addTextChangedListener(new MyTextWatcher(tietMobile) {
             @Override
@@ -469,7 +642,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             @Override
             public void onClick(View view) {
                 if (tietPanNo.getText().toString().trim().length() == 10) {
-                    cardValidate(tietPanNo.getText().toString().trim(),"pancard","");
+                    cardValidate(tietPanNo.getText().toString().trim(),"pancard","","");
                 } else {
                     tilPAN_Name.setVisibility(View.GONE);
 
@@ -477,19 +650,40 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
             }
         });
+        dLCheckSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tietDob.getText().toString().trim().length()>9){
+                    try {
+                        String Dob=formatDate(tietDob.getText().toString().trim(),"dd-MMM-yyyy","yyyy-MM-dd");
+                        if (tietDrivingLic.getText().toString().trim().length() >5) {
+                            Log.d("TAG", "onClick: "+tietDob.getText().toString()+"/////"+Dob);
+                            cardValidate(tietDrivingLic.getText().toString().trim(),"drivinglicense","",Dob);
+                        } else {
+                            tilDL_Name.setVisibility(View.GONE);
+                            tietDrivingLic.setError("Enter Driving License");
+                        }
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }else {
+                    Toast.makeText(activity, "Please enter Date of Birth", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         voterIdCheckSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tietVoterId.getText().toString().trim().length() == 10) {
-                    cardValidate(tietVoterId.getText().toString().trim(),"voterid","");
+                if (tietVoterId.getText().toString().trim().length() > 5) {
+                    cardValidate(tietVoterId.getText().toString().trim(),"voterid","","");
                 }else {
                     tilVoterId_Name.setVisibility(View.GONE);
                     tietVoterId.setError("Enter Voter Id");
                 }
             }
         });
-
-
 
         tietPanNo.addTextChangedListener(new TextWatcher() {
             @Override
@@ -501,6 +695,27 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 panCheckSign.setEnabled(true);
                 panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                tilPAN_Name.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        tietDrivingLic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                dLCheckSign.setEnabled(true);
+                dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                tilDL_Name.setText("");
 
             }
 
@@ -523,6 +738,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 voterIdCheckSign.setEnabled(true);
                 voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                tilVoterId_Name.setText("");
 
             }
 
@@ -533,7 +749,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         });
 
     }
+    public static String formatDate (String date, String initDateFormat, String endDateFormat) throws ParseException {
 
+        Date initDate = new SimpleDateFormat(initDateFormat).parse(date);
+        SimpleDateFormat formatter = new SimpleDateFormat(endDateFormat);
+        String parsedDate = formatter.format(initDate);
+
+        return parsedDate;
+    }
     private void setDataToView(View v) {
         if (borrower.Gender != null) {
             if (Utils.setSpinnerPosition((AppCompatSpinner) v.findViewById(R.id.acspGender), borrower.Gender.charAt(0), true) < 0) {
@@ -541,9 +764,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 return;
             }
         }
-        tietAadharId.removeTextChangedListener(aadharTextChangeListner);
-        tietAadharId.setText(borrower.aadharid);
-        tietAadharId.addTextChangedListener(aadharTextChangeListner);
+//        tietAadharId.removeTextChangedListener(aadharTextChangeListner);
+          tietAadharId.setText(borrower.aadharid);
+//        tietAadharId.addTextChangedListener(aadharTextChangeListner);
 
 
         tietName.setText(borrower.getBorrowerName());
@@ -567,14 +790,17 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
 
 
+        if (borrower.RelationWBorrower != null) {
+            Utils.setSpinnerPosition(acspRelationship, borrower.RelationWBorrower, false);
+        }
         if (borrower.p_state != null) {
             Utils.setSpinnerPosition(acspAadharState, borrower.p_state);
         }
 
 
         if (borrower.isAadharVerified.equals("Q")) {
-            imgViewScanQR.setVisibility(View.GONE);
-            tietAadharId.setEnabled(false);
+            // imgViewScanQR.setVisibility(View.GONE);
+            //tietAadharId.setEnabled(false);
             tietName.setEnabled(false);
             if (Utils.NullIf(borrower.getGurName(), "").trim().length() > 0)
                 tietGuardian.setEnabled(false);
@@ -585,9 +811,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             acspGender.setEnabled(false);
 //            acspAadharState.setEnabled(false);
             if (borrower.P_Add1.trim().length() > 0) tietAddress1.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add2.trim(), "").trim().length() > 2)
                 tietAddress2.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add3.trim(), "").trim().length() > 2)
                 tietAddress3.setEnabled(false);
             if (Utils.NullIf(borrower.P_city, "").trim().length() > 0) tietCity.setEnabled(false);
             if (Utils.NullIf(borrower.p_pin, 0) > 0) tietPinCode.setEnabled(false);
@@ -600,11 +826,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 tietDob.setEnabled(false);
             }
             acspGender.setEnabled(false);
-//            acspAadharState.setEnabled(false);
+//          acspAadharState.setEnabled(false);
             if (borrower.P_Add1.trim().length() > 0) tietAddress1.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add2, "").trim().length() > 2)
                 tietAddress2.setEnabled(false);
-            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 0)
+            if (Utils.NullIf(borrower.P_add3, "").trim().length() > 2)
                 tietAddress3.setEnabled(false);
             if (Utils.NullIf(borrower.P_city, "").trim().length() > 0) tietCity.setEnabled(false);
             if (Utils.NullIf(borrower.p_pin, 0) > 0) tietPinCode.setEnabled(false);
@@ -624,13 +850,12 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             imgViewScanQR.setVisibility(View.GONE);
             showSubmitBorrowerMenuItem = false;
             invalidateOptionsMenu();
-            showScanDocs();
+//            showScanDocs();
         }
     }
 
     private void getDataFromView(View v) {
         GpsTracker gpsTracker=new GpsTracker(ActivityBorrowerKyc.this);
-        borrowerExtra=new BorrowerExtra(tietMotherFName.getText().toString(),tietMotherLName.getText().toString(), tietMotherMName.getText().toString(), tietFatherFName.getText().toString(), tietFatherLName.getText().toString(), tietFatherMName.getText().toString());
         borrower.aadharid = Utils.getNotNullText(tietAadharId);
         borrower.setNames(Utils.getNotNullText(tietName));
         borrower.Age = Utils.getNotNullInt(tietAge);
@@ -650,13 +875,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         borrower.PanNO = Utils.getNotNullText(tietPanNo);
         borrower.drivinglic = Utils.getNotNullText(tietDrivingLic);
         borrower.voterid = Utils.getNotNullText(tietVoterId);
+        borrower.IsNameVerify=isNameMatched;
+        borrower.isAdhaarEntry=isAdhaarEntry;
+        borrower.isMarried = Utils.getSpinnerStringValue((Spinner) v.findViewById(R.id.spinLoanAppPersonalMarritalStatus));
         borrowerExtra.save();
-        borrower.fiExtra=borrowerExtra;
-
-        Log.d("TAG", "getDataFromView: "+bankName);
+        borrower.fiExtra=null;
         borrower.BankName= bankName;
+        borrower.save();
 
-//     editor.putString("Name",)
         editor.clear();
         editor.apply();
         editor.putString("Adhaar",tietAadharId.getText().toString());
@@ -698,29 +924,9 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
         return str;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_kyc_submit_cancel, menu);
-        MenuItem mnuItemSubmitBorrower = menu.findItem(R.id.action_submit_kyc);
-        mnuItemSubmitBorrower.setVisible(showSubmitBorrowerMenuItem);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean reVal = true;
-        switch (item.getItemId()) {
-            case R.id.action_submit_kyc:
 
-                break;
-            case R.id.action_cancel:
-                finish();
-                break;
-            default:
-                reVal = super.onOptionsItemSelected(item);
-        }
-        return reVal;
-    }
+
 
     @Override
     public void onClick(View view) {
@@ -741,7 +947,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 launchScanning();
                 break;
                 */
-            case R.id.tietDob:
+            case R.id.imgViewCal:
                 Date dob = DateUtils.getParsedDate(tietDob.getText().toString(), "dd-MMM-yyyy");
                 try{
                     if (!dob.equals(null)){
@@ -762,6 +968,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: "+data+""+ requestCode);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             //Log.d("QR Scan","Executed");
@@ -772,7 +979,6 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 Log.d("CheckXMLDATA3","AadharData:->" + scanContent);
                 if (scanFormat != null) {
                     try {
-                        isAdhaarEntry ="S";
                         setAadharContent(scanContent);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -780,7 +986,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
             }
         } else {
-            if (requestCode == CameraUtils.REQUEST_TAKE_PHOTO) {
+            if (requestCode == REQUEST_TAKE_PHOTO) {
                 if (resultCode == RESULT_OK) {
                     if (documentPic.checklistid == 0) {
                         CropImage.activity(this.uriPicture)
@@ -795,32 +1001,272 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 } else {
                     Utils.alert(this, "Could not take Picture");
                 }
+            }else if(requestCode == 1000){
+                uriPicture = data.getData();
+                if(uriPicture!=null){
+                    CropImage.activity(uriPicture)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAllowFlipping(true)
+                            .setMultiTouchEnabled(true)
+                            .start(  ActivityBorrowerKyc.this);
+                }
+            }else if(requestCode == PAN_CARD_CAPTURE){
+                uriPicture = data.getData();
+                if(uriPicture!=null){
+                    CropImage.activity(uriPicture)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAllowFlipping(true)
+                            .setMultiTouchEnabled(true)
+                            .start(  ActivityBorrowerKyc.this);
+                }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                Exception error = null;
-                int maxDimentions = (documentPic.checklistid == 0 ? 300 : 1000);
-                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, maxDimentions, error, false);
-                File tempCroppedImage = new File(imageUri.getPath());
 
-                if (tempCroppedImage.length() > 100) {
-                    if (borrower != null) {
-                        (new File(this.uriPicture.getPath())).delete();
-                        try {
-                            File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-                            documentPic.imagePath = croppedImage.getPath();
-                            documentPic.save();
-                            if (documentPic.checklistid == 1) putExifData(documentPic);
-                            adapterRecViewListDocuments.updateList(getDocumentStore(borrower));
-                            //borrower.setPicture(croppedImage.getPath());
-                            //borrower.save();
-                            //borrower_id = borrower.FiID;
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                Exception error = null;
+                if (documentPic!=null){
+                    int maxDimentions = (documentPic.checklistid == 0 ? 300 : 1000);
+                    Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, maxDimentions, error, false);
+                    File tempCroppedImage = new File(imageUri.getPath());
+                    Toast.makeText(activity, "document pic is not null", Toast.LENGTH_SHORT).show();
+                    if (tempCroppedImage.length() > 100) {
+                        if (borrower != null) {
+                            (new File(this.uriPicture.getPath())).delete();
+                            try {
+                                File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+                                documentPic.imagePath = croppedImage.getPath();
+                                documentPic.save();
+                                if (documentPic.checklistid == 1) putExifData(documentPic);
+                                adapterRecViewListDocuments.updateList(getDocumentStore(borrower));
+                                //borrower.setPicture(croppedImage.getPath());
+                                //borrower.save();
+                                //borrower_id = borrower.FiID;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
+                }
+
+                }else{
+
+                    Uri imageUri1 = CameraUtils.finaliseImageCropUri(resultCode, data, 1000, error, false);
+                    File tempCroppedImage1 = new File(imageUri1.getPath());
+
+                    try {
+                        File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage1, true);
+                        Bitmap myBitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+                        //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+                        if (myBitmap!=null) {
+                           // Toast.makeText(activity, "Bitmap: "+myBitmap+"", Toast.LENGTH_SHORT).show();
+                            if (ImageType==1){
+                                //adharFrontImg.setImageBitmap(myBitmap);
+                                setDataOfAdhar(croppedImage,"aadharfront","aadhar");
+                            }else if (ImageType==2){
+                                //adharBackImg.setImageBitmap(myBitmap);
+                                setDataOfAdhar(croppedImage,"aadharback","aadhar");
+                            }else if (ImageType==3){
+                                setDataOfAdhar(croppedImage,"pan","pan");
+                            }
+
+                        }else{
+                            Toast.makeText(activity, "Image adata null", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    private void setDataOfAdhar(File croppedImage,String imageData,String type) {
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);//you can cancel it by pressing back button.
+        progressBar.setMessage("Data Fetching from "+type.toUpperCase()+" Please wait...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.show();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), croppedImage);
+        builder.addFormDataPart("file",croppedImage.getName(),surveyBody);
+
+
+        RequestBody requestBody = builder.build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.getAdharDataByOCR(imageData,type,requestBody);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponsews: "+response.body());
+
+                if (response.body()!=null){
+                    if (response.body().get("data")!=null){
+                        if (imageData.equals("aadharfront")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().trim().length()>2){
+
+                                    String[] borrowerNames=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString().split(" ");
+                                    switch (borrowerNames.length){
+                                        case 1:
+                                            borrower.Fname=borrowerNames[0];
+                                            break;
+                                        case 2:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Lname=borrowerNames[1];
+                                            break;
+                                        case 3:
+                                            borrower.Fname=borrowerNames[0];
+                                            borrower.Mname=borrowerNames[1];
+                                            borrower.Lname=borrowerNames[2];
+                                            break;
+                                    }
+
+
+
+                                    borrower.Gender=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("gender").getAsString().charAt(0)+"";
+                                    borrower.aadharid=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("aadharno").getAsString().replace(" ","");
+
+                                    Date date;
+                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                    try {
+                                        date = formatter.parse(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("dob").getAsString());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    Instant instant = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        instant = date.toInstant();
+                                        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                                        LocalDate givenDate = zone.toLocalDate();
+
+                                        Period period = Period.between(givenDate, LocalDate.now());
+
+                                        borrower.Age = period.getYears();
+                                        System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
+                                    }
+                                    borrower.DOB=date;
+                                    borrower.isAadharVerified="O";
+                                    borrower.save();
+                                    setDataToView(activity.findViewById(android.R.id.content).getRootView());
+
+                                }else{
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar front image!!");
+
+                                    Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar front image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar front image!!");
+
+                            }
+
+                            progressBar.dismiss();
+                        }else if(imageData.equals("aadharback")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().trim().length()>2) {
+
+                                    borrower.p_pin = Integer.parseInt(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("pincode").getAsString().trim());
+                                    JsonObject jsonObject=response.body().get("data").getAsJsonArray().get(0).getAsJsonObject();
+                                    String fullAddress=jsonObject.get("address1").getAsString().trim()+jsonObject.get("address2").getAsString().trim()+jsonObject.get("address3").getAsString().trim()+jsonObject.get("address4").getAsString().trim();
+                                    String[] arrOfAdd=fullAddress.split(",");
+                                    String city=arrOfAdd[arrOfAdd.length-2];
+                                    borrower.P_city=city;
+//                                try {
+//
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString().split(",")[2].trim();
+//                                } catch (Exception e) {
+//                                    borrower.P_city = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().split(",")[2].trim();
+//
+//                                }
+                                    if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address4").getAsString().length() > 1) {
+
+                                        borrower.P_add3 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address3").getAsString().trim();
+                                    }
+                                    borrower.P_add2 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address2").getAsString();
+
+
+                                    String[] address1 = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("address1").getAsString().split(",");
+                                    for (int i = 0; i < address1.length; i++) {
+                                        if (address1[i].toUpperCase().contains("S/O") || address1[i].toUpperCase().contains("D/O") || address1[i].toUpperCase().contains("W/O")){
+                                            borrower.setGuardianNames(address1[i]);
+                                            continue;
+                                        }
+                                        borrower.P_Add1 = borrower.P_Add1 + address1[i];
+
+                                    }
+                                    borrower.p_state = AadharUtils.getStateCode(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("state").getAsString().trim());
+                                    borrower.isAadharVerified="O";
+
+                                    borrower.save();
+                                    setDataToView(activity.findViewById(android.R.id.content).getRootView());
+
+
+                                }else{
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar back image!!");
+                                    //   Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture aadhaar back image again!!");
+
+                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture aadhaar back image again!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            progressBar.dismiss();
+                        }else if(imageData.equals("pan")){
+                            if (response.body().get("data").getAsJsonArray().size()>0){
+                                if (response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().length()>1 && !response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString().equals("NA")) {
+                                       isgetPanwithOCR=true;
+                                        borrower.PanNO = response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("panno").getAsString();
+                                        borrower.isAadharVerified="O";
+                                        panaadharDOBMatched=true;
+                                        borrower.save();
+                                        setDataToView(activity.findViewById(android.R.id.content).getRootView());
+
+                                }else {
+                                    Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN Card on behalf sample", Toast.LENGTH_SHORT).show();
+                                    Utils.alert(ActivityBorrowerKyc.this,"Please capture PAN image again!!");
+
+                                }
+                            }else{
+                                Utils.alert(ActivityBorrowerKyc.this,"Please capture PAN image again!!");
+
+                                Toast.makeText(ActivityBorrowerKyc.this, "Please capture PAN image again!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            progressBar.dismiss();
+                        }
+
+                        //   borrower.setNames(response.body().get("data").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
                     }
                 }
             }
-        }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+
+
+
+
+
+
+
+
     }
 
     private void setAadharContent(String aadharDataString) throws Exception {
@@ -832,6 +1278,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             //AadharData aadharData = AadharUtils.getAadhar(aadharDataString);
             AadharData aadharData = AadharUtils.getAadhar(AadharUtils.ParseAadhar(aadharDataString));
 
+            Log.d("TAG", "setAadharContent: "+aadharData.isAadharVerified);
             if (aadharData.AadharId != null) {
 
                 Borrower borrower1 = Borrower.getBorrower(aadharData.AadharId);
@@ -1053,7 +1500,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             borrower.Age = period.getYears();
             System.out.print(period.getYears()+" years "+period.getMonths()+" and "+period.getDays()+" days");
         }
-
+        borrower.isAadharVerified="Q";
         borrower.aadharid=decodedData.get(2-inc);
         borrower.Gender = decodedData.get(5-inc);
         if (decodedData.get(13-inc).equals("")||decodedData.get(13-inc).equals(null)){
@@ -1073,7 +1520,21 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         if (decodedData.get(6-inc).equals("")||decodedData.get(6-inc).equals(null)){
 
         }else{
-            borrower.setGuardianNames(decodedData.get(6-inc));
+            if (decodedData.get(6-inc).startsWith("S/O:") ||decodedData.get(6-inc).startsWith("D/O:") ||decodedData.get(6-inc).startsWith("W/O:")){
+                borrower.setGuardianNames(decodedData.get(6-inc).split(":")[1].trim());
+
+            }else{
+
+                borrower.setGuardianNames(decodedData.get(6-inc));
+            }
+            if (decodedData.get(6-inc).startsWith("S/O:") ||decodedData.get(6-inc).startsWith("D/O:")){
+                Utils.setSpinnerPosition(acspRelationship, "Father", false);
+                acspRelationship.setEnabled(false);
+            }else if (decodedData.get(6-inc).startsWith("W/O:")){
+                Utils.setSpinnerPosition(acspRelationship, "Husband", false);
+                acspRelationship.setEnabled(false);
+
+            }
         }
 
         if (decodedData.get(7-inc).equals("")||decodedData.get(7-inc).equals(null)){
@@ -1096,14 +1557,14 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
 
         try{
             if (decodedData.get(9-inc).equals("")||decodedData.get(9-inc).equals(null)){
-                tietAddress2.setEnabled(false);
+                tietAddress2.setEnabled(true);
             }else{
 
                 borrower.P_Add1 = decodedData.get(9-inc);
                 borrower.P_add2 = decodedData.get(14-inc);
             }
         }catch (Exception e){
-            tietAddress2.setEnabled(false);
+            tietAddress2.setEnabled(true);
         }
 
 
@@ -1196,175 +1657,140 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
     }
 
     private void  updateBorrower() {
-        if (borrower != null) {
-            getDataFromView(this.findViewById(android.R.id.content).getRootView());
+        if(stateData.equalsIgnoreCase("APO Address")){
+            Toast.makeText(activity, "Select State Name", Toast.LENGTH_SHORT).show();
+        }else{
+            if (borrower != null) {
+                getDataFromView(this.findViewById(android.R.id.content).getRootView());
 
-            if (tietVoterId.getText().toString().trim().equals("") && tietPanNo.getText().toString().trim().equals("")){
-                Utils.showSnakbar(findViewById(android.R.id.content),"Please enter either PAN number or Voter ID");
-            }else{
-                if (validateBorrower()) {
-                    Map<String, String> messages = borrower.validateKyc(this);
-                    if (messages.size() > 0) {
-                        String combineMessage = Arrays.toString(messages.values().toArray());
-                        combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");
-                        Log.e("combineMessage",combineMessage);
-                        Utils.alert(this, combineMessage);
-                    } else {
-                        invalidateOptionsMenu();
-                        if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
-                        borrower.Oth_Prop_Det = null;
-                        borrower.save();
-//                        borrower.associateExtraBank(borrower.fiExtraBank);
-//                        borrower.fiExtraBank.save();
+                if ((tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)) && (tietDrivingLic.getText().toString().equals("") || tietDrivingLic.getText().toString().equals(null)) &&(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null))){
+                    Utils.showSnakbar(findViewById(android.R.id.content),"Please enter anyone in PAN number, Driving License or Voter ID");
+                }else{
+                    if (validateBorrower()) {
+                        Map<String, String> messages = borrower.validateKyc(this);
+                        if (messages.size() > 0) {
+                            String combineMessage = Arrays.toString(messages.values().toArray());
+                            combineMessage = combineMessage.replace("[", "->").replace(", ", "\n->").replace("]", "");
+                            Log.e("combineMessage",combineMessage);
+                            Utils.alert(this, combineMessage);
+                        } else {
+                            invalidateOptionsMenu();
+                            if (!chkTvTopup.isChecked()) borrower.OldCaseCode = null;
+                            borrower.Oth_Prop_Det = null;
+                            borrower.save();
+                            borrower.associateExtraBank(borrower.fiExtraBank);
+                            borrower.fiExtraBank.save();
 
-                        BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
-                        borrowerDTO.fiFamExpenses = null;
-                        borrowerDTO.fiExtra = null;
-                        //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
-                        String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
-                        //Log.d("Borrower Json", borrowerJsonString);
-                        Log.d("TAG", "updateBorrower: "+borrowerJsonString);
+                            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower);
+                            borrowerDTO.fiFamExpenses = null;
+                            borrowerDTO.fiExtra = null;
+                            //Log.d("Borrower Json",WebOperations.convertToJson(borrower));
+                            String borrowerJsonString = WebOperations.convertToJson(borrowerDTO);
+                            //Log.d("Borrower Json", borrowerJsonString);
+                            Log.d("TAG", "updateBorrower: "+borrowerJsonString);
 
-
-                            if (tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)){
-                                if (tilVoterId_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("")){
-                                    Toast.makeText(activity, "Please Verify the Voter Id", Toast.LENGTH_SHORT).show();
+                            if (!tietPanNo.getText().toString().equals("") && !tietVoterId.getText().toString().equals("") && !tietDrivingLic.getText().toString().equals("")){
+                                if (tilPAN_Name.getText().toString().trim().equals("") && tilVoterId_Name.getText().toString().trim().equals("") && tilDL_Name.getText().toString().trim().equals("")){
+                                    Toast.makeText(activity, "Please Verify PAN Card, Voter ID and Driving License", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilVoterId_Name.getText().toString().trim().split(" ")[0]))
-                                    {
+                                        sendingDataToNewPage();
+                                }
+                            }else{
+                                if(!tilPAN_Name.getText().toString().trim().equals("") ||!tilVoterId_Name.getText().toString().trim().equals("") ||!tilDL_Name.getText().toString().trim().equals("") ){
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save data without PAN card Name, Bank Account holder Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                isNameMatched="0";
-                                                //  Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                                intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                startActivity(intent);
-
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-
-                                    }else{
-                                        isNameMatched="1";
-
+                                        sendingDataToNewPage();
+                                }else if (!tietPanNo.getText().toString().equals("")){
+                                    if (tilPAN_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                            sendingDataToNewPage();
                                     }
                                 }
-                            }else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
-                                if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals(null)){
-                                    Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilPAN_Name.getText().toString().trim().split(" ")[0])){
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBorrowerKyc.this);
-                                        builder.setTitle("Caution!!");
-                                        builder.setMessage("want to save  data without PAN card Name, Bank Account holder Name and Aadhaar Name matching");
-                                        builder.setPositiveButton("Save data Forcefully", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(activity, "At this time please enter correct details", Toast.LENGTH_SHORT).show();
-                                                Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                                intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                                intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                                intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                                intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                                intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                                intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                                intent.putExtra("manager", manager);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(activity, "Kindly verify all details", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }else{
-                                        Intent intent=new Intent(ActivityBorrowerKyc.this,KYC_Form_New.class);
-                                        intent.putExtra("FatherFName",tietFatherFName.getText().toString());
-                                        intent.putExtra("FatherLName",tietFatherLName.getText().toString());
-                                        intent.putExtra("FatherMName",tietFatherMName.getText().toString());
-                                        intent.putExtra("MotherFName",tietMotherFName.getText().toString());
-                                        intent.putExtra("MotherLName",tietMotherLName.getText().toString());
-                                        intent.putExtra("MotherMName",tietMotherMName.getText().toString());
-                                        intent.putExtra("manager", manager);
-                                        startActivity(intent);
+                                else if(!tietVoterId.getText().toString().equals("")){
+                                    if(tilVoterId_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please verify the Voter ID", Toast.LENGTH_SHORT).show();
                                     }
+                                    else{
+                                            sendingDataToNewPage();
+                                    }
+
                                 }
+                                else if(!tietDrivingLic.getText().toString().equals("")){
+                                    if (tilDL_Name.getText().toString().trim().equals("")){
+                                        Toast.makeText(activity, "Please Verify the Driving License ", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                            sendingDataToNewPage();
+                                        }
+
+
+
+                                }
+
                             }
 
-
-
-
-
-
-//                        if (!tietBankAccount.getText().toString().equals("") && !tietBankAccount.getText().toString().trim().equals(null) && !tietBankCIF.getText().toString().equals("") && !tietBankCIF.getText().toString().trim().equals(null))
-//                        {
-//                            if (tilBankAcHolder_Name.getText().toString().equals(null) && tilBankAcHolder_Name.getText().toString().equals("")){
-//                                Toast.makeText(activity, "Please Verify Bank account first", Toast.LENGTH_SHORT).show();
-//                            }else{
-//                                if (!tietName.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tilBankAcHolder_Name.getText().toString().trim().split(" ")[0])){
-//                                    Toast.makeText(activity, "Bank Account Holder Name Not matched with Aadhaar Holder Name", Toast.LENGTH_SHORT).show();
-//                                }else{
-//                                    if (tietPanNo.getText().toString().equals("") || tietPanNo.getText().toString().equals(null)){
-//                                        if (tilVoterId_Name.getText().toString().trim().equals("") || tilVoterId_Name.getText().toString().trim().equals("")){
-//                                            Toast.makeText(activity, "Please Verify the Voter Id", Toast.LENGTH_SHORT).show();
-//                                        }else{
-//                                            if (!tilVoterId_Name.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tietName.getText().toString().trim().split(" ")[0])){
-//                                                Toast.makeText(activity, "Voter Id Holder Name Not matched with Aadhaar Holder Name", Toast.LENGTH_SHORT).show();
-//                                            }else{
-//                                                showSubmitBorrowerMenuItem = false;
-//                                                (new WebOperations()).postEntity(this, "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
-//                                            }
-//                                        }
-//                                    }else if(tietVoterId.getText().toString().equals("") || tietVoterId.getText().toString().equals(null)){
-//                                        if (tilPAN_Name.getText().toString().trim().equals("") || tilPAN_Name.getText().toString().trim().equals("")){
-//                                            Toast.makeText(activity, "Please Verify the PAN Card", Toast.LENGTH_SHORT).show();
-//                                        }else{
-//                                            if (!tilPAN_Name.getText().toString().trim().split(" ")[0].equalsIgnoreCase(tietName.getText().toString().trim().split(" ")[0])){
-//                                                Toast.makeText(activity, "PAN Card Holder Name Not matched with Aadhaar Holder Name", Toast.LENGTH_SHORT).show();
-//                                            }else{
-//                                                showSubmitBorrowerMenuItem = false;
-//                                                (new WebOperations()).postEntity(this, "posfi", "savefi", borrowerJsonString, dataAsyncResponseHandler);
-//
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }else {
-//                            Toast.makeText(activity, "Please enter bank account number and it's IFSC code", Toast.LENGTH_SHORT).show();
-//                        }
-//
-
+                        }
+                    } else {
+                        Utils.alert(this, "There is at least one errors in the Aadhar Data");
                     }
-                } else {
-                    Utils.alert(this, "There is at least one errors in the Aadhar Data");
                 }
-            }
 
+            }
         }
     }
 
-    private void fetchTopupDetails(final String oldCaseCode) {
+    private void sendingDataToNewPage() {
+        if(isgetPanwithOCR){
+                if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
+                    Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+                    intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+                    intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+                    intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+                    intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+                    intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+                    intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+                    intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+                    intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+                    intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                    intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                    intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                    intent.putExtra("DLName", tilDL_Name.getText().toString());
+                    intent.putExtra("AadharName", tietName.getText().toString());
+                    intent.putExtra("manager", manager);
+                    intent.putExtra("borrower", borrower);
+                    startActivity(intent);
 
+                }else{
+                    Utils.alert(ActivityBorrowerKyc.this,"Verify any one ID from PAN|DL|Voter ID");
+                }
+
+        }else{
+            if(isPanverify==1 || isDLverify==1 || isVoterverify==1){
+                Intent intent = new Intent(ActivityBorrowerKyc.this, KYC_Form_New.class);
+                intent.putExtra("FatherFName", tietFatherFName.getText().toString());
+                intent.putExtra("FatherLName", tietFatherLName.getText().toString());
+                intent.putExtra("FatherMName", tietFatherMName.getText().toString());
+                intent.putExtra("MotherFName", tietMotherFName.getText().toString());
+                intent.putExtra("MotherLName", tietMotherLName.getText().toString());
+                intent.putExtra("MotherMName", tietMotherMName.getText().toString());
+                intent.putExtra("SpouseLName", tietSpouseLName.getText().toString());
+                intent.putExtra("SpouseMName", tietSpouseMName.getText().toString());
+                intent.putExtra("SpouseFName", tietSpouseFName.getText().toString());
+                intent.putExtra("VoterIdName", tilVoterId_Name.getText().toString());
+                intent.putExtra("PANName", tilPAN_Name.getText().toString());
+                intent.putExtra("DLName", tilDL_Name.getText().toString());
+                intent.putExtra("AadharName", tietName.getText().toString());
+                intent.putExtra("manager", manager);
+                intent.putExtra("borrower", borrower);
+                startActivity(intent);
+
+            }else{
+                Utils.alert(ActivityBorrowerKyc.this,"Verify any one ID from PAN|DL|Voter ID");
+            }
+        }
+
+    }
+
+    private void fetchTopupDetails(final String oldCaseCode) {
         DataAsyncResponseHandler dataAsyncResponseHandler = new DataAsyncResponseHandler(this, "Borrower KYC", "Fetching Topup Details") {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -1494,22 +1920,37 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 break;
 
             case R.id.tietAge:
-                if (text.length() == 0) text = "0";
-                int age = Integer.parseInt(text);
-                if (age < 18) {
+                try {
+                    if (text.length() == 0) text = "0";
+                    int age = Integer.parseInt(text);
+                    if (age < 21) {
+                        editText.setError("Age should be greater than 17");
+                        retVal = false;
+                    } else if (age > 57) {
+                        editText.setError("Age should be less than 66");
+                        retVal = false;
+                    }
+                    tietDob.setEnabled(retVal);
+                }catch (Exception e){
                     editText.setError("Age should be greater than 17");
-                    retVal = false;
-                } else if (age > 65) {
-                    editText.setError("Age should be less than 66");
-                    retVal = false;
                 }
-                tietDob.setEnabled(retVal);
-
                 break;
             case R.id.tietAddress1:
+                String character=editText.getText().toString().trim();
                 if (editText.getText().toString().trim().length() < 1) {
                     editText.setError("Should be more than 5 Characters");
                     retVal = false;
+                }else{
+                    try {
+                       int intValue = Integer.parseInt(character);
+                        tietAddress1.setEnabled(true);
+                        editText.setError("Only number not allowed.");
+                        retVal = false;
+                    } catch (NumberFormatException e) {
+                        retVal = true;
+                        System.out.println("Input String cannot be parsed to Integer.");
+                    }
+
                 }
                 break;
             case R.id.tietCity:
@@ -1562,8 +2003,8 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
             case R.id.tietMotherFName:
                 if (editText.getText().toString().trim().length() < 1) {
 
-                        editText.setError("Please Enter Mother Name");
-                        retVal = false;
+                    editText.setError("Please Enter Mother Name");
+                    retVal = false;
 
                 } else {
                     retVal = true;
@@ -1571,11 +2012,11 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 }
                 break;
 
-                case R.id.tietFatherFName:
+            case R.id.tietFatherFName:
                 if (editText.getText().toString().trim().length() < 1) {
 
-                        editText.setError("Please Enter Father Name");
-                        retVal = false;
+                    editText.setError("Please Enter Father Name");
+                    retVal = false;
 
                 } else {
                     retVal = true;
@@ -1585,81 +2026,162 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
         return retVal;
     }
-
-    private void cardValidate(String id,String type,String bankIfsc) {
-
+    private void cardValidate(String id,String type,String bankIfsc,String dob) {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-
         progressDialog.setIndeterminate(false);
         progressDialog.setTitle("Fetching Details");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
-        Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc));
-        Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc));
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+        Log.d("TAG", "checkCrifScore: "+getJsonOfString(id,type,bankIfsc,dob));
+        requestforVerification= String.valueOf(getJsonOfString(id,type,bankIfsc,dob));
+        Call<JsonObject> call=apiInterface.cardValidate(getJsonOfString(id,type,bankIfsc,dob));
         call.enqueue(new Callback<JsonObject>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (type.equals("pancard")){
-                    try {
+                Log.d("TAG", "onResponse: this called");
+                if(response.body() != null){
+                    Log.d("TAG", "onResponse: this called");
+
+                    ResponseforVerification= String.valueOf(response.body().get("data"));
+                    saveVerficationLogs(IglPreferences.getPrefString(getApplicationContext(), SEILIGL.USER_ID, ""),type,requestforVerification,ResponseforVerification);
+                    if (type.equals("pancard")){
+                        try {
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            panCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isPanverify=1;
+                        }catch (Exception e){
+                            tilPAN_Name.setVisibility(View.VISIBLE);
+                            tilPAN_Name.setText("Card Holder Name Not Found");
+                            tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
+                            panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            panCheckSign.setEnabled(true);
+                            isPanverify=0;
+                        }
+                        progressDialog.cancel();
+                    }else if(type.equals("voterid")){
+                        try {
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            voterIdCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isVoterverify=1;
+                        }catch (Exception e){
+                            tilVoterId_Name.setVisibility(View.VISIBLE);
+                            tilVoterId_Name.setText("Card Holder Name Not Found");
+                            tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
+                            voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            voterIdCheckSign.setEnabled(true);
+                            isVoterverify=0;
+
+                        }
+                        progressDialog.cancel();
+
+                    }else if(type.equals("drivinglicense")){
+                        try {
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+                            dLCheckSign.setEnabled(false);
+                            isNameMatched="1";
+                            isDLverify=1;
+                        }catch (Exception e){
+                            tilDL_Name.setVisibility(View.VISIBLE);
+                            tilDL_Name.setText("Card Holder Name Not Found");
+                            tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                            dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+                            dLCheckSign.setEnabled(true);
+                            isDLverify=0;
+                        }
+                        progressDialog.cancel();
+
+                    }
+                }else{
+                    progressDialog.cancel();
+                    if(type.equals("pancard")){
                         tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        panCheckSign.setEnabled(false);
-                    }catch (Exception e){
-                        tilPAN_Name.setVisibility(View.VISIBLE);
-                        tilPAN_Name.setText("Card Holder Name Not Found");
+                        tilPAN_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        panCheckSign.setEnabled(true);
-
-                    }
-                    progressDialog.cancel();
-                }else if(type.equals("voterid")){
-                    try {
+                    }else if(type.equals("voterid")){
                         tilVoterId_Name.setVisibility(View.VISIBLE);
 
-                        tilVoterId_Name.setText(response.body().get("data").getAsJsonObject().get("name").getAsString());
-                        voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
-                        voterIdCheckSign.setEnabled(false);
-                    }catch (Exception e){
-                        tilVoterId_Name.setVisibility(View.VISIBLE);
-
-                        tilVoterId_Name.setText("Card Holder Name Not Found");
+                        tilVoterId_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
                         voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
-                        voterIdCheckSign.setEnabled(true);
+                        isVoterverify=1;
+                    }else{
+                        tilDL_Name.setVisibility(View.VISIBLE);
 
+                        tilDL_Name.setText("Not found");
+                        tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                        dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
                     }
-                    progressDialog.cancel();
 
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: this called"+t.getMessage());
+
+                progressDialog.cancel();
                 if (type.equals("pancard")){
-                    tilPAN_Name.setText(t.getMessage());
+                    tilPAN_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilPAN_Name.setTextColor(getResources().getColor(R.color.red));
                     panCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
-                    progressDialog.cancel();
-
-                }else{
-                    tilVoterId_Name.setText(t.getMessage());
-                    progressDialog.cancel();
+                }if(type.equals("voterid")){
+                    tilVoterId_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilVoterId_Name.setTextColor(getResources().getColor(R.color.red));
                     voterIdCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
+                }else{
+                    tilDL_Name.setText(t.getMessage().length()<1?"Not Found":t.getMessage());
+                    tilDL_Name.setTextColor(getResources().getColor(R.color.red));
+                    dLCheckSign.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
 
                 }
             }
         });
     }
 
-    private JsonObject getJsonOfString(String id, String type,String bankIfsc) {
+    private void saveVerficationLogs(String id,String type,String request,String response) {
+        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.kycVerficationlog(getJsonOfKyCLogs(id,type,request,response));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "checkCrifScore: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+    private JsonObject getJsonOfKyCLogs(String id, String type,String bankIfsc,String userDOB) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("Type",type);
+        jsonObject.addProperty("Userid",id);
+        jsonObject.addProperty("Request",bankIfsc);
+        jsonObject.addProperty("Response",userDOB);
+        return  jsonObject;
+    }
+
+    private JsonObject getJsonOfString(String id, String type,String bankIfsc,String userDOB) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("type",type);
         jsonObject.addProperty("txtnumber",id);
         jsonObject.addProperty("ifsc",bankIfsc);
-        jsonObject.addProperty("userdob","");
+        jsonObject.addProperty("userdob",userDOB);
         return  jsonObject;
     }
 
@@ -1674,7 +2196,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         retVal &= validateControls(tietCity, tietCity.getText().toString());
         retVal &= validateControls(tietPinCode, tietPinCode.getText().toString());
         retVal &= validateControls(tietMobile, tietMobile.getText().toString());
-//        retVal &= validateControls(tietVoterId, tietVoterId.getText().toString()) || validateControls(tietPanNo, tietPanNo.getText().toString());
+//      retVal &= validateControls(tietVoterId, tietVoterId.getText().toString()) || validateControls(tietPanNo, tietPanNo.getText().toString());
         retVal &= validateControls(tietDrivingLic, tietDrivingLic.getText().toString());
         retVal &= validateControls(tietMotherFName, tietMotherFName.getText().toString());
         retVal &= validateControls(tietFatherFName, tietFatherFName.getText().toString());
@@ -1740,7 +2262,7 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
                 documentStore.updateStatus = true;
                 documentStore.update();
                 (new File(documentStore.imagePath)).delete();
-                showScanDocs();
+//                showScanDocs();
             }
         };
 
@@ -1768,4 +2290,32 @@ public class ActivityBorrowerKyc extends AppCompatActivity  implements View.OnCl
         }
     }
 
+
+
+    public static Retrofit getClientPan(String BASE_URL) {
+        Retrofit retrofit = null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder(
+
+            );
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
+
+
 }
+
+
+
+

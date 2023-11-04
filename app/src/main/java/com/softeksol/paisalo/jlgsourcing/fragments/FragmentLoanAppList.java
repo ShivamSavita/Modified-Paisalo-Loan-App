@@ -2,9 +2,13 @@ package com.softeksol.paisalo.jlgsourcing.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +47,8 @@ public class FragmentLoanAppList extends Fragment {
 
     private RecyclerView recyclerView;
     private Manager manager;
+    EditText tv_search;
+    List<PendingFi> pendingFiList;
 
     public FragmentLoanAppList() {
         // Required empty public constructor
@@ -74,12 +80,28 @@ public class FragmentLoanAppList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         Utils.setLayoutToRecyclerView(view, 1);
-        recyclerView = (RecyclerView) view;
+        recyclerView = (RecyclerView) view.findViewById(R.id.application_recycler);
+        tv_search = (EditText) view.findViewById(R.id.edt_tvSearchFICodeApp);
         //loanApplicationRVA=new AdapterRecViewLoanApplication(borrowers, mListener);
 
         //adapterRecViewPendingFI=new AdapterRecViewPendingFI(((ActivityFinancing)getActivity()).getBorrowers(),mListener);
+        pendingFiList=((ActivityFinancing) requireActivity()).getPendingFis();
         adapterRecViewPendingFI = new AdapterRecViewPendingFI(((ActivityFinancing) requireActivity()).getPendingFis(), mListener,getActivity().getApplicationContext());
         recyclerView.setAdapter(adapterRecViewPendingFI);
+        tv_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(tv_search.getText().toString());
+            }
+        });
         return view;
     }
 
@@ -91,6 +113,21 @@ public class FragmentLoanAppList extends Fragment {
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+    private void filter(String text){
+        ArrayList<PendingFi> filteredlist = new ArrayList<PendingFi>();
+        for (PendingFi item : pendingFiList) {
+            if (item.getCode().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            adapterRecViewPendingFI.updateListClear();
+           // Toast.makeText(getContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            adapterRecViewPendingFI.filterList(filteredlist);
         }
     }
 

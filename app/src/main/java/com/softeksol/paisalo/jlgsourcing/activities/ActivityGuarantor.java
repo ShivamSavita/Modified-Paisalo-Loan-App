@@ -122,24 +122,24 @@ public class ActivityGuarantor extends AppCompatActivity implements View.OnClick
                 Utils.alert(this, "Could not take Picture");
             }
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            Exception error = null;
-            Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
-            File tempCroppedImage = new File(imageUri.getPath());
-
-            if (error == null && imageUri != null && tempCroppedImage.length() > 100) {
-                if (guarantor != null) {
-                    (new File(this.uriPicture.getPath())).delete();
-                    try {
-                        File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
-                        guarantor.setPicture(croppedImage.getPath());
-                        guarantor.save();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            Exception error = null;
+//            Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
+//            File tempCroppedImage = new File(imageUri.getPath());
+//
+//            if (error == null && imageUri != null && tempCroppedImage.length() > 100) {
+//                if (guarantor != null) {
+//                    (new File(this.uriPicture.getPath())).delete();
+//                    try {
+//                        File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+//                        guarantor.setPicture(croppedImage.getPath());
+//                        guarantor.save();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override

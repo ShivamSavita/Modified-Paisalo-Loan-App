@@ -11,6 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnNav"
+        android:divider="@null"
         app:layout_constraintVertical_weight=".95"
         style="@style/acSpinnerStyle"
         android:layout_width="0dp"

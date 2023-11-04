@@ -47,9 +47,16 @@ public class SEILIGL extends Application {
     public static final String BRANCH_CODE = BuildConfig.APPLICATION_ID + ".BRANCH_CODE";
     public static final String CREATOR = BuildConfig.APPLICATION_ID + ".CREATOR";
     public static final String IMEI = BuildConfig.APPLICATION_ID + ".IMEI_NO";
+    public static final String DOBAadhar = BuildConfig.APPLICATION_ID + ".DOBAadhar";
+    public static final String DOBPan = BuildConfig.APPLICATION_ID + ".DOBPan";
+    public static final String NEW_SERVERAPI = "https://erpservice.paisalo.in:980/PDL.Mobile.API/api/";
+    public static final String NEW_SERVERAPISERVISE = "https://erpservice.paisalo.in:980/PDL.FiService.API/api/";
+    public static final String NEW_SERVERAPIAGARA = "https://agra.paisalo.in:8462/creditmatrix/api/";
+    public static final String IFSCCODE = "https://ifsc.razorpay.com/";
+
+    public static String NEW_TOKEN="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1MzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZG90bmV0ZGV2MkBwYWlzYWxvLmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxNTM5IiwiUm9sZSI6WyJBRE1JTiIsIkFETUlOIl0sIkJyYW5jaENvZGUiOiIiLCJDcmVhdG9yIjoiIiwiVU5hbWUiOiJSQUpBTiBLVU1BUiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IlNlcCBUdWUgMTkgMjAyMyAwOToxNzoyNyBBTSIsIm5iZiI6MTY5NTAyODY0NywiZXhwIjoxNjk1MDk1MjQ3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTg4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE4OCJ9.HExCvcIBYCrxQUqEI5ehCNK_GA0i1oL9j_sYEbak4vk";
     private String deviceId;
     private long deviceImei;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -103,7 +110,7 @@ public class SEILIGL extends Application {
 
         //IglPreferences.setSharedPref(getBaseContext(), DATABASE_NAME, BuildConfig.DATABASE_NAME);
 
-//      IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
+        //IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
 
         IglPreferences.setSharedPref(getBaseContext(), BASE_URL, BuildConfig.BASE_URL);
 

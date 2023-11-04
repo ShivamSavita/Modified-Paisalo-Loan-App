@@ -3,6 +3,7 @@ package com.softeksol.paisalo.ESign.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,11 @@ import com.softeksol.paisalo.ESign.viewHolder.ESignBorrowerViewHolder;
 
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower;
+import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by sachindra on 2016-10-08.
@@ -27,13 +31,33 @@ public class AdapterListESignBorrower extends ArrayAdapter<ESignBorrower> {
     Context context;
     int resourecId;
     List<ESignBorrower> eSignBorrowers = null;
+    ArrayList<ESignBorrower> arraylistEsign;
 
     public AdapterListESignBorrower(Context context, @LayoutRes int resource, @NonNull List<ESignBorrower> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resourecId = resource;
         this.eSignBorrowers = objects;
+       // this.arraylistEsign= new ArrayList<ESignBorrower>();
+       // this.arraylistEsign.addAll(eSignBorrowers);
     }
+
+    @Override
+    public int getCount() {
+        return eSignBorrowers.size();
+    }
+
+    @Override
+    public ESignBorrower getItem(int position) {
+        return  eSignBorrowers.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -67,7 +91,7 @@ public class AdapterListESignBorrower extends ArrayAdapter<ESignBorrower> {
         holder.tvFiCode.setText(String.valueOf(eSignBorrower.FiCode));
         holder.tvMobile.setText(eSignBorrower.MobileNo);
         holder.tvAddress.setText(eSignBorrower.Address);
-//        holder.tvAadhar.setText(eSignBorrower.AadharNo);
+//      holder.tvAadhar.setText(eSignBorrower.AadharNo);
 
         if (eSignBorrower.ESignSucceed.equals("BLK")) {
             holder.layout_overAll.setBackgroundColor(Color.RED);
@@ -75,6 +99,31 @@ public class AdapterListESignBorrower extends ArrayAdapter<ESignBorrower> {
             holder.layout_overAll.setBackgroundColor(Color.WHITE);
         }
         return v;
+    }
+
+    public void filter(String charText) {
+        Log.e("DATA--- ",charText);
+        charText = charText.toLowerCase(Locale.getDefault());
+        eSignBorrowers.clear();
+        if (charText.length() ==0) {
+            Log.e("DATA0--- ",charText);
+            eSignBorrowers.addAll(arraylistEsign);
+        } else {
+            Log.e("DATAELSE--- ",arraylistEsign.size()+"");
+            for (ESignBorrower wp : arraylistEsign) {
+
+                if (String.valueOf(wp.FiCode).contains(charText)) {
+                    eSignBorrowers.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addArraylist(List<ESignBorrower> eSignedList) {
+        this.arraylistEsign= new ArrayList<ESignBorrower>();
+        this.arraylistEsign.addAll(eSignedList);
+
     }
 
 }

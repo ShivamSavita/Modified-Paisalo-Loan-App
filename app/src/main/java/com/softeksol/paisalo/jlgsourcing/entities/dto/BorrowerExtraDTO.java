@@ -1,6 +1,7 @@
 package com.softeksol.paisalo.jlgsourcing.entities.dto;
 
 import com.google.gson.annotations.Expose;
+import com.raizlabs.android.dbflow.annotation.Column;
 
 /**
  * Created by sachindra on 2016-10-04.
@@ -141,9 +142,47 @@ public class BorrowerExtraDTO {
     private String FATHER_LAST_NAME;
 
     @Expose
-    private String years_in_business;
+    private int Years_in_business;
 
+    @Expose
+    @Column
+    public int PensionIncome;
 
+    @Expose
+    @Column
+    public int InterestIncome;
+
+    @Expose
+    @Column
+    public String IsBorrowerHandicap;
+
+    @Expose
+    @Column
+    public int RentalIncome;
+
+    public int getRentalIncome() {
+        return RentalIncome;
+    }
+
+    public void setRentalIncome(int rentalIncome) {
+        RentalIncome = rentalIncome;
+    }
+
+    public int getPensionIncome() {
+        return PensionIncome;
+    }
+
+    public void setPensionIncome(int pensionIncome) {
+        PensionIncome = pensionIncome;
+    }
+
+    public int getInterestIncome() {
+        return InterestIncome;
+    }
+
+    public void setInterestIncome(int interestIncome) {
+        InterestIncome = interestIncome;
+    }
 
     public long getCode() {
         return Code;
@@ -585,12 +624,21 @@ public class BorrowerExtraDTO {
         this.FATHER_LAST_NAME = FATHER_LAST_NAME;
     }
 
-    public String getYears_in_business() {
-        return years_in_business;
+    public int getYears_in_business() {
+        return Years_in_business;
     }
 
-    public void setYears_in_business(String years_in_business) {
-        this.years_in_business = years_in_business;
+    public void setYears_in_business(int years_in_business) {
+        this.Years_in_business = years_in_business;
+    }
+
+
+    public String getIsBorrowerHandicap() {
+        return IsBorrowerHandicap;
+    }
+
+    public void setIsBorrowerHandicap(String isBorrowerHandicap) {
+        IsBorrowerHandicap = isBorrowerHandicap;
     }
 
     @Override
@@ -652,6 +700,11 @@ public class BorrowerExtraDTO {
                 ", FATHER_FIRST_NAME='"+FATHER_FIRST_NAME+'\''+
         ", FATHER_MIDDLE_NAME='"+FATHER_MIDDLE_NAME+'\''+
                 ", FATHER_LAST_NAME='"+FATHER_LAST_NAME+'\''+
+                ", Years_in_business='"+ Years_in_business +'\''+
+                ", InterestIncome='"+ InterestIncome +'\''+
+                ", PensionIncome='"+ PensionIncome +'\''+
+                ", IsBorrowerHandicap='"+ IsBorrowerHandicap +'\''+
+                ", RentalIncome='"+ RentalIncome +'\''+
                 '}';
     }
 }

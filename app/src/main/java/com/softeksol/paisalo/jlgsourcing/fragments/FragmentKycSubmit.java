@@ -102,7 +102,6 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
         listView = (ListView) view.findViewById(R.id.lvList);
         listView.setAdapter(adapterListDocuments);
         listView.setOnItemClickListener(this);
-
         Log.e("KYCSUBMIT","DONE");
         return view;
     }
@@ -150,7 +149,6 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
     public void onResume() {
         super.onResume();
         documentStores.clear();
-
 //        Log.e("DOCUMENTStoreChecking2",borrower.getPicture()+"");
         if (borrower == null) {
 
@@ -320,7 +318,7 @@ public class FragmentKycSubmit extends Fragment implements AdapterView.OnItemCli
             }
         };
 
-            String apiPath =  "/api/FIDocLatLong/SaveDocLatLong";
+        String apiPath =  "/api/FIDocLatLong/SaveDocLatLong";
         Log.d("TAG", "sendLatLongOfDocsOnServer: "+jsonObject.toString());
         (new WebOperations()).postEntity(getContext(), "FIDocLatLong", "SaveDocLatLong" ,jsonObject.toString(), responseHandlerForLatLong);
 

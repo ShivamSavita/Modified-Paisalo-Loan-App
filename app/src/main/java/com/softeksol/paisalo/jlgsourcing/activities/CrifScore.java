@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,18 +28,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
-import com.softeksol.paisalo.jlgsourcing.Global;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.R;
+import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.Utilities.AadharUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
+import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
 import com.softeksol.paisalo.jlgsourcing.entities.ESignBorrower;
-import com.softeksol.paisalo.jlgsourcing.entities.ESigner;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
-import com.softeksol.paisalo.jlgsourcing.fragments.FragmentCollection;
+import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
-import com.softeksol.paisalo.jlgsourcing.retrofit.BorrowerData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.CheckCrifData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ScrifData;
 
@@ -45,12 +48,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CrifScore extends AppCompatActivity {
 
@@ -65,11 +73,14 @@ public class CrifScore extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Intent i;
+    AdapterListRange rlaBankType;
     String ficode,creator;
     CheckCrifData checkCrifData=new CheckCrifData();
     ESignBorrower eSignerborower;
     String stateName;
     Spinner spinner;
+    int attempts_left=4;
+    TextView attempsTextView;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -90,6 +101,7 @@ public class CrifScore extends AppCompatActivity {
         editor.apply();
 
         progressBar=findViewById(R.id.circular_determinative_pb);
+        attempsTextView=findViewById(R.id.attempsTextView);
         progressBarsmall=findViewById(R.id.progressBar);
         textView7=findViewById(R.id.textView7);
         textView_valueEmi=findViewById(R.id.textView_valueEmi);
@@ -112,7 +124,7 @@ public class CrifScore extends AppCompatActivity {
         Log.e("LOG", eSignerborower.P_State);
         stateName= RangeCategory.getRangesByCatKeyName("state", eSignerborower.P_State, true);
 
-      //  Toast.makeText(this,stateName, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this,stateName, Toast.LENGTH_SHORT).show();
 
         btnSrifScoreSave=findViewById(R.id.btnSrifScoreSave);
         btnSrifScoreSave.setVisibility(View.GONE);
@@ -123,6 +135,27 @@ public class CrifScore extends AppCompatActivity {
             }
         });
         btnSrifScore=findViewById(R.id.btnSrifScore);
+        attempsTextView.setText("Only "+attempts_left+" attempt to switch bank");
+        attempsTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (attempts_left<1){
+                    spinner.setEnabled(false);
+                }else{
+                    spinner.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btnSrifScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,27 +193,24 @@ public class CrifScore extends AppCompatActivity {
             }
         });
         checkCrifScore();
-
-
         String[] arraySpinner = new String[] {
                 "UCO", "BOB","PNB","SBI"
         };
 
-
+        rlaBankType = new AdapterListRange(this,
+                SQLite.select().from(RangeCategory.class).where(RangeCategory_Table.cat_key.eq("banks")).queryList(), false);
         spinner = (Spinner) findViewById(R.id.spinSelectBank);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        int spinnerBankPos=adapter.getPosition(sharedPreferences.getString("Bank",""));
-        spinner.setSelection(spinnerBankPos);
+        spinner.setAdapter(rlaBankType);
+        spinner.setSelection(Utils.setSpinnerPosition(spinner,  AadharUtils.getBankCode(eSignerborower.BankName)));
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editor.putString("Bank",parent.getSelectedItem().toString());
+                editor.putString("Bank",((RangeCategory) spinner.getSelectedItem()).DescriptionEn);
                 editor.apply();
                 btnSrifScore.setText("TRY AGAIN");
                 Log.d("TAG", "onItemSelected: "+sharedPreferences.getString("Bank",""));
@@ -195,12 +225,13 @@ public class CrifScore extends AppCompatActivity {
 
     }
 
-    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi) {
+    private JsonObject getJsonForCrif(String ficode, String creator, String amount, String emi,String bank) {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("Ficode",ficode);
         jsonObject.addProperty("Creator",creator);
         jsonObject.addProperty("Loan_Amt",amount);
         jsonObject.addProperty("Emi",emi);
+        jsonObject.addProperty("Bank",bank);
         Log.e("TAG",jsonObject.toString());
         return jsonObject;
     }
@@ -211,32 +242,8 @@ public class CrifScore extends AppCompatActivity {
         builder.setTitle("Alert !");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-
-            DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.e("TAG",statusCode+"");
-                    if (statusCode == 200) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CrifScore.this);
-                        builder.setTitle("Thanks for choosing us!!");
-                        builder.setMessage("Your Loan Request has been Submitted");
-                        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        });
-                        builder.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
-                }
-            };
-            (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emi)), asyncResponseHandler);
-
+            dialog.cancel();
+            finish();
         });
         builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
             dialog.cancel();
@@ -249,7 +256,7 @@ public class CrifScore extends AppCompatActivity {
 
     private void checkCrifScore(){
         //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        ApiInterface apiInterface= getClientCrif(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Log.d("TAG", "checkCrifScore: "+getJsonOfKyc());
         Call<CheckCrifData> call=apiInterface.checkCrifScore(getJsonOfKyc());
         call.enqueue(new Callback<CheckCrifData>() {
@@ -263,6 +270,7 @@ public class CrifScore extends AppCompatActivity {
                             public void run() {
                                 checkCrifData=response.body();
                                 getCrifScore(checkCrifData);
+
                             }
                         },25000);
                     }else{
@@ -311,14 +319,16 @@ public class CrifScore extends AppCompatActivity {
 
 
     private void getCrifScore(CheckCrifData checkCrifData) {
-        //String address=borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
-        ApiInterface apiInterface= ApiClient.getClient("https://agra.paisalo.in:8462/creditmatrix/api/").create(ApiInterface.class);
+        //String address= borrowerdata.getTietAddress1()+" "+borrowerdata.getTietAddress2()+" "+borrowerdata.getTietAddress3();
+        ApiInterface apiInterface= getClientCrif(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
         Call<ScrifData> call=apiInterface.getCrifScore(getJSOnOfCheckDataResponse(checkCrifData));
         call.enqueue(new Callback<ScrifData>() {
             @Override
             public void onResponse(Call<ScrifData> call, Response<ScrifData> response) {
                 Log.d("TAG", "onResponse: "+response.body());
                 if(response.body() != null){
+                    attempts_left--;
+                    attempsTextView.setText("Only "+attempts_left+" attempt to switch bank");
                     ScrifData scrifData=response.body();
                     String data=scrifData.getData();
                     if(data == null){
@@ -330,7 +340,7 @@ public class CrifScore extends AppCompatActivity {
                         progressBarsmall.setVisibility(View.GONE);
                     }else{
                         if (data.equals("0")){
-                          /* // Toast.makeText(CrifScore.this, ""+scrifData.getMessage(), Toast.LENGTH_SHORT).show();
+                          /* //Toast.makeText(CrifScore.this, ""+scrifData.getMessage(), Toast.LENGTH_SHORT).show();
                             layout_design.setVisibility(View.GONE);
                             layout_design_pending.setVisibility(View.VISIBLE);
                             text_serverMessage.setText(scrifData.getMessage());
@@ -365,8 +375,7 @@ public class CrifScore extends AppCompatActivity {
                             text_srifScore.setText(score);
                             textView5.setText(score);
 
-
-
+                            if (Integer.parseInt(score)>650 || Integer.parseInt(score)<300){
                                 if (Double.parseDouble(amount)>0 && response.body().getStatus()==true){
                                     gifImageView.setImageResource(R.drawable.checksign);
                                     textView8.setText("Congrats!!");
@@ -380,22 +389,31 @@ public class CrifScore extends AppCompatActivity {
                                     textView_valueEmi.setText(emi+" ₹");
                                     btnSrifScoreSave.setVisibility(View.VISIBLE);
                                     btnSrifScore.setVisibility(View.GONE);
-                                    spinner.setEnabled(false);
-
+                                    saveBREData(score);
+                                    updateSourcingStatus();
+                                    //spinner.setEnabled(false);
+                                }
+                                else{
+                                    gifImageView.setImageResource(R.drawable.crosssign);
+                                    textView8.setText("Sorry!!");
+                                    textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.red));
+                                    textView7.setText(message);
+                                    textView13.setVisibility(View.GONE);
+                                    textView6.setVisibility(View.GONE);
+                                    textView_valueEmi.setVisibility(View.GONE);
+                                    textView_emi.setVisibility(View.GONE);
+                                    btnSrifScoreSave.setVisibility(View.GONE);
+                                    btnSrifScore.setVisibility(View.VISIBLE);
+                                    btnSrifScore.setText("TRY AGAIN");
+                                }
                             }else{
-                                gifImageView.setImageResource(R.drawable.crosssign);
-                                textView8.setText("Sorry!!");
-                                textView8.setTextColor(ContextCompat.getColor(CrifScore.this,R.color.red));
-                                textView7.setText(message);
-                                textView13.setVisibility(View.GONE);
-                                textView6.setVisibility(View.GONE);
-                                textView_valueEmi.setVisibility(View.GONE);
-                                textView_emi.setVisibility(View.GONE);
-                                btnSrifScoreSave.setVisibility(View.GONE);
-                                btnSrifScore.setVisibility(View.VISIBLE);
-                                btnSrifScore.setText("TRY AGAIN");
+
+                                restictBorrower();
+
 
                             }
+
+
 
 
                             progressBar.setMax(1000);
@@ -442,52 +460,189 @@ public class CrifScore extends AppCompatActivity {
         });
     }
 
+    private void restictBorrower() {
+
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEILIGL.NEW_SERVERAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.restrictBorrower(ficode,creator,"NO");
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+                if (response.body()!=null){
+                    JsonObject jsonObject=response.body();
+                    if (jsonObject.get("statusCode").getAsInt()==200){
+
+                        AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                        alertD.setCancelable(false);
+                     alertD.setTitle("This case can not be further proceed due to our internal credit policy!!");
+                     alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
+                             dialogInterface.dismiss();
+                        finish();
+
+                         }
+                     });
+                     alertD.show();
+
+
+                    }else{
+                        AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                        alertD.setCancelable(false);
+                        alertD.setTitle("Please Don't Process this case It will be failed in future!!");
+                        alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                finish();
+
+                            }
+                        });
+                        alertD.show();
+
+                    }
+
+                }else{
+                    AlertDialog.Builder alertD=new AlertDialog.Builder(CrifScore.this);
+                    alertD.setCancelable(false);
+                    alertD.setTitle("Please Don't Process this case It will be failed in future!!");
+                    alertD.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            finish();
+
+                        }
+                    });
+                    alertD.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateSourcingStatus(){
+        ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+        Call<JsonObject> call=apiInterface.updateStatus(checkCrifData.getData().getFiCode()+"",checkCrifData.getData().getCreator());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("TAG", "onResponse: "+response.body());
+
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("TAG", "onFailure: "+t.getMessage());
+
+            }
+        });
+    }
+    private void saveBREData(String score) {
+        DataAsyncResponseHandler asyncResponseHandler = new DataAsyncResponseHandler(CrifScore.this, "Data Submitting", "Saving Loan Details") {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.e("TAG",statusCode+"");
+                if (statusCode == 200) {
+                    Toast.makeText(CrifScore.this, "Data save successfully" , Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(CrifScore.this, error.getMessage() , Toast.LENGTH_LONG).show();
+            }
+        };
+        String emiorScore=emi+","+score;
+        (new WebOperations()).postEntity(CrifScore.this, "BreEligibility", "SaveBreEligibility" ,String.valueOf(getJsonForCrif(ficode,creator,amount,emiorScore,sharedPreferences.getString("Bank",""))), asyncResponseHandler);
+    }
+
     private JsonObject getJSOnOfCheckDataResponse(CheckCrifData checkCrifData) {
-       JsonObject jsonObject=new JsonObject();
-       jsonObject.addProperty("fiCode",checkCrifData.getData().getFiCode());
-       jsonObject.addProperty("creator",checkCrifData.getData().getCreator());
-       jsonObject.addProperty("err_code",checkCrifData.getData().getErrCode());
-       jsonObject.addProperty("is_success",checkCrifData.getData().getIsSuccess());
-       jsonObject.addProperty("message",checkCrifData.getData().getMessage());
-       jsonObject.addProperty("bank",sharedPreferences.getString("Bank",""));
-       jsonObject.addProperty("duration",checkCrifData.getData().getDuration());
-       jsonObject.addProperty("income",checkCrifData.getData().getIncome());
-       jsonObject.addProperty("dob",checkCrifData.getData().getDob());
-       jsonObject.addProperty("expense",checkCrifData.getData().getExpense());
-       jsonObject.addProperty("loan_amount",checkCrifData.getData().getLoanAmount());
-     //  Log.e("BANK",sharedPreferences.getString("Bank",""));
-       return  jsonObject;
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("fiCode",checkCrifData.getData().getFiCode());
+        jsonObject.addProperty("creator",checkCrifData.getData().getCreator());
+        jsonObject.addProperty("err_code",checkCrifData.getData().getErrCode());
+        jsonObject.addProperty("is_success",checkCrifData.getData().getIsSuccess());
+        jsonObject.addProperty("message",checkCrifData.getData().getMessage());
+        jsonObject.addProperty("bank",sharedPreferences.getString("Bank",""));
+        jsonObject.addProperty("duration",checkCrifData.getData().getDuration());
+        jsonObject.addProperty("income",checkCrifData.getData().getIncome());
+        jsonObject.addProperty("dob",checkCrifData.getData().getDob());
+        jsonObject.addProperty("expense",checkCrifData.getData().getExpense());
+        jsonObject.addProperty("loan_amount",checkCrifData.getData().getLoanAmount());
+        //  Log.e("BANK",sharedPreferences.getString("Bank",""));
+        return  jsonObject;
     }
 
 
 
     private JsonObject getJsonOfKyc() {
-       JsonObject jsonObject=new JsonObject();
-       jsonObject.addProperty("ficode",ficode);
-       jsonObject.addProperty("full_name",eSignerborower.PartyName);
-       jsonObject.addProperty("dob",parseDateToddMMyyyy(eSignerborower.DOB));
-       jsonObject.addProperty("co",eSignerborower.FatherName);
-       jsonObject.addProperty("address",eSignerborower.Address);
-       jsonObject.addProperty("city",eSignerborower.P_City);
-       jsonObject.addProperty("state",stateName);
-       jsonObject.addProperty("pin",eSignerborower.P_Pin);
-       jsonObject.addProperty("loan_amount",eSignerborower.Loan_Amt);
-       jsonObject.addProperty("mobile",eSignerborower.MobileNo);
-       jsonObject.addProperty("creator",creator);
-       jsonObject.addProperty("pancard",eSignerborower.PanNO);
-       jsonObject.addProperty("voter_id",eSignerborower.VoterID);
-       jsonObject.addProperty("BrCode",eSignerborower.FoCode);
-       jsonObject.addProperty("GrpCode",eSignerborower.CityCode);
-       jsonObject.addProperty("AadharID",eSignerborower.AadharNo);
-       jsonObject.addProperty("Gender",eSignerborower.Gender);
-       jsonObject.addProperty("Bank",sharedPreferences.getString("Bank",""));
-       jsonObject.addProperty("Income",eSignerborower.Income);
-       jsonObject.addProperty("Expense",eSignerborower.Expense);
-       jsonObject.addProperty("LoanReason",eSignerborower.Loan_Reason);
-       jsonObject.addProperty("Duration",eSignerborower.Loan_Duration);
-       return jsonObject;
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("ficode",ficode);
+        jsonObject.addProperty("full_name",eSignerborower.PartyName);
+        jsonObject.addProperty("dob",parseDateToddMMyyyy(eSignerborower.DOB));
+        jsonObject.addProperty("co",eSignerborower.FatherName);
+        jsonObject.addProperty("address",eSignerborower.Address);
+        jsonObject.addProperty("city",eSignerborower.P_City);
+        jsonObject.addProperty("state",stateName);
+        jsonObject.addProperty("pin",eSignerborower.P_Pin);
+        jsonObject.addProperty("loan_amount",eSignerborower.Loan_Amt);
+        jsonObject.addProperty("mobile",eSignerborower.MobileNo);
+        jsonObject.addProperty("creator",creator);
+        jsonObject.addProperty("pancard",eSignerborower.PanNO);
+        jsonObject.addProperty("voter_id",eSignerborower.VoterID);
+        jsonObject.addProperty("driving_license_no",eSignerborower.drivinglic);
+        jsonObject.addProperty("BrCode",eSignerborower.FoCode);
+        jsonObject.addProperty("GrpCode",eSignerborower.CityCode);
+        jsonObject.addProperty("AadharID",eSignerborower.AadharNo);
+        jsonObject.addProperty("Gender",eSignerborower.Gender);
+        jsonObject.addProperty("Bank",sharedPreferences.getString("Bank",""));
+        jsonObject.addProperty("Income",eSignerborower.Income);
+        jsonObject.addProperty("Expense",eSignerborower.Expense);
+        jsonObject.addProperty("LoanReason",eSignerborower.Loan_Reason);
+        jsonObject.addProperty("Duration",eSignerborower.Loan_Duration);
+        return jsonObject;
 
     }
+
+
+
+
+    public static Retrofit getClientCrif(String BASE_URL) {
+        Retrofit retrofit = null;
+        if (retrofit==null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.connectTimeout(1, TimeUnit.MINUTES);
+            httpClient.readTimeout(1,TimeUnit.MINUTES);
+            httpClient.addInterceptor(logging);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+        }
+        return retrofit;
+    }
+
+
+
     public String parseDateToddMMyyyy(String time) {
         String inputPattern = "yyyy-MM-dd";
         String outputPattern = "dd-MM-yyyy";

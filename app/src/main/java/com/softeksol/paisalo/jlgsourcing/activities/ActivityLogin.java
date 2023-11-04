@@ -2,22 +2,28 @@ package com.softeksol.paisalo.jlgsourcing.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,14 +31,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -41,52 +51,67 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
+import com.softeksol.paisalo.jlgsourcing.TermAndPolicyPage;
 import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.MyTextWatcher;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.WebOperations;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListRange;
+import com.softeksol.paisalo.jlgsourcing.adapters.CreatorListAdapter;
+import com.softeksol.paisalo.jlgsourcing.entities.CreatorModel;
 import com.softeksol.paisalo.jlgsourcing.entities.Manager;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.handlers.DataAsyncResponseHandler;
+import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
+import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class ActivityLogin extends AppCompatActivity implements View.OnClickListener {
+public class ActivityLogin extends AppCompatActivity implements View.OnClickListener, onListCReatorInteraction {
     final static int CALLBACK_NUMBER = 1001;
 
     DataAsyncResponseHandler dataAsyncResponseHandler;
     DataAsyncResponseHandler dataAsyncResponseHandler2;
+    onListCReatorInteraction listCReatorInteraction;
+    String choosedCreator;
     File storageDir;
+
     String apkPath;
     private EditText userName;
     private EditText password;
+    List<CreatorModel> list=new ArrayList<>();
     private TextView btnShareDeviceID;
     private Button btnSignIn;
     private Spinner database;
+    CreatorListAdapter adapter;
     private String deviceId;
     private long deviceImei;
     String UserName;
-     String Password;
+    TextView versionText;
+    String Password;
+    Dialog dialogSearch;
 
     public static final String BASE_URL = BuildConfig.APPLICATION_ID + ".BASE_URL";
     public static final String DEVICE_IMEI = BuildConfig.APPLICATION_ID + ".IMEI";
@@ -98,29 +123,58 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     public static final String ALLOW_COLLECTION = BuildConfig.APPLICATION_ID + ".ALLOW_COLLECTION";
     public static final String IS_ACTUAL = BuildConfig.APPLICATION_ID + ".IS_ACTUAL";
     public static final String APP_UPDATE_URL = BuildConfig.APPLICATION_ID + ".APP_UPDATE_URL";
-
+    public static boolean appInstalledOrNot(@NonNull final Context context, @NonNull final String targetPackage) {
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> pkgAppsList =
+                context.getPackageManager().queryIntentActivities( mainIntent, 0);
+        for (ResolveInfo resolveInfo : pkgAppsList) {
+            Log.d("TAG", "PACKAGENAME"+resolveInfo.activityInfo.packageName);
+            if (resolveInfo.activityInfo.packageName != null
+                    && resolveInfo.activityInfo.packageName.equals(targetPackage)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         getSupportActionBar().setTitle(getString(R.string.appname) + " (" + BuildConfig.VERSION_NAME + ")");
 
+        listCReatorInteraction=ActivityLogin.this;
+//        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
+//        if(isAppInstalled) {
+//
+//            Toast.makeText(this, "Installed", Toast.LENGTH_SHORT).show();
+//            Log.i("SampleLog", "Application is already installed.");
+//        } else {
+//
+//            Setup setup=new Setup(ActivityLogin.this);
+//            setup.run();
+//            Log.i("SampleLog", "Application is not currently installed.");
+//        }
         if (requestPermissions()){
             getDeviceID();
+            GpsTracker gpsTracker=new GpsTracker(getApplicationContext());
         }else {
             permissionCheck();
         }
 
         btnShareDeviceID = findViewById(R.id.btnLoginShareDeviceId);
+        versionText = findViewById(R.id.versionText);
         btnShareDeviceID.setEnabled(false);
         checkBtnShareIDStatus(false);
+
+        versionText.setText("Ver: "+BuildConfig.VERSION_NAME);
 
         btnShareDeviceID.setTextColor(getResources().getColor(R.color.defaultTextColor));
         btnShareDeviceID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 UserName = ((EditText) findViewById(R.id.til_login_username)).getText().toString();
 
                 if ( requestPermissions()){
@@ -135,8 +189,10 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "For Mobile Registration\nDevice ID = " + IglPreferences.getPrefString(ActivityLogin.this, DEVICE_ID, "") + "\nUserName = " + userName.getText().toString().toUpperCase());
                 sendIntent.setType("text/plain");
 
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
+//                Intent shareIntent = Intent.createChooser(sendIntent, null);
+//                startActivity(shareIntent);
+                DeviceMappingRequests(IglPreferences.getPrefString(ActivityLogin.this, DEVICE_ID, ""),userName.getText().toString().toUpperCase());
+
             }
         });
 
@@ -145,8 +201,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
 
-                 UserName = ((EditText) findViewById(R.id.til_login_username)).getText().toString().trim();
-                 Password = ((EditText) findViewById(R.id.etLoginPassword)).getText().toString().trim();
+                UserName = ((EditText) findViewById(R.id.til_login_username)).getText().toString().trim();
+                Password = ((EditText) findViewById(R.id.etLoginPassword)).getText().toString().trim();
 
                 if (requestPermissions()){
                     getDeviceID();
@@ -158,7 +214,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 Log.d("TAG",IglPreferences.getPrefString(ActivityLogin.this, SEILIGL.DEVICE_ID, ""));
                 Log.d("TAG",SEILIGL.USER_ID+"");
 
-                (new WebOperations()).getAccessTokenEsign(ActivityLogin.this, UserName, Password, dataAsyncResponseHandler2);
 
                 dataAsyncResponseHandler2 = new DataAsyncResponseHandler(ActivityLogin.this, "Logging in ...") {
                     @Override
@@ -221,11 +276,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                         String Creator = jsonObject.getString("Creator");
                                         String IMEI_NO = jsonObject.getString("IMEINO");
                                         loginData.remove("foImei");
-                                        Log.d("FOiemi", foImei.toString());
-                                        Log.d("LoginData", loginData.toString());
-                                        Log.d("CREATORAAYA", Creator+"");
-                                        Log.d("branchCode", branchCode+"");
-                                        Log.d("IMEI_NO", IMEI_NO+"");
 
                                         IglPreferences.setSharedPref(getBaseContext(), SEILIGL.USER_ID, UserName);
                                         IglPreferences.setSharedPref(getBaseContext(), SEILIGL.CREATOR, Creator);
@@ -293,12 +343,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                                             }
                                             //updateManager( managers);
                                             Intent intent = new Intent(ActivityLogin.this, ActivityOperationSelect.class);
-//                            Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
+                                            //Intent intent = new Intent(ActivityLogin.this, AttendenceActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
                                     } catch (JSONException e) {
-                                        Toast.makeText(ActivityLogin.this, "Manager List Not Mapped Kindly Contact to Your Head", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ActivityLogin.this, "Manager List Not Mapped Kindly Contact to Your Area Head", Toast.LENGTH_LONG).show();
                                         e.printStackTrace();
                                     }
                                 }
@@ -318,6 +368,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         }
                     }
                 };
+                (new WebOperations()).getAccessTokenEsign(ActivityLogin.this, UserName, Password, dataAsyncResponseHandler2);
             }
         });
         btnSignIn.setEnabled(false);
@@ -327,12 +378,10 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         //tilUserName.setErrorEnabled(true);
         userName.setError("Must be 10 Characters to share Device ID");
 
-       password = (EditText) findViewById(R.id.etLoginPassword);
+        password = (EditText) findViewById(R.id.etLoginPassword);
         //tilPassowrd.setErrorEnabled(true);
         password.setError("Min 5 chars required");
-
         //Displaying EditText Error
-
         database = (Spinner) findViewById(R.id.database);
         userName.setError("Required");
         userName.addTextChangedListener(new MyTextWatcher(userName) {
@@ -340,8 +389,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             public void validate(EditText editText, String text) {
                 btnShareDeviceID.setEnabled(false);
                 checkBtnShareIDStatus(false);
-
-
                 editText.setError(null);
 
                 switch (text.length()) {
@@ -397,21 +444,19 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
         ArrayList<RangeCategory> DatabaseName = new ArrayList<>();
         DatabaseName.add(new RangeCategory("SBI COLENDING", "Database"));
-//        DatabaseName.add(new RangeCategory("IGL DIGITAL", "Database"));
-//        DatabaseName.add(new RangeCategory("GROUP FINANCE", "Database"));
-//        DatabaseName.add(new RangeCategory("SBI PDL", "Database"));
-
-//        DatabaseName.add(new RangeCategory("PNB COLENDING", "Database"));
+        //  DatabaseName.add(new RangeCategory("IGL DIGITAL", "Database"));
+        // DatabaseName.add(new RangeCategory("GROUP FINANCE", "Database"));
+        // DatabaseName.add(new RangeCategory("SBI PDL", "Database"));
+        // DatabaseName.add(new RangeCategory("PNB COLENDING", "Database"));
 
         database.setAdapter(new AdapterListRange(this, R.layout.spinner_card_orange,DatabaseName));
-
         storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
         apkPath = storageDir.getPath() + "/sourcing.apk";
         File destination = new File(apkPath);
         if (destination.exists()) destination.delete();
 
 
-    database.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+        database.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("SpinnerStrng",DatabaseName.get(i)+"");
@@ -478,6 +523,14 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 IglPreferences.setLanguage(getApplicationContext(), "hi");
                 reStartApplication();
                 break;
+            case R.id.action_update:
+                retVal = true;
+                String url = "https://drive.google.com/file/d/1-soWJt08-n1now6-8kZMnajHQYoJPXvF/view?usp=sharing";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+
             default:
                 retVal = super.onOptionsItemSelected(item);
         }
@@ -491,6 +544,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
         }
         if (view.getId() == R.id.btnLoginBackup) {
+            startActivity(new Intent(this, TermAndPolicyPage.class));
             /*String aadharString="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<PrintLetterBarcodeData uid=\"344347946174\" name=\"Anoop Agarwal\" gender=\"M\" dateOfBirth=\"02-02-1979\" careOf=\"S/O Bal Kishan Agarwal\" building=\"7\" street=\"new avdhesh puri\" landmark=\"karmyogi\" locality=\"kamla nagar\" vtcName=\"Agra\" poName=\"Dayal Bagh\" districtName=\"Agra\" subDistrictName=\"Kiraoli\" stateName=\"Uttar Pradesh\" pincode=\"282005\"/>";
             Document doc= null;
@@ -508,21 +562,21 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             } catch (SAXException e) {
                 e.printStackTrace();
             }*/
-
-            File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/" + "PAISALO_SRC_DB" + "_bkp.db");
-            //File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/test/mobilelending.db");
-            //Log.d("Backup File",newFIle.getAbsolutePath());
-            File DbFile = new File(FlowManager.getContext().getDatabasePath("PAISALO_SRC_DB" + ".db").getPath());
-            //Log.d("Database File",DbFile.getPath());
-            try {
-                Utils.copyFile(DbFile, newFIle);
-                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                intent.setData(Uri.fromFile(newFIle));
-                getApplicationContext().sendBroadcast(intent);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//
+//            File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/" + "PAISALO_SRC_DB" + "_bkp.db");
+//            //File newFIle = new File(Environment.getExternalStorageDirectory().getPath() + "/test/mobilelending.db");
+//            //Log.d("Backup File",newFIle.getAbsolutePath());
+//            File DbFile = new File(FlowManager.getContext().getDatabasePath("PAISALO_SRC_DB" + ".db").getPath());
+//            //Log.d("Database File",DbFile.getPath());
+//            try {
+//                Utils.copyFile(DbFile, newFIle);
+//                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//                intent.setData(Uri.fromFile(newFIle));
+//                getApplicationContext().sendBroadcast(intent);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         if (view.getId() == R.id.btnLoginShareDeviceId) {
             /*TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -557,7 +611,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 try {
                     jo = new JSONObject(jsonString);
                     jo.remove("LoginData");
-
                     IglPreferences.setSharedPref(getBaseContext(), SEILIGL.LOGIN_TOKEN, jo.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -631,8 +684,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     install.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
                     install.setDataAndType(FileProvider.getUriForFile(ActivityLogin.this,
-                            ActivityLogin.this.getApplicationContext().getPackageName() + ".provider",
-                            destination),
+                                    ActivityLogin.this.getApplicationContext().getPackageName() + ".provider",
+                                    destination),
                             manager.getMimeTypeForDownloadedFile(downloadId));
                     startActivity(install);
 
@@ -753,10 +806,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     private void showSettingsDialog() {
         // we are displaying an alert dialog for permissions
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityLogin.this);
-
         // below line is the title for our alert dialog.
         builder.setTitle("Need Permissions");
-
         // below line is our message for our dialog
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
         builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
@@ -780,9 +831,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
 
     private void permissionCheck() {
-
-
-
         String[] permissions = {
                 Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
         String rationale = "Please provide permission so that app can work smoothly ...";
@@ -801,7 +849,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 //                    handlePermissionException();
 //                }
 //                else {
-                    getDeviceID();
+                getDeviceID();
 //                }
 
                 // If you have access to the external storage, do whatever you nee
@@ -826,7 +874,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 handlePermissionException();
             }
         });
-
     }
 
     private void getDeviceID() {
@@ -881,41 +928,295 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             } else {
                 lastThreeChars = UserName;
             }
-                    }catch (Exception e)
+        }catch (Exception e)
         {
-            Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Please Enter User Id for getting device Id", Toast.LENGTH_SHORT).show();
 
         }
-             deviceId = lastThreeChars + //we make this look like a valid IMEI
-                    Build.BOARD.length()%10+ Build.BRAND.length()%10 +
-                    Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
-                    Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
-                    Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
-                    Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
-                    Build.TAGS.length()%10 + Build.TYPE.length()%10 +
-                    Build.USER.length()%10 ; //13 digits
+        deviceId = lastThreeChars + //we make this look like a valid IMEI
+                Build.BOARD.length()%10+ Build.BRAND.length()%10 +
+                Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
+                Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
+                Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
+                Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
+                Build.TAGS.length()%10 + Build.TYPE.length()%10 +
+                Build.USER.length()%10 ; //13 digits
 
-        try {
-            File dir = Utils.getFilePath("/", false);
+        Log.e("DirectoryDeviceID", deviceId + "");
 
-            Log.e("DirectoryDeviceID", dir + "");
-            File file = new File(dir, "." + BuildConfig.ESIGN_APP + ".info");
-            Log.e("FileLocation", file + "");
-            OutputStream out = new FileOutputStream(file);
-            out.write(deviceId.getBytes());
-
-            Log.e("DeviceIDWrite", Arrays.toString(deviceId.getBytes()) + "");
-            Log.e("DeviceIDWrite0", deviceId + "");
-            out.flush();
-            out.close();
-
-            //Utils.writeBytesToFile(deviceId.getBytes(),file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            File dir = Utils.getFilePath("/", false);
+//
+//            Log.e("DirectoryDeviceID", dir + "");
+//            File file = new File(dir, "." + BuildConfig.ESIGN_APP + ".info");
+//            Log.e("FileLocation", file + "");
+//            OutputStream out = new FileOutputStream(file);
+//            out.write(deviceId.getBytes());
+//
+//            Log.e("DeviceIDWrite", Arrays.toString(deviceId.getBytes()) + "");
+//            Log.e("DeviceIDWrite0", deviceId + "");
+//            out.flush();
+//            out.close();
+//
+//            //Utils.writeBytesToFile(deviceId.getBytes(),file);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         IglPreferences.setSharedPref(getBaseContext(), DEVICE_ID, deviceId);
 
 
+    }
+
+    private void DeviceMappingRequests(String deviceID, String UserID){
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityLogin.this);
+        View dialogView = getLayoutInflater().inflate(R.layout.mappingpopup_layout, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialogs = builder.create();
+        dialogs.setCanceledOnTouchOutside(false);
+        dialogs.setCancelable(false);
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+        dialogs.show();
+
+        ArrayList<String> arrayList;
+        final Dialog[] dialog = new Dialog[1];
+        EditText name = dialogView.findViewById(R.id.nameET);
+        EditText mobile = dialogView.findViewById(R.id.mobileET);
+        EditText imei = dialogView.findViewById(R.id.imeiET);
+        EditText imeiET2 = dialogView.findViewById(R.id.imeiET2);
+        TextView deviceId = dialogView.findViewById(R.id.deviceIdET);
+        TextView userId = dialogView.findViewById(R.id.userIDET);
+        TextView creators = dialogView.findViewById(R.id.selectcreator);
+        TextView errorTextView = dialogView.findViewById(R.id.errorTextView);
+        EditText branchcodes = dialogView.findViewById(R.id.branchcodes);
+        Spinner spinnerReq = dialogView.findViewById(R.id.spinner);
+
+        deviceId.setText(deviceID);
+        userId.setText(UserID);
+
+        creators.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                dialogSearch=new Dialog(ActivityLogin.this);
+//                dialogSearch.setContentView(R.layout.dialog_searchable_spinner);
+//                dialogSearch.getWindow().setLayout(650,800);
+//                // dialogSearch.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialogSearch.show();
+
+                showCreatorSearchDialog(creators);
+                //startActivity(new Intent(ActivityLogin.this,CreatorActivity.class));
+
+
+
+
+            }
+        });
+
+
+        Button save = dialogView.findViewById(R.id.saveButton);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GpsTracker gpsTracker=new GpsTracker(ActivityLogin.this);
+                String Name = name.getText().toString();
+                String Mobile = mobile.getText().toString();
+                String Imei = imei.getText().toString();
+                String Imei2 = imeiET2.getText().toString();
+                String DeviceID = deviceId.getText().toString();
+                String UserID = userId.getText().toString();
+                String Creator = creators.getText().toString();
+
+                String error = validateData(Name, Mobile, Imei, DeviceID, UserID,Creator);
+                if (error == null) {
+                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+                    httpClient.connectTimeout(1, TimeUnit.MINUTES);
+                    httpClient.readTimeout(1,TimeUnit.MINUTES);
+                    httpClient.addInterceptor(logging);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://erpservice.paisalo.in:980/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(httpClient.build())
+                            .build();
+                    ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+                    JsonObject jsonObject=new JsonObject();
+                    jsonObject.addProperty( "name", Name);
+                    jsonObject.addProperty( "mobile", Mobile);
+                    jsonObject.addProperty( "creator", choosedCreator);
+                    jsonObject.addProperty( "compType", spinnerReq.getSelectedItem().toString());
+                    jsonObject.addProperty( "deviceId", DeviceID);
+                    jsonObject.addProperty( "imeI_no1", Imei);
+                    jsonObject.addProperty( "imeI_no2", Imei2);
+                    jsonObject.addProperty( "userId", UserID);
+                    jsonObject.addProperty( "mapBranch", branchcodes.getText().toString());
+                    jsonObject.addProperty( "latitude", String.valueOf(gpsTracker.getLatitude()));
+                    jsonObject.addProperty( "longitude", String.valueOf(gpsTracker.getLongitude()));
+                    Log.d("TAG", "onClick: "+jsonObject);
+
+                    Call<JsonObject> call=apiInterface.insertDeviceData(jsonObject);
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            Log.d("TAG", "onResponse: "+response.body());
+                            Toast.makeText(ActivityLogin.this, "Data is valid. Saving...", Toast.LENGTH_SHORT).show();
+
+                            if (response.body()!=null){
+                                if (response.body().get("statusCode").getAsInt()==200){
+                                    Utils.alert(ActivityLogin.this,response.body().get("message").getAsString());
+                                    dialogs.dismiss();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                            Utils.alert(ActivityLogin.this,t.getMessage());
+
+
+                        }
+                    });
+
+
+                } else {
+                    Log.d("Error","MSG" + error);
+                    errorTextView.setText(error);
+                }
+
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+
+    }
+
+    private void showCreatorSearchDialog(TextView creators) {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(1, TimeUnit.MINUTES);
+        httpClient.readTimeout(1,TimeUnit.MINUTES);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://erpservice.paisalo.in:980/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        ApiInterface apiInterface=retrofit.create(ApiInterface.class);
+
+
+        dialogSearch=new Dialog(ActivityLogin.this);
+        dialogSearch.setContentView(R.layout.dialog_searchable_spinner);
+        dialogSearch.getWindow().setLayout(650,800);
+        EditText edit_text=dialogSearch.findViewById(R.id.edit_text);
+        RecyclerView recViewOfCreator=dialogSearch.findViewById(R.id.recViewOfCreator);
+        dialogSearch.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                Log.d("TAG", "onDismiss: hiiitt"+choosedCreator);
+
+                creators.setText(choosedCreator);
+            }
+        });
+        recViewOfCreator.setLayoutManager(new LinearLayoutManager(this));
+
+        Call<List<CreatorModel>> call=apiInterface.getCreatorList();
+        call.enqueue(new Callback<List<CreatorModel>>() {
+            @Override
+            public void onResponse(Call<List<CreatorModel>> call, Response<List<CreatorModel>> response) {
+                list.addAll(response.body());
+                adapter=new CreatorListAdapter(ActivityLogin.this,list,dialogSearch,listCReatorInteraction);
+                recViewOfCreator.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CreatorModel>> call, Throwable t) {
+
+            }
+        });
+
+        edit_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,             int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                filter(s.toString().toUpperCase());
+
+
+            }
+        });
+
+
+        dialogSearch.show();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String s) {
+        Log.d("TAG", "filter: "+s);
+        List<CreatorModel> creatorModels=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i).getCreator().toUpperCase().contains(s.toString())) {
+                creatorModels.add(list.get(i));
+                Log.d("TAG", "filter: "+list.get(i));
+            }
+        }
+
+
+        adapter.filterList(creatorModels);
+        adapter.notifyDataSetChanged();
+    }
+
+    public String validateData(String name, String mobile, String imei, String deviceId, String userId,String creator) {
+        if (name.isEmpty()) {
+            return "Name is required.";
+        }
+
+        if (mobile.length() != 10) {
+            return "Mobile number must be 10 digits long.";
+        }
+
+        if (imei.length() != 15) {
+            return "IMEI must be 15 digits long.";
+        }
+
+        if (deviceId.length() != 16) {
+            return "Device ID must be 16 characters long.";
+        }
+
+        if (!userId.matches("[A-Za-z]{4}\\d{6}")) {
+            return "User ID should be in the format: ABCD123456";
+        }
+
+        if (creator.isEmpty()) {
+            return "Creator is required.";
+        }
+
+        return null; // No error
+    }
+
+
+    @Override
+    public void onListCReatorInteraction(String choosedCreatora) {
+        Log.d("TAG", "onListCReatorInteraction: "+choosedCreatora);
+        choosedCreator=choosedCreatora;
     }
 }

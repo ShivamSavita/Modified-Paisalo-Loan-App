@@ -15,4 +15,19 @@
                 android:id="@+id/action_language_hindi" />
         </menu>
     </item>
+
+    <item
+        android:title="Update App"
+        android:iconTint="#ffffff"
+        android:icon="@drawable/ic_threedots"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:title="Update App."
+                android:id="@+id/action_update" />
+
+
+
+        </menu>
+    </item>
 </menu>

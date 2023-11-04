@@ -27,7 +27,7 @@ public class DbIGL {
     //public static final String NAME = BuildConfig.DATABASE_NAME;
    //public static final String NAME = IglPreferences.getPrefString(, SEILIGL.DATABASE_NAME, "");
 
-    public static final int VERSION = 13;
+    public static final int VERSION = 14;
 
     /*@Migration(version = 5, database = DbIGL.class)
     public static class Migration5 extends AlterTableMigration<Guarantor> {
@@ -179,5 +179,17 @@ public class DbIGL {
         }
     }
 
+    @Migration(version = 14, database = DbIGL.class)
+    public static class Migration14 extends AlterTableMigration<BorrowerExtra> {
 
+        public Migration14(Class<BorrowerExtra> table) {
+            super(table);
+        }
+
+        @Override
+        public void onPreMigrate() {
+            addColumn(SQLiteType.TEXT,"RentalIncome");
+
+        }
+    }
 }

@@ -4,14 +4,17 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by sachindra on 2016-10-21.
@@ -102,6 +105,13 @@ public class DateUtils {
             return (new SimpleDateFormat(formatSting)).format(date);
     }
 
+    public static String getFormatedDateOpen(Date date, String formatSting) {
+        if (date == null)
+            return "";
+        else
+            return (new SimpleDateFormat(formatSting)).format(date);
+    }
+
     public static Date getParsedDate(String dateString) {
         for (String formatString : formatStrings) {
             try {
@@ -125,6 +135,43 @@ public class DateUtils {
             }
         return retDate;
     }
+
+
+    public  static Date getsmallDate(String dateString, String formatString){
+        Date rdate = null;
+        Date formattedDateObject=null;
+        SimpleDateFormat format = new SimpleDateFormat(formatString,Locale.US);
+        try {
+            rdate = format.parse(dateString);
+            Log.d("MainActivity", "Date: " + rdate.toString());
+            SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+
+            Date date = inputFormat.parse(rdate.toString());
+            String formattedDate = outputFormat.format(date);
+            // Convert the formatted date back to a Date object if needed
+            formattedDateObject = outputFormat.parse(formattedDate);
+            Log.d("MainActivity", "Formatted Date: " + formattedDate);
+            Log.d("MainActivity", "Formatted Date Object: " + formattedDateObject.toString());
+            Log.d("MainActivity", "Formatted Date Object: " + removeTimeFromDate(formattedDateObject));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return removeTimeFromDate(formattedDateObject);
+    }
+
+    private static Date removeTimeFromDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -183,4 +230,6 @@ public class DateUtils {
         }
         return today;
     }
+
+
 }
