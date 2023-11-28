@@ -941,10 +941,15 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         }else if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
 
-                    CropImage.activity(this.uriPicture)
+                uriPicture = data.getData();
+                if(uriPicture!=null){
+                    CropImage.activity(uriPicture)
                             .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAllowFlipping(true)
+                            .setMultiTouchEnabled(true)
                             .setAspectRatio(45, 52)
-                            .start(this);
+                            .start(  FiFormActivity.this);
+                }
 
             } else {
                 Utils.alert(this, "Could not take Picture");
@@ -959,23 +964,19 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                         .start(  FiFormActivity.this);
             }
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             Exception error = null;
 
 
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
+                if (ImageType==0){
+                    Uri imageUri1 = CameraUtils.finaliseImageCropUri(resultCode, data, 1000, error, false);
+                    File tempCroppedImage1 = new File(imageUri1.getPath());
 
-
-                Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 300, error, false);
-                File tempCroppedImage = new File(imageUri.getPath());
-                Log.d("TAG", "onActivityResult: "+tempCroppedImage.length());
-                if (tempCroppedImage.length() > 100) {
-                    if (ImageType==0){
                         if (borrower != null) {
                             (new File(this.uriPicture.getPath())).delete();
                             try {
-                                File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage, true);
+                                File croppedImage = CameraUtils.moveCachedImage2Storage(this, tempCroppedImage1, true);
                                 borrower.setPicture(croppedImage.getPath());
                                 borrower.Oth_Prop_Det = null;
                                 borrower.save();
@@ -1016,12 +1017,9 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
                         }
                     }
 
-                }
+
             }
-            } else {
-//                Log.e("Error",data.getData()+"");
-                Toast.makeText(this, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
-            }
+
 
         }
 
@@ -1693,16 +1691,17 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
             case R.id.tietAddress1:
                 String character=editText.getText().toString().trim();
                 if (editText.getText().toString().trim().length() < 1) {
-                    editText.setError("Should be more than 5 Characters");
+                    editText.setError("Should be more than 2 Characters");
                     retVal = false;
-                }else{
-                    if (character.matches(".*[A-Za-z].*") && character.matches(".*[0-9].*")) {
-                    } else {
-                        tietAddress1.setEnabled(true);
-                        editText.setError("Only number not allowed.");
-                        retVal = false;
-                    }
                 }
+//                else{
+//                    if (character.matches(".*[A-Za-z].*") && character.matches(".*[0-9].*")) {
+//                    } else {
+//                        tietAddress1.setEnabled(true);
+//                        editText.setError("Only number not allowed.");
+//                        retVal = false;
+//                    }
+//                }
                 break;
             case R.id.tietCity:
                 if (editText.getText().toString().trim().length() < 1) {
