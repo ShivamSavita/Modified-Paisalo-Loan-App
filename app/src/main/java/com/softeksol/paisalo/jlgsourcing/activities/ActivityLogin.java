@@ -145,6 +145,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setTitle(getString(R.string.appname) + " (" + BuildConfig.VERSION_NAME + ")");
 
         listCReatorInteraction=ActivityLogin.this;
+
 //        boolean isAppInstalled = appInstalledOrNot(this,"com.plcoding.backgroundlocationtracking");
 //        if(isAppInstalled) {
 //
