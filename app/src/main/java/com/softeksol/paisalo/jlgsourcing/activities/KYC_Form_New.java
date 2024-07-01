@@ -498,6 +498,7 @@ TextView textViewTotalAnnualIncome;
         borrower.Business_Detail=Utils.getSpinnerStringValue(acspBusinessDetail);
         borrower.Loan_Duration=loanDuration.getSelectedItem().toString().trim();
         borrower.Loan_Reason=Utils.getSpinnerStringValue(acspLoanReason);
+        Log.d("TAG", "getDataFromView: "+acspLoanAppFinanceLoanAmount);
         borrower.Loan_Amt=Utils.getNotNullInt(acspLoanAppFinanceLoanAmount);
         borrower.BankName=Utils.getSpinnerStringValueDesc(loanbanktype);
         borrower.T_ph3=Utils.getSpinnerStringValueDesc(loanbanktype);

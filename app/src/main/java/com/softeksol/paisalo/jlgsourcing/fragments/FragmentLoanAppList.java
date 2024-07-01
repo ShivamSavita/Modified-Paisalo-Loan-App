@@ -121,6 +121,7 @@ public class FragmentLoanAppList extends Fragment {
 
     private void filter(String text){
         ArrayList<PendingFi> filteredlist = new ArrayList<PendingFi>();
+       // if (PendingFi!)
         for (PendingFi item : pendingFiList) {
             if (item.getCode().toLowerCase().contains(text.toLowerCase())) {
                 filteredlist.add(item);

@@ -270,7 +270,7 @@ public class WebOperations {
             params.add("grant_type", "password");
             params.add("username", userId);
             params.add("password", password);
-            String url = "https://agra.seil.in:8444/ESignSBIAV1/" + "token";
+            String url = "https://agra.paisalo.in:8444/ESignSBIAV1/" + "token";
             client.post(url, params, dataAsyncResponseHandler);
             Log.d("CheckBaseUrl",url+"////"+userId+"////"+password+"////"+"base URL :"+IglPreferences.getPrefString(context, SEILIGL.BASE_URL, ""));
         } catch (Exception e) {
@@ -291,7 +291,7 @@ public class WebOperations {
     public void postEntityESignSubmit(Context context, String controller, String method, String jsonString, ResponseHandlerInterface responseHandler) {
         try {
             //Log.d("Json Data", jsonString);
-            String url = "https://agra.seil.in:8444/ESignSBIAV1/" + "api/" + controller + "/" + method;
+            String url = "https://agra.paisalo.in:8444/ESignSBIAV1/" + "api/" + controller + "/" + method;
             StringEntity entity = new StringEntity(jsonString);
             AsyncHttpClient client = new AsyncHttpClient();
             client.setThreadPool(Executors.newSingleThreadExecutor());
@@ -324,7 +324,7 @@ public class WebOperations {
     public void postEntityESign(Context context, String controller, String method, String jsonString, ResponseHandlerInterface responseHandler) {
         try {
             //Log.d("Json Data",jsonString);
-            String url = "https://agra.seil.in:8444/ESignSBIAV1/" + "api/" + controller + "/" + method;
+            String url = "https://agra.paisalo.in:8444/ESignSBIAV1/" + "api/" + controller + "/" + method;
 //            String url = "https://agra.seil.in:8444/ESignSBIAV1Test/" + "api/" + controller + "/" + method;
             Log.d("TAG", "postEntity: "+ "https://agra.seil.in:8444/ESignSBIAV1/" + "api/" + controller + "/" + method);
             StringEntity entity = new StringEntity(Utils.cleanTextContent(jsonString));
@@ -506,7 +506,7 @@ public class WebOperations {
 
     public void getEntityESign(Context context, String controller, String method, RequestParams params, ResponseHandlerInterface responseHandler) {
         try {
-            String url = "https://agra.seil.in:8444/ESignSBIAV1/"+ "api/" + controller + "/" + method;
+            String url = "https://agra.paisalo.in:8444/ESignSBIAV1/"+ "api/" + controller + "/" + method;
             AsyncHttpClient client = new AsyncHttpClient();
             client.setThreadPool(Executors.newSingleThreadExecutor());
             setHttpHeadersESign(context, client, true);

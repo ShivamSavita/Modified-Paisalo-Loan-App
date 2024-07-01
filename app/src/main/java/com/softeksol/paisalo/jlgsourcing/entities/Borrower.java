@@ -703,6 +703,16 @@ public class Borrower extends BaseModel implements Serializable {
         //}
         return fiGuarantors;
     }
+    public Guarantor getFiGuarantorsByGrNumber(int grNo) {
+        //if ((fiGuarantors == null || fiGuarantors.isEmpty())) {
+        Guarantor  guarantors = SQLite.select()
+                .from(Guarantor.class)
+                .where(Guarantor_Table.borrowerForeignKeyContainer_FiID.eq(FiID))
+                .and(Guarantor_Table.GrNo.eq(grNo))
+                .querySingle();
+        //}
+        return guarantors;
+    }
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "fiFamLoans")
     public List<BorrowerFamilyLoan> getFiFamilyLoans() {

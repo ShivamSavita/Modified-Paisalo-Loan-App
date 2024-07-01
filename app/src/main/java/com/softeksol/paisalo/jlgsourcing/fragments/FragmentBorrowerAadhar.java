@@ -278,6 +278,7 @@ public class FragmentBorrowerAadhar extends AbsFragment implements View.OnClickL
         tietLoanReason.setText(Utils.getNotNullString(borrower.Loan_Reason));
         tieBankAcNo.setText(Utils.getNotNullString(borrower.bank_ac_no));
 
+        Log.d("TAG", "setDataToView: "+borrower.Loan_Amt);
         tietLoanAMount.setText(Utils.getNotNullString(borrower.Loan_Amt));
 
         //v.findViewById(R.id.loCurrentAddress).setVisibility(isCurrentAddressVisible?View.VISIBLE:View.GONE);

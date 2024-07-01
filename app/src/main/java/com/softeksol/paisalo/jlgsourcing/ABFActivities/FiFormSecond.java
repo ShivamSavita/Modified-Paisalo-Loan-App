@@ -399,6 +399,8 @@ int size=0;
         relationSips.add(new RangeCategory("Husband", ""));
         relationSips.add(new RangeCategory("Father", ""));
         relationSips.add(new RangeCategory("Mother", ""));
+        relationSips.add(new RangeCategory("Brother", ""));
+        relationSips.add(new RangeCategory("Wife", ""));
 
         acspRelationshipNominee.setAdapter(new AdapterListRange(this, relationSips, false));
         checkBankAccountNuber.setOnClickListener(new View.OnClickListener() {
@@ -1032,6 +1034,8 @@ int size=0;
         jsonObject.addProperty("txtnumber",id);
         jsonObject.addProperty("ifsc",bankIfsc);
         jsonObject.addProperty("userdob","");
+        jsonObject.addProperty("key","1");
+
         return  jsonObject;
     }
     @Override

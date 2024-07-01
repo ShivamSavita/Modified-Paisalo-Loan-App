@@ -3,11 +3,14 @@ package com.softeksol.paisalo.jlgsourcing.retrofit;
 
 import com.google.gson.JsonObject;
 import com.softeksol.paisalo.jlgsourcing.ABFActivities.Model.BrandResponse;
+import com.softeksol.paisalo.jlgsourcing.entities.NewOSVResponseModel;
 import com.softeksol.paisalo.jlgsourcing.entities.ProcessingEmiData;
+import com.softeksol.paisalo.jlgsourcing.entities.TokenResponse;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 
 import java.util.Calendar;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,7 +19,9 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -84,6 +89,14 @@ public interface ApiInterface {
     Call<JsonObject> getAdharDataByOCR(@Query("imgData") String imgData,@Query("doctype") String docType,@Body RequestBody file);
 
 
+    @Multipart
+    @POST("OCR/DocVerifyforOSVSpaceOCR")
+    Call<OCRResponseModel> getOCSDataFroDOC(@Query("imgType") String imgType,@Part MultipartBody.Part file);
+
+
+    @Multipart
+    @POST("OCR/DocVerifyforOSVSpaceOCR")
+    Call<NewOSVResponseModel> getOSVResponse(@Part MultipartBody.Part file, @Query("imgType") String imgType, @Query("Id") String Id);
 
 /*
     @Field("ficode") String fiCode, @Field("full_name") String fullName, @Field("dob") String dob,

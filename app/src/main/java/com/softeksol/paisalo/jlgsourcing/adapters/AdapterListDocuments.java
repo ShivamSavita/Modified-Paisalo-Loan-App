@@ -88,7 +88,7 @@ public class AdapterListDocuments extends ArrayAdapter<DocumentStore> {
 
            // Log.e("DocumentStoreImagePath1",documentStore.imagePath+"");
             if (documentStore.GuarantorSerial == 0) {
-                Borrower borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.FiID.eq(documentStore.FiID)).querySingle();
+                Borrower borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.Code.eq(documentStore.ficode)).and(Borrower_Table.Creator.eq(documentStore.Creator)).querySingle();
                 holder.Name.setText(borrower.getBorrowerName());
                 holder.Aadhar.setText(borrower.aadharid);
             }

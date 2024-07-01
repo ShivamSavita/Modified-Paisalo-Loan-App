@@ -1,10 +1,11 @@
-package com.softeksol.paisalo.jlgsourcing.entities.dto;
+package com.softeksol.paisalo.jlgsourcing.newOCRModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.softeksol.paisalo.jlgsourcing.newOCRModels.OCRDocModelData;
 
-public class OCRResponseModel {
+
+public class OCRDocResponseData {
+
     @SerializedName("statusCode")
     @Expose
     private Integer statusCode;

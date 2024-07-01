@@ -2005,6 +2005,7 @@ ImageView imgViewScanQR,imgViewAadharPhoto;
         jsonObject.addProperty("txtnumber",id);
         jsonObject.addProperty("ifsc",bankIfsc);
         jsonObject.addProperty("userdob",userDOB);
+        jsonObject.addProperty("key","1");
         return  jsonObject;
     }
 

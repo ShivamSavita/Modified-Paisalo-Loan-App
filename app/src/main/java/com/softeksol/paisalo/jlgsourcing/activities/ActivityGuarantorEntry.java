@@ -85,7 +85,7 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
     private Borrower borrower;
     protected String signature,email,mobile;
     private Uri uriPicture;
-    private ImageView imageView, imgViewScanQR;
+    private ImageView imageView, imgViewScanQR,imgViewCal;
     private Boolean cropState = false;
     private long guarantor_id;
     private long borrower_id;
@@ -156,9 +156,17 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
                 validateControls(editText, text);
             }
         });
+        imgViewCal=findViewById(R.id.imgViewCal);
+        imgViewCal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         tietAge = findViewById(R.id.tietAge);
-        tietAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        tietAge.setEnabled(false);
+       /* tietAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -173,11 +181,11 @@ public class ActivityGuarantorEntry extends AppCompatActivity implements View.On
             public void validate(EditText editText, String text) {
                 validateControls(editText, text);
             }
-        });
+        });*/
 
         tietDob = findViewById(R.id.tietDob);
         tietDob.setFocusable(false);
-        tietDob.setEnabled(false);
+        tietDob.setEnabled(true);
 
         tietGuardian = findViewById(R.id.tietGuardian);
         tietAddress1 = findViewById(R.id.tietAddress1);

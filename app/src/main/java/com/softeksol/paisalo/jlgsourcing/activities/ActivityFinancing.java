@@ -500,11 +500,11 @@ public class ActivityFinancing extends AppCompatActivity
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         Log.d("TAG", "onResponse: "+response.body());
                         JsonObject jsonObject=response.body();
-                        try {
-                            if (jsonObject.get("data").getAsInt()==0){
-                                Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+//                        try {
+//                            if (jsonObject.get("data").getAsInt()==0){
+//                                Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                            }
+//                            else {
                                 Intent intent = new Intent(ActivityFinancing.this, ActivityLoanApplication.class);
                                 Log.d("TAG", "onResponse: "+borrower.FiID);
                                 Log.d("TAG", "onResponse: "+borrower.Code);
@@ -513,10 +513,10 @@ public class ActivityFinancing extends AppCompatActivity
                                 intent.putExtra("BoFicode", String.valueOf(borrower.Code));
                                 intent.putExtra("BoCreator", borrower.Creator);
                                 startActivity(intent);
-                            }
-                        }catch (Exception e){
-                            Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
-                        }
+//                            }
+//                        }catch (Exception e){
+//                            Toast.makeText(ActivityFinancing.this, "Sorry this fi is not Eligible for further process", Toast.LENGTH_SHORT).show();
+//                        }
                     }
                     //
                     @Override

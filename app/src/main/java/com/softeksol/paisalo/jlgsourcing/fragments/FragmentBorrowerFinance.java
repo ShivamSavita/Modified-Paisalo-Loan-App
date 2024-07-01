@@ -42,6 +42,7 @@ import com.softeksol.paisalo.jlgsourcing.entities.BorrowerExtra;
 import com.softeksol.paisalo.jlgsourcing.entities.BorrowerFamilyExpenses;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory;
 import com.softeksol.paisalo.jlgsourcing.entities.RangeCategory_Table;
+import com.softeksol.paisalo.jlgsourcing.entities.TokenResponse;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 
@@ -87,11 +88,12 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
     private ActivityLoanApplication activity;
     private Borrower borrower;
     private BorrowerExtra borrowerExtra;
-    private Spinner spinnerPurpose, spinnerLoanAmount, spinnerLoanDuration, spinnerBankAcType, spinnerSchemeType;
+    private Spinner spinnerPurpose, spinnerLoanDuration, spinnerBankAcType, spinnerSchemeType;
     //private TextWatcher IFSCTextWatcher;
     private TextInputEditText tietRent, tietFooding, tietEducation, tietHealth, tietTravelling, tietEntertainment, tietOthers,tietRentalIncome;
     private AppCompatSpinner acspHomeType, acspHomeRoofType, acspToiletType, acspLiveingWithSpouse;
-    TextView tilBankAccountName;
+    TextView tilBankAccountName,spinnerLoanAmount;
+
     Button checkBankAccountNuber;
     String requestforVerification="";
     String ResponseforVerification="";
@@ -168,8 +170,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         spinnerPurpose.setAdapter(rlaBankType);
         spinnerBankAcType = (Spinner) v.findViewById(R.id.spinLoanAppFinanceAccountType);
         spinnerBankAcType.setAdapter(rlaPurposeType);
-        spinnerLoanAmount = (Spinner) v.findViewById(R.id.spinLoanAppFinanceLoanAmount);
-        spinnerLoanAmount.setAdapter(rlaLoanAmount);
+        spinnerLoanAmount =  v.findViewById(R.id.spinLoanAppFinanceLoanAmount);
+//        spinnerLoanAmount.setAdapter(rlaLoanAmount);
         spinnerLoanDuration = (Spinner) v.findViewById(R.id.spinLoanAppFinanceDuration);
         spinnerLoanDuration.setAdapter(rlaFinanceDuration);
 
@@ -273,6 +275,68 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         return v;
     }
 
+//    private void cardValidate(String id,String bankIfsc) {
+//        ProgressDialog progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setCanceledOnTouchOutside(true);
+//        progressDialog.setIndeterminate(false);
+//        progressDialog.setTitle("Fetching Details");
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.show();
+//        ApiInterface apiInterface= getClientPan(SEILIGL.NEW_SERVERAPIAGARA).create(ApiInterface.class);
+//        requestforVerification= String.valueOf(getJsonOfString(id,bankIfsc));
+//        Call<TokenResponse> call=apiInterface.cardValidate1(getJsonOfString(id,bankIfsc));
+//        call.enqueue(new Callback<TokenResponse>() {
+//            @Override
+//            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d("TAG", "onResponse:rps121 "+response.body());
+//                    progressDialog.cancel();
+//                    if (response.body().getData() != null) {
+//                        ResponseforVerification= String.valueOf(response.body().getData());
+//                        saveVerficationLogs(IglPreferences.getPrefString(getContext(), SEILIGL.USER_ID, ""), "Bank Account", requestforVerification, ResponseforVerification);
+//
+//                        try {
+//                            if (response.body().getData().getFullName() != null) {
+//                                tilBankAccountName.setVisibility(View.VISIBLE);
+//                                tilBankAccountName.setText(response.body().getData().getFullName());
+//                                checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic_green));
+//                                checkBankAccountNuber.setEnabled(false);
+//                                UpdatefiVerificationDocName();
+//                            } else {
+//                                etBankAccount.setText("");
+//                                tilBankAccountName.setVisibility(View.VISIBLE);
+//                                tilBankAccountName.setText("Account is inactive Or Blocked");
+//                                tilBankAccountName.setTextColor(getResources().getColor(R.color.red));
+//                                checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+//                                checkBankAccountNuber.setEnabled(true);
+//                            }
+//                        } catch (Exception e) {
+//                            tilBankAccountName.setVisibility(View.VISIBLE);
+//                            tilBankAccountName.setText("Card Holder Name Not Found");
+//                            checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+//                            checkBankAccountNuber.setEnabled(true);
+//                            etBankAccount.setText("");
+//
+//                        }
+//                        progressDialog.cancel();
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TokenResponse> call, Throwable t) {
+//
+//                tilBankAccountName.setText(t.getMessage());
+//                progressDialog.cancel();
+//                checkBankAccountNuber.setBackground(getResources().getDrawable(R.drawable.check_sign_ic));
+//
+//
+//
+//            }
+//        });
+//    }
+
     private void cardValidate(String id,String bankIfsc) {
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setCanceledOnTouchOutside(false);
@@ -286,6 +350,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
                 ResponseforVerification= String.valueOf(response.body().get("data"));
                 Log.d("TAG", "acc Rep: "+response.body().get("data"));
                 saveVerficationLogs(IglPreferences.getPrefString(getContext(), SEILIGL.USER_ID, ""),"Bank Account",requestforVerification,ResponseforVerification);
@@ -337,6 +402,7 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
         jsonObject.addProperty("txtnumber",id);
         jsonObject.addProperty("ifsc",bankIfsc);
         jsonObject.addProperty("userdob","");
+        jsonObject.addProperty("key","1");
         return  jsonObject;
     }
 
@@ -423,7 +489,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
         }
 
-        Utils.setSpinnerPosition(spinnerLoanAmount, borrower.Loan_Amt);
+        spinnerLoanAmount.setText(borrower.Loan_Amt+"");
+       // Utils.setSpinnerPosition(spinnerLoanAmount, borrower.Loan_Amt);
         //Commented for E-Vehicle
         spinnerLoanAmount.setEnabled(borrower.Loan_Amt < 10);
 
@@ -466,7 +533,8 @@ public class FragmentBorrowerFinance extends AbsFragment implements View.OnClick
 
     private void getDataFromView(View v) {
         if (v != null) {
-            borrower.Loan_Amt = Utils.getSpinnerIntegerValue(spinnerLoanAmount);
+          // borrower.Loan_Amt = Utils.getSpinnerIntegerValue(spinnerLoanAmount);
+           borrower.Loan_Amt = Integer.parseInt(spinnerLoanAmount.getText().toString().trim());
             borrower.Loan_Duration = Utils.getSpinnerStringValue(spinnerLoanDuration);
             borrower.Loan_Reason = Utils.getSpinnerStringValue(spinnerPurpose);
             borrower.bank_ac_no = Utils.getNotNullText(etBankAccount);

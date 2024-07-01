@@ -1,10 +1,9 @@
-package com.softeksol.paisalo.jlgsourcing.entities.dto;
+package com.softeksol.paisalo.jlgsourcing.newOCRModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.softeksol.paisalo.jlgsourcing.newOCRModels.OCRDocModelData;
 
-public class OCRResponseModel {
+public class DocDetailsFromNewOCRModel {
     @SerializedName("statusCode")
     @Expose
     private Integer statusCode;
@@ -13,7 +12,7 @@ public class OCRResponseModel {
     private String message;
     @SerializedName("data")
     @Expose
-    private OCRDocModelData data;
+    private DocData data;
 
     public Integer getStatusCode() {
         return statusCode;
@@ -31,12 +30,11 @@ public class OCRResponseModel {
         this.message = message;
     }
 
-    public OCRDocModelData getData() {
+    public DocData getData() {
         return data;
     }
 
-    public void setData(OCRDocModelData data) {
+    public void setData(DocData data) {
         this.data = data;
     }
-
 }

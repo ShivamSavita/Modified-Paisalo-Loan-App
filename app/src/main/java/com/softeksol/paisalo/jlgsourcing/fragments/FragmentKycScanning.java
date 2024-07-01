@@ -25,22 +25,30 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.softeksol.paisalo.jlgsourcing.BuildConfig;
 import com.softeksol.paisalo.jlgsourcing.R;
 import com.softeksol.paisalo.jlgsourcing.SEILIGL;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils;
 import com.softeksol.paisalo.jlgsourcing.Utilities.CompressLib.Compressor;
+import com.softeksol.paisalo.jlgsourcing.Utilities.CustomProgress;
 import com.softeksol.paisalo.jlgsourcing.Utilities.IglPreferences;
 import com.softeksol.paisalo.jlgsourcing.Utilities.Utils;
 import com.softeksol.paisalo.jlgsourcing.activities.ActivityBorrowerKyc;
 import com.softeksol.paisalo.jlgsourcing.activities.ActivityLoanApplication;
 import com.softeksol.paisalo.jlgsourcing.adapters.AdapterListDocuments;
 import com.softeksol.paisalo.jlgsourcing.entities.Borrower;
+import com.softeksol.paisalo.jlgsourcing.entities.Borrower_Table;
 import com.softeksol.paisalo.jlgsourcing.entities.DocumentStore;
 import com.softeksol.paisalo.jlgsourcing.entities.Guarantor;
+import com.softeksol.paisalo.jlgsourcing.entities.Guarantor_Table;
+import com.softeksol.paisalo.jlgsourcing.entities.NewOSVResponseModel;
 import com.softeksol.paisalo.jlgsourcing.entities.dto.OCRResponseModel;
 import com.softeksol.paisalo.jlgsourcing.location.GpsTracker;
+import com.softeksol.paisalo.jlgsourcing.newOCRModels.OCRDocModelData;
+import com.softeksol.paisalo.jlgsourcing.newOCRModels.OCRDocResponseData;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiClient;
 import com.softeksol.paisalo.jlgsourcing.retrofit.ApiInterface;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -51,16 +59,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_OK;
 import static com.softeksol.paisalo.jlgsourcing.Utilities.CameraUtils.REQUEST_TAKE_PHOTO;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,8 +95,11 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
     private Uri uriPicture;
     private String ImageString;
     private Bitmap bitmap;
+    String type="";
+    String id="";
 
     Borrower b;
+    Guarantor g;
 
     public FragmentKycScanning() {
         // Required empty public constructor
@@ -170,59 +186,38 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         mDocumentStore = (DocumentStore) adapterView.getItemAtPosition(i);
-        Log.d("TAG", "onItemClick: "+mDocumentStore.updateStatus);
-        if (mDocumentStore.remarks.equals("PANCard")){
-            if(IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals("") && mDocumentStore.updateStatus!=false){
-                Utils.alert(activity,"Please capture Aadhar Front first");
-            }else{
-                //Utils.showSnakbar(getView(),String.valueOf(mDocumentStore.checklistid));
-                //Log.d("Document Store", mDocumentStore.toString());
-                b=new Borrower();
-                b=activity.getBorrower();
 
-                Log.d("TAG", "onItemClick: "+b);
-                Log.d("TAG", "onItemClick: "+  b.getBorrowerIsAdharEntryEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
-                Log.d("TAG", "onItemClick: "+  b.getBorrowerIsNameVerifyEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
 
-                if (mDocumentStore.updateStatus == true) {
-                    Utils.showSnakbar(getView(), "This Document Already uploaded");
-                } else {
+        //Utils.showSnakbar(getView(),String.valueOf(mDocumentStore.checklistid));
+        //Log.d("Document Store", mDocumentStore.toString());
+        b=new Borrower();
+        b=activity.getBorrower();
+        if (mDocumentStore.GuarantorSerial!=0){
 
-                    ImagePicker.with(this)
-                            .cameraOnly()
-                            .start(CameraUtils.REQUEST_TAKE_PHOTO);
-//            try {
-//                CameraUtils.dispatchTakePictureIntent(this);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-                }            }
-        }else{
-            //Utils.showSnakbar(getView(),String.valueOf(mDocumentStore.checklistid));
-            //Log.d("Document Store", mDocumentStore.toString());
-            b=new Borrower();
-            b=activity.getBorrower();
-
-            Log.d("TAG", "onItemClick: "+b);
-            Log.d("TAG", "onItemClick: "+  b.getBorrowerIsAdharEntryEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
-            Log.d("TAG", "onItemClick: "+  b.getBorrowerIsNameVerifyEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
-
-            if (mDocumentStore.updateStatus == true) {
-                Utils.showSnakbar(getView(), "This Document Already uploaded");
-            } else {
-
-                ImagePicker.with(this)
-                        .cameraOnly()
-                        .start(CameraUtils.REQUEST_TAKE_PHOTO);
-//            try {
-//                CameraUtils.dispatchTakePictureIntent(this);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            }
+            g=b.getFiGuarantorsByGrNumber(mDocumentStore.GuarantorSerial);
         }
+        Log.d("TAG", "onActivityResult: "+g);
 
+        Log.d("TAG", "onItemClick: "+b);
+        Log.d("TAG", "onItemClick: "+  b.getBorrowerIsAdharEntryEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
+        Log.d("TAG", "onItemClick: "+  b.getBorrowerIsNameVerifyEntryType(mDocumentStore.ficode,mDocumentStore.Creator));
+
+        if (mDocumentStore.updateStatus == true) {
+            Utils.showSnakbar(getView(), "This Document Already uploaded");
+        } else {
+
+            ImagePicker.with(this)
+                    .cameraOnly()
+                    .start(CameraUtils.REQUEST_TAKE_PHOTO);
+//            try {
+//                CameraUtils.dispatchTakePictureIntent(this);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
     }
+
+
 
     @Override
     public void cameraCaptureUpdate(Uri imagePath) {
@@ -261,12 +256,9 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
             if (data != null) {
                 GpsTracker gpsTracker=new GpsTracker(this.getContext());
                 Log.e("SuccessCrop", "Data Aaya hai Crop Image kaa");
+                Log.d("TAG", "onActivityResult: "+new Gson().toJson(mDocumentStore));
                 Uri imageUri = CameraUtils.finaliseImageCropUri(resultCode, data, 1000, error, true);
                 File tempCroppedImageCopy = new File(imageUri.getPath());
-
-
-
-
                 File tempCroppedImage = new Compressor.Builder(activity)
                         .setMaxWidth(720)
                         .setMaxHeight(720)
@@ -276,229 +268,623 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
                                 Environment.DIRECTORY_PICTURES).getAbsolutePath())
                         .build()
                         .compressToFile(tempCroppedImageCopy);
-
                 if (error == null) {
 
                     if (imageUri != null) {
+                        CustomProgress customProgress=new CustomProgress();
+                        customProgress.showProgress(getContext(),"Data fetching...\nPlease wait sometime...",true);
 
                         if (tempCroppedImage.length() > 100) {
 
                             if (mDocumentStore != null) {
                                 (new File(uriPicture.getPath())).delete();
-
-                                String type="";
-                                Log.d("TAG", "onActivityResult: "+mDocumentStore.remarks);
-
-                                if (mDocumentStore.GuarantorSerial==0){
-                                    switch (mDocumentStore.remarks){
+                                if (mDocumentStore.GuarantorSerial==0) {
+                                    switch (mDocumentStore.remarks) {
                                         case "PANCard":
-                                            type=b.PanNO;
+                                            type="pan";
+                                            id = b.PanNO;
                                             break;
                                         case "VoterFront":
-                                            type=b.voterid;
+                                            type="voterfront";
+                                            id= b.voterid;
+                                            break;
+
+                                        case "VoterBack":
+                                            type="voterback";
+                                            id= "1";
                                             break;
                                         case "AadharBack":
+                                            type="aadharback";
+                                            id=b.aadharid;
+                                            break;
                                         case "AadharFront":
-                                            type=b.aadharid;
+                                            type="aadharfront";
+                                            id = b.aadharid;
+                                            break;
+
+                                        case "DrivingLicense":
+                                            type="dl";
+                                            id = b.drivinglic;
+                                            break;
+                                    }
+                                }else {
+                                    switch (mDocumentStore.remarks) {
+                                        case "PANCard":
+                                            type="pan";
+                                            id = g.getPANNo();
+                                            break;
+                                        case "VoterFront":
+                                            type="voterfront";
+                                            id= g.getVoterid();
+                                            break;
+
+                                        case "VoterBack":
+                                            type="voterback";
+                                            id= "1";
+                                            break;
+                                        case "AadharBack":
+                                            type="aadharback";
+                                            id=g.getAadharid();
+                                            break;
+                                        case "AadharFront":
+                                            type="aadharfront";
+                                            id = g.getAadharid();
+                                            break;
+
+                                        case "DrivingLicense":
+                                            type="dl";
+                                            id = g.getDrivinglic();
                                             break;
                                     }
                                 }
+                                RequestBody image_befWorkBody = RequestBody.create(MediaType.parse("image/*"),tempCroppedImage);
+                                MultipartBody.Part imagePart= MultipartBody.Part.createFormData("file",tempCroppedImage.getName(),image_befWorkBody);
+                                HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+                                OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+                                httpClient.connectTimeout(1, TimeUnit.MINUTES);
+                                httpClient.readTimeout(1,TimeUnit.MINUTES);
+                                httpClient.addInterceptor(logging);
+                                Log.d("TAG", "onActivityResult: "+type+"///"+String.valueOf(id));
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(SEILIGL.TEST_NEW_SERVER_OSV_API)
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .client(httpClient.build())
+                                        .build();
 
+                                ApiInterface apiInterface=retrofit.create(ApiInterface.class);//
 
-                            if (type.trim().length()>1){
-                                //OCR API consume///////////////
-
-                                ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
-
-                                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-
-                                RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), tempCroppedImage);
-                                builder.addFormDataPart("file",tempCroppedImage.getName(),surveyBody);
-
-
-                                RequestBody requestBody = builder.build();
-
-                                Call<OCRResponseModel> call=apiInterface.getFileValidateByOCR(type,requestBody);
-                                call.enqueue(new Callback<OCRResponseModel>() {
+                                Call<NewOSVResponseModel> call=apiInterface.getOSVResponse(imagePart,type,String.valueOf(id));
+                                call.enqueue(new Callback<NewOSVResponseModel>() {
                                     @Override
-                                    public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
+                                    public void onResponse(Call<NewOSVResponseModel> call, Response<NewOSVResponseModel> response) {
+                                        if (response.isSuccessful() && response.body()!=null){
+                                            NewOSVResponseModel responsData=response.body();
 
-                                        OCRResponseModel ocrResponseModel=response.body();
-                                        try {
-                                            if (ocrResponseModel.getData()!=null){
-                                                Log.d("TAG", "onResponse: "+response.body().getData());
+                                            if (responsData.getStatusCode()==200){
+                                                if (!responsData.getData().getIsOSV()){
+                                                    Utils.alert(getContext(),"OSV Stamp not found or Not readable!!");
+                                                }else if(!responsData.getData().getIsIdMatched()){
+                                                    Utils.alert(getContext(),"Did not found Document Id\nPlease check document id properly clear or readable");
 
-                                                if (ocrResponseModel.getData().getStatus()){
-                                                    if (mDocumentStore.remarks.equals("PANCard")){
-                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBPan, ocrResponseModel.getData().getDob());
-                                                        if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
+                                                }else {
+                                                    File croppedImage=null;
+                                                    try {
+                                                        croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
+                                                        Log.e("CroppedImageFile2", croppedImage.getPath() + "");
 
-                                                            File croppedImage = null;
-                                                            try {
-                                                                croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                                                Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+                                                        //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
 
-                                                                //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+                                                        Log.e("CroppedImageMyBitmap", bitmap + "");
+                                                        mDocumentStore.latitude = (float) gpsTracker.getLatitude();
+                                                        mDocumentStore.longitude = (float) gpsTracker.getLongitude();
+                                                        mDocumentStore.imagePath = croppedImage.getPath();
 
-                                                                Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                                                mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                                                mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                                                mDocumentStore.imagePath = croppedImage.getPath();
-
-                                                                //mDocumentStore.imageshow = ImageString;
-                                                                mDocumentStore.save();
-                                                                documentStores.clear();
-                                                                Log.d("TAG", "onResume: "+activity.getBorrower());
-                                                                documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                                                Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                                                adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                                                listView.setAdapter(adapterListDocuments);
-                                                                adapterListDocuments.notifyDataSetChanged();
-                                                            } catch (IOException e) {
-                                                                throw new RuntimeException(e);
-                                                            }
-                                                        }else{
-                                                            Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
-                                                        }
-                                                    } else if (mDocumentStore.remarks.equals("AadharFront")) {
-                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
-                                                        File croppedImage = null;
-                                                        try {
-                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-
-                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
-                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                                            mDocumentStore.imagePath = croppedImage.getPath();
-
-                                                            //mDocumentStore.imageshow = ImageString;
-                                                            mDocumentStore.save();
-                                                            documentStores.clear();
-                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
-                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                                            listView.setAdapter(adapterListDocuments);
-                                                            adapterListDocuments.notifyDataSetChanged();
-                                                        } catch (IOException e) {
-                                                            throw new RuntimeException(e);
-                                                        }
-                                                    }else{
-
-                                                        File croppedImage = null;
-                                                        try {
-                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-
-                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-
-                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                                            mDocumentStore.imagePath = croppedImage.getPath();
-
-                                                            //mDocumentStore.imageshow = ImageString;
-                                                            mDocumentStore.save();
-                                                            documentStores.clear();
-                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
-                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                                            listView.setAdapter(adapterListDocuments);
-                                                            adapterListDocuments.notifyDataSetChanged();
-                                                        } catch (IOException e) {
-                                                            throw new RuntimeException(e);
-                                                        }
-
+                                                        //mDocumentStore.imageshow = ImageString;
+                                                        mDocumentStore.save();
+                                                        documentStores.clear();
+                                                        Log.d("TAG", "onResume: " + activity.getBorrower());
+                                                        documentStores.addAll(getDocumentStore(activity.getBorrower()));
+                                                        Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+                                                        adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+                                                        listView.setAdapter(adapterListDocuments);
+                                                        adapterListDocuments.notifyDataSetChanged();
+                                                    } catch (IOException e) {
+                                                        throw new RuntimeException(e);
                                                     }
-
-                                                }else{
-                                                    Utils.alert(activity,ocrResponseModel.getData().getErrorMessage());
-
                                                 }
 
-                                            }else{
-                                                Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+                                            } else if (responsData.getStatusCode()==201) {
+                                                if (!responsData.getData().getIsOSV()){
+                                                    Utils.alert(getContext(),"OSV Stamp not found or Not readable!!");
+                                                }else if(!responsData.getData().getIsIdMatched()){
+                                                    Utils.alert(getContext(),"Did not found Document Id\nPlease check document id properly clear or readable");
+
+                                                }else{
+                                                    Utils.alert(getContext(),responsData.getMessage());
+                                                }
+                                            } else{
+                                                Utils.alert(getContext(),responsData.getMessage());
                                             }
-                                        }catch (Exception e){
-                                            Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
 
+                                        }else{
+                                            Utils.alert(getContext(),"There is some technical error\n(Contact to Administration) \n("+response.code()+") "+response.message());
                                         }
-
-
-
-//                                            //Toast.makeText(activity, "CroppedImageFile: " + croppedImage.getPath() + "", Toast.LENGTH_SHORT).show();
-//                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
-//
-//                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
-//
-//                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
-//                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-//                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-//                                            mDocumentStore.imagePath = croppedImage.getPath();
-//
-//                                            //mDocumentStore.imageshow = ImageString;
-//                                            mDocumentStore.save();
-
+                                        customProgress.hideProgress();
                                     }
 
                                     @Override
-                                    public void onFailure(Call<OCRResponseModel> call, Throwable t) {
-                                        Log.d("TAG", "onFailure: "+t.getMessage());
+                                    public void onFailure(Call<NewOSVResponseModel> call, Throwable throwable) {
+                                        Utils.alert(getContext(),"Response Faliure\n("+ throwable.getMessage()+")");
+                                        customProgress.hideProgress();
+
                                     }
                                 });
 
-                            }else{
-                                File croppedImage = null;
-                                try {
-                                    croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true);
-                                    Log.e("CroppedImageFile2", croppedImage.getPath() + "");
 
-                                    //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
 
-                                    Log.e("CroppedImageMyBitmap", bitmap+ "");
-                                    mDocumentStore.latitude= (float) gpsTracker.getLatitude();
-                                    mDocumentStore.longitude= (float) gpsTracker.getLongitude();
-                                    mDocumentStore.imagePath = croppedImage.getPath();
 
-                                    //mDocumentStore.imageshow = ImageString;
-                                    mDocumentStore.save();
-                                    documentStores.clear();
-                                    Log.d("TAG", "onResume: "+activity.getBorrower());
-                                    documentStores.addAll(getDocumentStore(activity.getBorrower()));
-                                    Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
-                                    adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
-                                    listView.setAdapter(adapterListDocuments);
-                                    adapterListDocuments.notifyDataSetChanged();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
+
+
+
+
+
+
+
+
+
+
+//                                 if (mDocumentStore.GuarantorSerial==0) {
+//                                    switch (mDocumentStore.remarks) {
+//                                        case "PANCard":
+//                                            type = b.PanNO;
+//                                            break;
+//                                        case "VoterFront":
+//                                            type = b.voterid;
+//                                            break;
+//                                        case "AadharBack":
+//                                        case "AadharFront":
+//                                            type = b.aadharid;
+//                                            break;
+//                                    }
+//                                }else{
+//                                    type="";
+//                                }
+//                                if (type.trim().length() > 1) {
+//                                    //OCR API consume///////////////
+//
+//                                    RequestBody image_befWorkBody = RequestBody.create(MediaType.parse("image/*"),tempCroppedImage);
+//                                    MultipartBody.Part imagePart= MultipartBody.Part.createFormData("file",tempCroppedImage.getName(),image_befWorkBody);
+//                                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//                                    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//                                    OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//                                    httpClient.connectTimeout(1, TimeUnit.MINUTES);
+//                                    httpClient.readTimeout(1,TimeUnit.MINUTES);
+//                                    httpClient.addInterceptor(logging);
+//                                    Retrofit retrofit = new Retrofit.Builder()
+//                                            .baseUrl(SEILIGL.TEST_NEW_SERVERAPI)
+//                                            .addConverterFactory(GsonConverterFactory.create())
+//                                            .client(httpClient.build())
+//                                            .build();
+//
+//                                    ApiInterface apiInterface=retrofit.create(ApiInterface.class);//                                    MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+////                                    RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), tempCroppedImage);
+////                                    builder.addFormDataPart("file", tempCroppedImage.getName(), surveyBody);
+////
+////                                    RequestBody requestBody = builder.build();
+//                                    Call<OCRResponseModel> call = apiInterface.getOCSDataFroDOC(mDocumentStore.remarks, imagePart);
+//                                    Log.d("TAG", "onActivityResultppp1: " + mDocumentStore.remarks + " " + imagePart);
+//                                    call.enqueue(new Callback<OCRResponseModel>() {
+//                                        @Override
+//                                        public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
+//                                            Log.d("TAG", "onResponse: " + response.body());
+//                                            if(response.body().getStatusCode()==200){
+//                                                OCRResponseModel ocrResponseModel = response.body();
+//
+//                                                if (response.isSuccessful() && response.body()!=null) {
+//                                                    Log.d("TAG", "onResponse:101 " + response.body());
+//                                                    if (ocrResponseModel != null) {
+//                                                        OCRDocModelData ocrData = ocrResponseModel.getData();
+//                                                        try {
+//                                                            if (ocrResponseModel.getData() != null) {
+//
+//                                                                if (mDocumentStore.remarks.equals("PANCard")) {
+//                                                                    String panNo;
+//                                                                    if (mDocumentStore.GuarantorSerial == 0) {
+//                                                                        Borrower borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.FiID.eq(mDocumentStore.FiID)).querySingle();
+//                                                                        panNo=borrower.PanNO;
+//                                                                    }
+//                                                                    else {
+//                                                                        Guarantor guarantor = SQLite.select().from(Guarantor.class)
+//                                                                                .where(Guarantor_Table.FiID.eq(mDocumentStore.FiID))
+//                                                                                .and(Guarantor_Table.GrNo.eq(mDocumentStore.GuarantorSerial))
+//                                                                                .querySingle();
+//                                                                        panNo=guarantor.getPANNo();
+//                                                                    }
+//                                                                    if (!ocrResponseModel.getData().getIsOSV()){
+//                                                                        Utils.alert(getContext(),"OSV Stamp not found on image");
+//                                                                    }else if (ocrResponseModel.getData().getIsOSV() && !ocrResponseModel.getData().getPanNo().trim().equals(panNo)){
+//                                                                        Utils.alert(getContext(),"You are uploaded wrong PAN card or PAN number is not properly visible!!");
+//
+//                                                                    }else{
+//                                                                        File croppedImage = null;
+//                                                                        try {
+//                                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true, 0);
+//                                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                            Log.e("CroppedImageMyBitmap", bitmap + "");
+//                                                                            mDocumentStore.latitude = (float) gpsTracker.getLatitude();
+//                                                                            mDocumentStore.longitude = (float) gpsTracker.getLongitude();
+//                                                                            mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                            //mDocumentStore.imageshow = ImageString;
+//                                                                            mDocumentStore.save();
+//                                                                            documentStores.clear();
+//                                                                            Log.d("TAG", "onResume: " + activity.getBorrower());
+//                                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                            listView.setAdapter(adapterListDocuments);
+//                                                                            adapterListDocuments.notifyDataSetChanged();
+//                                                                        } catch (IOException e) {
+//                                                                            throw new RuntimeException(e);
+//                                                                        }
+//                                                                    }
+//
+//                                                                }
+//                                                                else if (mDocumentStore.remarks.equals("AadharFront")) {
+//                                                                    String adharNo;
+//                                                                    if (mDocumentStore.GuarantorSerial == 0) {
+//                                                                        Borrower borrower = SQLite.select().from(Borrower.class).where(Borrower_Table.FiID.eq(mDocumentStore.FiID)).querySingle();
+//                                                                        adharNo=borrower.aadharid;
+//                                                                    }
+//                                                                    else {
+//                                                                        Guarantor guarantor = SQLite.select().from(Guarantor.class)
+//                                                                                .where(Guarantor_Table.FiID.eq(mDocumentStore.FiID))
+//                                                                                .and(Guarantor_Table.GrNo.eq(mDocumentStore.GuarantorSerial))
+//                                                                                .querySingle();
+//                                                                        adharNo=guarantor.getAadharid();
+//                                                                    }
+//
+//                                                                    if (!ocrResponseModel.getData().getIsOSV()){
+//                                                                        Utils.alert(getContext(),"OSV Stamp not found on image");
+//                                                                    }else if (ocrResponseModel.getData().getIsOSV() && !ocrResponseModel.getData().getAdharId().trim().equals(adharNo)){
+//                                                                        Utils.alert(getContext(),"You are uploaded wrong Aadhar card or Aadhaar number is not properly visible!!");
+//
+//                                                                    }else {
+//                                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
+//                                                                        File croppedImage = null;
+//                                                                        try {
+//                                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true, 0);
+//                                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                            Log.e("CroppedImageMyBitmap", bitmap + "");
+//                                                                            mDocumentStore.latitude = (float) gpsTracker.getLatitude();
+//                                                                            mDocumentStore.longitude = (float) gpsTracker.getLongitude();
+//                                                                            mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                            //mDocumentStore.imageshow = ImageString;
+//                                                                            mDocumentStore.save();
+//                                                                            documentStores.clear();
+//                                                                            Log.d("TAG", "onResume: " + activity.getBorrower());
+//                                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                            listView.setAdapter(adapterListDocuments);
+//                                                                            adapterListDocuments.notifyDataSetChanged();
+//                                                                        } catch (IOException e) {
+//                                                                            throw new RuntimeException(e);
+//                                                                        }
+//                                                                    }
+//
+//                                                                } else {
+//                                                                    if (!ocrResponseModel.getData().getIsOSV()){
+//                                                                        Utils.alert(getContext(),"OSV Stamp not found on image");
+//                                                                    }else{
+//                                                                        File croppedImage = null;
+//                                                                        try {
+//                                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true, 0);
+//                                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                            Log.e("CroppedImageMyBitmap", bitmap + "");
+//                                                                            mDocumentStore.latitude = (float) gpsTracker.getLatitude();
+//                                                                            mDocumentStore.longitude = (float) gpsTracker.getLongitude();
+//                                                                            mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                            //mDocumentStore.imageshow = ImageString;
+//                                                                            mDocumentStore.save();
+//                                                                            documentStores.clear();
+//                                                                            Log.d("TAG", "onResume: " + activity.getBorrower());
+//                                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                            listView.setAdapter(adapterListDocuments);
+//                                                                            adapterListDocuments.notifyDataSetChanged();
+//                                                                        } catch (IOException e) {
+//                                                                            throw new RuntimeException(e);
+//                                                                        }
+//
+//                                                                    }
+//
+//                                                                }
+//
+//
+//
+//                                                            } else {
+//                                                                Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+//                                                            }
+//                                                        } catch (Exception e) {
+//                                                            Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+//
+//                                                        }
+//                                                    } else {
+//                                                        Log.d("TAG", "onResponse: 102" + response.code());
+//                                                    }
+//
+//
+////                                            //Toast.makeText(activity, "CroppedImageFile: " + croppedImage.getPath() + "", Toast.LENGTH_SHORT).show();
+////                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+////
+////                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+////
+////                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+////                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+////                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+////                                            mDocumentStore.imagePath = croppedImage.getPath();
+////
+////                                            //mDocumentStore.imageshow = ImageString;
+////                                            mDocumentStore.save();
+//
+//                                                }else{
+//
+//                                                    Utils.alert(activity,ocrResponseModel.getData().getErrorMessage().equals("")?"Please upload image in good quality with correct OSV stamp":ocrResponseModel.getData().getErrorMessage() );
+//
+//                                                }
+//                                            }else if(response.body().getStatusCode()==201){
+//                                                Utils.alert(activity,"Please upload image in good quality with correct OSV stamp \n And please make sure image is not Tilted or Rotated."  );
+//
+//                                            }
+//                                            else{
+//
+//                                                ApiInterface apiInterface= ApiClient.getClient(SEILIGL.NEW_SERVERAPI).create(ApiInterface.class);
+//
+//                                                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+//
+//                                                RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), tempCroppedImage);
+//                                                builder.addFormDataPart("file",tempCroppedImage.getName(),surveyBody);
+//
+//
+//                                                RequestBody requestBody = builder.build();
+//
+//                                                Call<OCRResponseModel> call1=apiInterface.getFileValidateByOCR(type,requestBody);
+//                                                call1.enqueue(new Callback<OCRResponseModel>() {
+//                                                    @Override
+//                                                    public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
+//
+//                                                        OCRResponseModel ocrResponseModel=response.body();
+//                                                        try {
+//                                                            if (ocrResponseModel.getData()!=null){
+//                                                                Log.d("TAG", "onResponse: "+response.body().getData());
+//
+//                                                                if (ocrResponseModel.getData().getStatus()){
+//                                                                    if (mDocumentStore.remarks.equals("PANCard")){
+//                                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBPan, ocrResponseModel.getData().getDob());
+//                                                                        if(IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").trim().length()<=6){
+//
+//                                                                            File croppedImage = null;
+//                                                                            try {
+//                                                                                croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true,0);
+//                                                                                Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                                //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                                Log.e("CroppedImageMyBitmap", bitmap+ "");
+//                                                                                mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+//                                                                                mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+//                                                                                mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                                //mDocumentStore.imageshow = ImageString;
+//                                                                                mDocumentStore.save();
+//                                                                                documentStores.clear();
+//                                                                                Log.d("TAG", "onResume: "+activity.getBorrower());
+//                                                                                documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                                Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                                adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                                listView.setAdapter(adapterListDocuments);
+//                                                                                adapterListDocuments.notifyDataSetChanged();
+//                                                                            } catch (IOException e) {
+//                                                                                throw new RuntimeException(e);
+//                                                                            }
+//                                                                        }else{
+//                                                                            if (IglPreferences.getPrefString(activity, SEILIGL.DOBAadhar, "").equals(IglPreferences.getPrefString(activity, SEILIGL.DOBPan, ""))){
+//
+//                                                                                File croppedImage = null;
+//                                                                                try {
+//                                                                                    croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true,0);
+//                                                                                    Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                                    //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                                    Log.e("CroppedImageMyBitmap", bitmap+ "");
+//                                                                                    mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+//                                                                                    mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+//                                                                                    mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                                    //mDocumentStore.imageshow = ImageString;
+//                                                                                    mDocumentStore.save();
+//                                                                                    documentStores.clear();
+//                                                                                    Log.d("TAG", "onResume: "+activity.getBorrower());
+//                                                                                    documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                                    Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                                    adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                                    listView.setAdapter(adapterListDocuments);
+//                                                                                    adapterListDocuments.notifyDataSetChanged();
+//                                                                                } catch (IOException e) {
+//                                                                                    throw new RuntimeException(e);
+//                                                                                }
+//                                                                            }else{
+//                                                                                Utils.alert(activity,"DOB of Pan card is not matched with aadhar card");
+//                                                                            }
+//                                                                        }
+//
+//
+//                                                                    } else if (mDocumentStore.remarks.equals("AadharFront")) {
+//                                                                        IglPreferences.setSharedPref(activity, SEILIGL.DOBAadhar, ocrResponseModel.getData().getDob());
+//                                                                        File croppedImage = null;
+//                                                                        try {
+//                                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true,0);
+//                                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+//                                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+//                                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+//                                                                            mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                            //mDocumentStore.imageshow = ImageString;
+//                                                                            mDocumentStore.save();
+//                                                                            documentStores.clear();
+//                                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
+//                                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                            listView.setAdapter(adapterListDocuments);
+//                                                                            adapterListDocuments.notifyDataSetChanged();
+//                                                                        } catch (IOException e) {
+//                                                                            throw new RuntimeException(e);
+//                                                                        }
+//                                                                    }else{
+//
+//                                                                        File croppedImage = null;
+//                                                                        try {
+//                                                                            croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true,0);
+//                                                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+//                                                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+//                                                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+//                                                                            mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                                                            //mDocumentStore.imageshow = ImageString;
+//                                                                            mDocumentStore.save();
+//                                                                            documentStores.clear();
+//                                                                            Log.d("TAG", "onResume: "+activity.getBorrower());
+//                                                                            documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                                                            Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                                                            adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                                                            listView.setAdapter(adapterListDocuments);
+//                                                                            adapterListDocuments.notifyDataSetChanged();
+//                                                                        } catch (IOException e) {
+//                                                                            throw new RuntimeException(e);
+//                                                                        }
+//
+//                                                                    }
+//
+//                                                                }else{
+//                                                                    Utils.alert(activity,ocrResponseModel.getData().getErrorMessage());
+//
+//                                                                }
+//
+//                                                            }else{
+//                                                                Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+//                                                            }
+//                                                        }catch (Exception e){
+//                                                            Toast.makeText(activity, "Something went wrong, Please try Again!!", Toast.LENGTH_SHORT).show();
+//
+//                                                        }
+//
+//
+//
+////                                            //Toast.makeText(activity, "CroppedImageFile: " + croppedImage.getPath() + "", Toast.LENGTH_SHORT).show();
+////                                            Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+////
+////                                            //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+////
+////                                            Log.e("CroppedImageMyBitmap", bitmap+ "");
+////                                            mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+////                                            mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+////                                            mDocumentStore.imagePath = croppedImage.getPath();
+////
+////                                            //mDocumentStore.imageshow = ImageString;
+////                                            mDocumentStore.save();
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onFailure(Call<OCRResponseModel> call, Throwable t) {
+//                                                        Log.d("TAG", "onFailure: "+t.getMessage());
+//                                                    }
+//                                                });
+//
+//                                            }
+//
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onFailure(Call<OCRResponseModel> call, Throwable t) {
+//                                            Log.d("TAG", "onActivityResultpppfail: " + t.getMessage());
+//                                        }
+//                                    });
+//
+//                                }
+//                                else{
+//                                    File croppedImage = null;
+//                                    try {
+//                                        croppedImage = CameraUtils.moveCachedImage2Storage(getContext(), tempCroppedImage, true,0);
+//                                        Log.e("CroppedImageFile2", croppedImage.getPath() + "");
+//
+//                                        //bitmap = BitmapFactory.decodeFile(croppedImage.getAbsolutePath());
+//
+//                                        Log.e("CroppedImageMyBitmap", bitmap+ "");
+//                                        mDocumentStore.latitude= (float) gpsTracker.getLatitude();
+//                                        mDocumentStore.longitude= (float) gpsTracker.getLongitude();
+//                                        mDocumentStore.imagePath = croppedImage.getPath();
+//
+//                                        //mDocumentStore.imageshow = ImageString;
+//                                        mDocumentStore.save();
+//                                        documentStores.clear();
+//                                        Log.d("TAG", "onResume: "+activity.getBorrower());
+//                                        documentStores.addAll(getDocumentStore(activity.getBorrower()));
+//                                        Toast.makeText(activity, "Data Reloaded!!", Toast.LENGTH_SHORT).show();
+//                                        adapterListDocuments = new AdapterListDocuments(getActivity(), R.layout.layout_item_loan_app_kyc_capture, documentStores);
+//                                        listView.setAdapter(adapterListDocuments);
+//                                        adapterListDocuments.notifyDataSetChanged();
+//                                    } catch (IOException e) {
+//                                        throw new RuntimeException(e);
+//                                    }
+//                                }
 
 
                                 //adapterListDocuments.notifyDataSetChanged();
                             } else {
-                                Log.e("mDocumentStore", "Null_AAYA_HAI");
+                                Log.e("TAG", "Null_AAYA_HAI");
                             }
                         } else {
-                            Log.e("tempCroppedImage", tempCroppedImage.length() + "");
+                            Log.e("TAG", tempCroppedImage.length() + "");
                             Toast.makeText(activity, tempCroppedImage.length() + "", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
-                        Log.e("imageUriguarantor", imageUri.toString() + "");
+                        Log.e("TAG", imageUri.toString() + "");
                         Toast.makeText(activity, imageUri.toString() + "", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    Log.e("ErrorGuarantor", error.toString() + "");
+                    Log.e("TAG", error.toString() + "");
                     Toast.makeText(activity, error.toString() + "", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Log.e("CropImageDataGuarantor", "Null");
+                Log.e("TAG", "Null");
                 Toast.makeText(activity, "CropImage data: NULL", Toast.LENGTH_SHORT).show();
             }
 
@@ -547,7 +933,7 @@ FragmentKycScanning extends AbsFragment implements AdapterView.OnItemClickListen
         }
 
         documentStores.add(documentStore.getDocumentStore(borrower, 2, "PassbookFirst"));
-        documentStores.add(documentStore.getDocumentStore(borrower, 2, "PassbookLast"));
+        //    documentStores.add(documentStore.getDocumentStore(borrower, 2, "PassbookLast"));
         //documentStores.add(documentStore.getDocumentStore(borrower,4,"Mandate"));
         for (Guarantor guarantor : borrower.getFiGuarantors()) {
             //documentStores.add(documentStore.getDocumentStore(guarantor,0,"Picture"));
