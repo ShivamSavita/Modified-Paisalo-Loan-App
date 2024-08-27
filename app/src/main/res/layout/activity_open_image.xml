@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     >
 
-    <com.softeksol.paisalo.dealers.Utilities.ZoomImage
+    <com.digital.paisalo.dealers.Utilities.ZoomImage
         android:id="@+id/zoomImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

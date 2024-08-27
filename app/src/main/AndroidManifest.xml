@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.softeksol.paisalo.jlgsourcing">
+    package="com.digital.paisalo.jlgsourcing">
 
     <queries>
         <package android:name="com.plcoding.backgroundlocationtracking" />
@@ -27,7 +27,7 @@
         android:required="true" />
 
     <application
-        android:name=".SEILIGL"
+        android:name="com.digital.paisalo.jlgsourcing.SEILIGL"
         android:allowBackup="true"
         android:exported="true"
         android:hardwareAccelerated="true"
@@ -42,77 +42,77 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
-            android:name="com.softeksol.paisalo.jlgsourcing.ABFActivities.FiFormSecond"
+            android:name="com.digital.paisalo.jlgsourcing.ABFActivities.FiFormSecond"
             android:exported="true" />
 
         <activity
-            android:name="com.softeksol.paisalo.jlgsourcing.ABFActivities.FiFormActivity"
+            android:name="com.digital.paisalo.jlgsourcing.ABFActivities.FiFormActivity"
             android:exported="true"/>
 
         <activity
-            android:name="com.softeksol.paisalo.jlgsourcing.activities.Morpho_Recharge_Entry"
+            android:name="com.digital.paisalo.jlgsourcing.activities.Morpho_Recharge_Entry"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.jlgsourcing.activities.OnlinePaymentActivity"
+            android:name="com.digital.paisalo.jlgsourcing.activities.OnlinePaymentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".TermAndPolicyPage"
+            android:name="com.digital.paisalo.jlgsourcing.TermAndPolicyPage"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.OEM_Onboarding"
+            android:name="com.digital.paisalo.dealers.OEM_Onboarding"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.Dealer_Branch_Open"
+            android:name="com.digital.paisalo.dealers.Dealer_Branch_Open"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.Dealer_CheckList"
+            android:name="com.digital.paisalo.dealers.Dealer_CheckList"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.OpenImage"
+            android:name="com.digital.paisalo.dealers.OpenImage"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.Dealer_Dashboard"
+            android:name="com.digital.paisalo.dealers.Dealer_Dashboard"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.dealers.DealerOnBoard"
+            android:name="com.digital.paisalo.dealers.DealerOnBoard"
             android:exported="false" />
         <activity
-            android:name=".activities.KYC_Form_New"
+            android:name="com.digital.paisalo.jlgsourcing.activities.KYC_Form_New"
             android:exported="false" />
         <activity
-            android:name="com.softeksol.paisalo.ESign.activities.ActivityLoanDetails"
+            android:name="com.digital.paisalo.ESign.activities.ActivityLoanDetails"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.CrifScore"
+            android:name="com.digital.paisalo.jlgsourcing.activities.CrifScore"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.softeksol.paisalo.ESign.activities.ActivityESignWithDocumentPL"
+            android:name="com.digital.paisalo.ESign.activities.ActivityESignWithDocumentPL"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.softeksol.paisalo.ESign.activities.ActivityESingList"
+            android:name="com.digital.paisalo.ESign.activities.ActivityESingList"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.SplashScreenPage"
+            android:name="com.digital.paisalo.jlgsourcing.activities.SplashScreenPage"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -126,32 +126,32 @@
 
         </activity>
         <activity
-            android:name=".location.AttendenceActivity"
+            android:name="com.digital.paisalo.jlgsourcing.location.AttendenceActivity"
             android:exported="true" />
 
-        <service android:name=".location.FetchAddressIntentServices" />
+        <service android:name="com.digital.paisalo.jlgsourcing.location.FetchAddressIntentServices" />
 
         <activity
-            android:name=".activities.ActivityCollectionDetails"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityCollectionDetails"
             android:exported="false"
             android:label="@string/title_activity_collection_details"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".activities.ActivityKycScanning"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityKycScanning"
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ActivityFinancing"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityFinancing"
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ActivityManagerSelect"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityManagerSelect"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".activities.ActivityLoanApplication"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityLoanApplication"
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -161,19 +161,19 @@ activity
             android:screenOrientation="userPortrait" /
         -->
         <activity
-            android:name=".activities.ActivityGuarantorEntry"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityGuarantorEntry"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".activities.ActivityBorrowerEntry"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityBorrowerEntry"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".activities.ActivityBorrowerKyc"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityBorrowerKyc"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".activities.ActivityLogin"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityLogin"
             android:exported="true"
             android:screenOrientation="userPortrait" />
         <activity
@@ -181,17 +181,17 @@ activity
             android:exported="false"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".activities.ActivityCollection"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityCollection"
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ActivityDeposit"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityDeposit"
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ActivityBankDeposit"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityBankDeposit"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
@@ -200,13 +200,13 @@ activity
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".activities.ActivityOperationSelect"
+            android:name="com.digital.paisalo.jlgsourcing.activities.ActivityOperationSelect"
             android:exported="false"
             android:screenOrientation="userPortrait" />
-        <activity android:name=".activities.ActivityPreClosure" />
+        <activity android:name="com.digital.paisalo.jlgsourcing.activities.ActivityPreClosure" />
 
         <provider
-            android:name="com.softeksol.paisalo.GenericFileProvider"
+            android:name="com.digital.paisalo.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

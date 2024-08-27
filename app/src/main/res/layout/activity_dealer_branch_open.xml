@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softeksol.paisalo.dealers.Dealer_Branch_Open">
+    tools:context="com.digital.paisalo.dealers.Dealer_Branch_Open">
 
     <LinearLayout
         android:id="@+id/layout_basic_details"

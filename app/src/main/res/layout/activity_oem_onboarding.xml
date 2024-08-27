@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softeksol.paisalo.dealers.DealerOnBoard">
+    tools:context="com.digital.paisalo.dealers.DealerOnBoard">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

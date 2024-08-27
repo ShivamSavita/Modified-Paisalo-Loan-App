@@ -56,7 +56,7 @@
 
 -keepattributes InnerClasses
 
--keep class com.softeksol.paisalo.jlgsourcing.entities.** { *;}
+-keep class com.digital.paisalo.jlgsourcing.entities.** { *;}
 
 -keep class android.support.v4.* {
     <fields>;
